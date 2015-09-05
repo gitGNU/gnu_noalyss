@@ -95,9 +95,14 @@ bcscale(2);
         </td>
         <td style="text-align: right">
             <?php
+                $side=($card->content[$j]['j_debit']=='t')?'D':'C';
                 if ( $card->content[$j]['jrn_def_type'] == 'FIN' || $card->content[$j]['jrn_def_type'] == 'ODS') :
-                    echo nbm($card->content[$j]['j_montant']);
-                    $sum_fin=bcadd($sum_fin,$card->content[$j]['j_montant']);
+                    echo nbm($card->content[$j]['j_montant'])." ".$side;
+                    if ( $card->content[$j]['j_debit']=='t'):
+                        $sum_fin=bcadd($sum_fin,$card->content[$j]['j_montant']);
+                    else:
+                        $sum_fin=bcsub($sum_fin,$card->content[$j]['j_montant']);
+                    endif;
                     $show=false;
                 endif;
             ?>
@@ -105,32 +110,48 @@ bcscale(2);
         <td style="text-align: right">
             <?php
                 if ($show && $card->content[$j]['day_paid'] <= 30) :
-                    echo nbm($card->content[$j]['j_montant']);
-                    $sum_lt_30=bcadd($sum_lt_30,$card->content[$j]['j_montant']);
+                    echo nbm($card->content[$j]['j_montant'])." ".$side;
+                    if ( $card->content[$j]['j_debit']=='t'):
+                        $sum_lt_30=bcadd($sum_lt_30,$card->content[$j]['j_montant']);
+                    else:
+                        $sum_lt_30=bcsub($sum_lt_30,$card->content[$j]['j_montant']);
+                    endif;
                 endif;
             ?>
         </td>
         <td style="text-align: right">
             <?php
                 if ( $show &&$card->content[$j]['day_paid'] > 30 && $card->content[$j]['day_paid'] <= 60) :
-                    echo nbm($card->content[$j]['j_montant']);
-                    $sum_gt_30_lt_60=bcadd($sum_gt_30_lt_60,$card->content[$j]['j_montant']);
+                    echo nbm($card->content[$j]['j_montant'])." ".$side;
+                    if ( $card->content[$j]['j_debit']=='t'):
+                       $sum_gt_30_lt_60=bcadd($sum_gt_30_lt_60,$card->content[$j]['j_montant']);
+                    else:
+                       $sum_gt_30_lt_60=bcsub($sum_gt_30_lt_60,$card->content[$j]['j_montant']);
+                   endif;
                 endif;
             ?>
         </td>
         <td style="text-align: right">
             <?php
                 if ( $show && $card->content[$j]['day_paid'] > 60 && $card->content[$j]['day_paid'] <= 90) :
-                    echo nbm($card->content[$j]['j_montant']);
-                    $sum_gt_60_lt_90=bcadd($sum_gt_60_lt_90,$card->content[$j]['j_montant']);
+                    echo nbm($card->content[$j]['j_montant'])." ".$side;
+                    if ( $card->content[$j]['j_debit']=='t'):
+                        $sum_gt_60_lt_90=bcadd($sum_gt_60_lt_90,$card->content[$j]['j_montant']);
+                    else:
+                        $sum_gt_60_lt_90=bcsub($sum_gt_60_lt_90,$card->content[$j]['j_montant']);
+                    endif;  
                 endif;
             ?>
         </td>
         <td style="text-align: right">
             <?php
                 if ($show && $card->content[$j]['day_paid'] > 90) :
-                    echo nbm($card->content[$j]['j_montant']);
-                    $sum_gt_90=bcadd($sum_gt_90,$card->content[$j]['j_montant']);
+                    echo nbm($card->content[$j]['j_montant'])." ".$side;
+                    if ( $card->content[$j]['j_debit']=='t'):   
+                        $sum_gt_90=bcadd($sum_gt_90,$card->content[$j]['j_montant']);
+                    else:
+                        $sum_gt_90=bcsub($sum_gt_90,$card->content[$j]['j_montant']);
+                    endif;
 
                 endif;
             ?>
@@ -153,19 +174,19 @@ bcscale(2);
             
         </td>
         <td style="text-align: right">
-            <?php echo nbm($sum_fin);?>
+            <?php echo nbm(abs($sum_fin));echo ($sum_fin < 0)?'C':($sum_fin == 0)?'=':'D'; ?>
         </td>
         <td style="text-align: right">
-            <?php echo nbm($sum_lt_30);?>
+            <?php echo nbm($sum_lt_30);echo ($sum_lt_30 < 0)?'C':($sum_lt_30 == 0)?'=':'D';?>
         </td>
         <td style="text-align: right">
-            <?php echo nbm($sum_gt_30_lt_60);?>
+            <?php echo nbm($sum_gt_30_lt_60);echo ($sum_gt_30_lt_60 < 0)?'C':($sum_gt_30_lt_60 == 0)?'=':'D';?>
         </td>
         <td style="text-align: right">
-            <?php echo nbm($sum_gt_60_lt_90);?>
+            <?php echo nbm($sum_gt_60_lt_90);echo ($sum_gt_60_lt_90 < 0)?'C':($sum_gt_60_lt_90 == 0)?'=':'D';?>
         </td>
         <td style="text-align: right">
-            <?php echo nbm($sum_gt_90);?>
+            <?php echo nbm($sum_gt_90);echo ($sum_gt_90 < 0)?'C':($sum_gt_90 == 0)?'=':'D';?>
         </td>
     </tr>
 </table>    
