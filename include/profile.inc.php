@@ -388,7 +388,7 @@ for ($i=0; $i<Database::num_row($ret); $i++)
 $js=sprintf('<a href="javascript:void(0)"  class="button" onclick="get_profile_detail(\'%s\',\'%s\')">',
         $gDossier, -1);
 echo '<tr>';
-echo "<td>".$js."Ajouter un profil </td>";
+echo "<td>".$js._("Ajouter un profil")." </td>";
 echo '</tr>';
 echo '</table>';
 echo '</div>';

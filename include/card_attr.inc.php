@@ -159,6 +159,6 @@ $r.=td($extra->input());
 echo tr($r);
 
 echo '</table>';
-echo HtmlInput::submit('save','Sauver');
+echo HtmlInput::submit('save',_('Sauver'));
 echo '</form>';
 echo '</div>';

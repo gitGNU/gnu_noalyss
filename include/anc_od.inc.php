@@ -144,7 +144,7 @@ if ( isset($_GET['new']))
     echo dossier::hidden();
     echo $wSubmit->input();
     echo $a->form();
-    echo HtmlInput::submit("save","Sauver");
+    echo HtmlInput::submit("save",_("Sauver"));
     echo '</form>';
     echo '<div class="info">';
     echo _('Débit').' = <span id="totalDeb"></span>';

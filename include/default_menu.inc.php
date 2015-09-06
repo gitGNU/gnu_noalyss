@@ -42,6 +42,6 @@ echo '<form method="POST">';
 echo HtmlInput::hidden('ac',$_REQUEST['ac']);
 echo Dossier::hidden();
 $a_default->input_value();
-echo HtmlInput::submit('save_menu_default', "Sauver");
+echo HtmlInput::submit('save_menu_default', _("Sauver"));
 echo '</form>';
 ?>

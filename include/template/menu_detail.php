@@ -72,7 +72,7 @@ $str_type->selected=$m->me_type;
     </tr>
      <tr>
         <td>
-            Paramètre
+            <?php echo _('Paramètre')?>
         </td>
         <td>
             <?php echo $str_parameter->input()?>

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-09-03 04:11+0200\n"
+"POT-Creation-Date: 2015-09-06 07:30+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -52,7 +52,7 @@ msgstr ""
 #: html/ajax_card.php:545 include/ajax_pcmn_update.php:30
 #: html/ajax_card.php:506 html/ajax_card.php:543 html/ajax_card.php:551
 #: html/ajax_card.php:220 html/ajax_card.php:351 html/ajax_card.php:507
-#: html/ajax_card.php:553
+#: html/ajax_card.php:553 html/ajax_card.php:552
 msgid "Action interdite"
 msgstr ""
 
@@ -186,18 +186,19 @@ msgstr ""
 #: include/payment_middle.inc.php:53 include/template/dashboard.php:338
 #: include/ext/modop/modop_display.php:277 include/class_fiche_def.php:812
 #: include/template/dashboard.php:343 include/ext/modop/modop_display.php:294
+#: include/class_fiche_def.php:811
 msgid "Sauve"
 msgstr ""
 
 #: html/ajax_card.php:468 html/ajax_card.php:469 html/ajax_card.php:470
 #: html/ajax_card.php:521 html/ajax_card.php:522 html/ajax_card.php:528
-#: html/ajax_card.php:530
+#: html/ajax_card.php:530 html/ajax_card.php:529
 msgid "Catégorie existe déjà"
 msgstr ""
 
 #: html/ajax_card.php:470 html/ajax_card.php:471 html/ajax_card.php:472
 #: html/ajax_card.php:523 html/ajax_card.php:524 html/ajax_card.php:530
-#: html/ajax_card.php:532
+#: html/ajax_card.php:532 html/ajax_card.php:531
 msgid "Catégorie sauvée"
 msgstr ""
 
@@ -209,7 +210,7 @@ msgstr ""
 
 #: html/ajax_card.php:497 html/ajax_card.php:498 html/ajax_card.php:499
 #: html/ajax_card.php:550 html/ajax_card.php:551 html/ajax_card.php:557
-#: html/ajax_card.php:559
+#: html/ajax_card.php:559 html/ajax_card.php:558
 msgid "Fiche non valide"
 msgstr ""
 
@@ -313,6 +314,7 @@ msgstr ""
 #: include/ajax_get_profile.php:47 include/anc_pa.inc.php:246
 #: include/cfgledger.inc.php:126 include/dossier.inc.php:325
 #: include/dossier.inc.php:368 include/forecast.inc.php:343
+#: include/dossier.inc.php:361 include/dossier.inc.php:404
 msgid "Retour"
 msgstr ""
 
@@ -399,7 +401,15 @@ msgstr ""
 #: include/forecast.inc.php:313 include/forecast.inc.php:360
 #: include/template/ledger_detail_bottom.php:288
 #: include/template/profile_sec_repository.php:60
-#: include/class_fiche_def.php:775
+#: include/class_fiche_def.php:775 include/ajax_create_menu.php:12
+#: include/anc_od.inc.php:147 include/card_attr.inc.php:162
+#: include/class_acc_ledger.php:3290 include/class_fiche_def.php:774
+#: include/default_menu.inc.php:45 include/ext/modop/modop_confirm.php:48
+#: include/ext/modop/modop_confirm.php:71
+#: include/ext/modop/modop_confirm.php:95
+#: include/ext/amortis/include/class_am_generate.php:215
+#: include/ext/coprop/include/copro-parameter.inc.php:132
+#: include/ext/amortis/include/template/material_add.php:88
 msgid "Sauver"
 msgstr ""
 
@@ -430,24 +440,24 @@ msgid "Vous  êtes déconnecté"
 msgstr ""
 
 #: html/do.php:97 html/user_login.php:66 html/do.php:96 html/do.php:91
-#: html/do.php:93 html/user_login.php:67 html/do.php:121
+#: html/do.php:93 html/user_login.php:67 html/do.php:121 html/do.php:134
 msgid "Base de donnée invalide"
 msgstr ""
 
 #: html/do.php:104 html/do.php:103 html/do.php:98 html/do.php:100
-#: html/do.php:128
+#: html/do.php:128 html/do.php:141
 msgid ""
 "Attention: la version de base de donnée est supérieure à la version du "
 "programme, vous devriez mettre à jour"
 msgstr ""
 
 #: html/do.php:108 html/user_login.php:75 html/do.php:107 html/do.php:102
-#: html/do.php:104 html/user_login.php:76 html/do.php:132
+#: html/do.php:104 html/user_login.php:76 html/do.php:132 html/do.php:145
 msgid "Votre base de données n'est pas à jour"
 msgstr ""
 
 #: html/do.php:109 html/user_login.php:76 html/do.php:108 html/do.php:103
-#: html/do.php:105 html/user_login.php:77 html/do.php:133
+#: html/do.php:105 html/user_login.php:77 html/do.php:133 html/do.php:146
 msgid "cliquez ici pour appliquer le patch"
 msgstr ""
 
@@ -515,7 +525,7 @@ msgstr ""
 #: include/user.inc.php:135 include/template/todo_list_list_user.php:31
 #: include/class_acc_ledger.php:3425 include/user.inc.php:136
 #: html/user_login.php:169 include/dossier.inc.php:196
-#: include/forecast.inc.php:378
+#: include/forecast.inc.php:378 include/dossier.inc.php:230
 msgid "Filtre"
 msgstr ""
 
@@ -698,6 +708,7 @@ msgstr ""
 #: include/class_user.php:976 include/dossier.inc.php:184
 #: include/profile.inc.php:352 include/class_fiche.php:1575
 #: include/class_anc_account.php:267 include/class_fiche.php:1581
+#: include/class_user.php:977 include/dossier.inc.php:218
 msgid "Nom"
 msgstr ""
 
@@ -863,6 +874,7 @@ msgid "Inclure les banques sans opération :"
 msgstr ""
 
 #: include/cat_document.inc.php:42 include/class_forecast.php:70
+#: html/ajax_card.php:536
 msgid "Le nom ne peut pas être vide"
 msgstr ""
 
@@ -985,6 +997,7 @@ msgstr ""
 #: include/ext/sav/include/template/sas_display_detail.php:192
 #: html/ajax_card.php:323 include/category_detail.inc.php:70
 #: include/template/dashboard.php:339 include/template/dashboard.php:344
+#: include/ext/amortis/include/template/material_add.php:87
 msgid "Annuler"
 msgstr ""
 
@@ -1652,6 +1665,7 @@ msgstr ""
 
 #: include/class_acc_ledger.php:3280 include/user_menu.php:51
 #: include/class_acc_ledger.php:3349 include/class_acc_ledger.php:3348
+#: include/ajax_create_menu.php:7
 msgid "Création"
 msgstr ""
 
@@ -2334,6 +2348,8 @@ msgstr ""
 #: include/template/dashboard.php:335 include/ac_common.php:1156
 #: include/template/dashboard.php:340 include/class_anc_account.php:278
 #: include/class_fiche.php:1213 include/class_fiche.php:1290
+#: include/class_user.php:980 include/dossier.inc.php:219
+#: include/dossier.inc.php:333
 msgid "Description"
 msgstr ""
 
@@ -2576,6 +2592,7 @@ msgstr ""
 #: include/ext/importbank/include/template/show_list.php:15
 #: include/ext/importbank/include/template/show_list.php:83
 #: include/ext/importbank/include/class_import_bank.php:141
+#: include/dossier.inc.php:272 include/dossier.inc.php:281
 msgid "Effacer"
 msgstr ""
 
@@ -2625,6 +2642,7 @@ msgstr ""
 #: include/template/detail-action.php:444 include/dossier.inc.php:220
 #: include/template/detail-action.php:450 include/ajax_get_profile.php:84
 #: include/dossier.inc.php:240 include/ajax_view_action.php:48
+#: include/dossier.inc.php:274
 msgid "Modifier"
 msgstr ""
 
@@ -2636,17 +2654,18 @@ msgid "Vous confirmez"
 msgstr ""
 
 #: include/class_fiche_def.php:210 include/class_fiche_def.php:216
-#: include/class_fiche_def.php:221
+#: include/class_fiche_def.php:221 include/class_fiche_def.php:220
 msgid "Le nom de la catégorie ne peut pas être vide"
 msgstr ""
 
 #: include/class_fiche_def.php:236 include/class_fiche_def.php:219
-#: include/class_fiche_def.php:225
+#: include/class_fiche_def.php:225 include/class_fiche_def.php:235
 msgid "Catégorie existante"
 msgstr ""
 
 #: include/class_fiche_def.php:453 include/ajax_plugin_detail.php:35
 #: include/class_fiche_def.php:436 include/class_fiche_def.php:442
+#: include/class_fiche_def.php:452
 msgid "Label"
 msgstr ""
 
@@ -2662,6 +2681,7 @@ msgstr ""
 
 #: include/class_fiche_def.php:783 include/class_fiche_def.php:786
 #: include/class_fiche_def.php:767 include/class_fiche_def.php:774
+#: include/class_fiche_def.php:785
 msgid "Ajoutez cet élément"
 msgstr ""
 
@@ -2673,7 +2693,7 @@ msgstr ""
 
 #: include/class_fiche_def.php:785 include/class_fiche_def.php:788
 #: include/class_fiche_def.php:769 include/class_fiche_def.php:779
-#: include/class_fiche_def.php:791
+#: include/class_fiche_def.php:791 include/class_fiche_def.php:790
 msgid "Effacer cette catégorie"
 msgstr ""
 
@@ -2683,18 +2703,21 @@ msgstr ""
 #: include/class_fiche_def.php:769 include/ajax_add_menu.php:191
 #: include/class_fiche_def.php:779 include/class_fiche_def.php:784
 #: include/class_fiche_def.php:791 include/class_fiche_def.php:796
+#: include/ajax_create_menu.php:9 include/class_fiche_def.php:790
+#: include/class_fiche_def.php:795
+#: include/ext/amortis/include/template/material_add.php:88
 msgid "Vous confirmez ?"
 msgstr ""
 
 #: include/class_fiche_def.php:789 include/class_fiche_def.php:792
 #: include/class_fiche_def.php:773 include/class_fiche_def.php:783
-#: include/class_fiche_def.php:795
+#: include/class_fiche_def.php:795 include/class_fiche_def.php:794
 msgid "Enleve les éléments cochés"
 msgstr ""
 
 #: include/class_fiche_def.php:792 include/class_fiche_def.php:795
 #: include/class_fiche_def.php:776 include/class_fiche_def.php:787
-#: include/class_fiche_def.php:799
+#: include/class_fiche_def.php:799 include/class_fiche_def.php:798
 msgid ""
 "Attention : il n'y aura pas de demande de confirmation pour enlever les\n"
 "                                   attributs sélectionnés. Il ne sera pas "
@@ -2945,12 +2968,12 @@ msgid "Aucune période trouvéee !!!"
 msgstr ""
 
 #: include/class_user.php:897 include/class_user.php:926
-#: include/class_user.php:932
+#: include/class_user.php:932 include/class_user.php:933
 msgid "Dossier non accessible"
 msgstr ""
 
 #: include/class_user.php:1141 include/class_user.php:1171
-#: include/class_user.php:1211
+#: include/class_user.php:1211 include/class_user.php:1212
 msgid "Les mots de passe ne correspondent pas. Mot de passe inchangé"
 msgstr ""
 
@@ -3448,6 +3471,7 @@ msgstr ""
 #: include/card_attr.inc.php:98 include/menu.inc.php:118
 #: include/menu.inc.php:119 include/database.item.php:60
 #: include/database.item.php:63 include/card_attr.inc.php:97
+#: include/template/menu_detail.php:75
 msgid "Paramètre"
 msgstr ""
 
@@ -4342,45 +4366,52 @@ msgid "Ferme l'action"
 msgstr ""
 
 #: include/dossier.inc.php:49 include/dossier.inc.php:54
+#: include/dossier.inc.php:56
 msgid "Le nom du dossier est vide"
 msgstr ""
 
 #: include/dossier.inc.php:56 include/modele.inc.php:67
-#: include/dossier.inc.php:74
+#: include/dossier.inc.php:74 include/dossier.inc.php:80
 msgid "Désolé vous devez migrer ce modèle en unicode"
 msgstr ""
 
 #: include/dossier.inc.php:58 include/dossier.inc.php:76
+#: include/dossier.inc.php:82
 msgid "le modele "
 msgstr ""
 
 #: include/dossier.inc.php:58 include/dossier.inc.php:76
+#: include/dossier.inc.php:82
 msgid " doit être migré en unicode."
 msgstr ""
 
 #: include/dossier.inc.php:59 include/modele.inc.php:70
-#: include/dossier.inc.php:77
+#: include/dossier.inc.php:77 include/dossier.inc.php:83
 msgid ""
 "Pour le passer en unicode, faites-en un backup puis restaurez le fichier reçu"
 msgstr ""
 
 #: include/dossier.inc.php:76 include/dossier.inc.php:97
+#: include/dossier.inc.php:103
 msgid ""
 "Desole la creation de ce dossier a echoue,\n"
 " la cause la plus probable est deux fois le même nom de dossier"
 msgstr ""
 
 #: include/dossier.inc.php:94 include/dossier.inc.php:115
+#: include/dossier.inc.php:126
 msgid " est une année invalide"
 msgstr ""
 
 #: include/dossier.inc.php:111 include/dossier.inc.php:132
+#: include/dossier.inc.php:143
 msgid " Base de donnée "
 msgstr ""
 
 #: include/dossier.inc.php:112 include/dossier.inc.php:366
 #: include/dossier.inc.php:322 include/dossier.inc.php:133
-#: include/dossier.inc.php:355
+#: include/dossier.inc.php:355 include/dossier.inc.php:144
+#: include/dossier.inc.php:391
 msgid "est accèdée, déconnectez-vous d'abord"
 msgstr ""
 
@@ -4390,27 +4421,28 @@ msgstr ""
 
 #: include/dossier.inc.php:160 include/anc_group.inc.php:81
 #: include/dossier.inc.php:159 include/modele.inc.php:240
-#: include/dossier.inc.php:179
+#: include/dossier.inc.php:179 include/dossier.inc.php:213
 msgid "Ajouter"
 msgstr ""
 
 #: include/dossier.inc.php:214 include/dossier.inc.php:213
-#: include/dossier.inc.php:233
+#: include/dossier.inc.php:233 include/dossier.inc.php:267
 msgid "Dossier inexistant"
 msgstr ""
 
 #: include/dossier.inc.php:225 include/dossier.inc.php:223
 #: include/modele.inc.php:278 include/dossier.inc.php:243
+#: include/dossier.inc.php:277
 msgid "Backup"
 msgstr ""
 
 #: include/dossier.inc.php:254 include/dossier.inc.php:251
-#: include/dossier.inc.php:273
+#: include/dossier.inc.php:273 include/dossier.inc.php:307
 msgid "pas de modèle disponible"
 msgstr ""
 
 #: include/dossier.inc.php:275 include/dossier.inc.php:272
-#: include/dossier.inc.php:294
+#: include/dossier.inc.php:294 include/dossier.inc.php:330
 msgid "Nom du dossier"
 msgstr ""
 
@@ -4418,11 +4450,12 @@ msgstr ""
 #: include/compta_ven.inc.php:93 include/compta_ach.inc.php:87
 #: include/compta_ven.inc.php:96 include/dossier.inc.php:278
 #: include/operation_ods_confirm.inc.php:51 include/dossier.inc.php:300
+#: include/dossier.inc.php:336
 msgid "Modèle"
 msgstr ""
 
 #: include/dossier.inc.php:286 include/dossier.inc.php:283
-#: include/dossier.inc.php:305
+#: include/dossier.inc.php:305 include/dossier.inc.php:341
 msgid "Creation Dossier"
 msgstr ""
 
@@ -4444,16 +4477,17 @@ msgstr ""
 
 #: include/dossier.inc.php:345 include/dossier.inc.php:301
 #: include/modele.inc.php:358 include/dossier.inc.php:324
+#: include/dossier.inc.php:360
 msgid "Désolé, vous n'avez pas coché la case"
 msgstr ""
 
 #: include/dossier.inc.php:355 include/dossier.inc.php:311
-#: include/dossier.inc.php:334
+#: include/dossier.inc.php:334 include/dossier.inc.php:370
 msgid "inexistant"
 msgstr ""
 
 #: include/dossier.inc.php:365 include/dossier.inc.php:321
-#: include/dossier.inc.php:354
+#: include/dossier.inc.php:354 include/dossier.inc.php:390
 msgid "Base de donnée "
 msgstr ""
 
@@ -6292,7 +6326,7 @@ msgstr ""
 #: include/ext/amortis/include/template/material_display.php:41
 #: include/ext/amortis/include/template/util_generate.php:35
 #: include/ext/tva/form_periode.php:10 include/dossier.inc.php:281
-#: include/dossier.inc.php:303
+#: include/dossier.inc.php:303 include/dossier.inc.php:339
 msgid "Année"
 msgstr ""
 
@@ -7301,6 +7335,7 @@ msgstr ""
 
 #: html/ajax_card.php:504 html/ajax_card.php:505 html/ajax_card.php:556
 #: html/ajax_card.php:555 html/ajax_card.php:562 html/ajax_card.php:564
+#: html/ajax_card.php:563
 msgid "Détail fiche (sauvée)"
 msgstr ""
 
@@ -7759,12 +7794,13 @@ msgstr ""
 
 #: include/card_attr.inc.php:94 include/dossier.inc.php:163
 #: include/modele.inc.php:224 include/card_attr.inc.php:93
-#: include/dossier.inc.php:183
+#: include/dossier.inc.php:183 include/dossier.inc.php:217
 msgid "id"
 msgstr ""
 
 #: include/card_attr.inc.php:97 include/dossier.inc.php:184
 #: include/card_attr.inc.php:96 include/dossier.inc.php:204
+#: include/dossier.inc.php:238
 msgid "Taille"
 msgstr ""
 
@@ -9297,16 +9333,19 @@ msgstr ""
 
 #: include/class_fiche_def.php:687 include/class_fiche_def.php:668
 #: include/class_fiche_def.php:674 include/class_fiche_def.php:686
+#: include/class_fiche_def.php:685
 msgid "Catégorie verrouillée "
 msgstr ""
 
 #: include/class_fiche_def.php:767 include/class_fiche_def.php:748
 #: include/class_fiche_def.php:754 include/class_fiche_def.php:766
+#: include/class_fiche_def.php:765
 msgid "Données générales"
 msgstr ""
 
 #: include/class_fiche_def.php:780 include/class_fiche_def.php:761
 #: include/class_fiche_def.php:767 include/class_fiche_def.php:779
+#: include/class_fiche_def.php:778
 msgid "Détails"
 msgstr ""
 
@@ -10068,6 +10107,7 @@ msgid "Date invalide, opération non extournée"
 msgstr ""
 
 #: include/dossier.inc.php:242 include/dossier.inc.php:264
+#: include/dossier.inc.php:298
 msgid "Ajout d'un dossier"
 msgstr ""
 
@@ -10080,7 +10120,7 @@ msgid "Aucun modèle disponible"
 msgstr ""
 
 #: include/modele.inc.php:259 include/dossier.inc.php:184
-#: include/dossier.inc.php:204
+#: include/dossier.inc.php:204 include/dossier.inc.php:238
 msgid "Nom base de données"
 msgstr ""
 
@@ -10386,15 +10426,18 @@ msgid "Opération ID"
 msgstr ""
 
 #: include/dossier.inc.php:159 include/dossier.inc.php:179
+#: include/dossier.inc.php:213
 msgid "Ajouter un dossier"
 msgstr ""
 
 #: include/dossier.inc.php:331 include/dossier.inc.php:367
+#: include/dossier.inc.php:403
 #, php-format
 msgid "Le dossier %s est effacé"
 msgstr ""
 
 #: include/dossier.inc.php:150 include/dossier.inc.php:170
+#: include/dossier.inc.php:204
 msgid "Dossier Management"
 msgstr ""
 
@@ -10542,15 +10585,15 @@ msgstr ""
 msgid "Des actions dépendent de cette catégorie"
 msgstr ""
 
-#: html/do.php:196 html/do.php:224
+#: html/do.php:196 html/do.php:224 html/do.php:237
 msgid "Erreur menu"
 msgstr ""
 
-#: html/do.php:210 html/do.php:211 html/do.php:239
+#: html/do.php:210 html/do.php:211 html/do.php:239 html/do.php:252
 msgid "Accès menu impossible"
 msgstr ""
 
-#: html/do.php:219 html/do.php:224 html/do.php:252
+#: html/do.php:219 html/do.php:224 html/do.php:252 html/do.php:265
 msgid "Aucun profil utilisateur"
 msgstr ""
 
@@ -10647,15 +10690,15 @@ msgstr ""
 msgid "Ce journal ne peut être imprimé en mode simple"
 msgstr ""
 
-#: include/class_user.php:973
+#: include/class_user.php:973 include/class_user.php:974
 msgid "Id"
 msgstr ""
 
-#: include/class_user.php:985
+#: include/class_user.php:985 include/class_user.php:986
 msgid "Aucun dossier disponible"
 msgstr ""
 
-#: include/dossier.inc.php:64
+#: include/dossier.inc.php:64 include/dossier.inc.php:66
 msgid "Parametre invalide"
 msgstr ""
 
@@ -10734,7 +10777,7 @@ msgstr ""
 msgid "Doublon"
 msgstr ""
 
-#: include/class_fiche_def.php:227
+#: include/class_fiche_def.php:227 include/class_fiche_def.php:226
 msgid "Un modéle de catégorie est obligatoire"
 msgstr ""
 
@@ -10830,4 +10873,36 @@ msgstr ""
 
 #: include/class_pre_operation.php:281
 msgid "Choisissez un modèle"
+msgstr ""
+
+#: html/direct.php:42
+msgid "Aucune correspondance"
+msgstr ""
+
+#: html/do.php:93
+msgid "Désolé"
+msgstr ""
+
+#: html/do.php:94
+msgid "Ce dossier est vide"
+msgstr ""
+
+#: html/do.php:96
+msgid "Retour à l'accueil"
+msgstr ""
+
+#: include/class_database.php:408
+msgid "Base de donnée vide"
+msgstr ""
+
+#: include/dossier.inc.php:195
+msgid "Echec création "
+msgstr ""
+
+#: include/dossier.inc.php:318
+msgid "Aucun modèle (dossier vide, devant être restauré manuellement)"
+msgstr ""
+
+#: include/profile.inc.php:391
+msgid "Ajouter un profil"
 msgstr ""

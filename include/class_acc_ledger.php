@@ -3287,7 +3287,7 @@ class Acc_Ledger extends jrn_def_sql
 				echo '<form method="post">';
 				echo $a->show_form($_POST, 1);
 				echo HtmlInput::button('add', 'Ajout d\'une ligne', 'onClick="quick_writing_add_row()"');
-				echo HtmlInput::submit('save_it', "Sauver");
+				echo HtmlInput::submit('save_it', _("Sauver"));
 				echo '</form>';
 				exit('test_me');
 			}

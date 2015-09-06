@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: NOALYSS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-09-03 04:11+0200\n"
+"POT-Creation-Date: 2015-09-06 07:30+0200\n"
 "PO-Revision-Date: 2015-08-28 17:38+0200\n"
 "Last-Translator: Dany De Bontridder <danydb@noalyss.eu>\n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
@@ -48,6 +48,7 @@ msgid " Banque"
 msgstr "Bank"
 
 #: include/dossier.inc.php:111 include/dossier.inc.php:132
+#: include/dossier.inc.php:143
 msgid " Base de donnée "
 msgstr "Database"
 
@@ -176,6 +177,7 @@ msgid " destinataire "
 msgstr "ontvanger"
 
 #: include/dossier.inc.php:58 include/dossier.inc.php:76
+#: include/dossier.inc.php:82
 msgid " doit être migré en unicode."
 msgstr "moet in een unicode worden omgezet"
 
@@ -189,6 +191,7 @@ msgid " enregistrements. Le nombre d'enregistrements trouvés est de "
 msgstr ""
 
 #: include/dossier.inc.php:94 include/dossier.inc.php:115
+#: include/dossier.inc.php:126
 msgid " est une année invalide"
 msgstr "is een ongeldig jaar"
 
@@ -403,7 +406,7 @@ msgstr ""
 "Verboden toegang: u hebt geen toegang tot deze informatie, contacteer uw "
 "verantwoordelijke"
 
-#: html/do.php:210 html/do.php:211 html/do.php:239
+#: html/do.php:210 html/do.php:211 html/do.php:239 html/do.php:252
 msgid "Accès menu impossible"
 msgstr ""
 
@@ -470,7 +473,7 @@ msgstr "Achterstallige actie"
 #: html/ajax_card.php:545 include/ajax_pcmn_update.php:30
 #: html/ajax_card.php:506 html/ajax_card.php:543 html/ajax_card.php:551
 #: html/ajax_card.php:220 html/ajax_card.php:351 html/ajax_card.php:507
-#: html/ajax_card.php:553
+#: html/ajax_card.php:553 html/ajax_card.php:552
 msgid "Action interdite"
 msgstr "Verboden handeling"
 
@@ -658,6 +661,7 @@ msgid "Ajout d'un bien à amortir"
 msgstr "Toevoeging van een af te betalen goed "
 
 #: include/dossier.inc.php:242 include/dossier.inc.php:264
+#: include/dossier.inc.php:298
 #, fuzzy
 msgid "Ajout d'un dossier"
 msgstr "Naam van de map"
@@ -814,7 +818,7 @@ msgstr "Hierbij een actie toevoegen"
 
 #: include/dossier.inc.php:160 include/anc_group.inc.php:81
 #: include/dossier.inc.php:159 include/modele.inc.php:240
-#: include/dossier.inc.php:179
+#: include/dossier.inc.php:179 include/dossier.inc.php:213
 msgid "Ajouter"
 msgstr "Toevoegen"
 
@@ -827,6 +831,7 @@ msgid "Ajouter des années comptables"
 msgstr "Boekjaren toevoegen"
 
 #: include/dossier.inc.php:159 include/dossier.inc.php:179
+#: include/dossier.inc.php:213
 #, fuzzy
 msgid "Ajouter un dossier"
 msgstr "Een bestand toevoegen"
@@ -844,6 +849,11 @@ msgstr "Een bestand toevoegen"
 msgid "Ajouter un modèle"
 msgstr "Geen enkel model"
 
+#: include/profile.inc.php:391
+#, fuzzy
+msgid "Ajouter un profil"
+msgstr "Een bestand toevoegen"
+
 #: include/class_anc_group_operation.php:189
 #: include/class_anticipation.php:430 include/template/stock_inv.php:103
 #: include/class_anticipation.php:431 include/template/detail-action.php:359
@@ -855,6 +865,7 @@ msgstr "Voeg een lijn"
 
 #: include/class_fiche_def.php:783 include/class_fiche_def.php:786
 #: include/class_fiche_def.php:767 include/class_fiche_def.php:774
+#: include/class_fiche_def.php:785
 msgid "Ajoutez cet élément"
 msgstr "Voeg dit element toe"
 
@@ -942,6 +953,7 @@ msgstr "Annuïteit"
 #: include/ext/sav/include/template/sas_display_detail.php:192
 #: html/ajax_card.php:323 include/category_detail.inc.php:70
 #: include/template/dashboard.php:339 include/template/dashboard.php:344
+#: include/ext/amortis/include/template/material_add.php:87
 msgid "Annuler"
 msgstr "Annuleren"
 
@@ -952,7 +964,7 @@ msgstr "Annuleren"
 #: include/ext/amortis/include/template/material_display.php:41
 #: include/ext/amortis/include/template/util_generate.php:35
 #: include/ext/tva/form_periode.php:10 include/dossier.inc.php:281
-#: include/dossier.inc.php:303
+#: include/dossier.inc.php:303 include/dossier.inc.php:339
 msgid "Année"
 msgstr "Jaar"
 
@@ -1036,7 +1048,7 @@ msgstr "Opgelet: wist alle gegevens die ermee gelinkt zijn"
 
 #: include/class_fiche_def.php:792 include/class_fiche_def.php:795
 #: include/class_fiche_def.php:776 include/class_fiche_def.php:787
-#: include/class_fiche_def.php:799
+#: include/class_fiche_def.php:799 include/class_fiche_def.php:798
 msgid ""
 "Attention : il n'y aura pas de demande de confirmation pour enlever les\n"
 "                                   attributs sélectionnés. Il ne sera pas "
@@ -1160,7 +1172,7 @@ msgid "Attention, ne changer pas la signification de ce poste."
 msgstr "Opgelet, niet de betekenis van deze post veranderen"
 
 #: html/do.php:104 html/do.php:103 html/do.php:98 html/do.php:100
-#: html/do.php:128
+#: html/do.php:128 html/do.php:141
 msgid ""
 "Attention: la version de base de donnée est supérieure à la version du "
 "programme, vous devriez mettre à jour"
@@ -1220,7 +1232,7 @@ msgstr "Geen enkele bankrekening is gegeven"
 msgid "Aucun document"
 msgstr "Geen enkel document"
 
-#: include/class_user.php:985
+#: include/class_user.php:985 include/class_user.php:986
 #, fuzzy
 msgid "Aucun dossier disponible"
 msgstr "Geen enkele sleutel beschikbaar"
@@ -1275,6 +1287,10 @@ msgstr "Geen mini-verslag"
 msgid "Aucun modèle"
 msgstr "Geen enkel model"
 
+#: include/dossier.inc.php:318
+msgid "Aucun modèle (dossier vide, devant être restauré manuellement)"
+msgstr ""
+
 #: include/modele.inc.php:245
 #, fuzzy
 msgid "Aucun modèle disponible"
@@ -1297,7 +1313,7 @@ msgstr "Geen bepaald plan"
 msgid "Aucun poste trouvé"
 msgstr "Geen enkele post gevonden "
 
-#: html/do.php:219 html/do.php:224 html/do.php:252
+#: html/do.php:219 html/do.php:224 html/do.php:252 html/do.php:265
 #, fuzzy
 msgid "Aucun profil utilisateur"
 msgstr "Gebruiker toevoegen"
@@ -1352,6 +1368,13 @@ msgstr "Geen enkele sleutel beschikbaar"
 #: include/ext/import_account/include/class_import_card.php:145
 msgid "Aucune colonne n'est définie"
 msgstr "Geen enkele kolom is bepaald"
+
+# Correspondentie = lettres, messages etc.
+# Overeenkomst = un accord
+#: html/direct.php:42
+#, fuzzy
+msgid "Aucune correspondance"
+msgstr "Toevoeging van een correspondentie/overeenkomst"
 
 #: include/ac_common.php:1091 include/ac_common.php:1092
 #: include/ac_common.php:1100 include/template/ledger_detail_bottom.php:250
@@ -1542,6 +1565,7 @@ msgstr "Met het bestand"
 
 #: include/dossier.inc.php:225 include/dossier.inc.php:223
 #: include/modele.inc.php:278 include/dossier.inc.php:243
+#: include/dossier.inc.php:277
 msgid "Backup"
 msgstr "Back-up"
 
@@ -1652,7 +1676,7 @@ msgid "Bas&eacute; sur"
 msgstr ""
 
 #: include/dossier.inc.php:365 include/dossier.inc.php:321
-#: include/dossier.inc.php:354
+#: include/dossier.inc.php:354 include/dossier.inc.php:390
 msgid "Base de donnée "
 msgstr "Database"
 
@@ -1662,8 +1686,13 @@ msgid "Base de donnée %s mod %s est accèdée, déconnectez-vous d'abord"
 msgstr "is in use of, logout eerst"
 
 #: html/do.php:97 html/user_login.php:66 html/do.php:96 html/do.php:91
-#: html/do.php:93 html/user_login.php:67 html/do.php:121
+#: html/do.php:93 html/user_login.php:67 html/do.php:121 html/do.php:134
 msgid "Base de donnée invalide"
+msgstr "Ongeldige database"
+
+#: include/class_database.php:408
+#, fuzzy
+msgid "Base de donnée vide"
 msgstr "Ongeldige database"
 
 #: include/template/action_display_short.php:61
@@ -1834,24 +1863,25 @@ msgid "Catégorie des biens à dépanner"
 msgstr "Bestaande categorie"
 
 #: include/class_fiche_def.php:236 include/class_fiche_def.php:219
-#: include/class_fiche_def.php:225
+#: include/class_fiche_def.php:225 include/class_fiche_def.php:235
 msgid "Catégorie existante"
 msgstr "Bestaande categorie"
 
 #: html/ajax_card.php:468 html/ajax_card.php:469 html/ajax_card.php:470
 #: html/ajax_card.php:521 html/ajax_card.php:522 html/ajax_card.php:528
-#: html/ajax_card.php:530
+#: html/ajax_card.php:530 html/ajax_card.php:529
 msgid "Catégorie existe déjà"
 msgstr "De categorie bestaat al."
 
 #: html/ajax_card.php:470 html/ajax_card.php:471 html/ajax_card.php:472
 #: html/ajax_card.php:523 html/ajax_card.php:524 html/ajax_card.php:530
-#: html/ajax_card.php:532
+#: html/ajax_card.php:532 html/ajax_card.php:531
 msgid "Catégorie sauvée"
 msgstr "Opgeslagen categorie"
 
 #: include/class_fiche_def.php:687 include/class_fiche_def.php:668
 #: include/class_fiche_def.php:674 include/class_fiche_def.php:686
+#: include/class_fiche_def.php:685
 #, fuzzy
 msgid "Catégorie verrouillée "
 msgstr "Opgeslagen categorie"
@@ -1870,6 +1900,11 @@ msgstr "Dit plan bestaat niet"
 #: include/action.common.inc.php:218 include/ajax_view_action.php:55
 msgid "Ce document n'est pas accessible"
 msgstr "Dit document is niet beschikbaar"
+
+#: html/do.php:94
+#, fuzzy
+msgid "Ce dossier est vide"
+msgstr "De Naam van de map is leeg"
 
 #: include/ajax_bookmark.php:46
 msgid "Ce favori a déjà été ajouté"
@@ -2799,7 +2834,7 @@ msgid "Courrier"
 msgstr "Post"
 
 #: include/dossier.inc.php:286 include/dossier.inc.php:283
-#: include/dossier.inc.php:305
+#: include/dossier.inc.php:305 include/dossier.inc.php:341
 msgid "Creation Dossier"
 msgstr "Dossier maken"
 
@@ -2813,6 +2848,7 @@ msgstr "Credit"
 
 #: include/class_acc_ledger.php:3280 include/user_menu.php:51
 #: include/class_acc_ledger.php:3349 include/class_acc_ledger.php:3348
+#: include/ajax_create_menu.php:7
 msgid "Création"
 msgstr "Aanmaken"
 
@@ -3392,6 +3428,8 @@ msgstr "Kan dit bestand op te slaan"
 #: include/template/dashboard.php:335 include/ac_common.php:1156
 #: include/template/dashboard.php:340 include/class_anc_account.php:278
 #: include/class_fiche.php:1213 include/class_fiche.php:1290
+#: include/class_user.php:980 include/dossier.inc.php:219
+#: include/dossier.inc.php:333
 msgid "Description"
 msgstr "Beschrijving"
 
@@ -3413,6 +3451,7 @@ msgid "Description panne"
 msgstr "Beschrijving"
 
 #: include/dossier.inc.php:76 include/dossier.inc.php:97
+#: include/dossier.inc.php:103
 msgid ""
 "Desole la creation de ce dossier a echoue,\n"
 " la cause la plus probable est deux fois le même nom de dossier"
@@ -3579,6 +3618,7 @@ msgstr ""
 
 #: include/class_fiche_def.php:767 include/class_fiche_def.php:748
 #: include/class_fiche_def.php:754 include/class_fiche_def.php:766
+#: include/class_fiche_def.php:765
 #, fuzzy
 msgid "Données générales"
 msgstr "Algemeen Opties"
@@ -3602,17 +3642,18 @@ msgid "Dossier"
 msgstr "Archief"
 
 #: include/dossier.inc.php:150 include/dossier.inc.php:170
+#: include/dossier.inc.php:204
 #, fuzzy
 msgid "Dossier Management"
 msgstr "Map niet bestaat"
 
 #: include/dossier.inc.php:214 include/dossier.inc.php:213
-#: include/dossier.inc.php:233
+#: include/dossier.inc.php:233 include/dossier.inc.php:267
 msgid "Dossier inexistant"
 msgstr "Map niet bestaat"
 
 #: include/class_user.php:897 include/class_user.php:926
-#: include/class_user.php:932
+#: include/class_user.php:932 include/class_user.php:933
 msgid "Dossier non accessible"
 msgstr "Folder niet Bereikbaar"
 
@@ -3831,6 +3872,10 @@ msgstr "Ongeldig datum"
 msgid "Dépôts"
 msgstr "Deposito"
 
+#: html/do.php:93
+msgid "Désolé"
+msgstr ""
+
 #: include/template/letter_all.php:13 include/template/letter_prop.php:11
 msgid "Désolé aucun résultat trouvé"
 msgstr "Sorry Geen Result van stuurprogramma"
@@ -3846,12 +3891,13 @@ msgid "Désolé mais il faut donner l'email de celui qui envoie"
 msgstr "Sorry, maar je moet de e-mail van de afzender te geven"
 
 #: include/dossier.inc.php:56 include/modele.inc.php:67
-#: include/dossier.inc.php:74
+#: include/dossier.inc.php:74 include/dossier.inc.php:80
 msgid "Désolé vous devez migrer ce modèle en unicode"
 msgstr "This model Moet are in unicode"
 
 #: include/dossier.inc.php:345 include/dossier.inc.php:301
 #: include/modele.inc.php:358 include/dossier.inc.php:324
+#: include/dossier.inc.php:360
 msgid "Désolé, vous n'avez pas coché la case"
 msgstr "Sorry hebt u Het niet VAK aangekruisd"
 
@@ -3944,6 +3990,7 @@ msgstr "Detail van de fiche"
 
 #: html/ajax_card.php:504 html/ajax_card.php:505 html/ajax_card.php:556
 #: html/ajax_card.php:555 html/ajax_card.php:562 html/ajax_card.php:564
+#: html/ajax_card.php:563
 msgid "Détail fiche (sauvée)"
 msgstr "Detail van de fiche (opgeslagen)"
 
@@ -3957,6 +4004,7 @@ msgstr "Retail operatie"
 
 #: include/class_fiche_def.php:780 include/class_fiche_def.php:761
 #: include/class_fiche_def.php:767 include/class_fiche_def.php:779
+#: include/class_fiche_def.php:778
 #, fuzzy
 msgid "Détails"
 msgstr "Detail"
@@ -3991,6 +4039,11 @@ msgstr "termijn wordt overschreden"
 #, fuzzy
 msgid "Echec"
 msgstr "Termijn"
+
+#: include/dossier.inc.php:195
+#, fuzzy
+msgid "Echec création "
+msgstr "Aanmaken"
 
 #: include/restore.inc.php:107 include/restore.inc.php:166
 msgid "Echec de la restauration "
@@ -4121,6 +4174,7 @@ msgstr "Erasure"
 #: include/ext/importbank/include/template/show_list.php:15
 #: include/ext/importbank/include/template/show_list.php:83
 #: include/ext/importbank/include/class_import_bank.php:141
+#: include/dossier.inc.php:272 include/dossier.inc.php:281
 msgid "Effacer"
 msgstr "Wissen"
 
@@ -4141,7 +4195,7 @@ msgstr "Dit profiel verwijderen"
 
 #: include/class_fiche_def.php:785 include/class_fiche_def.php:788
 #: include/class_fiche_def.php:769 include/class_fiche_def.php:779
-#: include/class_fiche_def.php:791
+#: include/class_fiche_def.php:791 include/class_fiche_def.php:790
 msgid "Effacer cette catégorie"
 msgstr "This categorie Wissen"
 
@@ -4263,7 +4317,7 @@ msgstr "verwijderen"
 
 #: include/class_fiche_def.php:789 include/class_fiche_def.php:792
 #: include/class_fiche_def.php:773 include/class_fiche_def.php:783
-#: include/class_fiche_def.php:795
+#: include/class_fiche_def.php:795 include/class_fiche_def.php:794
 msgid "Enleve les éléments cochés"
 msgstr "Verwijdert van aangekruiste elements"
 
@@ -4414,7 +4468,7 @@ msgstr "Foutenlogboek dit type wordt nog niet ondersteund"
 msgid "Erreur date invalide"
 msgstr "Ongeldig datum"
 
-#: html/do.php:196 html/do.php:224
+#: html/do.php:196 html/do.php:224 html/do.php:237
 #, fuzzy
 msgid "Erreur menu"
 msgstr "Fout"
@@ -4917,7 +4971,7 @@ msgstr "Record niet gevonden"
 
 #: html/ajax_card.php:497 html/ajax_card.php:498 html/ajax_card.php:499
 #: html/ajax_card.php:550 html/ajax_card.php:551 html/ajax_card.php:557
-#: html/ajax_card.php:559
+#: html/ajax_card.php:559 html/ajax_card.php:558
 msgid "Fiche non valide"
 msgstr "Ongeldige opnemen"
 
@@ -5001,7 +5055,7 @@ msgstr "Gefilterd per categorie"
 #: include/user.inc.php:135 include/template/todo_list_list_user.php:31
 #: include/class_acc_ledger.php:3425 include/user.inc.php:136
 #: html/user_login.php:169 include/dossier.inc.php:196
-#: include/forecast.inc.php:378
+#: include/forecast.inc.php:378 include/dossier.inc.php:230
 msgid "Filtre"
 msgstr "Filter"
 
@@ -5526,7 +5580,7 @@ msgstr "Exclusief Accounting"
 msgid "IN"
 msgstr "IN"
 
-#: include/class_user.php:973
+#: include/class_user.php:973 include/class_user.php:974
 msgid "Id"
 msgstr ""
 
@@ -5999,6 +6053,7 @@ msgstr "Dagboek van nummering hängt"
 
 #: include/class_fiche_def.php:453 include/ajax_plugin_detail.php:35
 #: include/class_fiche_def.php:436 include/class_fiche_def.php:442
+#: include/class_fiche_def.php:452
 msgid "Label"
 msgstr "Etiket"
 
@@ -6012,6 +6067,7 @@ msgid "Langue"
 msgstr "Taal"
 
 #: include/dossier.inc.php:331 include/dossier.inc.php:367
+#: include/dossier.inc.php:403
 #, fuzzy, php-format
 msgid "Le dossier %s est effacé"
 msgstr "De Naam van de map is leeg"
@@ -6042,11 +6098,12 @@ msgid "Le mot de passe ne peut être vide"
 msgstr "De naam mag niet leeg zijn"
 
 #: include/class_fiche_def.php:210 include/class_fiche_def.php:216
-#: include/class_fiche_def.php:221
+#: include/class_fiche_def.php:221 include/class_fiche_def.php:220
 msgid "Le nom de la catégorie ne peut pas être vide"
 msgstr "De categorie naam mag niet leeg zijn"
 
 #: include/dossier.inc.php:49 include/dossier.inc.php:54
+#: include/dossier.inc.php:56
 msgid "Le nom du dossier est vide"
 msgstr "De Naam van de map is leeg"
 
@@ -6057,6 +6114,7 @@ msgid "Le nom et la classe base ne peuvent être vide"
 msgstr "EEN Naam bij post are Moeder Verplicht"
 
 #: include/cat_document.inc.php:42 include/class_forecast.php:70
+#: html/ajax_card.php:536
 msgid "Le nom ne peut pas être vide"
 msgstr "De Naam mag are niet leeg"
 
@@ -6123,7 +6181,7 @@ msgid "Les lignes vides seront effacées"
 msgstr "Lege regels worden gewist"
 
 #: include/class_user.php:1141 include/class_user.php:1171
-#: include/class_user.php:1211
+#: include/class_user.php:1211 include/class_user.php:1212
 msgid "Les mots de passe ne correspondent pas. Mot de passe inchangé"
 msgstr "Wachtwoorden komen niet overeen. Wachtwoord ongewijzigd"
 
@@ -6630,6 +6688,7 @@ msgstr "Verandering"
 #: include/template/detail-action.php:444 include/dossier.inc.php:220
 #: include/template/detail-action.php:450 include/ajax_get_profile.php:84
 #: include/dossier.inc.php:240 include/ajax_view_action.php:48
+#: include/dossier.inc.php:274
 msgid "Modifier"
 msgstr "Veranderen"
 
@@ -6696,6 +6755,7 @@ msgstr "Module instellen"
 #: include/compta_ven.inc.php:93 include/compta_ach.inc.php:87
 #: include/compta_ven.inc.php:96 include/dossier.inc.php:278
 #: include/operation_ods_confirm.inc.php:51 include/dossier.inc.php:300
+#: include/dossier.inc.php:336
 msgid "Modèle"
 msgstr "Model"
 
@@ -7104,6 +7164,7 @@ msgstr "Geen handeling"
 #: include/class_user.php:976 include/dossier.inc.php:184
 #: include/profile.inc.php:352 include/class_fiche.php:1575
 #: include/class_anc_account.php:267 include/class_fiche.php:1581
+#: include/class_user.php:977 include/dossier.inc.php:218
 msgid "Nom"
 msgstr "Naam"
 
@@ -7126,7 +7187,7 @@ msgid "Nom TVA"
 msgstr "Naam TVA"
 
 #: include/modele.inc.php:259 include/dossier.inc.php:184
-#: include/dossier.inc.php:204
+#: include/dossier.inc.php:204 include/dossier.inc.php:238
 #, fuzzy
 msgid "Nom base de données"
 msgstr "Database"
@@ -7155,7 +7216,7 @@ msgid "Nom du document"
 msgstr "Documentnaam"
 
 #: include/dossier.inc.php:275 include/dossier.inc.php:272
-#: include/dossier.inc.php:294
+#: include/dossier.inc.php:294 include/dossier.inc.php:330
 msgid "Nom du dossier"
 msgstr "Naam van de map"
 
@@ -7957,7 +8018,7 @@ msgstr "Per jaar"
 msgid "Parametre ad_id est invalide"
 msgstr "Parameter ad_id is ongeldig"
 
-#: include/dossier.inc.php:64
+#: include/dossier.inc.php:64 include/dossier.inc.php:66
 #, fuzzy
 msgid "Parametre invalide"
 msgstr "Parameter is ongeldig"
@@ -7986,6 +8047,7 @@ msgstr "Parameter"
 #: include/card_attr.inc.php:98 include/menu.inc.php:118
 #: include/menu.inc.php:119 include/database.item.php:60
 #: include/database.item.php:63 include/card_attr.inc.php:97
+#: include/template/menu_detail.php:75
 msgid "Paramètre"
 msgstr "Parameter"
 
@@ -8466,7 +8528,7 @@ msgid "Pour le journal"
 msgstr "Voor de krant"
 
 #: include/dossier.inc.php:59 include/modele.inc.php:70
-#: include/dossier.inc.php:77
+#: include/dossier.inc.php:77 include/dossier.inc.php:83
 msgid ""
 "Pour le passer en unicode, faites-en un backup puis restaurez le fichier reçu"
 msgstr ""
@@ -8947,6 +9009,7 @@ msgstr "Is te laat"
 #: include/ajax_get_profile.php:47 include/anc_pa.inc.php:246
 #: include/cfgledger.inc.php:126 include/dossier.inc.php:325
 #: include/dossier.inc.php:368 include/forecast.inc.php:343
+#: include/dossier.inc.php:361 include/dossier.inc.php:404
 msgid "Retour"
 msgstr "Terug"
 
@@ -8958,6 +9021,11 @@ msgstr "Terug fractie Lijst"
 #: include/payment_middle.inc.php:55 include/payment_middle.inc.php:105
 msgid "Retour sans sauver"
 msgstr "Terug zonder op te slaan"
+
+#: html/do.php:96
+#, fuzzy
+msgid "Retour à l'accueil"
+msgstr "Terug naar de lijst"
 
 #: include/ajax_fiche_def_detail.php:40
 msgid "Retour à la liste"
@@ -9091,6 +9159,7 @@ msgstr "Nieuwe lijn"
 #: include/payment_middle.inc.php:53 include/template/dashboard.php:338
 #: include/ext/modop/modop_display.php:277 include/class_fiche_def.php:812
 #: include/template/dashboard.php:343 include/ext/modop/modop_display.php:294
+#: include/class_fiche_def.php:811
 msgid "Sauve"
 msgstr "OPSLAAN"
 
@@ -9136,7 +9205,15 @@ msgstr "Opslaan"
 #: include/forecast.inc.php:313 include/forecast.inc.php:360
 #: include/template/ledger_detail_bottom.php:288
 #: include/template/profile_sec_repository.php:60
-#: include/class_fiche_def.php:775
+#: include/class_fiche_def.php:775 include/ajax_create_menu.php:12
+#: include/anc_od.inc.php:147 include/card_attr.inc.php:162
+#: include/class_acc_ledger.php:3290 include/class_fiche_def.php:774
+#: include/default_menu.inc.php:45 include/ext/modop/modop_confirm.php:48
+#: include/ext/modop/modop_confirm.php:71
+#: include/ext/modop/modop_confirm.php:95
+#: include/ext/amortis/include/class_am_generate.php:215
+#: include/ext/coprop/include/copro-parameter.inc.php:132
+#: include/ext/amortis/include/template/material_add.php:88
 msgid "Sauver"
 msgstr "OPSLAAN"
 
@@ -9559,6 +9636,7 @@ msgstr "Tag"
 
 #: include/card_attr.inc.php:97 include/dossier.inc.php:184
 #: include/card_attr.inc.php:96 include/dossier.inc.php:204
+#: include/dossier.inc.php:238
 msgid "Taille"
 msgstr "Aantal"
 
@@ -10043,7 +10121,7 @@ msgstr "URL"
 msgid "Un journal avec ce nom existe déjà"
 msgstr "Een journaal met deze naam bestaat al"
 
-#: include/class_fiche_def.php:227
+#: include/class_fiche_def.php:227 include/class_fiche_def.php:226
 #, fuzzy
 msgid "Un modéle de catégorie est obligatoire"
 msgstr "Keuze van het soort dagboek"
@@ -10288,7 +10366,7 @@ msgid "Voir les documents du suivi"
 msgstr "Zie documenten controle"
 
 #: html/do.php:108 html/user_login.php:75 html/do.php:107 html/do.php:102
-#: html/do.php:104 html/user_login.php:76 html/do.php:132
+#: html/do.php:104 html/user_login.php:76 html/do.php:132 html/do.php:145
 msgid "Votre base de données n'est pas à jour"
 msgstr "UW datagegevens is niet van de laatste versie"
 
@@ -10377,6 +10455,9 @@ msgstr "U bevestigt"
 #: include/class_fiche_def.php:769 include/ajax_add_menu.php:191
 #: include/class_fiche_def.php:779 include/class_fiche_def.php:784
 #: include/class_fiche_def.php:791 include/class_fiche_def.php:796
+#: include/ajax_create_menu.php:9 include/class_fiche_def.php:790
+#: include/class_fiche_def.php:795
+#: include/ext/amortis/include/template/material_add.php:88
 msgid "Vous confirmez ?"
 msgstr "U bevestigt"
 
@@ -10640,7 +10721,7 @@ msgid "choix du type de journal"
 msgstr "keuze van de soort dagboek"
 
 #: html/do.php:109 html/user_login.php:76 html/do.php:108 html/do.php:103
-#: html/do.php:105 html/user_login.php:77 html/do.php:133
+#: html/do.php:105 html/user_login.php:77 html/do.php:133 html/do.php:146
 msgid "cliquez ici pour appliquer le patch"
 msgstr "Click here for the laatste versie kunt verkrijgen"
 
@@ -10795,7 +10876,8 @@ msgstr "is in use of, logout eerst"
 
 #: include/dossier.inc.php:112 include/dossier.inc.php:366
 #: include/dossier.inc.php:322 include/dossier.inc.php:133
-#: include/dossier.inc.php:355
+#: include/dossier.inc.php:355 include/dossier.inc.php:144
+#: include/dossier.inc.php:391
 msgid "est accèdée, déconnectez-vous d'abord"
 msgstr "is in use of, logout eerst"
 
@@ -10833,12 +10915,12 @@ msgstr "Geschiedenis operaties"
 
 #: include/card_attr.inc.php:94 include/dossier.inc.php:163
 #: include/modele.inc.php:224 include/card_attr.inc.php:93
-#: include/dossier.inc.php:183
+#: include/dossier.inc.php:183 include/dossier.inc.php:217
 msgid "id"
 msgstr "id"
 
 #: include/dossier.inc.php:355 include/dossier.inc.php:311
-#: include/dossier.inc.php:334
+#: include/dossier.inc.php:334 include/dossier.inc.php:370
 msgid "inexistant"
 msgstr "onbestaand"
 
@@ -10868,6 +10950,7 @@ msgid "le formulaire id n'est pas donnee"
 msgstr "tarief is geen getal"
 
 #: include/dossier.inc.php:58 include/dossier.inc.php:76
+#: include/dossier.inc.php:82
 msgid "le modele "
 msgstr "Het model"
 
@@ -11055,7 +11138,7 @@ msgid "par exemple ne pas changer Client par fournisseur"
 msgstr "Bijvoorbeeld Klant niet veranderen in Leverancier"
 
 #: include/dossier.inc.php:254 include/dossier.inc.php:251
-#: include/dossier.inc.php:273
+#: include/dossier.inc.php:273 include/dossier.inc.php:307
 msgid "pas de modèle disponible"
 msgstr "Beschikbaar Geen model"
 
