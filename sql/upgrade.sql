@@ -183,6 +183,7 @@ language plpgsql;
 select insert_menu();
 
 drop function insert_menu();
+drop view v_all_menu;
 
 CREATE OR REPLACE VIEW v_all_menu AS 
  SELECT pm.me_code, 
