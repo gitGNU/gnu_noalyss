@@ -404,6 +404,10 @@ class Database
 
     function apply_patch($p_name, $from_setup=1)
     {
+        if ( ! $this->exist_table('version')) {
+            echo _('Base de donnée vide');
+            return;
+        }
         $MaxVersion=DBVERSION-1;
         $succeed="<span style=\"font-size:18px;color:green\">&#x2713;</span>";
         echo '<ul style="list-type-style:square">';
