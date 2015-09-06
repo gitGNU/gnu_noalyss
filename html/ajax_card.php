@@ -517,8 +517,7 @@ case 'scc':
     {
 		$script=create_script("removeDiv('$ctl')");
 		$html.=$script;
-        if ( strlen(trim($_GET['nom_mod'])) != 0 &&
-                strlen(trim($_GET['class_base'])) != 0 )
+        if ( strlen(trim($_GET['nom_mod'])) != 0 )
         {
             $array=array("FICHE_REF"=>$cat,
                          "nom_mod"=>$_GET['nom_mod'],
@@ -534,7 +533,7 @@ case 'scc':
         }
         else
         {
-            $script="alert_box('"._("Le nom et la classe base ne peuvent être vide")."')";
+            $script="alert_box('"._("Le nom ne peut pas être vide")."')";
             $html.=create_script($script);
 
             $invalid=1;

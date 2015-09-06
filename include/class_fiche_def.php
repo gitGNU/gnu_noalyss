@@ -197,7 +197,6 @@ $order
      */
     function Add($array)
     {
-        var_dump($array);
         /** 
          * Check needed info
          */
