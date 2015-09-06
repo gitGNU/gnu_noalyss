@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: NOALYSS 672\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-09-06 07:30+0200\n"
-"PO-Revision-Date: 2015-09-06 07:31+0200\n"
+"PO-Revision-Date: 2015-09-07 00:12+0200\n"
 "Last-Translator: Dany De Bontridder <danydb@noalyss.eu>\n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
 "Language: en_US\n"
@@ -352,7 +352,7 @@ msgstr "Accept"
 #: include/user_menu.php:122 include/database.item.php:76
 #: include/database.item.php:81
 msgid "Accueil"
-msgstr "Homepage"
+msgstr "Home"
 
 #: include/template/profile_sec_repository.php:36
 #: include/template/security_list_action.php:8
@@ -3726,7 +3726,7 @@ msgstr "Detail"
 #: include/ajax_get_profile.php:42 include/ajax_get_profile.php:47
 #: include/ajax_get_profile.php:54
 msgid "Détail Impressions"
-msgstr "Printing"
+msgstr "Reporting"
 
 #: include/ajax_get_profile.php:41 include/ajax_get_profile.php:46
 #: include/ajax_get_profile.php:53
@@ -5504,7 +5504,7 @@ msgstr "Print Great Ledger"
 #: include/database.item.php:112 include/database.item.php:115
 #: include/database.item.php:121
 msgid "Impression Journaux"
-msgstr "Ledger Printing"
+msgstr "Ledger report"
 
 #: include/database.item.php:114 include/database.item.php:117
 #: include/database.item.php:123
@@ -5529,7 +5529,7 @@ msgstr "Print balance"
 #: include/database.item.php:112 include/database.item.php:115
 #: include/database.item.php:121
 msgid "Impression des journaux"
-msgstr "Ledger Printing"
+msgstr "Ledger report"
 
 #: include/database.item.php:104 include/database.item.php:107
 #: include/database.item.php:113
@@ -6263,7 +6263,7 @@ msgstr "Menu and Profile"
 #: include/database.item.php:68 include/database.item.php:71
 #: include/database.item.php:77
 msgid "Menu impression"
-msgstr "Printing menu"
+msgstr "Report menu"
 
 #: include/database.item.php:111 include/database.item.php:114
 #: include/database.item.php:120

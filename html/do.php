@@ -53,7 +53,7 @@ $style_user=HtmlInput::default_value_post("style_user",$_SESSION['g_theme']);
 html_page_start($style_user);
 if ( DEBUG ) {
     ?>
-<div id="debug_div" style="border:slategray solid 1px;position:absolute;background:white;display:fixed;top:2px;left:50px;z-index:1000;display:none">
+<div id="debug_div" style="border:slategray solid 1px;margin-left: 0px;position:absolute;background:white;display:fixed;top:2px;left:25px;z-index:1000;display:none">
     <h2>$_POST</h2>
     <?php        
     var_dump($_POST);
@@ -76,7 +76,7 @@ if ( DEBUG ) {
         document.getElementById('debug_div').style.display=new_state;
     }
 </script>
-<input type="button" class="tinybutton" style="position:absolute;display:fixed;top:40px;margin-left:580px;z-index:1000" value="show request" onclick="show_debug_request()">
+<input type="button" class="tinybutton" style="position:absolute;display:fixed;top:40px;left:50px;margin-left:50px;z-index:1000" value="show request" onclick="show_debug_request()">
 
 <?php
 }
