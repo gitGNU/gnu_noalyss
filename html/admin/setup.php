@@ -189,13 +189,13 @@ if ( is_writable ('..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'include'.DI
 
 
 if ( ! file_exists('..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'include'.DIRECTORY_SEPARATOR.'config.inc.php')) {
-  echo '<h1 class="info">Entrez les informations n&eacute;cessaires &agrave; noalyss</h1>';
+  echo '<h1 class="info">'._('Entrez les informations nécessaires à noalyss').'</h1>';
   echo '<form method="post">';
   require_once('../../include/config_file.php');
   echo config_file_form();
   echo '<div style="position:float;float:left;"></div>';
   echo '<p style="text-align:center">',
-        HtmlInput::submit('save_config','Sauver la configuration',"","button"),
+        HtmlInput::submit('save_config',_('Sauver la configuration'),"","button"),
           '</p>';
   echo "</div>";
   echo '</form>';
@@ -217,7 +217,7 @@ require_once NOALYSS_INCLUDE.'/class_database.php';
 
 if ( defined ("MULTI") && MULTI==1) { create_htaccess();}
 
-echo '<h1 class="title">Configuration</h1>';
+echo '<h1 class="title">'._('Configuration').'</h1>';
 ?>
 <h2>Info</h2>
 Vous utilisez le domaine <?php echo domaine; ?>
@@ -364,7 +364,7 @@ if ( $version[0] < 8 ||
   {
 ?>
   <p><?php echo $failed?> Vous devez absolument utiliser au minimum une version 8.4 de PostGresql, si votre distribution n'en
-offre pas, installez en une en la compilant. </p><p>Lisez attentivement la notice sur postgresql.org pour migrer
+offre pas, installez-en une en la compilant. </p><p>Lisez attentivement la notice sur postgresql.org pour migrer
 vos bases de donn&eacute;es
 </p>
 <?php exit(); //'
