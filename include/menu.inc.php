@@ -97,10 +97,6 @@ if ( isset($_POST['create_menu'])|| isset($_POST['modify_menu']))
 		}
 	}
 }
-/**
- * if delete then delete
- */
-
 //////////////////////////////////////////////////////////////////////////////
 // Show the list of menu
 //////////////////////////////////////////////////////////////////////////////
@@ -141,7 +137,7 @@ if ( $iselect->selected != '')
 $menu=new Menu_Ref_sql($cn);
 $ret=$menu->seek($sql.$order);
 ?>
-<fieldset><legend>Recherche</legend>
+<fieldset><legend><?php echo _('Recherche')?></legend>
 <form method="GET">
 	<?php echo $iselect->input()?>
 	<?php echo HtmlInput::submit("search", _("Recherche"))?>
