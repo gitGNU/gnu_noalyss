@@ -173,18 +173,24 @@ begin
         ('CONTACT',
         'contact.inc.php',
           'Contact','Liste de vos contacts','ME','Liste de vos contacts normalement liée à des fiches de sociétés');
-
+    end if;
+    
+    select count(*) into n_count from profile_menu where me_code='CONTACT' and p_id=1;
+    if n_count = 0 then
         insert into profile_menu(me_code,me_code_dep,p_id,p_order,p_type_display,pm_default,pm_id_dep) select 'CONTACT','GESTION',1,22,'E',0,(select pm_id from profile_menu where me_code='GESTION' and p_id=1);
+    end if;
+
+    select count(*) into n_count from profile_menu where me_code='CONTACT' and p_id=2;
+    if n_count = 0 then
         insert into profile_menu(me_code,me_code_dep,p_id,p_order,p_type_display,pm_default,pm_id_dep) select 'CONTACT','GESTION',2,22,'E',0,(select pm_id from profile_menu where me_code='GESTION' and p_id=2);
     end if;
 end;
 $BODY$
-language plpgsql;
+LANGUAGE plpgsql;
 
 select insert_menu();
 
 drop function insert_menu();
-
 drop view v_all_menu;
 
 CREATE OR REPLACE VIEW v_all_menu AS 
@@ -266,7 +272,7 @@ begin
 	return;
 end;
 $BODY$
-  LANGUAGE plpgsql;
+LANGUAGE plpgsql;
 
 update version set val=121;
 
