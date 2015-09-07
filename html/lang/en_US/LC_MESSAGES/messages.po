@@ -11446,11 +11446,6 @@ msgstr "wiki"
 #~ msgstr "Bank account"
 
 #, fuzzy
-#~ msgid ""
-#~ "Concerne tous les mouvements financiers (comptes en banque, caisses, "
-#~ "visa...).\r\n"
-#~ "\r\n"
-
 #~ msgid "Confirmez Cloture"
 #~ msgstr "Confirm closing"
 
