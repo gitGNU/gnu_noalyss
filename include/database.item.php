@@ -1,7 +1,9 @@
-<?php 
+lokal   <?php 
 $menu[]=_('Export pièce PDF');  
 $menu[]=_('Clef de répartition');  
 $menu[]=_('Configuration extension');  
+$menu[]=_('Balance agée');  $desc[]=_('Balance agée');
+$menu[]=_('Export Balance agée');  $desc[]=_('Balance agée');
 $menu[]=_('Achat');  $desc[]=_('Nouvel achat ou dépense');
 $menu[]=_('Historique');  $desc[]=_('Historique des imputations analytiques');
 $menu[]=_('Balance simple');  $desc[]=_('Balance simple des imputations analytiques');
@@ -14,6 +16,7 @@ $menu[]=_('Config. Menu');  $desc[]=_('Configuration des menus et plugins');
 $menu[]=_('Fournisseur');  $desc[]=_('Suivi fournisseur');
 $menu[]=_('Opérations diverses');  $desc[]=_('OD analytique');
 $menu[]=_('Création de rapport');  $desc[]=_('Création de rapport');
+$menu[]=_('Extension');  $desc[]=_('Extensions (plugins)');
 $menu[]=_('saut de ligne');  $desc[]=_('Saut de ligne');
 $menu[]=_('Client');  $desc[]=_('Suivi client');
 $menu[]=_('Historique stock');  $desc[]=_('Historique des mouvement de stock');
@@ -52,7 +55,6 @@ $menu[]=_('Export Résumé list stock');
 $menu[]=_('Plan Compt. analytique');  $desc[]=_('Plan analytique');
 $menu[]=_('Groupe');  $desc[]=_('Groupe analytique');
 $menu[]=_('Contact');  $desc[]=_('Liste des contacts');
-$menu[]=_('Extension');  $desc[]=_('Extensions (plugins)');
 $menu[]=_('Ecriture prédefinie');  $desc[]=_('Gestion des opérations prédéfinifies');
 $menu[]=_('Opérations Diverses');  $desc[]=_('Nouvelle opérations diverses');
 $menu[]=_('Nouvel extrait');  $desc[]=_('Nouvel extrait bancaire');
@@ -76,7 +78,6 @@ $menu[]=_('Lettrage');  $desc[]=_('Lettrage');
 $menu[]=_('Accueil');  $desc[]=_('Accueil');
 $menu[]=_('Comptabilité');  $desc[]=_('Module comptabilité');
 $menu[]=_('Divers');  $desc[]=_('Paramètres divers');
-$menu[]=_('Sortie');  $desc[]=_('Sortie');
 $menu[]=_('Profil');  $desc[]=_('Configuration profil');
 $menu[]=_('Poste');  $desc[]=_('Config. poste comptable de base');
 $menu[]=_('Fiche');  $desc[]=_('Liste,Balance,Historique par fiche');
@@ -99,6 +100,7 @@ $menu[]=_('Recherche');  $desc[]=_('Recherche');
 $menu[]=_('Historique');  $desc[]=_('Historique');
 $menu[]=_('Rapprochement');  $desc[]=_('Rapprochement bancaire');
 $menu[]=_('Soldes');  $desc[]=_('Solde des comptes en banques, caisse...');
+$menu[]=_('Sortie &#9094');  $desc[]=_('Sortie');
 $menu[]=_('Lettrage par Poste');  $desc[]=_('lettrage par poste comptable');
 $menu[]=_('Balance');  $desc[]=_('Balance par catégorie de fiche');
 $menu[]=_('Plan Comptable');  $desc[]=_('Config. du plan comptable');
@@ -118,7 +120,6 @@ $menu[]=_('Impression');  $desc[]=_('Impression compta. analytique');
 $menu[]=_('Compta Analytique');  $desc[]=_('Module comptabilité analytique');
 $menu[]=_('Tableau de bord');  $desc[]=_('Tableau de bord');
 $menu[]=_('Avancé');  $desc[]=_('Menu avancé');
-$menu[]=_('Favori');  $desc[]=_('Raccourci vers vos menus préférés');
 $menu[]=_('Trésorerie');  $desc[]=_('Menu Financier');
 $menu[]=_('Liste Suivi');  $desc[]=_('Document de suivi sous forme de liste');
 $menu[]=_('Moyen de paiement');  $desc[]=_('Config. des méthodes de paiement');
@@ -128,6 +129,7 @@ $menu[]=_('Export opérations rapprochées');  $desc[]=_('Export opérations rap
 $menu[]=_('Administrateur');  $desc[]=_('Suivi des gérants, administrateurs et salariés');
 $menu[]=_('Menu par défaut');  $desc[]=_('Configuration des menus par défaut');
 $menu[]=_('Agenda');  $desc[]=_('Agenda');
+$menu[]=_('Favori &#9733 ');  $desc[]=_('Raccourci vers vos menus préférés');
 ?>
 <?php 
 $attr_def[]=_('Prix vente');
@@ -188,6 +190,11 @@ $action[]=_('création, modification et effacement de catégorie de fiche');
 $action[]=_('Effacer les documents du suivi');
 $action[]=_('Voir les documents du suivi');
 $action[]=_('Modifier le type de document');
+$action[]=_('Enlever une pièce justificative');
+$action[]=_('Effacer une opération ');
+$action[]=_('Partager une note');
+$action[]=_('Créer une note publique');
+$action[]=_('Effacer une note publique');
 ?>
 <?php 
 $mdp[]=_('Caisse');
