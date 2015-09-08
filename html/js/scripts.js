@@ -1341,6 +1341,7 @@ function set_reconcile(obj)
     try
     {
         var ctlc = obj.elements['ctlc'];
+        if ( ! obj.elements['target']) return;
         var target = obj.elements['target'].value;
         for (var e = 0; e < obj.elements.length; e++)
         {
