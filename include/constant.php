@@ -123,7 +123,7 @@ define ('MAX_ACTION_SHOW',20);
 if ( DEBUG ) {
 	error_reporting(2147483647);
 	ini_set("display_errors",1);
-	ini_set(" display_startup_errors",1);
+	ini_set("display_startup_errors",1);
 	ini_set("html_errors",1);
         ini_set('log_errors',1);
         ini_set('log_errors_max_len',0);
