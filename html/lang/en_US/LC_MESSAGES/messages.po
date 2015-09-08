@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: NOALYSS 672\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-09-07 00:59+0200\n"
-"PO-Revision-Date: 2015-09-07 01:00+0200\n"
+"PO-Revision-Date: 2015-09-07 23:41+0200\n"
 "Last-Translator: Dany De Bontridder <danydb@noalyss.eu>\n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
 "Language: en_US\n"
@@ -6295,7 +6295,7 @@ msgstr "Import List"
 #: include/database.item.php:129 include/database.item.php:125
 #: include/database.item.php:124
 msgid "Liste Suivi"
-msgstr "Tracking list"
+msgstr "Follow up"
 
 #: include/category_card.inc.php:66 include/category_card.inc.php:67
 #: include/category_card.inc.php:70
