@@ -440,7 +440,9 @@ class Follow_Up
         $aCard=array();
         /* create aArticle for the detail section */
         $article_count=(count($this->aAction_detail)==0)?MAX_ARTICLE:count($this->aAction_detail);
-
+        /* Compute total */
+        $tot_item=0;
+        $tot_vat=0;
         for ($i=0; $i<$article_count; $i++)
         {
             /* fid = Icard  */
@@ -514,12 +516,14 @@ class Follow_Up
             $num->javascript=" onchange=\"compute_ledger('".$i." ')\"";
             $num->size=8;
             $aArticle[$i]['tva']=$num->input();
+            $tot_vat=bcadd($tot_vat,$num->value);
 
             $num->name="tvac_march".$i;
             $num->id="tvac_march".$i;
             $num->value=($tmp_ad)?$tmp_ad->get_parameter('total'):0;
             $num->size=8;
             $aArticle[$i]['tvac']=$num->input();
+            $tot_item=bcadd($tot_item,$num->value);
 
             $aArticle[$i]['hidden_htva']=HtmlInput::hidden('htva_march'.$i, 0);
             $aArticle[$i]['hidden_tva']=HtmlInput::hidden('tva_march'.$i, 0);

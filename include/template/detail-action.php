@@ -302,8 +302,8 @@ echo '</span>';
   </div>
 </div>
 <?php if ( $p_view !='READ'  ) :?>
-<input type='button' class="button" class="noprint" value='Montrer articles' id="toggleButton" onclick='toggleShowDetail()'>
-<input type='button' class="button" class="noprint" value='Générer' id="toggleButtonGenerate" onclick="$('div_generate_document').show()">
+<input type='button' class="button" class="noprint" value="<?php echo _('Montrer articles');?>" id="toggleButton" onclick='toggleShowDetail()'>
+<input type='button' class="button" class="noprint" value="<?php echo _('Générer')?>" id="toggleButtonGenerate" onclick="$('div_generate_document').show()">
 <?php endif; ?>
 <?php
 /**
@@ -378,10 +378,10 @@ function toggleShowDetail() {
 <?php if ( $show_row != 0 ): ?>
 <div>
   
-    <div style=" float:right;margin-right: 2px"" id="sum">
-    <br><span style="text-align: right;" class="highlight" id="htva">0.0</span>
-     <br><span style="text-align: right" class="highlight" id="tva">0.0</span>
-    <br><span style="text-align: right" class="highlight" id="tvac">0.0</span>
+    <div style=" float:right;margin-right: 2px" id="sum">
+    <br><span style="text-align: right;" class="highlight" id="htva"><?php echo $tot_item?></span>
+     <br><span style="text-align: right" class="highlight" id="tva"><?php echo $tot_vat?></span>
+    <br><span style="text-align: right" class="highlight" id="tvac"><?php echo bcadd($tot_vat,$tot_item)?></span>
  </div>
 
     <div  style="float:right;margin-right: 230px" >
