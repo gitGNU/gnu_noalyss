@@ -125,6 +125,7 @@ if ( DEBUG ) {
 	ini_set("display_errors",1);
 	ini_set("html_errors",1);
         ini_set('log_errors',1);
+        ini_set('log_errors_max_len',0);
 }
 else {
         // Rapporte les erreurs d'exécution de script
@@ -132,6 +133,7 @@ else {
         ini_set("display_errors",0);
 	ini_set("html_errors",0);
         ini_set('log_errors',1);
+        ini_set('log_errors_max_len',0);
 }
 // Erreur
 define ("NOERROR",0);
