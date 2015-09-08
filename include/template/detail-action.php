@@ -379,9 +379,9 @@ function toggleShowDetail() {
 <div>
   
     <div style=" float:right;margin-right: 2px" id="sum">
-    <br><span style="text-align: right;" class="highlight" id="htva"><?php echo $tot_item?></span>
+    <br><span style="text-align: right;" class="highlight" id="htva"><?php echo bcsub($tot_item,$tot_vat) ?></span>
      <br><span style="text-align: right" class="highlight" id="tva"><?php echo $tot_vat?></span>
-    <br><span style="text-align: right" class="highlight" id="tvac"><?php echo bcadd($tot_vat,$tot_item)?></span>
+    <br><span style="text-align: right" class="highlight" id="tvac"><?php echo $tot_item?></span>
  </div>
 
     <div  style="float:right;margin-right: 230px" >
