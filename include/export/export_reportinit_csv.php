@@ -45,7 +45,7 @@ if ( ! is_dir('tmp') )
     mkdir ('tmp');
 }
 
-$cn=new Database($gDossier);
+$cn=Dossier::connect();
 $rap=new Acc_Report($cn,$_GET['f']);
 
 $file= fopen('php://output',"a+");

@@ -31,7 +31,7 @@ require_once  NOALYSS_INCLUDE.'/class/class_acc_ledger_info.php';
 require_once NOALYSS_INCLUDE.'/lib/class_ipopup.php';
 
 $gDossier=dossier::id();
-$cn=new Database(dossier::id());
+$cn=Dossier::connect();
 //menu = show a list of ledger
 $str_dossier=dossier::get();
 $ac="ac=".$_REQUEST['ac'];

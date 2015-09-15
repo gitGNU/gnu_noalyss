@@ -939,7 +939,7 @@ class Anc_Operation
      */
     function test_me()
     {
-        $cn=new Database(dossier::id());
+        $cn=Dossier::connect();
         $anco=new Anc_Operation($cn);
         $j_id=200;
         $anco->j_id=$j_id;

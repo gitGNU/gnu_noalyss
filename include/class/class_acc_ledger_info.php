@@ -200,7 +200,7 @@ class Acc_Ledger_Info
     static function test_me()
     {
         echo "Dossier = ".Dossier::id();
-        $cn=new Database(Dossier::id());
+        $cn=Dossier::connect();
         $a=new Acc_Ledger_Info($cn);
         $a->jr_id=3;
         $a->id_type='BON_COMMANDE';

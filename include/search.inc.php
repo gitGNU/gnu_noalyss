@@ -31,7 +31,7 @@ $gDossier=dossier::id();
 require_once NOALYSS_INCLUDE.'/lib/class_database.php';
 /* Admin. Dossier */
 
-$cn=new Database($gDossier);
+$cn=Dossier::connect();
 require_once  NOALYSS_INCLUDE.'/class/class_user.php';
 // display a search box
 

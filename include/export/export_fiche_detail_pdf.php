@@ -33,7 +33,7 @@ require_once NOALYSS_INCLUDE.'/class/class_dossier.php';
 require_once NOALYSS_INCLUDE.'/lib/class_pdf.php';
 $gDossier=dossier::id();
 
-$cn=new Database($gDossier);
+$cn=Dossier::connect();
 
 extract($_GET);
 

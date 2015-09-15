@@ -34,7 +34,7 @@ require_once NOALYSS_INCLUDE.'/lib/ac_common.php';
 
 /* Security */
 $gDossier=dossier::id();
-$cn=new Database($gDossier);
+$cn=Dossier::connect();
 $g_user->Check();
 $g_user->check_dossier($gDossier);
 

@@ -89,7 +89,7 @@ set_language();
  */
 ajax_disconnected($_REQUEST['ctl']);
 
-$cn=new Database($gDossier);
+$cn=Dossier::connect();
 global $g_user;
 $g_user=new User($cn);
 $g_user->check(true);

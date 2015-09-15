@@ -59,7 +59,7 @@ ajax_disconnected($ctl);
 set_language();
 
 if ( $cont != 0 ) exit();
-$cn=new Database(dossier::id());
+$cn=Dossier::connect();
 require_once  NOALYSS_INCLUDE.'/class/class_user.php';
 global $g_user;
 $g_user=new User($cn);

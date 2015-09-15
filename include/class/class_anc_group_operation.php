@@ -257,7 +257,7 @@ class Anc_Group_Operation
     static function test_me()
     {
         $dossier=dossier::id();
-        $cn=new Database($dossier);
+        $cn=Dossier::connect();
 
         if ( isset($_POST['go']))
         {

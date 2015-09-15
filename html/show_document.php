@@ -28,7 +28,7 @@ require_once NOALYSS_INCLUDE.'/lib/ac_common.php';
 require_once NOALYSS_INCLUDE.'/class/class_document.php';
 require_once NOALYSS_INCLUDE.'/class/class_dossier.php';
 $gDossier = dossier::id();
-$cn = new Database($gDossier);
+$cn = Dossier::connect();
 $action = (isset($_REQUEST['a'])) ? $_REQUEST['a'] : 'sh';
 
 require_once  NOALYSS_INCLUDE.'/class/class_user.php';

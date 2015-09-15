@@ -36,7 +36,7 @@ bcscale(2);
 $gDossier=dossier::id();
 
 /* Security */
-$cn=new Database($gDossier);
+$cn=Dossier::connect();
 $g_user->Check();
 $g_user->check_dossier($gDossier);
 

@@ -38,7 +38,7 @@ class Html_Table
 @code
  static function test_me()
   {
-    $cn=new Database(Dossier::id());
+    $cn=Dossier::connect();
     $order=" order by f_id desc ";
     $url=HtmlInput::get_to_string(array("gDossier","test_select"));
 
@@ -119,7 +119,7 @@ class Html_Table
   }
   static function test_me()
   {
-    $cn=new Database(Dossier::id());
+    $cn=Dossier::connect();
     $order=" order by f_id desc ";
     $url=HtmlInput::get_to_string(array("gDossier","test_select"));
 

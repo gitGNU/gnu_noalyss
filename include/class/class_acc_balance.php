@@ -275,7 +275,7 @@ class Acc_Balance
     {
         require 'class/class_user.php';
         global $g_user;
-        $cn=new Database(dossier::id());
+        $cn=Dossier::connect();
         $g_user=new User($cn);
         $a=new Acc_Balance($cn);
         $a->get_row(163, 175, 1);

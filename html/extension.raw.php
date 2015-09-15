@@ -35,7 +35,7 @@ require_once  NOALYSS_INCLUDE.'/class/class_user.php';
 
 global $g_user,$cn,$g_parameter;
 
-$cn=new Database(dossier::id());
+$cn=Dossier::connect();
 $g_user=new User($cn);
 $g_user->check();
 $only_plugin=$g_user->check_dossier(dossier::id());

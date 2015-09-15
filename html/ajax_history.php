@@ -41,7 +41,7 @@ mb_internal_encoding("UTF-8");
  */
 ajax_disconnected($div);
 global $g_user,$cn;
-$cn=new Database(dossier::id());
+$cn=Dossier::connect();
 $g_user=new User($cn);
 set_language();
 /* security */

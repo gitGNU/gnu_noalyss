@@ -205,7 +205,6 @@ class Acc_Account
     /*!\brief for developper only during test */
     static function test_me()
     {
-        $cn=new Database(dossier::id());
 
     }
     /**

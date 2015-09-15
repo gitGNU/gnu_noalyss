@@ -1959,7 +1959,7 @@ class Fiche
     }
     static function test_me()
     {
-        $cn=new Database(dossier::id());
+        $cn=Dossier::connect();
         $a=new Fiche($cn);
         $select_cat=new ISelect('fd_id');
         $select_cat->value=$cn->make_array('select fd_id,fd_label from fiche_def where frd_id='.

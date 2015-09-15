@@ -41,7 +41,7 @@ $gDossier=dossier::id();
 
 require_once('class/class_user.php');
 
-$cn=new Database(dossier::id());
+$cn=Dossier::connect();
 global $g_user;
 $g_user=new User($cn);
 $g_user->check();

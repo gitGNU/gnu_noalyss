@@ -524,7 +524,7 @@ j1.j_poste as poste
 
     static function test_me()
     {
-        $cn=new Database(dossier::id());
+        $cn=Dossier::connect();
         $rap=new Acc_Reconciliation($cn);
         var_dump($rap->get_reconciled_amount('',false));
     }

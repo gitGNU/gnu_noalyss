@@ -286,7 +286,7 @@ class Anc_Balance_Simple extends Anc_Print
     static  function test_me ()
     {
         // call the page with ?gDossier=14
-        $a=new Database(dossier::id());
+        $a=Dossier::connect();
 
         $bal=new Anc_Balance_Simple($a);
         $bal->get_request();

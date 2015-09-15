@@ -53,7 +53,7 @@ ajax_disconnected('add_todo_list');
 ////////////////////////////////////////////////////////////////////////////////
 if (isset($_REQUEST['show']))
 {
-    $cn=new Database(dossier::id());
+    $cn=Dossier::connect();
     $todo=new Todo_list($cn);
     $todo->set_parameter('id',$_REQUEST['id']);
     $todo->load();
@@ -78,7 +78,7 @@ if (isset($_REQUEST['show']))
 ////////////////////////////////////////////////////////////////////////////////
 if (isset($_REQUEST['del']))
 {
-    $cn=new Database(dossier::id());
+    $cn=Dossier::connect();
     $todo=new Todo_list($cn);
     $todo->set_parameter('id',$_REQUEST['id']);
     $todo->delete();
@@ -92,7 +92,7 @@ $ac=HtmlInput::default_value_get('act', 'save');
 if ($ac == 'save')
 {
     
-    $cn=new Database(dossier::id());
+    $cn=Dossier::connect();
     $todo=new Todo_List($cn);
      $id=HtmlInput::default_value_get("id", 0);
     $todo->set_parameter("id",$id);

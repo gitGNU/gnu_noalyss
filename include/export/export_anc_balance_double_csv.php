@@ -33,7 +33,7 @@ header('Content-Disposition: attachment;filename="ca_bal_croise.csv"',FALSE);
 
 require_once  NOALYSS_INCLUDE.'/class/class_anc_balance_double.php';
 
-$cn=new Database(dossier::id());
+$cn=Dossier::connect();
 
 $bal=new Anc_Balance_Double($cn);
 $bal->get_request();

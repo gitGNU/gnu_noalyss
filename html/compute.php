@@ -48,7 +48,7 @@ foreach (array('t','c','p','q','n','gDossier') as $a)
     }
 
 }
-$cn=new Database(dossier::id());
+$cn=Dossier::connect();
 $User=new User($cn);
 $User->Check();
 // Retrieve the rate of vat, it $t == -1 it means no VAT

@@ -696,7 +696,7 @@ class Acc_Bilan
         if ( isset($_GET['result']))
         {
             ob_start();
-            $cn=new Database(dossier::id());
+            $cn=Dossier::connect();
             $a=new Acc_Bilan($cn);
             $a->get_request_get();
 
@@ -714,7 +714,7 @@ class Acc_Bilan
         }
         else
         {
-            $cn=new Database(dossier::id());
+            $cn=Dossier::connect();
             $a=new Acc_Bilan($cn);
             $a->get_request_get();
 

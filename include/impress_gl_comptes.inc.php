@@ -46,7 +46,7 @@ echo HtmlInput::hidden('type','gl_comptes');
 echo dossier::hidden();
 echo '<TABLE><TR>';
 
-$cn=new Database(dossier::id());
+$cn=Dossier::connect();
 $periode=new Periode($cn);
 $a=$periode->get_limit($g_user->get_exercice());
 // $a is an array

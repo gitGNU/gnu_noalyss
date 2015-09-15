@@ -30,7 +30,7 @@ global $g_user,$g_parameter;
 $gDossier=dossier::id();
 
 
-$cn=new Database(dossier::id());
+$cn=Dossier::connect();
 $menu_action="?ledger_type=fin&ac=".$_REQUEST['ac']."&".dossier::get();
 
 $Ledger=new Acc_Ledger_Fin($cn,0);

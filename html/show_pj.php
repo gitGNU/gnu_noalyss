@@ -37,7 +37,7 @@ set_language();
 
 $jr_grpt_id=$_GET['jr_grpt_id'];
 
-$cn=new Database($gDossier);
+$cn=Dossier::connect();
 
 
 require_once NOALYSS_INCLUDE.'/class/class_user.php';

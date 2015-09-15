@@ -202,7 +202,7 @@ class Anc_Plan
     }
     static function test_me()
     {
-        $cn=new Database(dossier::id());
+        $cn=Dossier::connect();
         echo "<h1>Plan analytique : test</h1>";
         echo "clean";
         $cn->exec_sql("delete from plan_analytique");

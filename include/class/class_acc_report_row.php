@@ -107,7 +107,7 @@ class  Acc_Report_Row
     }
     static function test_me()
     {
-        $cn=new Database(dossier::id());
+        $cn=Dossier::connect();
         $a=new Acc_Report_Row();
         $array=array("text0"=>"test1",
                      "form0"=>"7%",

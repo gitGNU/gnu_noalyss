@@ -37,7 +37,7 @@ require_once NOALYSS_INCLUDE.'/lib/class_ipopup.php';
 
 global $g_user;
 
-$cn = new Database(dossier::id());
+$cn = Dossier::connect();
 
 $id_predef = (isset($_REQUEST['p_jrn_predef'])) ? $_REQUEST['p_jrn_predef'] : -1;
 $id_ledger = (isset($_REQUEST['p_jrn'])) ? $_REQUEST['p_jrn'] : $id_predef;

@@ -33,7 +33,7 @@ require_once NOALYSS_INCLUDE.'/class/class_dossier.php';
 $gDossier=dossier::id();
 
 /* Admin. Dossier */
-$cn=new Database($gDossier);
+$cn=Dossier::connect();
 
 if ( isset ( $_REQUEST['poste_fille']) )
 { //choisit de voir tous les postes

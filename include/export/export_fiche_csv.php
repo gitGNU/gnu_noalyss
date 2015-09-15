@@ -30,7 +30,7 @@ require_once NOALYSS_INCLUDE.'/lib/class_database.php';
 require_once NOALYSS_INCLUDE.'/class/class_dossier.php';
 $gDossier=dossier::id();
 
-$cn=new Database($gDossier);
+$cn=Dossier::connect();
 
 require_once  NOALYSS_INCLUDE.'/class/class_user.php';
 

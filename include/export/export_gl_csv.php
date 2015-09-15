@@ -39,7 +39,7 @@ header('Pragma: public');
 $gDossier=dossier::id();
 
 /* Security */
-$cn=new Database($gDossier);
+$cn=Dossier::connect();
 
 
 extract($_GET);

@@ -27,7 +27,7 @@ require_once NOALYSS_INCLUDE.'/class/class_fiche.php';
 require_once NOALYSS_INCLUDE.'/class/class_lettering.php';
 
 $gDossier = dossier::id();
-$cn = new Database($gDossier);
+$cn = Dossier::connect();
 global $g_user, $g_failed;
 ;
 

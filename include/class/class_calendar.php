@@ -51,7 +51,7 @@ class Calendar
 		global $g_user;
 		$profile=$g_user->get_profile();
 
-        $cn=new Database(dossier::id());
+        $cn=Dossier::connect();
         $sql="select ag_id,to_char(ag_remind_date,'DD')::integer as ag_timestamp_day,ag_title,ag_hour,
              coalesce(name,'interne') as str_name
 			".
@@ -113,7 +113,7 @@ class Calendar
      */
     function fill_from_todo(&$p_array,$p_style)
     {
-        $cn=new Database(dossier::id());
+        $cn=Dossier::connect();
         if ($p_style=="short")
         {
             $sql="select count(*) as nb,to_char(tl_date,'DD')::integer as tl_date_day ".
@@ -172,7 +172,7 @@ class Calendar
         $this->fill_from_action($cell,$p_type);
         $this->fill_from_todo($cell,$p_type);
         $wMonth=new ISelect('per');
-        $cn=new Database(dossier::id());
+        $cn=Dossier::connect();
         $wMonth->value=$cn->make_array("select p_id,to_char(p_start,'MM/YYYY') from parm_periode where p_exercice = '$exercice_user' order by p_start");
         $wMonth->selected=$this->default_periode;
         $wMonth->javascript="onchange=change_month(this)";
@@ -201,7 +201,7 @@ class Calendar
      */
     function set_month_year()
     {
-        $cn=new Database(dossier::id());
+        $cn=Dossier::connect();
         $array=$cn->get_array("select to_char(p_start,'MM') as month, to_char(p_start,'YYYY') as year ".
                               " from parm_periode where p_id=$1",array($this->default_periode));
         $this->month=(int)$array[0]['month'];
@@ -218,7 +218,7 @@ class Calendar
     function get_preference()
     {
         global $g_user;
-        $cn=new Database(dossier::id());
+        $cn=Dossier::connect();
         $today=date('d.m.Y');
         $p_id=$cn->get_value("
                 select p_id from parm_periode
@@ -262,7 +262,7 @@ class Calendar
         $this->fill_from_action($cell,"long");
         $this->fill_from_todo($cell,"long");
         $wMonth=new ISelect('per_div');
-        $cn=new Database(dossier::id());
+        $cn=Dossier::connect();
         $wMonth->value=$cn->make_array("select p_id,to_char(p_start,'MM/YYYY') from parm_periode where p_exercice = '$exercice_user' order by p_start");
         $wMonth->selected=$this->default_periode;
         $wMonth->javascript=sprintf("onchange=calendar_zoom({gDossier:%d,invalue:'%s',outvalue:'%s',distype:'%s',notitle:%d})",
@@ -292,7 +292,7 @@ class Calendar
     function zoom_list($notitle)
     {
         global $g_user;
-        $cn=new Database(dossier::id());
+        $cn=Dossier::connect();
         $profile=$g_user->get_profile();
 
         // Get the event from now and before 30 before

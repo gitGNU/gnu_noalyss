@@ -30,7 +30,7 @@ header('Content-Disposition: attachment;filename="jrn.csv"',FALSE);
 
 require_once  NOALYSS_INCLUDE.'/class/class_anc_listing.php';
 
-$cn=new Database(dossier::id());
+$cn=Dossier::connect();
 
 $bal=new Anc_Listing($cn);
 $bal->get_request();

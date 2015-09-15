@@ -44,7 +44,7 @@ require_once NOALYSS_INCLUDE.'/class/class_dossier.php';
 
 $jrn= ( ! isset($_REQUEST['j']))?-1:$_REQUEST['j'];
 $filter_card="";
-$cn=new Database(dossier::id());
+$cn=Dossier::connect();
 $d=$_REQUEST['e'];
 $filter_card='';
 

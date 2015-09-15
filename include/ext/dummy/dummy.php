@@ -15,7 +15,7 @@ Ce code n'est là QUE pour expliquer le concept
 
 
 // se connecter au dossier courant
-$cn=new Database(dossier::id());
+$cn=Dossier::connect();
 
 // dans extension.php on vérifie la sécurité, en ajoutez une ici n'est en général 
 // pas nécessaire

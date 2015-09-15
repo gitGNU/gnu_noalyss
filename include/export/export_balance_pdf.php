@@ -38,7 +38,7 @@ require_once NOALYSS_INCLUDE.'/class/class_dossier.php';
 require_once NOALYSS_INCLUDE.'/lib/class_pdf.php';
 $gDossier=dossier::id();
 bcscale(4);
-$cn=new Database($gDossier);
+$cn=Dossier::connect();
 $rep=new Database();
 require_once  NOALYSS_INCLUDE.'/class/class_user.php';
 $g_user->Check();

@@ -62,7 +62,7 @@ $gDossier=dossier::id();
  */
 ajax_disconnected($div);
 
-$cn=new Database(dossier::id());
+$cn=Dossier::connect();
 $g_parameter=new Own($cn);
 if ( LOGINPUT)
     {

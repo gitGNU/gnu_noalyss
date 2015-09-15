@@ -66,7 +66,7 @@ global $g_user, $cn, $g_parameter;
 // but to the administration
 // 
 if ($gDossier<>0) {
-    $cn = new Database($gDossier);
+    $cn =Dossier::connect();
     $g_parameter=new Own($cn);
     $g_user = new User($cn);
     $g_user->check(true);
@@ -102,7 +102,7 @@ if ( LOGINPUT)
 switch ($op)
 {
         case 'pcmn_update':
-            require 'ajax/ajax_pcmn_update.php';
+            require NOALYSS_INCLUDE.'/ajax/ajax_pcmn_update.php';
             return;
 	case "remove_anc":
 		if ($g_user->check_module('ANCODS') == 0)
@@ -221,7 +221,7 @@ EOF;
 		require_once NOALYSS_INCLUDE.'/template/document_mod_change.php';
 		break;
 	case 'dsp_tva':
-		$cn = new Database($gDossier);
+		$cn = Dossier::connect();
 		$Res = $cn->exec_sql("select * from tva_rate order by tva_rate desc");
 		$Max = Database::num_row($Res);
 		$r = "";
@@ -284,7 +284,7 @@ EOF;
 EOF;
 		break;
 	case 'label_tva':
-		$cn = new Database($gDossier);
+		$cn =Dossier::connect();
 		if (isNumber($id) == 0)
 			$value = _('tva inconnue');
 		else
@@ -568,8 +568,9 @@ EOF;
 			from menu_ref where me_code=$1", array($me_code));
 		if (empty($m))
 		{
-			echo HtmlInput::title_box("Ce plugin n'existe pas ", $ctl);
-			echo "<p>Il y a une erreur, ce plugin n'existe pas";
+			echo HtmlInput::title_box(_("Ce plugin n'existe pas "), $ctl);
+			echo "<p>"._("Il y a une erreur, ce plugin n'existe pas").
+                                "</p>";
 			exit;
 		}
 		$me_code = new IText('me_code', $m[0] ['me_code']);

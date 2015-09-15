@@ -557,7 +557,7 @@ class Anc_Balance_Double extends Anc_Print
      */
     static function test_me()
     {
-        $a=new Database(dossier::id());
+        $a=Dossier::connect();
 
         $bal=new Anc_Balance_Double($a);
         $bal->get_request();

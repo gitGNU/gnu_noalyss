@@ -43,7 +43,7 @@ if (isset($_REQUEST['gDossier']) && $_REQUEST['gDossier']<>0)
 {
     $g_user->load_global_pref();
     $msg = "";
-    $cn = new Database($_REQUEST['gDossier']);
+    $cn =Dossier::connect();
     $g_user->cn = $cn;
     $inside_dossier = true;
     $local_pref=$g_user->get_preference();

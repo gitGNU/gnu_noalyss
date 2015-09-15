@@ -34,7 +34,7 @@ require_once NOALYSS_INCLUDE.'/lib/ac_common.php';
 
 /* Security */
 $gDossier=dossier::id();
-$cn=new Database($gDossier);
+$cn=Dossier::connect();
 $g_user->Check();
 $g_user->check_dossier($gDossier);
 $name=$cn->get_value('select fd_label from fiche_def where fd_id=$1',array($_GET['cat']));

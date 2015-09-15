@@ -442,7 +442,7 @@ class Anticipation
      */
     static function test_me()
     {
-        $cn=new Database(dossier::id());
+        $cn=Dossier::connect();
         $test=new Anticipation($cn);
 
     }

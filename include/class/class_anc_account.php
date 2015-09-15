@@ -305,7 +305,7 @@ class Anc_Account
     }
     static function test_me()
     {
-        $cn=new Database(dossier::id());
+        $cn=Dossier::connect();
         $pa_id=$cn->get_value("select max(pa_id) from plan_analytique");
         $o=new Anc_Account($cn);
         echo "<h1>Poste_Analytique</h1>";

@@ -177,7 +177,7 @@ class Acc_Tva
      */
     static function test_me()
     {
-        $cn=new Database(dossier::id());
+        $cn=Dossier::connect();
         $a=new Acc_Tva($cn);
         echo $a->get_info();
         $a->set_parameter("id",1);

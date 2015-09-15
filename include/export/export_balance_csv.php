@@ -31,7 +31,7 @@ require_once NOALYSS_INCLUDE.'/class/class_dossier.php';
 $gDossier=dossier::id();
 
 require_once NOALYSS_INCLUDE.'/class/class_acc_ledger.php';
-$cn=new Database($gDossier);
+$cn=Dossier::connect();
 bcscale(2);
 
 require_once  NOALYSS_INCLUDE.'/class/class_user.php';

@@ -144,7 +144,7 @@ class ITva_Popup extends HtmlInput
     /*!\brief print in html the readonly value of the widget*/
     public function display()
     {
-        $cn=  new Database(Dossier::id());
+        $cn=  Dossier::connect();
         $tva=new Acc_Tva($cn, $this->value);
         
         $comment=($tva->load()  != "-1")? $tva->tva_label:"";

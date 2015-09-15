@@ -39,7 +39,7 @@ require_once NOALYSS_INCLUDE.'/class/class_periode.php';
 require_once NOALYSS_INCLUDE.'/class/class_print_ledger.php';
 
 
-$cn = new Database($gDossier);
+$cn = Dossier::connect();
 $periode = new Periode($cn);
 
 $l_type = "JRN";

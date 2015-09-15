@@ -1365,7 +1365,7 @@ EOF;
      */
 
     static function test_me($p_string = '') {
-        $cn = new Database(dossier::id());
+        $cn = Dossier::connect();
         $a = new Acc_Ledger_Sold($cn, 2);
         echo $a->input();
     }

@@ -34,7 +34,7 @@ $gDossier=dossier::id();
 $str_dossier=dossier::get();
 
 /* Admin. Dossier */
-$cn=new Database($gDossier);
+$cn=Dossier::connect();
 global $g_user;
 $g_user->Check();
 $g_user->check_dossier($gDossier);

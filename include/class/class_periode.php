@@ -567,7 +567,7 @@ class Periode
     }
     static function test_me()
     {
-        $cn=new Database(dossier::id());
+        $cn=Dossier::connect();
         $obj=new Periode($cn);
         $obj->set_jrn(1);
         $obj->display_form_periode();

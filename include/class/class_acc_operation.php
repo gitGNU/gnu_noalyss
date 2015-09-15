@@ -578,7 +578,7 @@ class Acc_Operation
         $_SESSION['g_user']='phpcompta';
         $_SESSION['g_pass']='dany';
         global $g_user;
-        $cn=new Database(dossier::id());
+        $cn=Dossier::connect();
         $g_user=new User($cn);
         $a=new Acc_Operation($cn);
         $a->jr_id=1444;

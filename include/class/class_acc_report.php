@@ -422,7 +422,7 @@ class Acc_Report
     }
     static function test_me()
     {
-        $cn=new Database(dossier::id());
+        $cn=Dossier::connect();
         $a=new Acc_Report($cn);
         print_r($a->get_list());
         $array=array("text0"=>"test1",

@@ -239,7 +239,7 @@ order by ga_description,po_name";
     static function test_me()
     {
 
-        $cn=new Database(dossier::id());
+        $cn=Dossier::connect();
         print_r($cn);
         $o=new Anc_Group($cn);
         $r=$o->myList();

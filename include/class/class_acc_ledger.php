@@ -3245,7 +3245,7 @@ class Acc_Ledger extends jrn_def_sql
 		{
 			echo Acc_Reconciliation::$javascript;
 			html_page_start();
-			$cn = new Database(dossier::id());
+			$cn = Dossier::connect();
 			$_SESSION['g_user'] = 'phpcompta';
 			$_SESSION['g_pass'] = 'phpcompta';
 
@@ -3334,7 +3334,7 @@ class Acc_Ledger extends jrn_def_sql
 		if ($pCase == 'search')
 		{
 			html_page_start();
-			$cn = new Database(dossier::id());
+			$cn = Dossier::connect();
 			$ledger = new Acc_Ledger($cn, 0);
 			$_SESSION['g_user'] = 'phpcompta';
 			$_SESSION['g_pass'] = 'phpcompta';
@@ -3346,7 +3346,7 @@ class Acc_Ledger extends jrn_def_sql
 		///////////////////////////////////////////////////////////////////////////
 		if ($pCase == 'reverse')
 		{
-			$cn = new Database(dossier::id());
+			$cn = Dossier::connect();
 			$jr_internal = 'OD-01-272';
 			try
 			{

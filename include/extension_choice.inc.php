@@ -16,7 +16,7 @@ require_once  NOALYSS_INCLUDE.'/class/class_user.php';
 echo '<div class="topmenu">';
 @html_page_start($_SESSION['g_theme']);
 
-$cn=new Database(dossier::id());
+$cn=Dossier::connect();
 global $g_user;
 $g_user=new User($cn);
 $g_user->check();

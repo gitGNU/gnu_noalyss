@@ -30,7 +30,7 @@ global $g_user,$cn,$g_parameter;
 require_once NOALYSS_INCLUDE.'/lib/class_database.php';
 require_once NOALYSS_INCLUDE.'/class/class_user.php';
 $gDossier=dossier::id();
-$cn=new Database($gDossier);
+$cn=Dossier::connect();
 mb_internal_encoding("UTF-8");
 $g_user=new User($cn);
 $g_user->Check();

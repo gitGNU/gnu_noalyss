@@ -29,7 +29,7 @@ require_once NOALYSS_INCLUDE.'/class/class_acc_bilan.php';
 
 global $g_captcha,$g_failed,$g_succeed;
 
-$cn=new Database(dossier::id());
+$cn=Dossier::connect();
 $exercice=$g_user->get_exercice();
 echo '<div class="content">';
 

@@ -84,7 +84,7 @@ global $g_user, $cn,$g_parameter;
 
 
 
-$cn = new Database(Dossier::id());
+$cn = Dossier::connect();
 
 /*
  * check that the database is not empty

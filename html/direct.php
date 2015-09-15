@@ -22,7 +22,7 @@ require_once '../include/constant.php';
 require_once NOALYSS_INCLUDE.'/lib/class_database.php';
 require_once NOALYSS_INCLUDE.'/class/class_user.php';
 
-$cn=new Database($_GET['gDossier']);
+$cn=Dossier::connect();
 global $g_user;
 $g_user=new User($cn);
 $g_user->Check();

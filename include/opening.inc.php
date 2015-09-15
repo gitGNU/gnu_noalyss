@@ -182,7 +182,7 @@ if ($sa == 'step3')
 	echo HtmlInput::hidden('f', $_REQUEST['f']);
 	echo HtmlInput::hidden('p_periode', $_REQUEST['p_periode']);
 	$wLedger = new ISelect();
-	$g_user = new User(new Database(dossier::id()));
+	$g_user = new User(Dossier::connect());
 	$avail = $g_user->get_ledger('ODS');
 	/* compute select list */
 	$array = array();
@@ -234,7 +234,7 @@ if ($sa == 'step4')
 			$result[$ck] = 'on';
 		$idx++;
 	}
-	$cn = new Database(dossier::id());
+	$cn = Dossier::connect();
 
 	$jrn = new Acc_Ledger($cn, $_REQUEST['p_jrn']);
 

@@ -33,7 +33,7 @@ global $g_user;
 if ( basename($_GET['ajax']) == 'ajax_history.php' )
   {
     $href=dossier::get();
-    $cn=new Database(dossier::id());
+    $cn=Dossier::connect();
     /* current year  */
     $g_user=new User($cn);
     $exercice=$g_user->get_exercice();

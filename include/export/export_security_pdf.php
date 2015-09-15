@@ -27,7 +27,7 @@ $gDossier=dossier::id();
 require_once NOALYSS_INCLUDE.'/lib/ac_common.php';
 require_once NOALYSS_INCLUDE.'/lib/class_database.php';
 require_once NOALYSS_INCLUDE.'/lib/class_pdf.php';
-$cn=new Database($gDossier);
+$cn=Dossier::connect();
 //-----------------------------------------------------
 // Security
 

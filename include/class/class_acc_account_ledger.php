@@ -648,7 +648,7 @@ class Acc_Account_Ledger
 	}
     static function test_me()
     {
-        $cn=new Database(dossier::id());
+        $cn=Dossier::connect();
         $a=new Acc_Account_Ledger($cn,550);
         echo ' Journal 4 '.$a->belong_ledger(4);
         return $a->belong_ledger(4);;

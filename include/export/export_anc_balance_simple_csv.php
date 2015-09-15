@@ -29,7 +29,7 @@ header('Content-Disposition: attachment;filename="ca_bal_simple.csv"',FALSE);
 
 require_once  NOALYSS_INCLUDE.'/class/class_anc_balance_simple.php';
 
-$cn=new Database(dossier::id());
+$cn=Dossier::connect();
 
 $bal=new Anc_Balance_Simple($cn);
 $bal->get_request();

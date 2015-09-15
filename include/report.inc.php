@@ -39,10 +39,10 @@ $gDossier=dossier::id();
 $str_dossier=dossier::get();
 
 /* Admin. Dossier */
-$rep=new Database($gDossier);
+$rep=Dossier::connect();
 
 
-$cn=new Database($gDossier);
+$cn=Dossier::connect();
 
 $rap=new Acc_Report($cn);
 $menu=0;
