@@ -379,16 +379,16 @@ if (isset($_REQUEST['bt_html']))
 			switch ($obj->signature)
 			{
 				case 'FIN':
-					require 'template/operation_detail_fin.php';
+					require NOALYSS_INCLUDE.'/template/operation_detail_fin.php';
 					break;
 				case 'ACH':
-					require 'template/operation_detail_ach.php';
+					require NOALYSS_INCLUDE.'/template/operation_detail_ach.php';
 					break;
 				case 'VEN':
-					require 'template/operation_detail_ven.php';
+					require NOALYSS_INCLUDE.'/template/operation_detail_ven.php';
 					break;
 				case 'ODS':
-					require 'template/operation_detail_misc.php';
+					require NOALYSS_INCLUDE.'/template/operation_detail_misc.php';
 					break;
 				default:
 					die("unknown type of ledger");

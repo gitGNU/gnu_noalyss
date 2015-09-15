@@ -1006,7 +1006,7 @@ function show_menu($module)
         else {
             $style_menu=$a_style_menu[$level];
         }
-		require 'template/menu.php';
+		require NOALYSS_INCLUDE.'/template/menu.php';
     } // there is only one submenu so we include the code or javascript 
       // or we show the submenu
     elseif (count($amenu) == 1)

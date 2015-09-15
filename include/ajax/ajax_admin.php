@@ -144,7 +144,7 @@ if ($op=='folder_display') // operation
             ?>
         </p>
         <?php
-        require 'template/folder_display.php';
+        require NOALYSS_INCLUDE.'/template/folder_display.php';
         $content=ob_get_clean();
         $status='OK';
     }

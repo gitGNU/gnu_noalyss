@@ -66,7 +66,7 @@ for ($i=0; $i<count($a); $i++)
 
 
 echo $r;
-require_once('template/card_result.php');
+require_once(NOALYSS_INCLUDE.'/template/card_result.php');
 $response=ob_get_contents();
 ob_end_clean();
 

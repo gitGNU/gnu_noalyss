@@ -308,7 +308,7 @@ if ( $action == "view" )
     // Show Priv. for actions
     //**********************************************************************
     echo '<fieldset> <legend>Actions </legend>';
-    include('template/security_list_action.php');
+    include(NOALYSS_INCLUDE.'/template/security_list_action.php');
     echo '</fieldset>';
     echo HtmlInput::button('Imprime','imprime',"onclick=\"window.open('".$sHref."');\"");
     echo HtmlInput::submit('ok','Sauve');

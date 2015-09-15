@@ -541,7 +541,7 @@ class Follow_Up
         $menu=new Default_Menu();
         /* get template */
         ob_start();
-        require 'template/detail-action.php';
+        require NOALYSS_INCLUDE.'/template/detail-action.php';
         $content=ob_get_contents();
         ob_end_clean();
         $r.=$content;
@@ -1771,7 +1771,7 @@ class Follow_Up
     function display_short()
     {
         $cn=$this->db;
-        include 'template/action_display_short.php'; 
+        include NOALYSS_INCLUDE.'/template/action_display_short.php'; 
     }
     /**
      * Add an event , with the minimum of informations, 

@@ -32,7 +32,7 @@ else :
     echo HtmlInput::hidden('t_id', $_GET['tag']);
     echo HtmlInput::hidden('ac',$_GET['ac']);
     $data=$tag->data;
-    require_once 'template/tag_detail.php';
+    require_once NOALYSS_INCLUDE.'/template/tag_detail.php';
     echo HtmlInput::submit("save_tag_sb", "Valider");
     ?>
 </form>

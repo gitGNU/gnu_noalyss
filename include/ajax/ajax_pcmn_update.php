@@ -76,7 +76,7 @@ if ( $pcmn_val != "")
             
 }
 
-require 'template/pcmn_update.php';
+require NOALYSS_INCLUDE.'/template/pcmn_update.php';
 $response = ob_get_clean();
 $html = escape_xml($response);
 if ( headers_sent() ) {

@@ -91,7 +91,7 @@ class Balance_Age
         $this->get_array_card('U', $p_fiche);
         $a_fiche=$this->afiche;
         $nb_fiche=count($a_fiche);
-        require 'template/balance_aged_result.php';
+        require NOALYSS_INCLUDE.'/template/balance_aged_result.php';
     }
 
     function display_category($p_date_start, $p_cat, $p_let)
@@ -101,7 +101,7 @@ class Balance_Age
         $this->get_array_card('X', $p_cat);
         $a_fiche=$this->afiche;
         $nb_fiche=count($a_fiche);
-        require 'template/balance_aged_result.php';
+        require NOALYSS_INCLUDE.'/template/balance_aged_result.php';
     }
 
     /**
@@ -115,7 +115,7 @@ class Balance_Age
         $this->get_array_card('F');
         $a_fiche=$this->afiche;
         $nb_fiche=count($a_fiche);
-        require 'template/balance_aged_result.php';
+        require NOALYSS_INCLUDE.'/template/balance_aged_result.php';
     }
 
     /**
@@ -129,7 +129,7 @@ class Balance_Age
         $this->get_array_card('C');
         $a_fiche=$this->afiche;
         $nb_fiche=count($a_fiche);
-        require 'template/balance_aged_result.php';
+        require NOALYSS_INCLUDE.'/template/balance_aged_result.php';
     }
 
     function export_csv($p_date_start, $p_let)
