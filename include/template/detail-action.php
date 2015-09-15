@@ -51,6 +51,11 @@
           <TD>
   <?php 
   if  ($g_user->can_write_action($this->ag_id) == true ):
+        if ( $ag_contact->extra != "" ):
+        echo $ag_contact->search().$ag_contact->input();
+      else:
+          echo _('Pas de catégorie de contact');
+      endif;
     echo $ag_contact->search().$ag_contact->input();
   endif;
             ?>
