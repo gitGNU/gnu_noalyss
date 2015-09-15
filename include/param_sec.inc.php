@@ -182,7 +182,8 @@ if ( isset($_POST['ok']))
 	} // end try
 	catch (Exception $e)
 	{
-		echo_warning ($e->getTraceAsString());
+		echo_warning ($e->getMessage());
+		error_log($e->getTraceAsString());
 		$cn->rollback();
 	}
 

@@ -165,8 +165,9 @@ class Stock_Goods extends Stock_Goods_Sql
 		}
 		catch (Exception $exc)
 		{
-			echo $exc->getTraceAsString();
-			throw $exc;
+                    error_log( $exc->getTraceAsString());
+                    echo $exc->getMessage();
+                    throw $exc;
 		}
 	}
         /**

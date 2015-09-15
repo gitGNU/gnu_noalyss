@@ -177,6 +177,7 @@ class Database
                 echo $a->getTraceAsString();
                 echo pg_last_error($this->db);
             }
+            error_log($a->getTraceAsString());
             $this->rollback();
             
             throw ($a);

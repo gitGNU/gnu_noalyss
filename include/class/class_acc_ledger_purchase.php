@@ -908,7 +908,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
             echo '<span class="error">'.
             'Erreur dans l\'enregistrement '.
             __FILE__.':'.__LINE__.' '.
-            $e->getMessage().$e->getTraceAsString();
+            $e->getMessage().$e->getMessage();
             error_log($e->getMessage());
             $this->db->rollback();
             throw  new Exception($e);
