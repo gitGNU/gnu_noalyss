@@ -497,7 +497,7 @@ case 'ac':
         $str_poste=$search->input();
         $submit=HtmlInput::submit('save',_('Sauve'));
         ob_start();
-        require('template/category_of_card.php');
+        require(NOALYSS_INCLUDE.'/template/category_of_card.php');
         $html.=ob_get_contents();
         ob_end_clean();
 
