@@ -1,19 +1,19 @@
 <?php
 if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
-require_once NOALYSS_INCLUDE.'/class_idate.php';
-require_once NOALYSS_INCLUDE.'/class_itext.php';
+require_once NOALYSS_INCLUDE.'/lib/class_idate.php';
+require_once NOALYSS_INCLUDE.'/lib/class_itext.php';
 require_once  NOALYSS_INCLUDE.'/constant.php';
-require_once  NOALYSS_INCLUDE.'/ac_common.php';
-require_once  NOALYSS_INCLUDE.'/class_user.php';
-require_once NOALYSS_INCLUDE.'/class_acc_report.php';
-require_once NOALYSS_INCLUDE.'/class_periode.php';
+require_once  NOALYSS_INCLUDE.'/lib/ac_common.php';
+require_once  NOALYSS_INCLUDE.'/class/class_user.php';
+require_once NOALYSS_INCLUDE.'/class/class_acc_report.php';
+require_once NOALYSS_INCLUDE.'/class/class_periode.php';
 require_once  NOALYSS_INCLUDE.'/user_menu.php';
-require_once  NOALYSS_INCLUDE.'/class_dossier.php';
-require_once NOALYSS_INCLUDE.'/class_todo_list.php';
-require_once NOALYSS_INCLUDE.'/class_itextarea.php';
-require_once NOALYSS_INCLUDE.'/class_calendar.php';
-require_once NOALYSS_INCLUDE.'/class_acc_ledger.php';
-require_once NOALYSS_INCLUDE.'/class_follow_up.php';
+require_once  NOALYSS_INCLUDE.'/class/class_dossier.php';
+require_once NOALYSS_INCLUDE.'/class/class_todo_list.php';
+require_once NOALYSS_INCLUDE.'/lib/class_itextarea.php';
+require_once NOALYSS_INCLUDE.'/class/class_calendar.php';
+require_once NOALYSS_INCLUDE.'/class/class_acc_ledger.php';
+require_once NOALYSS_INCLUDE.'/class/class_follow_up.php';
 
 echo '<div class="content">';
 global $g_user;

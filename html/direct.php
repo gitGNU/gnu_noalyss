@@ -19,8 +19,8 @@
  */
 
 require_once '../include/constant.php';
-require_once NOALYSS_INCLUDE.'/class_database.php';
-require_once NOALYSS_INCLUDE.'/class_user.php';
+require_once NOALYSS_INCLUDE.'/lib/class_database.php';
+require_once NOALYSS_INCLUDE.'/class/class_user.php';
 
 $cn=new Database($_GET['gDossier']);
 global $g_user;

@@ -3,16 +3,16 @@
 //see licence.txt
 
 if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
-require_once NOALYSS_INCLUDE.'/class_database.php';
-require_once NOALYSS_INCLUDE.'/class_dossier.php';
-require_once NOALYSS_INCLUDE.'/ac_common.php';
+require_once NOALYSS_INCLUDE.'/lib/class_database.php';
+require_once NOALYSS_INCLUDE.'/class/class_dossier.php';
+require_once NOALYSS_INCLUDE.'/lib/ac_common.php';
 require_once NOALYSS_INCLUDE.'/constant.php';
-require_once NOALYSS_INCLUDE.'/function_javascript.php';
-require_once NOALYSS_INCLUDE.'/class_extension.php';
-require_once  NOALYSS_INCLUDE.'/class_html_input.php';
-require_once NOALYSS_INCLUDE.'/class_iselect.php';
+require_once NOALYSS_INCLUDE.'/lib/function_javascript.php';
+require_once NOALYSS_INCLUDE.'/class/class_extension.php';
+require_once  NOALYSS_INCLUDE.'/lib/class_html_input.php';
+require_once NOALYSS_INCLUDE.'/lib/class_iselect.php';
 require_once  NOALYSS_INCLUDE.'/constant.security.php';
-require_once  NOALYSS_INCLUDE.'/class_user.php';
+require_once  NOALYSS_INCLUDE.'/class/class_user.php';
 echo '<div class="topmenu">';
 @html_page_start($_SESSION['g_theme']);
 

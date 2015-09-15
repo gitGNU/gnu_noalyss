@@ -21,10 +21,10 @@
  * \brief Users Security
  */
 if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
-require_once NOALYSS_INCLUDE.'/ac_common.php';
-require_once NOALYSS_INCLUDE.'/class_database.php';
+require_once NOALYSS_INCLUDE.'/lib/ac_common.php';
+require_once NOALYSS_INCLUDE.'/lib/class_database.php';
 require_once NOALYSS_INCLUDE.'/user_menu.php';
-require_once  NOALYSS_INCLUDE.'/class_user.php';
+require_once  NOALYSS_INCLUDE.'/class/class_user.php';
 
 $rep = new Database();
 
@@ -92,7 +92,7 @@ else if ($sbaction == "delete")
     $Res = $cn->exec_sql("delete from ac_users where use_id=$1", array($uid));
 
     echo "<center><H2 class=\"info\"> Utilisateur " . h($_POST['fname']) . " " . h($_POST['lname']) . " est effacé</H2></CENTER>";
-    require_once NOALYSS_INCLUDE.'/class_iselect.php';
+    require_once NOALYSS_INCLUDE.'/lib/class_iselect.php';
     require_once NOALYSS_INCLUDE.'/user.inc.php';
     return;
 }

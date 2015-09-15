@@ -27,8 +27,8 @@
 define ('ALLOWED',1);
 require_once '../include/constant.php';
 global $g_user,$cn,$g_parameter;
-require_once NOALYSS_INCLUDE.'/class_database.php';
-require_once NOALYSS_INCLUDE.'/class_user.php';
+require_once NOALYSS_INCLUDE.'/lib/class_database.php';
+require_once NOALYSS_INCLUDE.'/class/class_user.php';
 $gDossier=dossier::id();
 $cn=new Database($gDossier);
 mb_internal_encoding("UTF-8");
@@ -52,5 +52,5 @@ if ($action == null )
  if ( $prfile == "") {
      die (_('Export impossible'));
  }
- require_once $prfile;
+ require_once NOALYSS_INCLUDE."/export/$prfile";
  ?>

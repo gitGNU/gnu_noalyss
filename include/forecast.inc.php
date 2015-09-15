@@ -25,7 +25,7 @@
  */
 
 if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
-require_once NOALYSS_INCLUDE.'/class_anticipation.php';
+require_once NOALYSS_INCLUDE.'/class/class_anticipation.php';
 $action=HtmlInput::default_value_get('action','');
 
 echo '<div class="content">';

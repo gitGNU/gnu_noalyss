@@ -29,8 +29,8 @@
  *
  */
 if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
-require_once NOALYSS_INCLUDE.'/class_iselect.php';
-require_once NOALYSS_INCLUDE.'/class_acc_ledger.php';
+require_once NOALYSS_INCLUDE.'/lib/class_iselect.php';
+require_once NOALYSS_INCLUDE.'/class/class_acc_ledger.php';
 
 $p_mesg="";
 

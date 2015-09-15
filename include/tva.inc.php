@@ -21,10 +21,10 @@
  * \brief included file for customizing with the vat (account,rate...)
  */
 if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
-require_once NOALYSS_INCLUDE.'/class_own.php';
-require_once NOALYSS_INCLUDE.'/class_html_input.php';
-require_once NOALYSS_INCLUDE.'/class_ihidden.php';
-require_once NOALYSS_INCLUDE.'/class_itextarea.php';
+require_once NOALYSS_INCLUDE.'/class/class_own.php';
+require_once NOALYSS_INCLUDE.'/lib/class_html_input.php';
+require_once NOALYSS_INCLUDE.'/lib/class_ihidden.php';
+require_once NOALYSS_INCLUDE.'/lib/class_itextarea.php';
 echo '<div class="content">';
 // Confirm remove
 if (isset($_POST['confirm_rm']))

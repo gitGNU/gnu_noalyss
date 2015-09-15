@@ -23,15 +23,15 @@
  * \brief retrieve a document
  */
 require_once '../include/constant.php';
-require_once NOALYSS_INCLUDE.'/class_database.php';
-require_once NOALYSS_INCLUDE.'/ac_common.php';
-require_once NOALYSS_INCLUDE.'/class_document.php';
-require_once NOALYSS_INCLUDE.'/class_dossier.php';
+require_once NOALYSS_INCLUDE.'/lib/class_database.php';
+require_once NOALYSS_INCLUDE.'/lib/ac_common.php';
+require_once NOALYSS_INCLUDE.'/class/class_document.php';
+require_once NOALYSS_INCLUDE.'/class/class_dossier.php';
 $gDossier = dossier::id();
 $cn = new Database($gDossier);
 $action = (isset($_REQUEST['a'])) ? $_REQUEST['a'] : 'sh';
 
-require_once  NOALYSS_INCLUDE.'/class_user.php';
+require_once  NOALYSS_INCLUDE.'/class/class_user.php';
 global $g_user;
 $g_user = new User($cn);
 $g_user->Check();

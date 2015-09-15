@@ -28,11 +28,11 @@ $retour=HtmlInput::button_anchor(_('Retour liste'),
 //-----------------------------------------------------
 // Follow_Up
 //-----------------------------------------------------
-require_once NOALYSS_INCLUDE.'/class_icard.php';
-require_once NOALYSS_INCLUDE.'/class_ispan.php';
-require_once NOALYSS_INCLUDE.'/class_ifile.php';
-require_once NOALYSS_INCLUDE.'/class_itext.php';
-require_once NOALYSS_INCLUDE.'/class_follow_up.php';
+require_once NOALYSS_INCLUDE.'/lib/class_icard.php';
+require_once NOALYSS_INCLUDE.'/lib/class_ispan.php';
+require_once NOALYSS_INCLUDE.'/lib/class_ifile.php';
+require_once NOALYSS_INCLUDE.'/lib/class_itext.php';
+require_once NOALYSS_INCLUDE.'/class/class_follow_up.php';
 /*!\brief Show the list of action, this code should be common
  *        to several webpage. But for the moment we keep like that
  *        because it is used only by this file.

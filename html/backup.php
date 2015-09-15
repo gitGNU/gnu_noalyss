@@ -20,9 +20,9 @@
 // Copyright Author Dany De Bontridder danydb@aevalys.eu
 require_once '../include/constant.php';
 require_once("constant.php");
-require_once('class_database.php');
-require_once  ("class_user.php");
-require_once ('ac_common.php');
+require_once('lib/class_database.php');
+require_once  ("class/class_user.php");
+require_once ('lib/ac_common.php');
 
 $rep=new Database();
 $User=new User($rep);

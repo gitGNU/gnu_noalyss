@@ -65,7 +65,7 @@ $w_lettre->selected=HtmlInput::default_value_get('p_let','unlet');
 ?>
 </form>
 <?php
-    require_once 'class_balance_age.php';
+    require_once 'class/class_balance_age.php';
     $balance=new Balance_Age($cn);
     $type=HtmlInput::default_value_get('p_type', 'C');
     $let=HtmlInput::default_value_get('p_let', 'unlet');

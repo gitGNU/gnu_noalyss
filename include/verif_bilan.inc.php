@@ -24,8 +24,8 @@
  */
 if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 
-require_once  NOALYSS_INCLUDE.'/class_user.php';
-require_once NOALYSS_INCLUDE.'/class_acc_bilan.php';
+require_once  NOALYSS_INCLUDE.'/class/class_user.php';
+require_once NOALYSS_INCLUDE.'/class/class_acc_bilan.php';
 
 global $g_captcha,$g_failed,$g_succeed;
 

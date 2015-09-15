@@ -23,12 +23,12 @@
  * \brief file included to manage all the sold operation
  */
 if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
-require_once NOALYSS_INCLUDE.'/class_icheckbox.php';
-require_once NOALYSS_INCLUDE.'/class_acc_ledger_sold.php';
-require_once  NOALYSS_INCLUDE.'/class_pre_op_ven.php';
-require_once  NOALYSS_INCLUDE.'/class_document.php';
-require_once  NOALYSS_INCLUDE.'/class_acc_ledger_info.php';
-require_once NOALYSS_INCLUDE.'/class_ipopup.php';
+require_once NOALYSS_INCLUDE.'/lib/class_icheckbox.php';
+require_once NOALYSS_INCLUDE.'/class/class_acc_ledger_sold.php';
+require_once  NOALYSS_INCLUDE.'/class/class_pre_op_ven.php';
+require_once  NOALYSS_INCLUDE.'/class/class_document.php';
+require_once  NOALYSS_INCLUDE.'/class/class_acc_ledger_info.php';
+require_once NOALYSS_INCLUDE.'/lib/class_ipopup.php';
 
 $gDossier=dossier::id();
 $cn=new Database(dossier::id());

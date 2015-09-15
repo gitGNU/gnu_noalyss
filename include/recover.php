@@ -23,7 +23,7 @@ if (!defined('RECOVER'))
 define('SIZE_REQUEST', 70);
 
 
-require_once NOALYSS_INCLUDE.'/class_html_input.php';
+require_once NOALYSS_INCLUDE.'/lib/class_html_input.php';
 /**
  * @brief generate a random string of char
  * @param $car int length of the string
@@ -62,8 +62,8 @@ if ($action=="") :
     </form>
     <?php
 elseif ($action=="send_email") :
-    require_once NOALYSS_INCLUDE.'/class_sendmail.php';
-    require_once NOALYSS_INCLUDE.'/class_database.php';
+    require_once NOALYSS_INCLUDE.'/lib/class_sendmail.php';
+    require_once NOALYSS_INCLUDE.'/lib/class_database.php';
     /*
      * Check if user exists, if yes save a recover request
      */
@@ -137,7 +137,7 @@ L\'email a été envoyé avec un lien et le nouveau mot de passe, vérifiez vos 
 elseif ($action=="req") :
     $request_id=HtmlInput::default_value_request("req", "");
     if (strlen(trim($request_id))==SIZE_REQUEST) :
-        require_once NOALYSS_INCLUDE.'/class_database.php';
+        require_once NOALYSS_INCLUDE.'/lib/class_database.php';
         $cn=new Database(0);
 
         $value=$cn->get_value("select password from recover_pass where request=$1 and created_on > now() - interval '12 hours' and recover_on is null", array($request_id));

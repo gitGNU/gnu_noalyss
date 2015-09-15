@@ -22,18 +22,18 @@
  * \brief ask for Printing the ledger (pdf,html)
  */
 if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
-require_once NOALYSS_INCLUDE.'/class_ihidden.php';
-require_once NOALYSS_INCLUDE.'/class_iselect.php';
-require_once NOALYSS_INCLUDE.'/class_icheckbox.php';
-require_once NOALYSS_INCLUDE.'/class_exercice.php';
-require_once NOALYSS_INCLUDE.'/class_dossier.php';
+require_once NOALYSS_INCLUDE.'/lib/class_ihidden.php';
+require_once NOALYSS_INCLUDE.'/lib/class_iselect.php';
+require_once NOALYSS_INCLUDE.'/lib/class_icheckbox.php';
+require_once NOALYSS_INCLUDE.'/class/class_exercice.php';
+require_once NOALYSS_INCLUDE.'/class/class_dossier.php';
 load_all_script();
 $gDossier = dossier::id();
 global $g_user;
 //-----------------------------------------------------
 // Show the jrn and date
 //-----------------------------------------------------
-require_once NOALYSS_INCLUDE.'/class_database.php';
+require_once NOALYSS_INCLUDE.'/lib/class_database.php';
 
 if ($g_user->Admin() == 0 && $g_user->is_local_admin() == 0)
 {
@@ -145,7 +145,7 @@ echo '<hr>';
 //-----------------------------------------------------
 if (isset($_REQUEST['bt_html']))
 {
-	require_once NOALYSS_INCLUDE.'/class_acc_ledger.php';
+	require_once NOALYSS_INCLUDE.'/class/class_acc_ledger.php';
 
 	$d = var_export($_GET, true);
 	$Jrn = new Acc_Ledger($cn, $_GET['jrn_id']);

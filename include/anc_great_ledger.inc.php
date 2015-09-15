@@ -5,7 +5,7 @@
 if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 echo '<div style="content">';
 
-require_once NOALYSS_INCLUDE.'/class_anc_grandlivre.php';
+require_once NOALYSS_INCLUDE.'/class/class_anc_grandlivre.php';
 
 $grandLivre=new Anc_Grandlivre($cn);
 

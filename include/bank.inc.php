@@ -21,10 +21,10 @@
  * the supplier category
  */
 if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
-require_once NOALYSS_INCLUDE.'/class_iselect.php';
-require_once NOALYSS_INCLUDE.'/class_ihidden.php';
-require_once NOALYSS_INCLUDE.'/class_bank.php';
-require_once NOALYSS_INCLUDE.'/class_ibutton.php';
+require_once NOALYSS_INCLUDE.'/lib/class_iselect.php';
+require_once NOALYSS_INCLUDE.'/lib/class_ihidden.php';
+require_once NOALYSS_INCLUDE.'/class/class_bank.php';
+require_once NOALYSS_INCLUDE.'/lib/class_ibutton.php';
 global $g_user;
 
 $low_action=(isset($_REQUEST['sb']))?$_REQUEST['sb']:'list';

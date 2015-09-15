@@ -22,12 +22,12 @@
  *        templates... Accessible only by the administrator
  */
 require_once '../include/constant.php';
-require_once("user_common.php");
-include_once("ac_common.php");
-require_once('class_database.php');
+require_once("lib/user_common.php");
+include_once("lib/ac_common.php");
+require_once('lib/class_database.php');
 include_once("user_menu.php");
 $rep=new Database();
-include_once ("class_user.php");
+include_once ("class/class_user.php");
 $User=new User($rep);
 $User->Check();
 

@@ -26,7 +26,7 @@ if ( !defined ('ALLOWED')) die('Forbidden');
  * action=user_mgt
  *
  */
-require_once NOALYSS_INCLUDE.'/class_sort_table.php';
+require_once NOALYSS_INCLUDE.'/lib/class_sort_table.php';
 echo '<div class="content" style="width:80%;margin-left:10%">';
 /******************************************************/
 // Add user

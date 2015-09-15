@@ -35,11 +35,11 @@
 if ( ! defined('ALLOWED')) define ('ALLOWED',1);
 
 require_once '../include/constant.php';
-require_once  NOALYSS_INCLUDE.'/ac_common.php';
-require_once NOALYSS_INCLUDE.'/class_acc_ledger.php';
-require_once  NOALYSS_INCLUDE.'/class_database.php';
-require_once NOALYSS_INCLUDE.'/function_javascript.php';
-require_once NOALYSS_INCLUDE.'/class_acc_account_ledger.php';
+require_once  NOALYSS_INCLUDE.'/lib/ac_common.php';
+require_once NOALYSS_INCLUDE.'/class/class_acc_ledger.php';
+require_once  NOALYSS_INCLUDE.'/lib/class_database.php';
+require_once NOALYSS_INCLUDE.'/lib/function_javascript.php';
+require_once NOALYSS_INCLUDE.'/class/class_acc_account_ledger.php';
 mb_internal_encoding("UTF-8");
 
 extract($_REQUEST);
@@ -60,7 +60,7 @@ set_language();
 
 if ( $cont != 0 ) exit();
 $cn=new Database(dossier::id());
-require_once  NOALYSS_INCLUDE.'/class_user.php';
+require_once  NOALYSS_INCLUDE.'/class/class_user.php';
 global $g_user;
 $g_user=new User($cn);
 $g_user->Check();

@@ -23,11 +23,11 @@
  * some variable are already defined ($cn, $g_user ...)
  */
 if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
-require_once NOALYSS_INCLUDE.'/class_ihidden.php';
-require_once NOALYSS_INCLUDE.'/class_iselect.php';
-require_once NOALYSS_INCLUDE.'/class_idate.php';
-require_once NOALYSS_INCLUDE.'/class_acc_report.php';
-require_once NOALYSS_INCLUDE.'/class_exercice.php';
+require_once NOALYSS_INCLUDE.'/lib/class_ihidden.php';
+require_once NOALYSS_INCLUDE.'/lib/class_iselect.php';
+require_once NOALYSS_INCLUDE.'/lib/class_idate.php';
+require_once NOALYSS_INCLUDE.'/class/class_acc_report.php';
+require_once NOALYSS_INCLUDE.'/class/class_exercice.php';
 global $g_user;
 //-----------------------------------------------------
 // If print is asked
@@ -161,7 +161,7 @@ if ( isset( $_GET['bt_html'] ) )
 //-----------------------------------------------------
 // Show the jrn and date
 //-----------------------------------------------------
-require_once NOALYSS_INCLUDE.'/class_database.php';
+require_once NOALYSS_INCLUDE.'/lib/class_database.php';
 $ret=$cn->make_array("select fr_id,fr_label
                      from formdef
                      order by fr_label");

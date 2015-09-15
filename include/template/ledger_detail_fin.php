@@ -5,10 +5,10 @@ $str_anc="";
 ?><?php require_once NOALYSS_INCLUDE.'/template/ledger_detail_top.php'; ?>
 <div class="content" style="padding:0;">
 <?php 
-  require_once NOALYSS_INCLUDE.'/class_own.php';
+  require_once NOALYSS_INCLUDE.'/class/class_own.php';
   $owner=new Own($cn);
-require_once  NOALYSS_INCLUDE.'/class_anc_plan.php';
-require_once NOALYSS_INCLUDE.'/class_anc_operation.php';
+require_once  NOALYSS_INCLUDE.'/class/class_anc_plan.php';
+require_once NOALYSS_INCLUDE.'/class/class_anc_operation.php';
 
 ?>
     <?php if ( $access=='W') : ?>

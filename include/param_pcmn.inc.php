@@ -21,20 +21,20 @@
  * \brief concerns the management of the "Plan Comptable"
  */
 if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
-require_once  NOALYSS_INCLUDE.'/class_acc_account.php';
-require_once  NOALYSS_INCLUDE.'/ac_common.php';
+require_once  NOALYSS_INCLUDE.'/class/class_acc_account.php';
+require_once  NOALYSS_INCLUDE.'/lib/ac_common.php';
 require_once NOALYSS_INCLUDE.'/constant.php';
-require_once NOALYSS_INCLUDE.'/class_dossier.php';
-require_once NOALYSS_INCLUDE.'/function_javascript.php';
+require_once NOALYSS_INCLUDE.'/class/class_dossier.php';
+require_once NOALYSS_INCLUDE.'/lib/function_javascript.php';
 
 $gDossier=dossier::id();
 
-require_once NOALYSS_INCLUDE.'/class_database.php';
+require_once NOALYSS_INCLUDE.'/lib/class_database.php';
 
 /* Admin. Dossier */
 $cn=new Database($gDossier);
 
-require_once  NOALYSS_INCLUDE.'/class_user.php';
+require_once  NOALYSS_INCLUDE.'/class/class_user.php';
 
 require_once  NOALYSS_INCLUDE.'/user_menu.php';
 echo '<div id="acc_update" class="inner_box" style="display:none;position:absolute;text-align:left;z-index:1"></div>';

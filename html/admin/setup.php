@@ -213,7 +213,7 @@ if ( ! file_exists('..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'include'.D
 // magic_quotes_sybase = Off
 // include_path
 require_once NOALYSS_INCLUDE.'/config_file.php';
-require_once NOALYSS_INCLUDE.'/class_database.php';
+require_once NOALYSS_INCLUDE.'/lib/class_database.php';
 
 if ( defined ("MULTI") && MULTI==1) { create_htaccess();}
 
@@ -386,8 +386,8 @@ if ( $Res==0) { ?>
 
 <?php exit(); }
 
-include_once('ac_common.php');
-require_once('class_dossier.php');
+include_once('lib/ac_common.php');
+require_once('class/class_dossier.php');
 
 // Memory setting
 //--

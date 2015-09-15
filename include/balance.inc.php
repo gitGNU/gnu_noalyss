@@ -24,15 +24,15 @@
  * some variable are already defined ($cn, $g_user ...)
  */
 if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
-include_once  NOALYSS_INCLUDE.'/ac_common.php';
-include_once NOALYSS_INCLUDE.'/class_acc_balance.php';
-require_once NOALYSS_INCLUDE.'/class_iselect.php';
-require_once NOALYSS_INCLUDE.'/class_ispan.php';
-require_once NOALYSS_INCLUDE.'/class_icheckbox.php';
-require_once NOALYSS_INCLUDE.'/class_ihidden.php';
-require_once NOALYSS_INCLUDE.'/class_acc_ledger.php';
-require_once NOALYSS_INCLUDE.'/class_periode.php';
-require_once NOALYSS_INCLUDE.'/class_exercice.php';
+include_once  NOALYSS_INCLUDE.'/lib/ac_common.php';
+include_once NOALYSS_INCLUDE.'/class/class_acc_balance.php';
+require_once NOALYSS_INCLUDE.'/lib/class_iselect.php';
+require_once NOALYSS_INCLUDE.'/lib/class_ispan.php';
+require_once NOALYSS_INCLUDE.'/lib/class_icheckbox.php';
+require_once NOALYSS_INCLUDE.'/lib/class_ihidden.php';
+require_once NOALYSS_INCLUDE.'/class/class_acc_ledger.php';
+require_once NOALYSS_INCLUDE.'/class/class_periode.php';
+require_once NOALYSS_INCLUDE.'/class/class_exercice.php';
 global $g_user;
 $gDossier=dossier::id();
 $exercice=(isset($_GET['exercice']))?$_GET['exercice']:$g_user->get_exercice();

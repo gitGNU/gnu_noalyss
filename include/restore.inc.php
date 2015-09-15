@@ -19,8 +19,8 @@
 
 // Copyright Author Dany De Bontridder danydb@aevalys.eu
 if ( !defined ('ALLOWED')) die('Forbidden');
-require_once NOALYSS_INCLUDE.'/class_iradio.php';
-require_once NOALYSS_INCLUDE.'/class_ifile.php';
+require_once NOALYSS_INCLUDE.'/lib/class_iradio.php';
+require_once NOALYSS_INCLUDE.'/lib/class_ifile.php';
 
 /*!\file
  * \brief restaure a database

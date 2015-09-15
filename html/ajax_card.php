@@ -56,13 +56,13 @@
 if ( ! defined('ALLOWED')) define ('ALLOWED',1);
 
 require_once '../include/constant.php';
-require_once NOALYSS_INCLUDE.'/class_database.php';
-require_once NOALYSS_INCLUDE.'/class_fiche.php';
-require_once NOALYSS_INCLUDE.'/class_iradio.php';
-require_once NOALYSS_INCLUDE.'/function_javascript.php';
-require_once NOALYSS_INCLUDE.'/ac_common.php';
-require_once NOALYSS_INCLUDE.'/class_user.php';
-require_once NOALYSS_INCLUDE.'/class_fiche_attr.php';
+require_once NOALYSS_INCLUDE.'/lib/class_database.php';
+require_once NOALYSS_INCLUDE.'/class/class_fiche.php';
+require_once NOALYSS_INCLUDE.'/lib/class_iradio.php';
+require_once NOALYSS_INCLUDE.'/lib/function_javascript.php';
+require_once NOALYSS_INCLUDE.'/lib/ac_common.php';
+require_once NOALYSS_INCLUDE.'/class/class_user.php';
+require_once NOALYSS_INCLUDE.'/class/class_fiche_attr.php';
 
 mb_internal_encoding("UTF-8");
 
@@ -356,7 +356,7 @@ case 'sc':
      *
      *----------------------------------------------------------------------*/
 case 'fs':
-    require_once NOALYSS_INCLUDE.'/class_acc_ledger.php';
+    require_once NOALYSS_INCLUDE.'/class/class_acc_ledger.php';
     $r=HtmlInput::title_box(_("Détail fiche"), 'search_card');
     $r.='<form method="GET" onsubmit="this.ctl=\'ipop_card\';search_get_card(this);return false;">';
     $q=new IText('query');
@@ -434,14 +434,14 @@ case 'fs':
     $html=$r;
     break;
     case 'action_add_concerned_card':
-        require_once NOALYSS_INCLUDE.'/ajax_add_concerned_card.php';
+        require_once NOALYSS_INCLUDE.'/ajax/ajax_add_concerned_card.php';
         return;
     break;
     case 'action_save_concerned':
-        require 'ajax_action_save_concerned.php';
+        require 'ajax/ajax_action_save_concerned.php';
         return;
     case 'action_remove_concerned':
-        require 'ajax_action_remove_concerned.php';
+        require 'ajax/ajax_action_remove_concerned.php';
         return;
 case 'ac':
     if ( $g_user->check_action(FICCAT)==1 )
