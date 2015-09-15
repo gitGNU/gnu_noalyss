@@ -75,7 +75,12 @@ class Dossier
         $str_limit=($limit==0)?'':' limit '.$limit;
         if ($p_type=="A")
         {
-            $l_sql="select *, 'W' as priv_priv from ac_dossier where dos_name ~* $2 or dos_description ~* $2 ORDER BY dos_name $str_limit  ";
+            $l_sql="select *, 'W' as priv_priv "
+                    . "from ac_dossier "
+                    . "where "
+                    . "dos_name ~* $2 "
+                    . "or dos_description ~* $2 "
+                    . "ORDER BY dos_name $str_limit  ";
             $a_row=$cn->get_array($l_sql, $p_text);
             return $a_row;
         }
@@ -139,10 +144,12 @@ class Dossier
                 ag_dossier
             from
             ac_users  as ac
-            left join    (select array_to_string(array_agg(dos_name),',') as ag_dossier,jt.use_id as jt_use_id
-                        from ac_dossier as ds
-                        join  jnt_use_dos as jt on (jt.dos_id=ds.dos_id)
-                        group by jt.use_id) as dossier_name on (jt_use_id=ac.use_id)
+            left join    
+                (select array_to_string(array_agg(dos_name),',') as ag_dossier,
+                        jt.use_id as jt_use_id
+                  from ac_dossier as ds
+                    join  jnt_use_dos as jt on (jt.dos_id=ds.dos_id)
+                    group by jt.use_id) as dossier_name on (jt_use_id=ac.use_id)
             where
             use_login!='phpcompta'
             $sql
@@ -234,7 +241,8 @@ class Dossier
         if (strlen(trim($this->dos_name))==0)
             return;
 
-        if ($this->cn->get_value("select count(*) from ac_dossier where dos_name=$1 and dos_id<>$2",
+        if ($this->cn->get_value("select count(*) from ac_dossier "
+                . " where dos_name=$1 and dos_id<>$2",
                         array($this->dos_name, $this->dos_id))!=0)
             return;
 
@@ -309,7 +317,8 @@ class Dossier
             for ($i=0; $i<count($a_admin); $i++)
             {
                 $exist=$cn->get_value("select p_id from profile_user
-					where user_name=$1", array($a_admin[$i]['use_login']));
+					where user_name=$1",
+                                    array($a_admin[$i]['use_login']));
                 if ($exist=="")
                 {
                     $cn->exec_sql("insert into profile_user(user_name,p_id) values($1,1)",
