@@ -58,7 +58,7 @@ if ( isset($_POST['summary']))
 	} catch (Exception $e)
 	{
 		echo alert($e->getMessage());
-		require('operation_ods_new.inc.php');
+		require(NOALYSS_INCLUDE.'/operation_ods_new.inc.php');
 
 	}
 	return;
@@ -88,7 +88,7 @@ if (isset($_POST['save']))
 	}
 	catch (Exception $e)
 	{
-		require('operation_ods_new.inc.php');
+		require(NOALYSS_INCLUDE.'/operation_ods_new.inc.php');
 		alert($e->getMessage());
 	}
 	return;
@@ -109,7 +109,7 @@ if ($sa == '')
 
 	if (empty($avail))
 	{
-		echo '*** Aucun dossier ***';
+		echo '*** '._("Aucun dossier").' ***';
 		return;
 	}
 	echo '<form class="print" method="post">';
@@ -129,7 +129,7 @@ if ($sa == '')
 
 	$wAvail->value = $array;
 	echo 'Choix du dossier :' . $wAvail->input('f');
-	echo HtmlInput::submit('ok', 'Continuer');
+	echo HtmlInput::submit('ok', _('Continuer'));
 
 	echo '</form>';
 	echo '</div>';
@@ -160,10 +160,10 @@ if ($sa == 'step2')
 	$w->value = $periode;
 	$w->name = "p_periode";
 	echo 'P&eacute;riode : ' . $w->input();
-	echo HtmlInput::submit('ok', 'Continuer');
+	echo HtmlInput::submit('ok', _('Continuer'));
 	echo dossier::hidden();
 	echo "</form>";
-	echo HtmlInput::button_anchor('Retour', $back);
+	echo HtmlInput::button_anchor(_('Retour'), $back);
 	exit(0);
 }
 /* --------------------------------------------------
@@ -175,7 +175,7 @@ if ($sa == 'step3')
 	'<div><h1 class="legend">Etape 3</h1>' .
 	'<h2 class="info">' . dossier::name($_REQUEST['f']) . '</h2>' .
 	'<form class="print" method="post">' .
-	' Choisissez le journal qui contiendra l\'opération d\'ouverture ';
+	_(" Choisissez le journal qui contiendra l'opération d'ouverture ");
 	echo dossier::hidden();
 	echo HtmlInput::hidden('p_action', 'ouv');
 	echo HtmlInput::hidden('sa', 'step4');
@@ -247,10 +247,10 @@ if ($sa == 'step4')
 	echo HtmlInput::hidden('p_jrn', $_REQUEST['p_jrn']);
 	echo $jrn->input($result, 0);
 	echo '<hr>';
-	echo '<h2 class="notice">Ne corrigez pas encore, cliquez continuer pour passer à l\'étape suivante</h2>';
+	echo '<h2 class="notice">'._("Ne corrigez pas encore, cliquez continuer pour passer à l'étape suivante").'</h2>';
 	echo HtmlInput::submit('correct_it', 'Continuer');
 	echo '</form>';
-	echo HtmlInput::button_anchor('Retour', $back);
+	echo HtmlInput::button_anchor(_('Retour'), $back);
 
 	echo '</div>';
 }

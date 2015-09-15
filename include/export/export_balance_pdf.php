@@ -35,7 +35,7 @@ require_once NOALYSS_INCLUDE.'/lib/class_database.php';
 include_once("class/class_acc_balance.php");
 require_once  NOALYSS_INCLUDE.'/header_print.php';
 require_once NOALYSS_INCLUDE.'/class/class_dossier.php';
-require_once NOALYSS_INCLUDE.'/lib/lib/class_pdf.php';
+require_once NOALYSS_INCLUDE.'/lib/class_pdf.php';
 $gDossier=dossier::id();
 bcscale(4);
 $cn=new Database($gDossier);

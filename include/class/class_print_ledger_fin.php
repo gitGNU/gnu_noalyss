@@ -22,7 +22,7 @@
 /*!\file
  * \brief print a listing of financial
  */
-require_once NOALYSS_INCLUDE.'/lib/lib/class_pdf.php';
+require_once NOALYSS_INCLUDE.'/lib/class_pdf.php';
 class Print_Ledger_Financial extends PDF
 {
     private $rap_amount; /* amount from begining exercice */

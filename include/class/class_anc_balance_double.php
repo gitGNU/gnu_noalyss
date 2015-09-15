@@ -34,7 +34,7 @@ require_once NOALYSS_INCLUDE.'/lib/class_ibutton.php';
 require_once NOALYSS_INCLUDE.'/lib/class_ihidden.php';
 require_once  NOALYSS_INCLUDE.'/class/class_anc_print.php';
 require_once  NOALYSS_INCLUDE.'/class/class_anc_plan.php';
-require_once NOALYSS_INCLUDE.'/lib/lib/class_pdf.php';
+require_once NOALYSS_INCLUDE.'/lib/class_pdf.php';
 
 class Anc_Balance_Double extends Anc_Print
 {

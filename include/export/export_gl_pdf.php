@@ -30,7 +30,7 @@ include_once('lib/class_impress.php');
 require_once NOALYSS_INCLUDE.'/class/class_own.php';
 require_once NOALYSS_INCLUDE.'/class/class_dossier.php';
 require_once NOALYSS_INCLUDE.'/class/class_user.php';
-require_once NOALYSS_INCLUDE.'/lib/lib/class_pdf.php';
+require_once NOALYSS_INCLUDE.'/lib/class_pdf.php';
 bcscale(2);
 
 $gDossier=dossier::id();

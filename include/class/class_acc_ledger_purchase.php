@@ -909,7 +909,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
             'Erreur dans l\'enregistrement '.
             __FILE__.':'.__LINE__.' '.
             $e->getMessage().$e->getTraceAsString();
-
+            error_log($e->getMessage());
             $this->db->rollback();
             throw  new Exception($e);
         }
@@ -1032,16 +1032,17 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
         if ( $g_parameter->MY_PJ_SUGGEST=='Y')
         {
             $add_js="update_pj();";
+}
+        if ($g_parameter->MY_DATE_SUGGEST == 'Y')
+        {
+                $add_js.='get_last_date();';
         }
-		if ($g_parameter->MY_DATE_SUGGEST == 'Y')
-		{
-			$add_js.='get_last_date();';
-		}
-		$add_js.='update_name();';
-		$add_js.='update_pay_method();';
-		$add_js.='update_row("sold_item");';
+        $add_js.='update_name();';
+        $add_js.='update_pay_method();';
+        $add_js.='update_row("sold_item");';
 
-		$wLedger=$this->select_ledger('ACH',2);
+        $wLedger=$this->select_ledger('ACH',2);
+        
         if ($wLedger == null) throw  new Exception(_('Pas de journal disponible'));
         $wLedger->javascript="onChange='update_predef(\"ach\",\"f\",\"".$_REQUEST['ac']."\");$add_js'";
         $wLedger->table=1;
@@ -1717,8 +1718,8 @@ EOF;
      * Retrieve data from the view v_detail_purchase
      * @global  $g_user connected user
      * @param $p_from jrn.jr_tech_per from 
-     * @param type $p_end jrn.jr_tech_per to
-     * @return type
+     * @param $p_end jrn.jr_tech_per to
+     * @return handle to database result
      */
     function get_detail_purchase($p_from,$p_end)
     {

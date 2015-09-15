@@ -30,7 +30,7 @@ include_once("lib/class_impress.php");
 require_once NOALYSS_INCLUDE.'/class/class_fiche.php';
 require_once  NOALYSS_INCLUDE.'/header_print.php';
 require_once NOALYSS_INCLUDE.'/class/class_dossier.php';
-require_once NOALYSS_INCLUDE.'/lib/lib/class_pdf.php';
+require_once NOALYSS_INCLUDE.'/lib/class_pdf.php';
 $gDossier=dossier::id();
 
 $cn=new Database($gDossier);

@@ -76,7 +76,7 @@ elseif (isset($_POST['summary']))
 	{
 		echo alert($e->getMessage());
                 $p_msg=$e->getMessage();
-		require('operation_ods_new.inc.php');
+		require_once NOALYSS_INCLUDE.'/operation_ods_new.inc.php';
 
 	}
 	return;

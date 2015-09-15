@@ -27,7 +27,7 @@ require_once NOALYSS_INCLUDE.'/lib/class_ihidden.php';
 require_once  NOALYSS_INCLUDE.'/class/class_anc_print.php';
 require_once  NOALYSS_INCLUDE.'/class/class_anc_plan.php';
 require_once  NOALYSS_INCLUDE.'/lib/ac_common.php';
-require_once NOALYSS_INCLUDE.'/lib/lib/class_pdf.php';
+require_once NOALYSS_INCLUDE.'/lib/class_pdf.php';
 require_once  NOALYSS_INCLUDE.'/header_print.php';
 /*! \brief manage the simple balance for CA, inherit from balance_ca
  *
