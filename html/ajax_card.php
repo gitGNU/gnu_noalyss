@@ -438,10 +438,10 @@ case 'fs':
         return;
     break;
     case 'action_save_concerned':
-        require 'ajax/ajax_action_save_concerned.php';
+        require NOALYSS_INCLUDE.'/ajax/ajax_action_save_concerned.php';
         return;
     case 'action_remove_concerned':
-        require 'ajax/ajax_action_remove_concerned.php';
+        require NOALYSS_INCLUDE.'/ajax/ajax_action_remove_concerned.php';
         return;
 case 'ac':
     if ( $g_user->check_action(FICCAT)==1 )
