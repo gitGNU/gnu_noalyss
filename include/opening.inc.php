@@ -248,7 +248,7 @@ if ($sa == 'step4')
 	echo $jrn->input($result, 0);
 	echo '<hr>';
 	echo '<h2 class="notice">'._("Ne corrigez pas encore, cliquez continuer pour passer à l'étape suivante").'</h2>';
-	echo HtmlInput::submit('correct_it', 'Continuer');
+	echo HtmlInput::submit('correct_it', _('Continuer'));
 	echo '</form>';
 	echo HtmlInput::button_anchor(_('Retour'), $back);
 
