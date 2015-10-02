@@ -24,13 +24,13 @@ define('ALLOWED',1);
  * \brief Main file
  */
 require_once '../include/constant.php';
-require_once NOALYSS_INCLUDE.'/class_database.php';
-require_once NOALYSS_INCLUDE.'/class_dossier.php';
-require_once NOALYSS_INCLUDE.'/user_common.php';
-require_once NOALYSS_INCLUDE.'/ac_common.php';
-require_once NOALYSS_INCLUDE.'/function_javascript.php';
+require_once NOALYSS_INCLUDE.'/lib/class_database.php';
+require_once NOALYSS_INCLUDE.'/class/class_dossier.php';
+require_once NOALYSS_INCLUDE.'/lib/user_common.php';
+require_once NOALYSS_INCLUDE.'/lib/ac_common.php';
+require_once NOALYSS_INCLUDE.'/lib/function_javascript.php';
 require_once NOALYSS_INCLUDE.'/constant.security.php';
-require_once NOALYSS_INCLUDE.'/class_html_input.php';
+require_once NOALYSS_INCLUDE.'/lib/class_html_input.php';
 mb_internal_encoding("UTF-8");
 
 // if gDossier is not set redirect to form to choose a folder
@@ -84,7 +84,7 @@ global $g_user, $cn,$g_parameter;
 
 
 
-$cn = new Database(Dossier::id());
+$cn = Dossier::connect();
 
 /*
  * check that the database is not empty
@@ -252,7 +252,8 @@ if (isset($_REQUEST['ac']))
             alert(_('Accès menu impossible'));
         }
         else {
-            alert($e->getTraceAsString());
+            alert($e->getMessage());
+            error_log($e->getTraceAsString());
         }
     }
 }
@@ -261,21 +262,30 @@ else
     $default = find_default_module();
     $user_profile=$g_user->get_profile();
     
-    if ( $user_profile == "" ) 
+    try
+    {
+        if ( $user_profile == "" ) 
         throw new Exception (_('Aucun profil utilisateur'));
     
-    $menu_id=$cn->get_value('select 
-        case when pm_id_v3 = 0 then 
-            (case when pm_id_v2 = 0 then pm_id_v1 else pm_id_v2 end) 
-       else pm_id_v3 end 
-    from v_menu_profile where code= upper($1)  and p_id=$2',
-            array($default,$user_profile));
-    $_GET['ac']=$default;
-    $_POST['ac']=$default;
-    $_REQUEST['ac']=$default;
-    show_module($menu_id);
-    $all[0] = $default;
-    show_menu($menu_id);
+        $menu_id=$cn->get_value('select 
+            case when pm_id_v3 = 0 then 
+                (case when pm_id_v2 = 0 then pm_id_v1 else pm_id_v2 end) 
+           else pm_id_v3 end 
+        from v_menu_profile where code= upper($1)  and p_id=$2',
+                array($default,$user_profile));
+        $_GET['ac']=$default;
+        $_POST['ac']=$default;
+        $_REQUEST['ac']=$default;
+        show_module($menu_id);
+        $all[0] = $default;
+        show_menu($menu_id);
+    }
+    catch (Exception $exc)
+    {
+        echo $exc->getMessage();
+        error_log($exc->getTraceAsString());
+    }
+    
 }
 
 

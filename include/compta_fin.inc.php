@@ -23,14 +23,14 @@
  * \brief this file is to be included to handle the financial ledger
  */
 if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
-require_once  NOALYSS_INCLUDE.'/class_acc_ledger_fin.php';
-require_once NOALYSS_INCLUDE.'/class_ipopup.php';
+require_once  NOALYSS_INCLUDE.'/class/class_acc_ledger_fin.php';
+require_once NOALYSS_INCLUDE.'/lib/class_ipopup.php';
 global $g_user,$g_parameter;
 
 $gDossier=dossier::id();
 
 
-$cn=new Database(dossier::id());
+$cn=Dossier::connect();
 $menu_action="?ledger_type=fin&ac=".$_REQUEST['ac']."&".dossier::get();
 
 $Ledger=new Acc_Ledger_Fin($cn,0);

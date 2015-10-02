@@ -35,10 +35,10 @@
  */
 define ('ALLOWED',1);
 require_once '../include/constant.php';
-require_once  NOALYSS_INCLUDE.'/class_dossier.php';
-require_once  NOALYSS_INCLUDE.'/class_todo_list.php';
-require_once  NOALYSS_INCLUDE.'/class_database.php';
-require_once  NOALYSS_INCLUDE.'/class_user.php';
+require_once  NOALYSS_INCLUDE.'/class/class_dossier.php';
+require_once  NOALYSS_INCLUDE.'/class/class_todo_list.php';
+require_once  NOALYSS_INCLUDE.'/lib/class_database.php';
+require_once  NOALYSS_INCLUDE.'/class/class_user.php';
 mb_internal_encoding("UTF-8");
 
 $cn= Dossier::connect();
@@ -53,7 +53,7 @@ ajax_disconnected('add_todo_list');
 ////////////////////////////////////////////////////////////////////////////////
 if (isset($_REQUEST['show']))
 {
-    $cn=new Database(dossier::id());
+    $cn=Dossier::connect();
     $todo=new Todo_list($cn);
     $todo->set_parameter('id',$_REQUEST['id']);
     $todo->load();
@@ -78,7 +78,7 @@ if (isset($_REQUEST['show']))
 ////////////////////////////////////////////////////////////////////////////////
 if (isset($_REQUEST['del']))
 {
-    $cn=new Database(dossier::id());
+    $cn=Dossier::connect();
     $todo=new Todo_list($cn);
     $todo->set_parameter('id',$_REQUEST['id']);
     $todo->delete();
@@ -92,7 +92,7 @@ $ac=HtmlInput::default_value_get('act', 'save');
 if ($ac == 'save')
 {
     
-    $cn=new Database(dossier::id());
+    $cn=Dossier::connect();
     $todo=new Todo_List($cn);
      $id=HtmlInput::default_value_get("id", 0);
     $todo->set_parameter("id",$id);

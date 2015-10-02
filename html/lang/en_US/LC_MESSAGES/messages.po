@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: NOALYSS 672\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-09-07 00:59+0200\n"
-"PO-Revision-Date: 2015-09-07 23:41+0200\n"
+"POT-Creation-Date: 2015-09-24 01:32+0200\n"
+"PO-Revision-Date: 2015-09-24 01:35+0200\n"
 "Last-Translator: Dany De Bontridder <danydb@noalyss.eu>\n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
 "Language: en_US\n"
@@ -64,6 +64,10 @@ msgstr "These files were not deleted"
 #: include/ac_common.php:434 include/ac_common.php:437
 msgid " Cette action ne vous est pas autorisée Contactez votre responsable"
 msgstr "This work is not authorized Contact your administrator"
+
+#: include/opening.inc.php:178
+msgid " Choisissez le journal qui contiendra l'opération d'ouverture "
+msgstr "Select the select for the reopening"
 
 #: include/ext/tva/ajax.php:205 include/ext/tva/ajax.php:222
 msgid " Code TVA "
@@ -365,7 +369,7 @@ msgstr "Home"
 msgid "Accès"
 msgstr "Access"
 
-#: include/profile.inc.php:358
+#: include/profile.inc.php:358 include/profile.inc.php:360
 msgid "Accès Direct visible"
 msgstr "Direct Access is visible"
 
@@ -493,6 +497,7 @@ msgstr "Action Management"
 #: include/template/detail-action.php:176
 #: include/template/detail-action.php:181
 #: include/template/detail-action.php:187
+#: include/template/detail-action.php:192
 msgid "Actions concernées"
 msgstr "Concerned operations"
 
@@ -514,6 +519,7 @@ msgstr "Action on different documents"
 #: include/template/form_ledger_detail.php:108
 #: include/ext/modop/modop_display.php:112 include/compta_ach.inc.php:286
 #: include/compta_ven.inc.php:324 include/ext/modop/modop_display.php:123
+#: include/template/detail-action.php:400
 msgid "Actualiser"
 msgstr "Refresh"
 
@@ -644,6 +650,7 @@ msgid "Ajout client"
 msgstr "Add a customer"
 
 #: include/ext/amortis/include/class_am_card.php:56
+#: include/ext/amortis/include/class_am_card.php:64
 msgid "Ajout d'un bien à amortir"
 msgstr "Add materiel to amortize"
 
@@ -814,6 +821,7 @@ msgstr "Add a folder"
 #: include/template/detail-action.php:481
 #: include/template/detail-action.php:497
 #: include/template/detail-action.php:503
+#: include/template/detail-action.php:508
 msgid "Ajouter un fichier"
 msgstr "Add an attachment"
 
@@ -821,7 +829,7 @@ msgstr "Add an attachment"
 msgid "Ajouter un modèle"
 msgstr "Add a template"
 
-#: include/profile.inc.php:391
+#: include/profile.inc.php:391 include/profile.inc.php:393
 msgid "Ajouter un profil"
 msgstr "Add a profile"
 
@@ -831,6 +839,7 @@ msgstr "Add a profile"
 #: include/template/detail-action.php:374
 #: include/template/detail-action.php:390
 #: include/template/detail-action.php:396
+#: include/template/detail-action.php:401
 msgid "Ajouter une ligne"
 msgstr "Add a row"
 
@@ -961,6 +970,7 @@ msgstr "Year of purchase"
 
 #: include/ext/amortis/include/class_am_card.php:177
 #: include/ext/amortis/include/class_am_card.php:220
+#: include/ext/amortis/include/class_am_card.php:235
 msgid "Année invalide"
 msgstr "Invalid year"
 
@@ -1179,6 +1189,10 @@ msgstr "No bank account given"
 msgid "Aucun document"
 msgstr "No document"
 
+#: include/opening.inc.php:112
+msgid "Aucun dossier"
+msgstr "No folder"
+
 #: include/class_user.php:985 include/class_user.php:986
 msgid "Aucun dossier disponible"
 msgstr "No available folder"
@@ -1257,6 +1271,7 @@ msgid "Aucun poste trouvé"
 msgstr "No accounting found"
 
 #: html/do.php:219 html/do.php:224 html/do.php:252 html/do.php:265
+#: html/do.php:268
 msgid "Aucun profil utilisateur"
 msgstr "No user profile"
 
@@ -1448,6 +1463,7 @@ msgid "Autres actions"
 msgstr "atiAdd Action"
 
 #: include/template/detail-action.php:64 include/template/detail-action.php:67
+#: include/template/detail-action.php:72
 msgid "Autres concernés"
 msgstr "Others concerne persons"
 
@@ -1710,6 +1726,7 @@ msgstr "CONVERT_GIF_PDF is not installed"
 #: include/template/detail-action.php:351
 #: include/template/detail-action.php:367
 #: include/template/detail-action.php:373
+#: include/template/detail-action.php:378
 msgid "Cacher les détails"
 msgstr "Hide details"
 
@@ -1729,7 +1746,7 @@ msgstr "Automatic creation of the accounting"
 msgid "Calculatrice"
 msgstr "calculator"
 
-#: include/profile.inc.php:356
+#: include/profile.inc.php:356 include/profile.inc.php:358
 msgid "Calculatrice visible"
 msgstr "calculator is visible"
 
@@ -1861,6 +1878,10 @@ msgstr "This ledger can not be printed in this mode"
 #: include/ajax_anc_search.php:65
 msgid "Ce plan n'existe pas"
 msgstr "This plan does not exist"
+
+#: html/ajax_misc.php:571
+msgid "Ce plugin n'existe pas "
+msgstr "No plugin"
 
 #: include/ajax_account_update.php:160
 msgid "Ce poste existe déjà "
@@ -2011,6 +2032,7 @@ msgstr "Select the report"
 
 #: include/ext/amortis/include/class_am_card.php:229
 #: include/ext/amortis/include/class_am_card.php:230
+#: include/ext/amortis/include/class_am_card.php:245
 msgid "Choisissez poste comptable ou fiche"
 msgstr "Select card or accounting "
 
@@ -2309,6 +2331,7 @@ msgstr "Stock"
 #: include/class_acc_ledger_purchase.php:1772
 #: include/template/detail-action.php:343
 #: include/class_acc_ledger_purchase.php:1771
+#: include/template/detail-action.php:348
 msgid "Code TVA"
 msgstr "VAT Code"
 
@@ -2406,6 +2429,7 @@ msgstr "How"
 #: include/class_acc_ledger_purchase.php:1761
 #: include/template/detail-action.php:266
 #: include/class_acc_ledger_purchase.php:1760
+#: include/template/detail-action.php:271
 msgid "Commentaire"
 msgstr "How"
 
@@ -2700,6 +2724,11 @@ msgstr "Do you want to add a year ?"
 #: include/database.item.php:57
 msgid "Contact"
 msgstr "Contact"
+
+#: include/opening.inc.php:132 include/opening.inc.php:163
+#: include/opening.inc.php:251
+msgid "Continuer"
+msgstr "Continue"
 
 #: include/database.item.php:206 include/database.item.php:203
 msgid "Contrat"
@@ -3028,6 +3057,7 @@ msgstr "In the ledger"
 #: include/template/dashboard.php:338 include/class_fiche.php:1212
 #: include/class_fiche.php:1287 include/ext/importbank/bank_constant.php:54
 #: include/class_fiche.php:1229 include/class_fiche.php:1304
+#: include/template/detail-action.php:96
 msgid "Date"
 msgstr "Date"
 
@@ -3160,6 +3190,7 @@ msgstr "Invalid date, operation not reversed"
 #: include/template/detail-action.php:55
 #: include/template/detail-action.php:104
 #: include/template/detail-action.php:110
+#: include/template/detail-action.php:115
 msgid "Date limite"
 msgstr "Deadline"
 
@@ -3356,7 +3387,11 @@ msgstr "Event depends on this category"
 #: include/dossier.inc.php:333 include/class_fiche.php:1230
 #: include/class_fiche.php:1307 include/menu.inc.php:110
 #: include/database.item.php:156 include/database.item.php:155
-#: include/database.item.php:148
+#: include/database.item.php:148 include/profile.inc.php:356
+#: include/template/detail-action.php:241
+#: include/template/detail-action.php:269
+#: include/template/detail-action.php:345
+#: include/template/detail-action.php:503
 msgid "Description"
 msgstr "Description"
 
@@ -3521,6 +3556,7 @@ msgstr "Generated Document"
 #: include/template/detail-action.php:397
 #: include/template/detail-action.php:413
 #: include/template/detail-action.php:419
+#: include/template/detail-action.php:424
 msgid "Document à générer"
 msgstr "Document to generate"
 
@@ -3831,6 +3867,7 @@ msgstr "Sorry the box is not checked"
 #: include/template/detail-action.php:319 include/stock_inv_histo.inc.php:105
 #: include/template/detail-action.php:325
 #: include/ext/sav/include/template/sas_display_list.php:66
+#: include/template/detail-action.php:330
 msgid "Détail"
 msgstr "Detail"
 
@@ -4086,6 +4123,7 @@ msgstr "Removal forbidden"
 #: include/ext/importbank/include/template/show_list.php:83
 #: include/ext/importbank/include/class_import_bank.php:141
 #: include/dossier.inc.php:272 include/dossier.inc.php:281
+#: include/template/detail-action.php:477
 msgid "Effacer"
 msgstr "Remove"
 
@@ -4462,6 +4500,7 @@ msgstr "Step 3/3"
 #: include/template/action_search.php:117
 #: include/template/detail-action.php:119
 #: include/ext/sav/include/template/sas_display_detail.php:145
+#: include/template/detail-action.php:124
 msgid "Etat"
 msgstr "State"
 
@@ -4886,7 +4925,7 @@ msgstr "close"
 #: include/template/detail-action.php:339
 #: include/template/security_list_action.php:56 include/database.item.php:84
 #: include/database.item.php:115 include/database.item.php:83
-#: include/database.item.php:114
+#: include/database.item.php:114 include/template/detail-action.php:344
 msgid "Fiche"
 msgstr "Card"
 
@@ -5326,6 +5365,7 @@ msgid "Groupe"
 msgstr "Group"
 
 #: include/template/detail-action.php:139
+#: include/template/detail-action.php:144
 msgid "Groupe Gestion"
 msgstr "Management group"
 
@@ -5364,6 +5404,10 @@ msgstr "Generate the document"
 #: include/ext/amortis/include/am_util.php:30
 msgid "Génére écriture"
 msgstr "Generate writing"
+
+#: include/template/detail-action.php:311
+msgid "Générer"
+msgstr "Generate File"
 
 #: include/ext/tva/class_ext_tva.php:341
 msgid "Générer fichier"
@@ -5413,6 +5457,7 @@ msgstr "High"
 
 #: include/template/detail-action.php:45 include/template/detail-action.php:94
 #: include/template/detail-action.php:100
+#: include/template/detail-action.php:105
 msgid "Heure"
 msgstr "Hour"
 
@@ -5548,6 +5593,10 @@ msgstr "Column for the amount is missing"
 #: include/class_acc_ledger_sold.php:212
 msgid "Il n'y a aucune marchandise"
 msgstr "There is no item"
+
+#: html/ajax_misc.php:572
+msgid "Il y a une erreur, ce plugin n'existe pas"
+msgstr "This plugin doesn't exist"
 
 #: include/ajax_preference.php:129 include/ajax_preference.php:131
 #: include/ajax_preference.php:130 include/ajax_preference.php:132
@@ -5865,6 +5914,7 @@ msgstr "Javascript"
 #: include/template/detail-action.php:466
 #: include/template/detail-action.php:482
 #: include/template/detail-action.php:488
+#: include/template/detail-action.php:493
 msgid "Je ne peux pas ajouter de fichier"
 msgstr "I can not add this file"
 
@@ -6430,6 +6480,7 @@ msgstr "Tuesday"
 
 #: include/ext/amortis/include/class_am_card.php:244
 #: include/ext/amortis/include/class_am_card.php:248
+#: include/ext/amortis/include/class_am_card.php:263
 msgid "Matériel déjà dans la liste"
 msgstr "Material already in the list"
 
@@ -6644,7 +6695,7 @@ msgstr "Missing description"
 #: include/template/detail-action.php:444 include/dossier.inc.php:220
 #: include/template/detail-action.php:450 include/ajax_get_profile.php:84
 #: include/dossier.inc.php:240 include/ajax_view_action.php:48
-#: include/dossier.inc.php:274
+#: include/dossier.inc.php:274 include/template/detail-action.php:455
 msgid "Modifier"
 msgstr "Modify"
 
@@ -6839,6 +6890,7 @@ msgstr "Amount ND"
 #: include/class_acc_ledger_purchase.php:1773
 #: include/template/detail-action.php:344
 #: include/class_acc_ledger_purchase.php:1772
+#: include/template/detail-action.php:349
 msgid "Montant TVA"
 msgstr "VAT Amount"
 
@@ -6866,6 +6918,7 @@ msgstr "VAT amount incorrect"
 #: include/class_acc_ledger_purchase.php:1396
 #: include/template/detail-action.php:339
 #: include/template/detail-action.php:345
+#: include/template/detail-action.php:350
 msgid "Montant TVAC"
 msgstr "Amount VAT included"
 
@@ -6905,6 +6958,7 @@ msgstr "Initial amount"
 #: include/class_acc_compute.php:194 include/class_acc_compute.php:195
 #: include/ext/amortis/include/class_am_card.php:222
 #: include/ext/importbank/include/template/show_transfer.php:100
+#: include/ext/amortis/include/class_am_card.php:237
 msgid "Montant invalide"
 msgstr "Invalid amount"
 
@@ -6945,11 +6999,16 @@ msgstr "Amount to be amortized"
 msgid "Montant à l'achat"
 msgstr "Amount to purchase"
 
+#: include/template/detail-action.php:310
+msgid "Montrer articles"
+msgstr "Show items"
+
 #: include/template/detail-action.php:336
 #: include/template/detail-action.php:335
 #: include/template/detail-action.php:350
 #: include/template/detail-action.php:366
 #: include/template/detail-action.php:372
+#: include/template/detail-action.php:377
 msgid "Montrer les détails"
 msgstr "Show details"
 
@@ -7002,6 +7061,11 @@ msgstr "Number of units"
 #: include/class_acc_bilan.php:134 include/class_acc_bilan.php:135
 msgid "Nbres anomalies"
 msgstr "Number of abnormalities"
+
+#: include/opening.inc.php:250
+msgid ""
+"Ne corrigez pas encore, cliquez continuer pour passer à l'étape suivante"
+msgstr "Continue without changing anything"
 
 #: include/restore.inc.php:196 include/restore.inc.php:135
 msgid ""
@@ -7122,6 +7186,7 @@ msgstr "No action"
 #: include/class_user.php:977 include/dossier.inc.php:218
 #: include/class_fiche.php:1598 include/database.item.php:153
 #: include/database.item.php:152 include/database.item.php:145
+#: include/profile.inc.php:354
 msgid "Nom"
 msgstr "Name"
 
@@ -7227,6 +7292,7 @@ msgstr "Number annuities"
 
 #: include/ext/amortis/include/class_am_card.php:178
 #: include/ext/amortis/include/class_am_card.php:221
+#: include/ext/amortis/include/class_am_card.php:236
 msgid "Nombre annuités invalide"
 msgstr "Invalid number annuities"
 
@@ -8073,6 +8139,10 @@ msgstr "Correct"
 msgid "Pas d'étape"
 msgstr "No step"
 
+#: include/template/detail-action.php:57
+msgid "Pas de catégorie de contact"
+msgstr "Na category for contact"
+
 #: include/ext/invoicing/include/invoice_send_mail.inc.php:75
 #: include/ext/invoicing/include/invoice_send_mail.inc.php:80
 #: include/ext/invoicing/include/invoice_send_mail.inc.php:103
@@ -8209,6 +8279,7 @@ msgstr "Spare part not found"
 #: include/template/detail-action.php:408
 #: include/template/detail-action.php:424
 #: include/template/detail-action.php:430
+#: include/template/detail-action.php:435
 msgid "Pièces attachées"
 msgstr "Attachment"
 
@@ -8506,6 +8577,7 @@ msgstr ""
 #: include/template/detail-action.php:115
 #: include/template/detail-action.php:123
 #: include/template/detail-action.php:129
+#: include/template/detail-action.php:134
 msgid "Priorité"
 msgstr "Priority"
 
@@ -8559,7 +8631,7 @@ msgstr "Products"
 #: include/database.item.php:85
 #: include/ext/invoicing/include/invoice_send_mail_input.inc.php:112
 #: include/param_sec.inc.php:269 include/database.item.php:82
-#: include/database.item.php:81
+#: include/database.item.php:81 include/param_sec.inc.php:270
 msgid "Profil"
 msgstr "Profile"
 
@@ -8964,6 +9036,7 @@ msgstr "Late"
 #: include/cfgledger.inc.php:126 include/dossier.inc.php:325
 #: include/dossier.inc.php:368 include/forecast.inc.php:343
 #: include/dossier.inc.php:361 include/dossier.inc.php:404
+#: include/opening.inc.php:166 include/opening.inc.php:253
 msgid "Retour"
 msgstr "Return"
 
@@ -9119,7 +9192,7 @@ msgstr "new line"
 #: include/payment_middle.inc.php:53 include/template/dashboard.php:338
 #: include/ext/modop/modop_display.php:277 include/class_fiche_def.php:812
 #: include/template/dashboard.php:343 include/ext/modop/modop_display.php:294
-#: include/class_fiche_def.php:811
+#: include/class_fiche_def.php:811 include/template/detail-action.php:464
 msgid "Sauve"
 msgstr "Save"
 
@@ -9693,6 +9766,7 @@ msgstr "Tiers"
 #: include/template/dashboard.php:304 include/template/detail-action.php:254
 #: include/template/todo_list_display.php:54
 #: include/template/dashboard.php:334 include/template/dashboard.php:339
+#: include/template/detail-action.php:259
 msgid "Titre"
 msgstr "Title"
 
@@ -9970,6 +10044,7 @@ msgstr "Transformation data into another format"
 #: include/template/detail-action.php:384
 #: include/template/detail-action.php:400
 #: include/template/detail-action.php:406
+#: include/template/detail-action.php:411
 msgid "Transformer en facture"
 msgstr "Generate invoices"
 
@@ -10314,6 +10389,7 @@ msgstr "Visible Y or N"
 
 #: include/ext/amortis/include/class_am_card.php:224
 #: include/ext/amortis/include/class_am_card.php:225
+#: include/ext/amortis/include/class_am_card.php:240
 msgid "Visible Y ou N\n"
 msgstr "Visible Y or N\n"
 
@@ -10342,6 +10418,7 @@ msgstr "Do you have a copy of this issue"
 #: include/template/detail-action.php:252
 #: include/template/detail-action.php:268
 #: include/template/detail-action.php:274
+#: include/template/detail-action.php:279
 #, php-format
 msgid "Voulez-vous effacer ce commentaire"
 msgstr "Do you want to delete this comment"
@@ -10358,6 +10435,7 @@ msgstr "Do you want to delete this action ?"
 #: include/template/detail-action.php:185
 #: include/template/detail-action.php:190
 #: include/template/detail-action.php:196
+#: include/template/detail-action.php:201
 #, php-format
 msgid "Voulez-vous effacer cette action "
 msgstr "Do you want to delete this action"
@@ -10378,6 +10456,7 @@ msgstr "Do you want to delete this relation"
 #: include/template/detail-action.php:443
 #: include/template/detail-action.php:459
 #: include/template/detail-action.php:465
+#: include/template/detail-action.php:470
 #, php-format
 msgid "Voulez-vous effacer le document"
 msgstr "Would you remove this Document"
@@ -10556,7 +10635,7 @@ msgstr "You&#39;re using the strict accounting entry is the last one"
 msgid "Vous utilisez un navigateur dépassé depuis près de 8 ans!"
 msgstr "Your browser is outdated for 8 years!"
 
-#: html/logout.php:30
+#: html/logout.php:30 html/logout.php:46
 msgid "Vous êtes déconnecté"
 msgstr "You are disconnected"
 
@@ -11115,6 +11194,7 @@ msgstr "price"
 #: include/template/detail-action.php:319
 #: include/template/detail-action.php:335
 #: include/template/detail-action.php:341
+#: include/template/detail-action.php:346
 msgid "prix unitaire"
 msgstr "Price unit"
 
@@ -11165,6 +11245,7 @@ msgstr "QCode"
 #: include/class_acc_ledger_purchase.php:1774
 #: include/template/form_ledger_detail.php:71
 #: include/template/form_ledger_detail.php:78
+#: include/template/detail-action.php:347
 msgid "quantité"
 msgstr "quantity"
 

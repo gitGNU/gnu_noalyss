@@ -30,12 +30,12 @@
 
 
 include_once("../include/constant.php");
-include_once("ac_common.php");
-require_once('class_database.php');
-require_once ('class_dossier.php');
-require_once('class_html_input.php');
-require_once ('function_javascript.php');
-require_once 'class_user.php';
+include_once("lib/ac_common.php");
+require_once('lib/class_database.php');
+require_once ('class/class_dossier.php');
+require_once('lib/class_html_input.php');
+require_once ('lib/function_javascript.php');
+require_once 'class/class_user.php';
 load_all_script();
 $gDossier=HtmlInput::default_value_get('gDossier', -1);
 if ($gDossier==-1)
@@ -45,7 +45,7 @@ if ($gDossier==-1)
 }
 $gDossierLogInput=$gDossier;
 global $cn, $g_user, $g_succeed, $g_failed;
-$cn=new Database($_GET['gDossier']);
+$cn=Dossier::id();
 
 $g_parameter=new Own($cn);
 $g_user=new User($cn);

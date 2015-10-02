@@ -26,7 +26,7 @@
  * the customer category
  */
 if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
-require_once NOALYSS_INCLUDE.'/class_contact.php';
+require_once NOALYSS_INCLUDE.'/class/class_contact.php';
 
 $str_dossier=Dossier::get();
 /* $sub_action = sb = detail */

@@ -23,26 +23,26 @@
  */
 if (!defined('ALLOWED'))
     die('Appel direct ne sont pas permis');
-require_once  NOALYSS_INCLUDE.'/ac_common.php';
+require_once  NOALYSS_INCLUDE.'/lib/ac_common.php';
 require_once  NOALYSS_INCLUDE.'/user_menu.php';
-require_once NOALYSS_INCLUDE.'/class_ifile.php';
-require_once NOALYSS_INCLUDE.'/class_ibutton.php';
-require_once NOALYSS_INCLUDE.'/class_acc_report.php';
-require_once NOALYSS_INCLUDE.'/class_dossier.php';
-require_once NOALYSS_INCLUDE.'/class_database.php';
-require_once  NOALYSS_INCLUDE.'/class_user.php';
+require_once NOALYSS_INCLUDE.'/lib/class_ifile.php';
+require_once NOALYSS_INCLUDE.'/lib/class_ibutton.php';
+require_once NOALYSS_INCLUDE.'/class/class_acc_report.php';
+require_once NOALYSS_INCLUDE.'/class/class_dossier.php';
+require_once NOALYSS_INCLUDE.'/lib/class_database.php';
+require_once  NOALYSS_INCLUDE.'/class/class_user.php';
 require_once  NOALYSS_INCLUDE.'/user_menu.php';
-require_once NOALYSS_INCLUDE.'/class_ipopup.php';
+require_once NOALYSS_INCLUDE.'/lib/class_ipopup.php';
 
 
 $gDossier=dossier::id();
 $str_dossier=dossier::get();
 
 /* Admin. Dossier */
-$rep=new Database($gDossier);
+$rep=Dossier::connect();
 
 
-$cn=new Database($gDossier);
+$cn=Dossier::connect();
 
 $rap=new Acc_Report($cn);
 $menu=0;

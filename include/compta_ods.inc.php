@@ -27,17 +27,17 @@
  *
  */
 if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
-require_once NOALYSS_INCLUDE.'/class_icheckbox.php';
-require_once  NOALYSS_INCLUDE.'/class_acc_ledger.php';
-require_once  NOALYSS_INCLUDE.'/class_acc_reconciliation.php';
-require_once NOALYSS_INCLUDE.'/ac_common.php';
-require_once NOALYSS_INCLUDE.'/class_periode.php';
-require_once NOALYSS_INCLUDE.'/function_javascript.php';
-require_once NOALYSS_INCLUDE.'/class_ipopup.php';
+require_once NOALYSS_INCLUDE.'/lib/class_icheckbox.php';
+require_once  NOALYSS_INCLUDE.'/class/class_acc_ledger.php';
+require_once  NOALYSS_INCLUDE.'/class/class_acc_reconciliation.php';
+require_once NOALYSS_INCLUDE.'/lib/ac_common.php';
+require_once NOALYSS_INCLUDE.'/class/class_periode.php';
+require_once NOALYSS_INCLUDE.'/lib/function_javascript.php';
+require_once NOALYSS_INCLUDE.'/lib/class_ipopup.php';
 
 global $g_user;
 
-$cn = new Database(dossier::id());
+$cn = Dossier::connect();
 
 $id_predef = (isset($_REQUEST['p_jrn_predef'])) ? $_REQUEST['p_jrn_predef'] : -1;
 $id_ledger = (isset($_REQUEST['p_jrn'])) ? $_REQUEST['p_jrn'] : $id_predef;
@@ -76,7 +76,7 @@ elseif (isset($_POST['summary']))
 	{
 		echo alert($e->getMessage());
                 $p_msg=$e->getMessage();
-		require('operation_ods_new.inc.php');
+		require_once NOALYSS_INCLUDE.'/operation_ods_new.inc.php';
 
 	}
 	return;

@@ -25,8 +25,8 @@
  *
  */
 if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
-require_once NOALYSS_INCLUDE.'/class_anc_plan.php';
-require_once NOALYSS_INCLUDE.'/class_anc_account.php';
+require_once NOALYSS_INCLUDE.'/class/class_anc_plan.php';
+require_once NOALYSS_INCLUDE.'/class/class_anc_account.php';
 $ret="";
 $str_dossier=Dossier::get();
 //---------------------------------------------------------------------------

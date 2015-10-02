@@ -23,18 +23,18 @@
  * \brief Set the security for an user
  */
 if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
-require_once  NOALYSS_INCLUDE.'/ac_common.php';
-require_once NOALYSS_INCLUDE.'/class_iselect.php';
-require_once NOALYSS_INCLUDE.'/class_dossier.php';
-require_once  NOALYSS_INCLUDE.'/class_user.php';
-require_once NOALYSS_INCLUDE.'/class_database.php';
-require_once NOALYSS_INCLUDE.'/class_sort_table.php';
+require_once  NOALYSS_INCLUDE.'/lib/ac_common.php';
+require_once NOALYSS_INCLUDE.'/lib/class_iselect.php';
+require_once NOALYSS_INCLUDE.'/class/class_dossier.php';
+require_once  NOALYSS_INCLUDE.'/class/class_user.php';
+require_once NOALYSS_INCLUDE.'/lib/class_database.php';
+require_once NOALYSS_INCLUDE.'/lib/class_sort_table.php';
 
 $gDossier=dossier::id();
 $str_dossier=dossier::get();
 
 /* Admin. Dossier */
-$cn=new Database($gDossier);
+$cn=Dossier::connect();
 global $g_user;
 $g_user->Check();
 $g_user->check_dossier($gDossier);
@@ -182,7 +182,8 @@ if ( isset($_POST['ok']))
 	} // end try
 	catch (Exception $e)
 	{
-		echo_warning ($e->getTraceAsString());
+		echo_warning ($e->getMessage());
+		error_log($e->getTraceAsString());
 		$cn->rollback();
 	}
 
@@ -308,7 +309,7 @@ if ( $action == "view" )
     // Show Priv. for actions
     //**********************************************************************
     echo '<fieldset> <legend>Actions </legend>';
-    include('template/security_list_action.php');
+    include(NOALYSS_INCLUDE.'/template/security_list_action.php');
     echo '</fieldset>';
     echo HtmlInput::button('Imprime','imprime',"onclick=\"window.open('".$sHref."');\"");
     echo HtmlInput::submit('ok','Sauve');

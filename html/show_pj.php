@@ -22,8 +22,8 @@
  * \brief show an attach of an operation
  */
 require_once '../include/constant.php';
-include_once NOALYSS_INCLUDE.'/ac_common.php';
-require_once  NOALYSS_INCLUDE.'/class_dossier.php';
+include_once NOALYSS_INCLUDE.'/lib/ac_common.php';
+require_once  NOALYSS_INCLUDE.'/class/class_dossier.php';
 $gDossier=dossier::id();
 
 if ( !isset ($_GET['jrn'] ) ||
@@ -32,15 +32,15 @@ if ( !isset ($_GET['jrn'] ) ||
     echo_error("Missing parameters");
 }
 
-require_once NOALYSS_INCLUDE.'/class_database.php';
+require_once NOALYSS_INCLUDE.'/lib/class_database.php';
 set_language();
 
 $jr_grpt_id=$_GET['jr_grpt_id'];
 
-$cn=new Database($gDossier);
+$cn=Dossier::connect();
 
 
-require_once NOALYSS_INCLUDE.'/class_user.php';
+require_once NOALYSS_INCLUDE.'/class/class_user.php';
 global $g_user;
 $g_user=new User($cn);
 $g_user->Check();

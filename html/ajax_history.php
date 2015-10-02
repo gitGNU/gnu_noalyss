@@ -26,13 +26,13 @@
 if ( ! defined('ALLOWED')) define ('ALLOWED',1);
 
 require_once '../include/constant.php';
-require_once NOALYSS_INCLUDE.'/class_database.php';
-require_once NOALYSS_INCLUDE.'/class_user.php';
-require_once NOALYSS_INCLUDE.'/class_dossier.php';
-require_once NOALYSS_INCLUDE.'/class_periode.php';
-require_once NOALYSS_INCLUDE.'/class_html_input.php';
-require_once NOALYSS_INCLUDE.'/class_acc_account.php';
-require_once NOALYSS_INCLUDE.'/class_exercice.php';
+require_once NOALYSS_INCLUDE.'/lib/class_database.php';
+require_once NOALYSS_INCLUDE.'/class/class_user.php';
+require_once NOALYSS_INCLUDE.'/class/class_dossier.php';
+require_once NOALYSS_INCLUDE.'/class/class_periode.php';
+require_once NOALYSS_INCLUDE.'/lib/class_html_input.php';
+require_once NOALYSS_INCLUDE.'/class/class_acc_account.php';
+require_once NOALYSS_INCLUDE.'/class/class_exercice.php';
 $div=$_REQUEST['div'];
 mb_internal_encoding("UTF-8");
 
@@ -41,7 +41,7 @@ mb_internal_encoding("UTF-8");
  */
 ajax_disconnected($div);
 global $g_user,$cn;
-$cn=new Database(dossier::id());
+$cn=Dossier::connect();
 $g_user=new User($cn);
 set_language();
 /* security */

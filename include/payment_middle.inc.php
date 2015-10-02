@@ -19,8 +19,8 @@
 
 // Copyright Author Dany De Bontridder danydb@aevalys.eu
 if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
-require_once NOALYSS_INCLUDE.'/class_acc_payment.php';
-require_once NOALYSS_INCLUDE.'/class_sort_table.php';
+require_once NOALYSS_INCLUDE.'/class/class_acc_payment.php';
+require_once NOALYSS_INCLUDE.'/lib/class_sort_table.php';
 //---------------------------------------------------------------------------
 // Common variable
 $td='<TD>';

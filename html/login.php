@@ -19,13 +19,13 @@
 // Copyright Author Dany De Bontridder danydb@aevalys.eu
 require_once '../include/constant.php';
 
-include_once NOALYSS_INCLUDE.'/ac_common.php';
+include_once NOALYSS_INCLUDE.'/lib/ac_common.php';
 
 /*! \file
  * \brief Login page
  */
 
-require_once NOALYSS_INCLUDE.'/class_database.php';
+require_once NOALYSS_INCLUDE.'/lib/class_database.php';
 // Verif if User and Pass match DB
     // if no, then redirect to the login page
 $rep=new Database();
@@ -53,7 +53,7 @@ if (  isset ($_POST["p_user"] ) )
 		echo "<META HTTP-EQUIV=\"REFRESH\" content=\"0;url=admin/setup.php\">";
 		exit();
 	}
-    include_once NOALYSS_INCLUDE."/class_user.php";
+    include_once NOALYSS_INCLUDE."/class/class_user.php";
     $User=new User($rep);
     $User->Check(false,'LOGIN');
     if ($g_captcha == true)
@@ -92,7 +92,7 @@ else
 
       }
 
-    include_once ("class_user.php");
+    include_once ("class/class_user.php");
 
     $User=new User($rep);
     $User->Check();

@@ -45,7 +45,7 @@
  * <li>Dans le répertoire include: Les noms de fichier ajax* correspondent aux fichiers appelé par une fonction javascript en ajax, 
  * normalement le nom de fichier est basé sur le nom de la fonction javascript
  * exemple pour la fonction javascript anc_key_choice le fichier correspondant est
- * ajax_anc_key_choice.php
+ * ajax/ajax_anc_key_choice.php
  * <li>Dans le répertoire include/template: les fichiers de
  * présentation HTML </li>
  * <li>Utiliser sql/upgrade.sql comme fichier temporaire pour modifier la base de données, en général
@@ -96,7 +96,7 @@
  * class_*.php if it is related to a class.</li>
  * <li>In the folder include, files starting with ajax are executed by ajax call, usually, the file name is
  * based on the javascript function, example for the javascript function anc_key_choice the corresponding file is
- * ajax_anc_key_choice.php
+ * ajax/ajax_anc_key_choice.php
  * 
  * <li>In the folder include/template: files for the HTML presentation
  * </li>
@@ -208,7 +208,7 @@ background-repeat: repeat-x repeat-y;
 $my_domain="";
 require_once '../include/constant.php';
 require_once '../include/config.inc.php';
-require_once NOALYSS_INCLUDE.'/ac_common.php';
+require_once NOALYSS_INCLUDE.'/lib/ac_common.php';
 
 if ( strlen(domaine) > 0 )
 {

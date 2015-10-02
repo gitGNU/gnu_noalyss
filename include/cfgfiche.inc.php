@@ -21,16 +21,16 @@
  * \brief module to manage the card (removing, listing, creating, modify attribut)
  */
 if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
-require_once NOALYSS_INCLUDE.'/ac_common.php';
-require_once NOALYSS_INCLUDE.'/class_itext.php';
-require_once NOALYSS_INCLUDE.'/class_ihidden.php';
-require_once NOALYSS_INCLUDE.'/class_fiche.php';
-require_once NOALYSS_INCLUDE.'/class_database.php';
+require_once NOALYSS_INCLUDE.'/lib/ac_common.php';
+require_once NOALYSS_INCLUDE.'/lib/class_itext.php';
+require_once NOALYSS_INCLUDE.'/lib/class_ihidden.php';
+require_once NOALYSS_INCLUDE.'/class/class_fiche.php';
+require_once NOALYSS_INCLUDE.'/lib/class_database.php';
 require_once NOALYSS_INCLUDE.'/user_menu.php';
-require_once NOALYSS_INCLUDE.'/class_dossier.php';
-require_once NOALYSS_INCLUDE.'/class_sort_table.php';
-require_once NOALYSS_INCLUDE.'/class_fiche_def.php';
-require_once NOALYSS_INCLUDE.'/class_tool_uos.php';
+require_once NOALYSS_INCLUDE.'/class/class_dossier.php';
+require_once NOALYSS_INCLUDE.'/lib/class_sort_table.php';
+require_once NOALYSS_INCLUDE.'/class/class_fiche_def.php';
+require_once NOALYSS_INCLUDE.'/lib/class_tool_uos.php';
 
 $retour=HtmlInput::button_anchor("Retour à la liste", HtmlInput::get_to_string(array("gDossier","ac")));
 $action=HtmlInput::default_value_post('action', '');

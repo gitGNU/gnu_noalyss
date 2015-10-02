@@ -26,7 +26,7 @@
 
 // show list of document
 if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
-require_once NOALYSS_INCLUDE.'/class_document_type.php';
+require_once NOALYSS_INCLUDE.'/class/class_document_type.php';
 
 if ( isset($_POST['add']) )
 {

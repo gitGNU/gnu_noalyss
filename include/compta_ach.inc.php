@@ -25,13 +25,13 @@
  * \brief file included to manage all the sold operation
  */
 if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
-require_once NOALYSS_INCLUDE.'/class_icheckbox.php';
-require_once NOALYSS_INCLUDE.'/class_acc_ledger_purchase.php';
-require_once  NOALYSS_INCLUDE.'/class_pre_op_ach.php';
-require_once NOALYSS_INCLUDE.'/class_ipopup.php';
+require_once NOALYSS_INCLUDE.'/lib/class_icheckbox.php';
+require_once NOALYSS_INCLUDE.'/class/class_acc_ledger_purchase.php';
+require_once  NOALYSS_INCLUDE.'/class/class_pre_op_ach.php';
+require_once NOALYSS_INCLUDE.'/lib/class_ipopup.php';
 $gDossier = dossier::id();
 global $g_parameter;
-$cn = new Database(dossier::id());
+$cn = Dossier::connect();
 //menu = show a list of ledger
 $str_dossier = dossier::get();
 $ac = "ac=" . $_REQUEST['ac'];

@@ -5,7 +5,7 @@
 
 
 if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
-require_once NOALYSS_INCLUDE.'/class_anc_listing.php';
+require_once NOALYSS_INCLUDE.'/class/class_anc_listing.php';
 $list = new Anc_Listing($cn);
 $list->get_request();
 

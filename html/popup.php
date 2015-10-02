@@ -18,13 +18,13 @@
  */
 
 require_once '../include/constant.php';
-require_once NOALYSS_INCLUDE.'/ac_common.php';
-require_once NOALYSS_INCLUDE.'/function_javascript.php';
-require_once NOALYSS_INCLUDE.'/class_html_input.php';
-require_once NOALYSS_INCLUDE.'/class_dossier.php';
-require_once NOALYSS_INCLUDE.'/class_database.php';
-require_once NOALYSS_INCLUDE.'/class_user.php';
-require_once NOALYSS_INCLUDE.'/class_periode.php';
+require_once NOALYSS_INCLUDE.'/lib/ac_common.php';
+require_once NOALYSS_INCLUDE.'/lib/function_javascript.php';
+require_once NOALYSS_INCLUDE.'/lib/class_html_input.php';
+require_once NOALYSS_INCLUDE.'/class/class_dossier.php';
+require_once NOALYSS_INCLUDE.'/lib/class_database.php';
+require_once NOALYSS_INCLUDE.'/class/class_user.php';
+require_once NOALYSS_INCLUDE.'/class/class_periode.php';
 
 
 html_page_start($_SESSION['g_theme']);
@@ -33,7 +33,7 @@ global $g_user;
 if ( basename($_GET['ajax']) == 'ajax_history.php' )
   {
     $href=dossier::get();
-    $cn=new Database(dossier::id());
+    $cn=Dossier::connect();
     /* current year  */
     $g_user=new User($cn);
     $exercice=$g_user->get_exercice();

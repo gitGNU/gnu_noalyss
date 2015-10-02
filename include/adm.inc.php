@@ -21,13 +21,13 @@
  * the customer category
  */
 if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
-require_once NOALYSS_INCLUDE.'/class_iselect.php';
-require_once NOALYSS_INCLUDE.'/class_ihidden.php';
-require_once NOALYSS_INCLUDE.'/class_customer.php';
-require_once NOALYSS_INCLUDE.'/class_ibutton.php';
-require_once NOALYSS_INCLUDE.'/class_fiche_def.php';
-require_once NOALYSS_INCLUDE.'/class_fiche_def.php';
-require_once NOALYSS_INCLUDE.'/class_admin.php';
+require_once NOALYSS_INCLUDE.'/lib/class_iselect.php';
+require_once NOALYSS_INCLUDE.'/lib/class_ihidden.php';
+require_once NOALYSS_INCLUDE.'/class/class_customer.php';
+require_once NOALYSS_INCLUDE.'/lib/class_ibutton.php';
+require_once NOALYSS_INCLUDE.'/class/class_fiche_def.php';
+require_once NOALYSS_INCLUDE.'/class/class_fiche_def.php';
+require_once NOALYSS_INCLUDE.'/class/class_admin.php';
 
 global $g_user;
 

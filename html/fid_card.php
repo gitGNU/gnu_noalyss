@@ -26,8 +26,8 @@
  */
 
 require_once '../include/constant.php';
-require_once NOALYSS_INCLUDE.'/class_database.php';
-require_once NOALYSS_INCLUDE.'/class_dossier.php';
+require_once NOALYSS_INCLUDE.'/lib/class_database.php';
+require_once NOALYSS_INCLUDE.'/class/class_dossier.php';
 /*!\brief
  *  Received parameters are
  *   - j for the ledger
@@ -44,11 +44,11 @@ require_once NOALYSS_INCLUDE.'/class_dossier.php';
 
 $jrn= ( ! isset($_REQUEST['j']))?-1:$_REQUEST['j'];
 $filter_card="";
-$cn=new Database(dossier::id());
+$cn=Dossier::connect();
 $d=$_REQUEST['e'];
 $filter_card='';
 
-require_once('class_user.php');
+require_once('class/class_user.php');
 global $g_user;
 $g_user=new User($cn);
 $g_user->check();

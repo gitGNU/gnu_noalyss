@@ -28,10 +28,10 @@
  *
  */
 if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
-require_once NOALYSS_INCLUDE.'/class_acc_ledger_purchase.php';
-require_once NOALYSS_INCLUDE.'/class_acc_ledger_fin.php';
-require_once NOALYSS_INCLUDE.'/class_acc_ledger_sold.php';
-require_once NOALYSS_INCLUDE.'/class_acc_ledger.php';
+require_once NOALYSS_INCLUDE.'/class/class_acc_ledger_purchase.php';
+require_once NOALYSS_INCLUDE.'/class/class_acc_ledger_fin.php';
+require_once NOALYSS_INCLUDE.'/class/class_acc_ledger_sold.php';
+require_once NOALYSS_INCLUDE.'/class/class_acc_ledger.php';
 global $g_user,$cn;
 $p_array = $_GET;
 $ledger_type=HtmlInput::default_value_get("ledger_type", 'ALL');

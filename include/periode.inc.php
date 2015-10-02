@@ -22,10 +22,10 @@
  */
 if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 $gDossier=dossier::id();
-require_once NOALYSS_INCLUDE.'/class_iselect.php';
-require_once  NOALYSS_INCLUDE.'/class_periode.php';
+require_once NOALYSS_INCLUDE.'/lib/class_iselect.php';
+require_once  NOALYSS_INCLUDE.'/class/class_periode.php';
 echo '<div class="content">';
-$cn=new Database($gDossier);
+$cn=Dossier::connect();
 //-----------------------------------------------------
 // Periode
 //-----------------------------------------------------
