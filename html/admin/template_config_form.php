@@ -30,38 +30,38 @@
 <div style="margin-left: 30">
 <table>
 	<tr>
-		<TD> Répertoire temporaire </TD>
+		<TD> <?php echo _('Répertoire temporaire');?> </TD>
 		<TD> <?php echo $ictmp->input(); echo HtmlInput::infobulle(200);?></TD>
 
 	</tr>
 	<TR>
 
-		<TD>Changement de langue</TD>
+		<TD><?php echo _('Changement de langue');?></TD>
 		<TD> <?php echo $iclocale->input();echo HtmlInput::infobulle(201)?></TD>
 	</TR>
 	<TR>
-		<TD>Chemin complet vers les executable de Postgresql </TD>
+		<TD><?php echo _('Chemin complet vers les executable de Postgresql');?> </TD>
 		<TD><?php echo $icpath->input();echo HtmlInput::infobulle(202)?></TD>
 	</TR>
 	<TR>
-		<TD>Utilisateur de la base de donnée </TD>
+		<TD><?php echo _('Utilisateur de la base de données (Postgresql)');?> </TD>
 		<TD><?php echo $icuser->input();echo HtmlInput::infobulle(203)?></TD>
 	</TR>
 	<TR>
-		<TD>Mot de passe de l'utilisateur </TD>
+		<TD><?php echo _('Mot de passe de l\'utilisateur pour la base de données ((Postgresql)');?> </TD>
 		<TD><?php echo $icpasswd->input();echo HtmlInput::infobulle(204)?></TD>
 </TR>
 <TR>
-	<TD>Port de postgresql </TD>
+	<TD><?php echo _('Port de postgresql');?> </TD>
 	<TD><?php echo $icport->input();echo HtmlInput::infobulle(205)?></TD>
 </TR>
 <tr>
-	<td>Mode Serveur mutualisé <?php echo HtmlInput::infobulle(207) ?></td>
+	<td><?php echo _('Mode Serveur mutualisé'). HtmlInput::infobulle(207) ?></td>
 	<td><?php echo $smulti->input() ?></td>
 </tr>
 <tr id="div_db" style="visibility:hidden">
 	<td>
-		Nom base de donnée
+		<?php echo _('Nom base de donnée');?>
 	</td>
 	<td>
 		<?php echo $icdbname->input();echo HtmlInput::infobulle(206) ?>
@@ -73,9 +73,7 @@
 	<?php
 	if ( $os == 1 )
 	{
-		?>
-	Attention : si vous installez sous windows n'utilisez pas le \ mais plutôt le / dans les nom de répertoire (càd les chemins ou path)
-	<?php
+            echo _('Attention : si vous installez sous windows n\'utilisez pas le \ mais plutôt le / dans les nom de répertoire (càd les chemins ou path)');
 	}
 	?>
 </div>

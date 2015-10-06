@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!doctype html>
 <HTML><HEAD>
     <TITLE>Noalyss - Mise à jour</TITLE>
@@ -7,7 +10,6 @@
 <link rel="icon" type="image/ico" href="../favicon.ico" />
  <META http-equiv="Content-Type" content="text/html; charset=UTF8">
  <script type="text/javascript" charset="<div>utf-8</div>" language="javascript" src="../js/prototype.js"></script>
- <script type="text/javascript" charset="utf-8" language="javascript" src="../js/infobulle.js"></script>
  <style>
      body {
          font : 100%;
@@ -70,7 +72,9 @@
 <p align="center">
   <IMG SRC="../image/logo6820.png" style="width: 415px;height: 200px" alt="NOALYSS">
 </p>
+
 <?php
+
 
 /*
  *   This file is part of NOALYSS.
@@ -97,13 +101,45 @@
  *        This file is included in each release  for a new upgrade
  *
  */
+if ( ! isset($_GET['lang'])){
 ?>
+<form method="GET">
+    Enter your language : <select name="lang">
+        <OPTION value="fr_FR.utf8">Français</option>
+        <OPTION value="en_US.utf8">English</option>
+        <OPTION value="none">Not Used</option>
+    </select>
+    <input type="submit" value="Continue">
+</form>
+<?php
+    exit();
+}
+require_once '../../include/constant.php';
+include_once NOALYSS_INCLUDE.'/lib/ac_common.php';
+if ( $_GET['lang'] == "en_US.utf8" || $_GET['lang']=='fr_FR.utf8')
+{
+    $_SESSION['g_lang']='en_US.utf8';
+    set_language();
+}
+?>
+ <script type="text/javascript" charset="utf-8" language="javascript" src="../js/infobulle.js">
+</script>
+<script>
+content[200]="<?php echo _("Indiquez ici le récuterpertoire où les documents temporaires peuvent être sauvés exemple c:/temp, /tmp")?>";
+content[201]="<?php echo _("Désactiver le changement de langue (requis pour MacOSX)")?>";
+content[202]="<?php echo _("Le chemin vers le repertoire contenant psql, pg_dump...")?>";
+content[203]="<?php echo _("Utilisateur de la base de donnée postgresql")?>";
+content[204]="<?php echo _("Mot de passe de l'utilisateur ")?>";
+content[205]="<?php echo _("Port de postgresql")?>";
+content[206]="<?php echo _("En version mono dossier, le nom de la base de données doit être mentionné")?>";
+content[207]="<?php echo _("Vous devez choisir si NOALYSS est installé sur l'un de vos servers ou sur un server mutualisé qui ne donne qu'une seule base de données")?>";
+
+</script>
+
 <DIV id="bulle" class="infobulle"></DIV>
-        <script type="text/javascript" language="javascript"  src="../js/infobulle.js"> </script>
 		 <script type="text/javascript" charset="utf-8" language="javascript" src="setup.js"></script>
 
 <?php
-require_once '../../include/constant.php';
 
 $failed="<span style=\"font-size:18px;color:red\">&#x2716;</span>";
 $succeed="<span style=\"font-size:18px;color:green\">&#x2713;</span>";
@@ -134,7 +170,7 @@ function create_htaccess()
 	if (! file_exists($file))
 	{
 		$hFile=@fopen($file,'w+');
-		if ( ! $hFile )     exit('Impossible d\'&eacute;crire dans le r&eacute;pertoire include');
+		if ( ! $hFile )     exit(_('Impossible d\'&eacute;crire dans le r&eacute;pertoire include'));
 		fwrite($hFile,'order deny,allow'."\n");
 		fwrite($hFile,'deny from all'."\n");
 		fclose($hFile);
@@ -144,7 +180,7 @@ function create_htaccess()
 	{
 
 		$hFile=@fopen($file,'w+');
-		if ( ! $hFile )     exit('Impossible d\'&eacute;crire dans le r&eacute;pertoire html');
+		if ( ! $hFile )     exit(_('Impossible d\'&eacute;crire dans le r&eacute;pertoire html'));
 		$array=array("php_flag  magic_quotes_gpc off",
 				 "php_value max_execution_time 240",
 				 "php_value memory_limit 20M",
@@ -173,9 +209,9 @@ if (isset($_POST['save_config'])) {
   require_once '../../include/config_file.php';
   $url=config_file_create($_POST,1,$os);
 echo '
-<form method="post" >
-    Les informations sont sauv&eacute;es vous pouvez continuer
-<input type="submit" class="button" value="Continuer">
+<form method="post" action="?lang='.$_GET['lang'].'" >'.
+    _('Les informations sont sauv&eacute;es vous pouvez continuer').
+'<input type="submit" class="button" value="'._('Continuer').'">
 </form>';
  exit();
  }
@@ -220,7 +256,7 @@ if ( defined ("MULTI") && MULTI==1) { create_htaccess();}
 echo '<h1 class="title">'._('Configuration').'</h1>';
 ?>
 <h2>Info</h2>
-Vous utilisez le domaine <?php echo domaine; ?>
+<?php echo _('Vous utilisez le domaine'),domaine; ?>
 <h2>PHP</h2>
 <?php
 
@@ -233,7 +269,7 @@ echo "<li>";
   if ( ini_get($a) == false ) print $a.': '.$succeed;
   else {
         print $a.': '.$failed;
-	print ("<h2 class=\"error\">$a a une mauvaise valeur !</h2>");
+	print ("<h2 class=\"error\">$a "._('a une mauvaise valeur')." !</h2>");
 	$flag_php++;
   }
 
@@ -242,7 +278,7 @@ echo "</li>";
 $module=get_loaded_extensions();
 
 echo "<li>";
-$str_error_message=_('Vous devez installer ou activer l\'extension<span style="font-weight:bold"> %s </span>');
+$str_error_message=_('Vous devez installer ou activer l\'extension').'<span style="font-weight:bold"> %s </span>';
 if (  in_array('mbstring',$module) == false ){
   echo 'module mbstring '.$failed;
   echo '<span class="warning">',
@@ -318,7 +354,7 @@ if ( ini_get("max_execution_time") < 60 )  {
 if ( ini_get("register_globals") == true)  {
         echo "<li>";
         echo _('Avertissement').' : '.$failed;
-	print '<span class="warning"> register_globals doit être à off</span>';
+	print '<span class="warning"> '._('register_globals doit être à off').'</span>';
         echo "</li>";
 	$flag_php++;
 }
@@ -334,9 +370,9 @@ echo "</li>";
 
  echo "</ul>";
 if ( $flag_php==0 ) {
-	echo '<p class="info"> php.ini est bien configur&eacute; '.$succeed.'</p>';
+	echo '<p class="info"> '._('php.ini est bien configuré ').$succeed.'</p>';
 } else {
-	echo '<p class="warning"> php mal configur&eacute; '.$failed.' </p>';
+	echo '<p class="warning"> '._('php mal configuré ').$failed.' </p>';
 }
 /* check user */
 if ( (defined("MULTI") && MULTI==1)|| !defined("MULTI"))
@@ -349,23 +385,23 @@ if ( (defined("MULTI") && MULTI==1)|| !defined("MULTI"))
 }
 
 ?>
-<h2>Base de données</h2>
+<h2><?php echo _('Base de données')?></h2>
 <?php
  // Verify Psql version
  //--
 $sql="select setting from pg_settings where name='server_version'";
 $version=$cn->get_value($sql);
 
-echo "Version base de données :",$version;
+echo _("Version base de données :"),$version;
 
 if ( $version[0] < 8 ||
      ($version[0]=='8' && $version[2]<4)
      )
   {
 ?>
-  <p><?php echo $failed?> Vous devez absolument utiliser au minimum une version 8.4 de PostGresql, si votre distribution n'en
-offre pas, installez-en une en la compilant. </p><p>Lisez attentivement la notice sur postgresql.org pour migrer
-vos bases de donn&eacute;es
+  <p><?php echo $failed . _(" Vous devez absolument utiliser au minimum une version 8.4 de PostGresql, si votre distribution n'en
+offre pas, installez-en une en la compilant. Lisez attentivement la notice sur postgresql.org pour migrer
+vos bases de donn&eacute;es")?>
 </p>
 <?php exit(); //'
 } else {
@@ -373,15 +409,15 @@ vos bases de donn&eacute;es
 }
 
 ?>
-<h3>Paramètre base de données</h3>
+<h3><?php echo _('Paramètre base de données')?></h3>
 <?php
 // Language plsql is installed
 //--
 $sql="select lanname from pg_language where lanname='plpgsql'";
 $Res=$cn->count_sql($sql);
 if ( $Res==0) { ?>
-<p><?php echo $failed?> Vous devez installer le langage plpgsql pour permettre aux fonctions SQL de fonctionner.</p>
-<p>Pour cela, sur la ligne de commande en tant qu\'utilisateur postgres, faites createlang plpgsql template1
+<p><?php echo $failed._("Vous devez installer le langage plpgsql pour permettre aux fonctions SQL de fonctionner.")?></p>
+<p><?php echo _("Pour cela, sur la ligne de commande en tant qu\'utilisateur postgres, faites createlang plpgsql template1")?>
 </p>
 
 <?php exit(); }
@@ -403,29 +439,33 @@ for ($e=0;$e<$cn->size();$e++) {
   case 'effective_cache_size':
     if ( $a['setting'] < 1000 ){
 
-      print '<p class="warning">'.$failed.'Attention le param&egrave;tre effective_cache_size est de '.
-	$a['setting']." au lieu de 1000 </p>";
+      printf ('<p class="warning">'.$failed._('Attention le paramètre effective_cache_size est de %s'.
+	" au lieu de 1000")."</p>",$a['setting']);
       $flag++;
     }
     break;
   case 'shared_buffers':
     if ( $a['setting'] < 640 ){
-      print '<p class="warning">'.$failed.'Attention le param&egrave;tre shared_buffer est de '.
-	$a['setting']."au lieu de 640</p>";
+      print '<p class="warning">'.$failed;
+      printf('Attention le paramètre shared_buffer est de %s
+	au lieu de 640',$a['setting']);
+      print "</p>";
       $flag++;
     }
     break;
   }
  }
 if ( $flag == 0 ) {
-  echo '<p class="info"> La base de donn&eacute;es est bien configur&eacute;e '.$succeed.'</p>';
+  echo '<p class="info">'._('La base de données est bien configurée ').$succeed.'</p>';
  } else {
-  echo '<p class="warning">'.$failed.'Il y a '.$flag.' param&egrave;tre qui sont trop bas</p>';
+  echo '<p class="warning">'.$failed;
+  printf (_('Il y a %s param&egrave;tre qui sont trop bas'),$flag);
+  echo '</p>';
  }
 if ( ! isset($_POST['go']) ) {
 ?>
 <span style="text-align: center">
-<FORM action="setup.php" METHOD="post">
+    <FORM METHOD="post" action="setup.php?lang=<?php echo $_GET['lang']?>">
 <input type="submit" class="button" name="go" value="<?php echo _("Commencer la mise à jour ou l'installation");?>">
 </form>
 </span>
@@ -454,7 +494,7 @@ if ($account == 0 ) {
 
  if ( ! DEBUG) ob_end_clean();
 
-  echo "Creation of Modele1";
+  echo _("Creation of Modele 1");
   if ( ! DEBUG) ob_start();
   $cn->exec_sql("create database ".domaine."mod1 encoding='utf8'");
 
@@ -467,7 +507,7 @@ if ($account == 0 ) {
 
   if ( ! DEBUG) ob_end_clean();
 
-  echo "Creation of Modele2";
+  echo _("Creation of Modele 2");
   $cn->exec_sql("create database ".domaine."mod2 encoding='utf8'");
   $cn=new Database(2,'mod');
   $cn->start();
@@ -484,28 +524,29 @@ if ($account == 0 ) {
 //--
 $cn=new Database();
 
-echo "<h1>Mise a jour du systeme</h1>";
-echo "<h2 > Mise &agrave; jour dossier</h2>";
+echo "<h1>"._('Mise à jour du systeme')."</h1>";
+echo "<h2 >"._("Mise  à jour dossier")."</h2>";
 if  (defined("MULTI") && MULTI == 0)
 {
 	$db = new Database();
 	if ($db->exist_table("version") == false)
 	{
-		echo '<p class="warning">' . $failed . 'La base de donnée ' . dbname . ' est vide, veuillez executer noalyss/contrib/mono-dossier/mono.sql
-                    puis faites un seul de ces choix : 
-                    <ul>
-                    <li>soit noalyss/contrib/mono-dossier/mono-france.sql pour la comptabilité française</li>
-                    <li>soit noalyss/contrib/mono-dossier/mono-belge.sql pour la comptabilité belge</li>
-                    <li>soit y restaurer un backup ou un modèle</li>
+		echo '<p class="warning">' . $failed ;
+                printf (_('La base de donnée %s est vide, veuillez executer noalyss/contrib/mono-dossier/mono.sql
+                    puis faites un seul de ces choix : '),dbname);
+                echo '<ul>';
+                echo '<li>'._("soit noalyss/contrib/mono-dossier/mono-france.sql pour la comptabilité française").'</li>';
+                echo '<li>'._("soit noalyss/contrib/mono-dossier/mono-belge.sql pour la comptabilité belge").'</li>';
+                echo '<li>'._("soit y restaurer un backup ou un modèle")."</li>
                     </ul>
-				</p>';
+				</p>";
 		exit();
 	}
 	echo "<h3>Patching " . dbname . '</h3>';
 	$db->apply_patch(dbname);
-	echo "<p class=\"info\">Tout est install&eacute; $succeed";
+	echo "<p class=\"info\">"._("Tout est install&eacute;"). $succeed;
         
-         echo "<h2>Mise &agrave; jour Repository</h2>";
+         echo "<h2>"._("Mise à jour Repository")."</h2>";
          if ( DEBUG == false ) ob_start();
         $MaxVersion=DBVERSIONREPO-1;
         for ($i=4;$i<= $MaxVersion;$i++)
@@ -517,7 +558,7 @@ if  (defined("MULTI") && MULTI == 0)
 
 	?>
 <p style="text-align: center">
-		<A style="" class="button" HREF="../index.php">Connectez-vous à NOALYSS</A>
+		<A style="" class="button" HREF="../index.php"><?php echo _('Connectez-vous à NOALYSS')?></A>
                 </p>
 	<?php
 	exit();
@@ -556,7 +597,7 @@ for ($e=0;$e < $MaxDossier;$e++) {
 //----------------------------------------------------------------------
 $Resdossier=$cn->exec_sql("select mod_id, mod_name from modeledef");
 $MaxDossier=$cn->size();
-echo "<h2>Mise &agrave; jour mod&egrave;le</h2>";
+echo "<h2>"._("Mise à modèle")."</h2>";
 
 for ($e=0;$e < $MaxDossier;$e++) {
   $db_row=Database::fetch_array($Resdossier,$e);
@@ -576,7 +617,7 @@ for ($e=0;$e < $MaxDossier;$e++) {
 //----------------------------------------------------------------------
 // Upgrade the account_repository
 //----------------------------------------------------------------------
- echo "<h2>Mise &agrave; jour Repository</h2>";
+ echo "<h2>"._("Mise à Repository")."</h2>";
  $cn=new Database();
  if ( DEBUG == false ) ob_start();
  $MaxVersion=DBVERSIONREPO-1;
@@ -588,9 +629,9 @@ for ($e=0;$e < $MaxDossier;$e++) {
    }
 
  if (! DEBUG) ob_end_clean();
- echo "<p class=\"info\">Tout est install&eacute; $succeed";
+ echo "<p class=\"info\">"._("Tout est install&eacute;")." ". $succeed;
 ?>
 </p>
 <p style="text-align: center">
-<A style="" class="button" HREF="../index.php">Connectez-vous à NOALYSS</A>
+<A style="" class="button" HREF="../index.php"><?php echo _('Connectez-vous à NOALYSS')?></A>
 </p>

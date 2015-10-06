@@ -679,7 +679,7 @@ function set_language()
 	    $dir = setlocale(LC_MESSAGES, $g_lang);
 	   // echo '<span class="notice">' . $_SESSION['g_lang'] . ' domaine non supporté</h2>';
 	}
-	bindtextdomain('messages', './lang');
+	bindtextdomain('messages', NOALYSS_HOME.'/lang');
 	textdomain('messages');
 	bind_textdomain_codeset('messages', 'UTF8');
 
