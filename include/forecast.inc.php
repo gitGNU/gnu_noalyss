@@ -238,12 +238,6 @@ if ($sa == 'new')
 	 */
 	$anticip = new Anticipation($cn, $a->get_parameter("id"));
 	echo '<div class="content">';
-	echo ICard::ipopup('ipopcard');
-	echo IPoste::ipopup('ipop_account');
-	$search_card = new IPopup('ipop_card');
-	$search_card->title = _('Recherche de fiche');
-	$search_card->value = '';
-	echo $search_card->input();
 
 	echo '<form method="post" action="?">';
 	echo dossier::hidden();

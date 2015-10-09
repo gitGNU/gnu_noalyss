@@ -76,7 +76,7 @@ for ($i=0;$i<$nMax;$i++):
                     <a class='mtitle' style='text-decoration: underline' href="javascript:void(0)"
                         onclick="<?php echo $js ?>">
                 <?php endif; ?>
-                <?php echo $a_menu[$i]['me_code'];               ?>
+                <?php echo _($a_menu[$i]['me_code']);               ?>
                 </a>
             </td>
             <td>
@@ -100,7 +100,7 @@ for ($i=0;$i<$nMax;$i++):
             </td>
             <td>
                 <?php if ($a_menu[$i]['p_type_display'] == 'PL') echo "("._('Extension').")";
-                echo $a_menu[$i]['me_description_etendue']; ?>
+                echo _($a_menu[$i]['me_description_etendue']); ?>
             </td>
             <td>
                 <a class="mtitle" style='text-decoration: underline' href="http://wiki.noalyss.eu/doku.php?id=MENU:<?php echo $a_menu[$i]['me_code']; ?>" target='_blank'><?php echo _("sur le wiki")?> : <?php echo $a_menu[$i]['me_code']; ?></a>

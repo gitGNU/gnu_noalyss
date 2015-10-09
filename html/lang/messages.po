@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-05 23:12+0200\n"
+"POT-Creation-Date: 2015-10-08 13:38+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -331,7 +331,7 @@ msgstr ""
 #: include/dossier.inc.php:368 include/forecast.inc.php:343
 #: include/dossier.inc.php:361 include/dossier.inc.php:404
 #: include/opening.inc.php:166 include/opening.inc.php:253
-#: include/ajax/ajax_get_profile.php:47
+#: include/ajax/ajax_get_profile.php:47 include/forecast.inc.php:337
 msgid "Retour"
 msgstr ""
 
@@ -431,7 +431,9 @@ msgstr ""
 #: include/ajax/ajax_create_menu.php:12 include/ajax/ajax_mod_menu.php:14
 #: include/ajax/ajax_mod_stock_repo.php:79
 #: include/class/class_acc_ledger.php:3290
-#: include/class/class_fiche_def.php:774
+#: include/class/class_fiche_def.php:774 include/forecast.inc.php:248
+#: include/forecast.inc.php:263 include/forecast.inc.php:283
+#: include/forecast.inc.php:307 include/forecast.inc.php:354
 msgid "Sauver"
 msgstr ""
 
@@ -456,6 +458,7 @@ msgstr ""
 #: include/template/ledger_detail_misc.php:95 include/class_fiche.php:466
 #: include/database.item.php:178 include/database.item.php:177
 #: include/database.item.php:166 include/class/class_fiche.php:466
+#: include/database.item.php:167
 msgid "Poste Comptable"
 msgstr ""
 
@@ -552,7 +555,7 @@ msgstr ""
 #: html/user_login.php:169 include/dossier.inc.php:196
 #: include/forecast.inc.php:378 include/dossier.inc.php:230
 #: include/menu.inc.php:146 include/ajax/ajax_boxcard_search.php:46
-#: include/class/class_acc_ledger.php:3425
+#: include/class/class_acc_ledger.php:3425 include/forecast.inc.php:372
 msgid "Filtre"
 msgstr ""
 
@@ -762,6 +765,7 @@ msgstr ""
 #: include/class/class_balance_age.php:139
 #: include/class/class_document_modele.php:66
 #: include/class/class_fiche.php:1598 include/class/class_user.php:977
+#: include/database.item.php:146
 msgid "Nom"
 msgstr ""
 
@@ -2720,7 +2724,7 @@ msgstr ""
 #: include/class/class_anc_account.php:278
 #: include/class/class_anc_listing.php:79 include/class/class_anc_plan.php:124
 #: include/class/class_fiche.php:1230 include/class/class_fiche.php:1307
-#: include/class/class_user.php:980
+#: include/class/class_user.php:980 include/database.item.php:149
 msgid "Description"
 msgstr ""
 
@@ -3007,7 +3011,7 @@ msgstr ""
 #: include/template/detail-action.php:477 include/ajax/ajax_admin.php:232
 #: include/ajax/ajax_view_mod_stock.php:55
 #: include/class/class_document_modele.php:70
-#: include/class/class_document_type.php:82
+#: include/class/class_document_type.php:82 include/forecast.inc.php:333
 msgid "Effacer"
 msgstr ""
 
@@ -3208,7 +3212,7 @@ msgstr ""
 #: include/class_fiche.php:1579 include/class_fiche.php:1596
 #: include/database.item.php:163 include/database.item.php:162
 #: include/database.item.php:155 include/ajax/ajax_boxcard_search.php:50
-#: include/class/class_fiche.php:1596
+#: include/class/class_fiche.php:1596 include/database.item.php:156
 msgid "Quick Code"
 msgstr ""
 
@@ -3498,6 +3502,7 @@ msgstr ""
 #: include/company.inc.php:120 include/database.item.php:155
 #: include/database.item.php:161 include/database.item.php:165
 #: include/database.item.php:164 include/database.item.php:157
+#: include/database.item.php:158
 msgid "Fax"
 msgstr ""
 
@@ -3642,7 +3647,7 @@ msgstr ""
 #: include/database.item.php:73 include/database.item.php:248
 #: include/database.item.php:72 include/database.item.php:229
 #: include/database.item.php:7 include/database.item.php:71
-#: include/database.item.php:206
+#: include/database.item.php:206 include/database.item.php:207
 msgid "Achat"
 msgstr ""
 
@@ -3719,7 +3724,7 @@ msgstr ""
 #: include/database.item.php:12 include/database.item.php:202
 #: include/database.item.php:242 include/database.item.php:247
 #: include/database.item.php:232 include/database.item.php:14
-#: include/database.item.php:209
+#: include/database.item.php:209 include/database.item.php:210
 msgid "Vente"
 msgstr ""
 
@@ -4171,6 +4176,7 @@ msgstr ""
 #: include/database.item.php:189 include/database.item.php:81
 #: include/database.item.php:192 include/database.item.php:80
 #: include/database.item.php:190 include/database.item.php:180
+#: include/database.item.php:181
 msgid "Divers"
 msgstr ""
 
@@ -4183,6 +4189,7 @@ msgstr ""
 #: include/database.item.php:76 include/database.item.php:79
 #: include/database.item.php:84 include/database.item.php:142
 #: include/database.item.php:141 include/database.item.php:103
+#: include/database.item.php:104
 msgid "Sortie"
 msgstr ""
 
@@ -4396,13 +4403,13 @@ msgstr ""
 
 #: include/database.item.php:99 include/database.item.php:102
 #: include/database.item.php:107 include/database.item.php:104
-#: include/database.item.php:103
+#: include/database.item.php:103 include/database.item.php:105
 msgid "Lettrage par Poste"
 msgstr ""
 
 #: include/database.item.php:99 include/database.item.php:102
 #: include/database.item.php:107 include/database.item.php:104
-#: include/database.item.php:103
+#: include/database.item.php:103 include/database.item.php:105
 msgid "lettrage par poste comptable"
 msgstr ""
 
@@ -4580,6 +4587,7 @@ msgstr ""
 #: include/database.item.php:118 include/database.item.php:121
 #: include/database.item.php:127 include/database.item.php:141
 #: include/database.item.php:140 include/database.item.php:132
+#: include/database.item.php:133
 msgid "Raccourci vers vos menus préférés"
 msgstr ""
 
@@ -4688,54 +4696,63 @@ msgstr ""
 #: include/database.item.php:130 include/database.item.php:133
 #: include/database.item.php:168 include/database.item.php:172
 #: include/database.item.php:171 include/database.item.php:135
+#: include/database.item.php:136
 msgid "Prix vente"
 msgstr ""
 
 #: include/database.item.php:131 include/database.item.php:134
 #: include/database.item.php:169 include/database.item.php:173
 #: include/database.item.php:172 include/database.item.php:136
+#: include/database.item.php:137
 msgid "Prix achat"
 msgstr ""
 
 #: include/database.item.php:132 include/database.item.php:135
 #: include/database.item.php:175 include/database.item.php:179
 #: include/database.item.php:178 include/database.item.php:137
+#: include/database.item.php:138
 msgid "Durée Amortissement"
 msgstr ""
 
 #: include/database.item.php:133 include/database.item.php:136
 #: include/database.item.php:176 include/database.item.php:180
 #: include/database.item.php:179 include/database.item.php:138
+#: include/database.item.php:139
 msgid "Montant initial"
 msgstr ""
 
 #: include/database.item.php:134 include/database.item.php:137
 #: include/database.item.php:177 include/database.item.php:181
 #: include/database.item.php:180 include/database.item.php:139
+#: include/database.item.php:140
 msgid "TVA non déductible"
 msgstr ""
 
 #: include/database.item.php:135 include/database.item.php:138
 #: include/database.item.php:178 include/database.item.php:182
 #: include/database.item.php:181 include/database.item.php:140
+#: include/database.item.php:141
 msgid "TVA non déductible récupérable par l'impôt"
 msgstr ""
 
 #: include/database.item.php:136 include/database.item.php:139
 #: include/database.item.php:179 include/database.item.php:183
 #: include/database.item.php:182 include/database.item.php:141
+#: include/database.item.php:142
 msgid "Partie fiscalement non déductible"
 msgstr ""
 
 #: include/database.item.php:137 include/database.item.php:140
 #: include/database.item.php:180 include/database.item.php:184
 #: include/database.item.php:183 include/database.item.php:142
+#: include/database.item.php:143
 msgid "Dépense  charge du grant (partie privé) "
 msgstr ""
 
 #: include/database.item.php:138 include/database.item.php:141
 #: include/database.item.php:181 include/database.item.php:185
 #: include/database.item.php:184 include/database.item.php:143
+#: include/database.item.php:144
 msgid "Compte bancaire"
 msgstr ""
 
@@ -4745,7 +4762,7 @@ msgstr ""
 #: include/lettering.gestion.inc.php:27 include/database.item.php:142
 #: include/database.item.php:148 include/lettering.account.inc.php:73
 #: include/database.item.php:152 include/database.item.php:151
-#: include/database.item.php:144
+#: include/database.item.php:144 include/database.item.php:145
 msgid "Date début"
 msgstr ""
 
@@ -4758,49 +4775,56 @@ msgstr ""
 #: include/template/ledger_detail_ven.php:134 include/database.item.php:144
 #: include/database.item.php:150 include/template/ledger_detail_ven.php:131
 #: include/database.item.php:154 include/database.item.php:153
-#: include/database.item.php:146
+#: include/database.item.php:146 include/database.item.php:147
 msgid "Taux TVA"
 msgstr ""
 
 #: include/database.item.php:142 include/database.item.php:145
 #: include/database.item.php:151 include/database.item.php:155
 #: include/database.item.php:154 include/database.item.php:147
+#: include/database.item.php:148
 msgid "Nom de la banque"
 msgstr ""
 
 #: include/database.item.php:144 include/database.item.php:147
 #: include/database.item.php:153 include/database.item.php:157
 #: include/database.item.php:156 include/database.item.php:149
+#: include/database.item.php:150
 msgid "Personne de contact "
 msgstr ""
 
 #: include/database.item.php:145 include/database.item.php:148
 #: include/database.item.php:154 include/database.item.php:158
 #: include/database.item.php:157 include/database.item.php:150
+#: include/database.item.php:151
 msgid "numéro de tva "
 msgstr ""
 
 #: include/database.item.php:146 include/database.item.php:149
 #: include/database.item.php:155 include/database.item.php:159
 #: include/database.item.php:158 include/database.item.php:151
+#: include/database.item.php:152
 msgid "Adresse "
 msgstr ""
 
 #: include/database.item.php:147 include/database.item.php:150
 #: include/database.item.php:156 include/database.item.php:160
 #: include/database.item.php:159 include/database.item.php:152
+#: include/database.item.php:153
 msgid "pays "
 msgstr ""
 
 #: include/database.item.php:148 include/database.item.php:151
 #: include/database.item.php:157 include/database.item.php:161
 #: include/database.item.php:160 include/database.item.php:153
+#: include/database.item.php:154
 msgid "téléphone "
 msgstr ""
 
 #: include/database.item.php:149 include/database.item.php:152
 #: include/database.item.php:158 include/database.item.php:162
 #: include/database.item.php:161 include/database.item.php:154
+#: include/database.item.php:155
 msgid "email "
 msgstr ""
 
@@ -4813,6 +4837,7 @@ msgstr ""
 #: include/ext/sav/include/template/sas_display_detail.php:103
 #: include/database.item.php:164 include/database.item.php:163
 #: include/database.item.php:156 include/ajax/ajax_mod_stock_repo.php:55
+#: include/database.item.php:157
 msgid "Ville"
 msgstr ""
 
@@ -4820,19 +4845,21 @@ msgstr ""
 #: include/database.item.php:162
 #: include/ext/sav/include/template/sas_display_detail.php:111
 #: include/database.item.php:166 include/database.item.php:165
-#: include/database.item.php:158
+#: include/database.item.php:158 include/database.item.php:159
 msgid "GSM"
 msgstr ""
 
 #: include/database.item.php:154 include/database.item.php:157
 #: include/database.item.php:163 include/database.item.php:167
 #: include/database.item.php:166 include/database.item.php:159
+#: include/database.item.php:160
 msgid "code postal"
 msgstr ""
 
 #: include/database.item.php:155 include/database.item.php:158
 #: include/database.item.php:164 include/database.item.php:168
 #: include/database.item.php:167 include/database.item.php:160
+#: include/database.item.php:161
 msgid "Numero de client"
 msgstr ""
 
@@ -4843,30 +4870,35 @@ msgstr ""
 #: include/user.inc.php:142 include/user.inc.php:79 include/user.inc.php:143
 #: include/database.item.php:151 include/database.item.php:150
 #: include/database.item.php:161 include/class/class_balance_age.php:140
+#: include/database.item.php:162
 msgid "Prénom"
 msgstr ""
 
 #: include/database.item.php:157 include/database.item.php:160
 #: include/database.item.php:170 include/database.item.php:174
 #: include/database.item.php:173 include/database.item.php:162
+#: include/database.item.php:163
 msgid "Contrepartie pour TVA récup par impot"
 msgstr ""
 
 #: include/database.item.php:158 include/database.item.php:161
 #: include/database.item.php:171 include/database.item.php:175
 #: include/database.item.php:174 include/database.item.php:163
+#: include/database.item.php:164
 msgid "Contrepartie pour TVA non Ded."
 msgstr ""
 
 #: include/database.item.php:159 include/database.item.php:162
 #: include/database.item.php:172 include/database.item.php:176
 #: include/database.item.php:175 include/database.item.php:164
+#: include/database.item.php:165
 msgid "Contrepartie pour dépense à charge du gérant"
 msgstr ""
 
 #: include/database.item.php:160 include/database.item.php:163
 #: include/database.item.php:173 include/database.item.php:177
 #: include/database.item.php:176 include/database.item.php:165
+#: include/database.item.php:166
 msgid "Contrepartie pour dépense fiscal. non déd."
 msgstr ""
 
@@ -4893,18 +4925,21 @@ msgstr ""
 #: include/database.item.php:167 include/database.item.php:170
 #: include/database.item.php:191 include/database.item.php:194
 #: include/database.item.php:192 include/database.item.php:172
+#: include/database.item.php:173
 msgid "Document Interne"
 msgstr ""
 
 #: include/database.item.php:168 include/database.item.php:171
 #: include/database.item.php:195 include/database.item.php:198
 #: include/database.item.php:196 include/database.item.php:173
+#: include/database.item.php:174
 msgid "Bons de commande client"
 msgstr ""
 
 #: include/database.item.php:169 include/database.item.php:172
 #: include/database.item.php:194 include/database.item.php:197
 #: include/database.item.php:195 include/database.item.php:174
+#: include/database.item.php:175
 msgid "Bon de commande Fournisseur"
 msgstr ""
 
@@ -4914,25 +4949,25 @@ msgstr ""
 #: include/database.item.php:173 include/database.item.php:196
 #: include/compta_ach.inc.php:85 include/compta_ven.inc.php:94
 #: include/database.item.php:199 include/database.item.php:197
-#: include/database.item.php:175
+#: include/database.item.php:175 include/database.item.php:176
 msgid "Facture"
 msgstr ""
 
 #: include/database.item.php:171 include/database.item.php:174
 #: include/database.item.php:198 include/database.item.php:201
-#: include/database.item.php:176
+#: include/database.item.php:176 include/database.item.php:177
 msgid "Lettre de rappel"
 msgstr ""
 
 #: include/database.item.php:172 include/database.item.php:175
 #: include/database.item.php:207 include/database.item.php:204
-#: include/database.item.php:177
+#: include/database.item.php:177 include/database.item.php:178
 msgid "Courrier"
 msgstr ""
 
 #: include/database.item.php:173 include/database.item.php:176
 #: include/database.item.php:205 include/database.item.php:202
-#: include/database.item.php:178
+#: include/database.item.php:178 include/database.item.php:179
 msgid "Proposition"
 msgstr ""
 
@@ -4942,60 +4977,68 @@ msgstr ""
 #: include/ext/sav/include/template/sas_display_detail.php:119
 #: include/user.inc.php:82 include/database.item.php:200
 #: include/database.item.php:179 include/ajax/ajax_preference.php:73
+#: include/database.item.php:180
 msgid "Email"
 msgstr ""
 
 #: include/database.item.php:176 include/database.item.php:179
 #: include/database.item.php:192 include/database.item.php:195
 #: include/database.item.php:193 include/database.item.php:181
+#: include/database.item.php:182
 msgid "Note de frais"
 msgstr ""
 
 #: include/database.item.php:177 include/database.item.php:180
 #: include/database.item.php:200 include/database.item.php:205
-#: include/database.item.php:182
+#: include/database.item.php:182 include/database.item.php:183
 msgid "Réception commande Fournisseur"
 msgstr ""
 
 #: include/database.item.php:178 include/database.item.php:181
 #: include/database.item.php:199 include/database.item.php:206
-#: include/database.item.php:183
+#: include/database.item.php:183 include/database.item.php:184
 msgid "Réception commande Client"
 msgstr ""
 
 #: include/database.item.php:179 include/database.item.php:182
 #: include/database.item.php:202 include/database.item.php:207
-#: include/database.item.php:184
+#: include/database.item.php:184 include/database.item.php:185
 msgid "Réception magazine"
 msgstr ""
 
 #: include/database.item.php:182 include/database.item.php:185
 #: include/database.item.php:210 include/database.item.php:187
+#: include/database.item.php:188
 msgid "Ajout de fiche"
 msgstr ""
 
 #: include/database.item.php:183 include/database.item.php:186
 #: include/database.item.php:211 include/database.item.php:188
+#: include/database.item.php:189
 msgid "Création, modification et effacement de fiche"
 msgstr ""
 
 #: include/database.item.php:184 include/database.item.php:187
 #: include/database.item.php:212 include/database.item.php:189
+#: include/database.item.php:190
 msgid "création, modification et effacement de catégorie de fiche"
 msgstr ""
 
 #: include/database.item.php:185 include/database.item.php:188
 #: include/database.item.php:213 include/database.item.php:190
+#: include/database.item.php:191
 msgid "Effacer les documents du suivi"
 msgstr ""
 
 #: include/database.item.php:186 include/database.item.php:189
 #: include/database.item.php:214 include/database.item.php:191
+#: include/database.item.php:192
 msgid "Voir les documents du suivi"
 msgstr ""
 
 #: include/database.item.php:187 include/database.item.php:190
 #: include/database.item.php:215 include/database.item.php:192
+#: include/database.item.php:193
 msgid "Modifier le type de document"
 msgstr ""
 
@@ -5003,37 +5046,42 @@ msgstr ""
 #: include/database.item.php:193 include/database.item.php:195
 #: include/database.item.php:218 include/database.item.php:223
 #: include/database.item.php:225 include/database.item.php:200
-#: include/database.item.php:202
+#: include/database.item.php:202 include/database.item.php:201
+#: include/database.item.php:203
 msgid "Caisse"
 msgstr ""
 
 #: include/database.item.php:191 include/database.item.php:194
 #: include/database.item.php:219 include/database.item.php:224
-#: include/database.item.php:201
+#: include/database.item.php:201 include/database.item.php:202
 msgid "Paiement électronique"
 msgstr ""
 
 #: include/database.item.php:193 include/database.item.php:196
 #: include/database.item.php:224 include/database.item.php:229
 #: include/database.item.php:226 include/database.item.php:203
+#: include/database.item.php:204
 msgid "Par gérant ou administrateur"
 msgstr ""
 
 #: include/database.item.php:197 include/user_menu.php:152
 #: include/user_menu.php:156 include/database.item.php:200
 #: include/database.item.php:230 include/database.item.php:207
+#: include/database.item.php:208
 msgid "Financier"
 msgstr ""
 
 #: include/database.item.php:198 include/database.item.php:201
 #: include/database.item.php:237 include/database.item.php:242
 #: include/database.item.php:231 include/database.item.php:208
+#: include/database.item.php:209
 msgid "Opération Diverses"
 msgstr ""
 
 #: include/database.item.php:202 include/database.item.php:205
 #: include/database.item.php:263 include/database.item.php:268
 #: include/database.item.php:235 include/database.item.php:212
+#: include/database.item.php:213
 msgid ""
 "Concerne tous les achats, factures reçues, notes de crédit reçues et notes "
 "de frais"
@@ -5041,6 +5089,7 @@ msgstr ""
 
 #: include/database.item.php:203 include/database.item.php:206
 #: include/database.item.php:236 include/database.item.php:213
+#: include/database.item.php:214
 msgid ""
 "Concerne tous les mouvements financiers (comptes en banque, caisses, visa...)"
 msgstr ""
@@ -5048,6 +5097,7 @@ msgstr ""
 #: include/database.item.php:204 include/database.item.php:207
 #: include/database.item.php:254 include/database.item.php:259
 #: include/database.item.php:237 include/database.item.php:214
+#: include/database.item.php:215
 msgid ""
 "Concerne toutes les opérations comme les amortissements, les comptes TVA, ..."
 msgstr ""
@@ -5055,6 +5105,7 @@ msgstr ""
 #: include/database.item.php:205 include/database.item.php:208
 #: include/database.item.php:262 include/database.item.php:267
 #: include/database.item.php:238 include/database.item.php:215
+#: include/database.item.php:216
 msgid "Concerne toutes les ventes, notes de crédit envoyées"
 msgstr ""
 
@@ -5342,32 +5393,32 @@ msgid "Ajout prévision"
 msgstr ""
 
 #: include/forecast.inc.php:241 include/forecast.inc.php:385
-#: include/forecast.inc.php:381
+#: include/forecast.inc.php:381 include/forecast.inc.php:375
 msgid "Ajout d'une prévision"
 msgstr ""
 
 #: include/forecast.inc.php:360 include/forecast.inc.php:340
-#: include/forecast.inc.php:336
+#: include/forecast.inc.php:336 include/forecast.inc.php:330
 msgid "Modifier nom ou catégories"
 msgstr ""
 
 #: include/forecast.inc.php:361 include/forecast.inc.php:341
-#: include/forecast.inc.php:337
+#: include/forecast.inc.php:337 include/forecast.inc.php:331
 msgid "Modifier éléments"
 msgstr ""
 
 #: include/forecast.inc.php:363 include/forecast.inc.php:343
-#: include/forecast.inc.php:339
+#: include/forecast.inc.php:339 include/forecast.inc.php:333
 msgid "Vous confirmez l\\' effacement"
 msgstr ""
 
 #: include/forecast.inc.php:364 include/forecast.inc.php:344
-#: include/forecast.inc.php:340
+#: include/forecast.inc.php:340 include/forecast.inc.php:334
 msgid "Cloner"
 msgstr ""
 
 #: include/forecast.inc.php:364 include/forecast.inc.php:344
-#: include/forecast.inc.php:340
+#: include/forecast.inc.php:340 include/forecast.inc.php:334
 msgid "Vous confirmez le clonage "
 msgstr ""
 
@@ -5376,7 +5427,7 @@ msgid "Erreur : "
 msgstr ""
 
 #: include/forecast.inc.php:373 include/forecast.inc.php:355
-#: include/forecast.inc.php:351
+#: include/forecast.inc.php:351 include/forecast.inc.php:345
 msgid "Vous devez corriger"
 msgstr ""
 
@@ -9384,7 +9435,7 @@ msgstr ""
 #: include/ac_common.php:334 include/action.common.inc.php:281
 #: include/forecast.inc.php:351 include/ac_common.php:337
 #: include/ext/importbank/include/class_import_bank.php:140
-#: include/lib/ac_common.php:334
+#: include/lib/ac_common.php:334 include/forecast.inc.php:345
 msgid "Erreur"
 msgstr ""
 
@@ -11876,12 +11927,12 @@ msgid "Impossible cette fiche est utilisée dans un journal"
 msgstr ""
 
 #: include/database.item.php:141 include/database.item.php:140
-#: include/database.item.php:132
+#: include/database.item.php:132 include/database.item.php:133
 msgid "Favori &#9733 "
 msgstr ""
 
 #: include/database.item.php:142 include/database.item.php:141
-#: include/database.item.php:103
+#: include/database.item.php:103 include/database.item.php:104
 msgid "Sortie &#9094"
 msgstr ""
 
@@ -11925,22 +11976,27 @@ msgid "Liste de vos contacts"
 msgstr ""
 
 #: include/database.item.php:216 include/database.item.php:193
+#: include/database.item.php:194
 msgid "Enlever une pièce justificative"
 msgstr ""
 
 #: include/database.item.php:217 include/database.item.php:194
+#: include/database.item.php:195
 msgid "Effacer une opération "
 msgstr ""
 
 #: include/database.item.php:218 include/database.item.php:195
+#: include/database.item.php:196
 msgid "Partager une note"
 msgstr ""
 
 #: include/database.item.php:219 include/database.item.php:196
+#: include/database.item.php:197
 msgid "Créer une note publique"
 msgstr ""
 
 #: include/database.item.php:220 include/database.item.php:197
+#: include/database.item.php:198
 msgid "Effacer une note publique"
 msgstr ""
 
@@ -12290,4 +12346,408 @@ msgstr ""
 
 #: html/admin/setup.php:620
 msgid "Mise à Repository"
+msgstr ""
+
+#: include/database.item.php:5 include/database.item.php:6
+msgid "Balance agée pour les clients et fournisseurs"
+msgstr ""
+
+#: include/database.item.php:7
+msgid ""
+"Vous permet d'encoder des achats, dépenses, des notes de frais ou des notes "
+"de crédits, vous pouvez spécifier un bénéficiaire ou un autre moyen de "
+"paiement"
+msgstr ""
+
+#: include/database.item.php:13
+msgid ""
+"Permet d'ajouter des taux de TVA ou de les modifier ainsi que les postes "
+"comptables de ces TVA, ces TVA sont utilisables dans les menus de vente et "
+"d'achat"
+msgstr ""
+
+#: include/database.item.php:14
+msgid "Encodage de tous vos revenus ou vente"
+msgstr ""
+
+#: include/database.item.php:15
+msgid "Ajout de menu ou de plugins"
+msgstr ""
+
+#: include/database.item.php:16
+msgid "Suivi des fournisseurs : devis, lettres, email...."
+msgstr ""
+
+#: include/database.item.php:17
+msgid "Opérations diverses en Analytique"
+msgstr ""
+
+#: include/database.item.php:18
+msgid ""
+"Création de rapport sur mesure, comme les ratios, vous permet de créer des "
+"graphiques de vos données (vente, achat...)"
+msgstr ""
+
+#: include/database.item.php:19
+msgid "Menu regroupant les plugins"
+msgstr ""
+
+#: include/database.item.php:21
+msgid "Suivi client : devis, réunion, courrier, commande..."
+msgstr ""
+
+#: include/database.item.php:55
+msgid "Axe analytique"
+msgstr ""
+
+#: include/database.item.php:56
+msgid "Regroupement de compte analytique"
+msgstr ""
+
+#: include/database.item.php:57
+msgid "Liste de tous vos contacts"
+msgstr ""
+
+#: include/database.item.php:58
+msgid ""
+"Les opérations prédéfinies sont des opérations que vous faites régulièrement "
+"(loyer, abonnement,...) "
+msgstr ""
+
+#: include/database.item.php:59
+msgid ""
+"Opération diverses tels que les amortissements, les augmentations de "
+"capital, les salaires, ..."
+msgstr ""
+
+#: include/database.item.php:60
+msgid "Encodage d'un extrait bancaire (=relevé bancaire)"
+msgstr ""
+
+#: include/database.item.php:61
+msgid ""
+"Historique de toutes vos opérations un menu de recherche dans une nouvelle "
+"fenêtre, vous permettra de retrouver rapidement l'opération qui vous "
+"intéresse"
+msgstr ""
+
+#: include/database.item.php:62
+msgid "Module paramètres"
+msgstr ""
+
+#: include/database.item.php:63
+msgid ""
+"Vous permet d'ajouter de nouveaux type de documents (bordereau de livraison, "
+"devis..)"
+msgstr ""
+
+#: include/database.item.php:65
+msgid ""
+"Historique de toutes vos opérations dans les journaux d'achats un menu de "
+"recherche, vous permettra de retrouver rapidement l'opération qui vous "
+"intéresse"
+msgstr ""
+
+#: include/database.item.php:66
+msgid ""
+"Historique de toutes vos opérations dans les journaux d'opérations diverses "
+"un menu de recherche, vous permettra de retrouver rapidement l'opération qui "
+"vous intéresse"
+msgstr ""
+
+#: include/database.item.php:68
+msgid ""
+"Impression de rapport personnalisé, il est aussi possible d'exporter en CSV "
+"afin de faire des graphiques"
+msgstr ""
+
+#: include/database.item.php:71
+msgid "Regroupement pour les menus d'achats(nouvelle opération, historique...)"
+msgstr ""
+
+#: include/database.item.php:72
+msgid "Regroupement pour les menus et les profils"
+msgstr ""
+
+#: include/database.item.php:74
+msgid "Regroupement des menus des journaux de trésorerie"
+msgstr ""
+
+#: include/database.item.php:75
+msgid "Grand livre pour la comptabilité analytique"
+msgstr ""
+
+#: include/database.item.php:77
+msgid "Menu Lettrage"
+msgstr ""
+
+#: include/database.item.php:78
+msgid "Choix de votre dossier"
+msgstr ""
+
+#: include/database.item.php:80
+msgid "Menu de différents paramètres"
+msgstr ""
+
+#: include/database.item.php:81
+msgid ""
+"Configuration des profils des utilisateurs, permet de fixer les journaux, "
+"profils dans les documents et stock que  ce profil peut utiliser. Cela "
+"limite les utilisateurs puisque ceux-ci ont un profil"
+msgstr ""
+
+#: include/database.item.php:83
+msgid ""
+"Permet d'avoir la balance de toutes vos fiches, les résumés exportables en "
+"CSV, les historiques avec ou sans lettrages"
+msgstr ""
+
+#: include/database.item.php:84
+msgid ""
+"Préférence de l'utilisateur, apparence de l'application pour l'utilisateur, "
+"période par défaut et mot de passe"
+msgstr ""
+
+#: include/database.item.php:85
+msgid ""
+"Configuration des tags ou dossiers, on l'appele tag ou dossier suivant la "
+"façon dont vous utilisez \n"
+"cette fonctionnalité. Vous pouvez en ajouter, en supprimer ou les modifier"
+msgstr ""
+
+#: include/database.item.php:88
+msgid ""
+"Information sur votre société : nom, adresse... utilisé lors de la "
+"génération de documents"
+msgstr ""
+
+#: include/database.item.php:89
+msgid ""
+"Gestion des périodes : clôture, ajout de période, afin de créer des périodes "
+"vous pouvez aussi utiliser le plugin outil comptable"
+msgstr ""
+
+#: include/database.item.php:90
+msgid ""
+"Vérifie que votre comptabilité ne contient pas d'erreur de base, tels que "
+"l'équilibre entre le passif et l'actif, l'utilisation des postes "
+"comptables..."
+msgstr ""
+
+#: include/database.item.php:91
+msgid ""
+"Ecriture d'ouverture ou écriture à nouveau, reporte les soldes des comptes "
+"de l'année passé du poste comptable 0xxx à 5xxxx sur l'année courante"
+msgstr ""
+
+#: include/database.item.php:92
+msgid ""
+"Chargement de modèles de documents qui seront générés par PhpCompta, les "
+"formats utilisables sont libreoffice, html, text et rtf"
+msgstr ""
+
+#: include/database.item.php:93
+msgid ""
+"Création et modification des journaux, préfixe des pièces justificatives, "
+"numérotation, catégories de fiches accessibles à ce journal"
+msgstr ""
+
+#: include/database.item.php:94
+msgid ""
+"Configuration de la sécurité, vous permet de donner un profil à vos "
+"utilisateurs, cela leur permettra d'utiliser ce que vous souhaitez qu'ils "
+"puissent utiliser"
+msgstr ""
+
+#: include/database.item.php:95
+msgid ""
+"Permet d'ajouter de nouveaux attributs que vous pourrez par la suite ajouter "
+"à des catégories de fiches"
+msgstr ""
+
+#: include/database.item.php:96
+msgid "Etat des stock de l'exercice indiqué"
+msgstr ""
+
+#: include/database.item.php:97
+msgid "Modification des stocks, menu utilisé pour l'inventaire"
+msgstr ""
+
+#: include/database.item.php:98
+msgid ""
+"Liste des changements manuels des stocks, inventaire, transfert de "
+"marchandises entre dépôts..."
+msgstr ""
+
+#: include/database.item.php:99
+msgid ""
+"Le navigateur vous présente une liste de menu auquel vous avez accès et vous "
+"permet d'accèder plus rapidement au menu que vous souhaitez"
+msgstr ""
+
+#: include/database.item.php:100
+msgid ""
+"Historique de toutes vos opérations dans tous  les journaux auquels vous "
+"avez accès, vous permettra de retrouver rapidement l'opération qui vous "
+"intéresse sur base de la date, du poste comptable, des montants..."
+msgstr ""
+
+#: include/database.item.php:101
+msgid ""
+"Historique de toutes vos opérations un menu de recherche, vous permettra de "
+"retrouver rapidement l'opération qui vous intéresse"
+msgstr ""
+
+#: include/database.item.php:102
+msgid ""
+"Permet de faire correspondre vos extraits bancaires avec les opérations de "
+"vente ou d'achat, le lettrage se fait automatiquement"
+msgstr ""
+
+#: include/database.item.php:103
+msgid ""
+"Solde des journaux de trésorerie cela concerne les comptes en banques, "
+"caisse , les chèques... "
+msgstr ""
+
+#: include/database.item.php:104
+msgid "Déconnexion "
+msgstr ""
+
+#: include/database.item.php:106
+msgid ""
+"Balance par catégorie de fiche ou pour toutes les fiches ayant un poste "
+"comptable"
+msgstr ""
+
+#: include/database.item.php:107
+msgid ""
+"Modification de votre plan comptable, parfois il est plus rapide d'utiliser "
+"le plugin \"Poste Comptable\""
+msgstr ""
+
+#: include/database.item.php:108
+msgid ""
+"Historique de toutes vos opérations dans les journaux de vente un menu de "
+"recherche, vous permettra de retrouver rapidement l'opération qui vous "
+"intéresse"
+msgstr ""
+
+#: include/database.item.php:109
+msgid ""
+"Historique de toutes vos opérations dans les journaux de trésorerie un menu "
+"de recherche, vous permettra de retrouver rapidement l'opération qui vous "
+"intéresse"
+msgstr ""
+
+#: include/database.item.php:110
+msgid ""
+"Impression des rapprochements : opérations non rapprochées ou avec des "
+"montants différents"
+msgstr ""
+
+#: include/database.item.php:111
+msgid ""
+"Impression de bilan, ce module est basique, il est plus intéressant "
+"d'utiliser le plugin \"rapport avancés\""
+msgstr ""
+
+#: include/database.item.php:112
+msgid "Configuration des entrepots de dépôts"
+msgstr ""
+
+#: include/database.item.php:113 include/database.item.php:115
+msgid ""
+"Permet d'ajouter de nouvelles catégorie de fiche, d'ajouter des attributs à "
+"ces catégories (numéro de téléphone, gsm, email...)"
+msgstr ""
+
+#: include/database.item.php:114
+msgid "Permet de changer le poste comptable de base des catégories de fiches"
+msgstr ""
+
+#: include/database.item.php:116
+msgid ""
+"Permet d'ajouter des état pour les documents utilisés dans le suivi (à "
+"faire, à suivre...)"
+msgstr ""
+
+#: include/database.item.php:117
+msgid ""
+"Regroupement pour les menus d'opérations diverses (nouvelle opération, "
+"historique...)"
+msgstr ""
+
+#: include/database.item.php:118
+msgid ""
+"Impression des journaux avec les détails pour les parties privés, la TVA et "
+"ce qui est non déductibles en ce qui concerne les journaux de vente et "
+"d'achat"
+msgstr ""
+
+#: include/database.item.php:119
+msgid "Regroupement des menus ventes et recettes"
+msgstr ""
+
+#: include/database.item.php:122
+msgid ""
+"Tableau de suivi, vous permet de voir en un coup d'oeil vos dernières "
+"opérations, un petit calendrier, une liste de chose à faire..."
+msgstr ""
+
+#: include/database.item.php:123
+msgid ""
+"Menu regroupant la création de rapport, la vérification de la comptabilité..."
+msgstr ""
+
+#: include/database.item.php:124
+msgid ""
+"Regroupement pour les menus de trésorerie (nouvelle opération, historique...)"
+msgstr ""
+
+#: include/database.item.php:125
+msgid ""
+"Liste de vos suivis, en fait de tous les documents, réunions ... dont vous "
+"avez besoin afin de suivre vos clients, fournisseurs ou administrations. Il "
+"permet la génération de documents comme les devis, les bordereau de "
+"livraison..."
+msgstr ""
+
+#: include/database.item.php:126
+msgid ""
+"Configuration des moyens de paiements que vous voulez utiliser dans les "
+"journaux de type VEN ou ACH, les moyens de paiement permettent de générer "
+"l'opération de trésorerie en même temps que l'achat, la note de frais ou la "
+"vente"
+msgstr ""
+
+#: include/database.item.php:127
+msgid "Suivi des administrations : courrrier, déclarations."
+msgstr ""
+
+#: include/database.item.php:128
+msgid ""
+"Prévision de vos achats, revenus, permet de suivre l'évolution de votre "
+"société. Vos prévisions sont des formules sur les postes comptables et vous "
+"permettent aussi vos marges brutes."
+msgstr ""
+
+#: include/database.item.php:130
+msgid ""
+"Suivi de vos salariés, managers ainsi que des administrateurs, pour les "
+"documents et les opérations comptables"
+msgstr ""
+
+#: include/database.item.php:131
+msgid ""
+"Configuration des menus par défaut, ces menus sont appelés par des actions "
+"dans d'autres menus"
+msgstr ""
+
+#: include/database.item.php:132
+msgid "Agenda, présentation du suivi sous forme d'agenda "
+msgstr ""
+
+#: include/database.item.php:133
+msgid "Ce menu vous présente  un menu rapide de vos menus préférés"
 msgstr ""
