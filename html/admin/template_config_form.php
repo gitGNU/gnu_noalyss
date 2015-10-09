@@ -44,11 +44,11 @@
 		<TD><?php echo $icpath->input();echo HtmlInput::infobulle(202)?></TD>
 	</TR>
 	<TR>
-		<TD><?php echo _('Utilisateur de la base de données (Postgresql)');?> </TD>
+		<TD><?php echo _('Utilisateur Postgresql');?> </TD>
 		<TD><?php echo $icuser->input();echo HtmlInput::infobulle(203)?></TD>
 	</TR>
 	<TR>
-		<TD><?php echo _('Mot de passe de l\'utilisateur pour la base de données ((Postgresql)');?> </TD>
+		<TD><?php echo _('Mot de passe de l\'utilisateur Postgresql');?> </TD>
 		<TD><?php echo $icpasswd->input();echo HtmlInput::infobulle(204)?></TD>
 </TR>
 <TR>
