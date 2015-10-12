@@ -30,7 +30,7 @@ require_once NOALYSS_INCLUDE.'/user_menu.php';
 require_once NOALYSS_INCLUDE.'/class/class_dossier.php';
 require_once NOALYSS_INCLUDE.'/lib/class_sort_table.php';
 require_once NOALYSS_INCLUDE.'/class/class_fiche_def.php';
-require_once NOALYSS_INCLUDE.'/lib/class_tool_uos.php';
+require_once NOALYSS_INCLUDE.'/lib/class_single_record.php';
 
 $retour=HtmlInput::button_anchor("Retour à la liste", HtmlInput::get_to_string(array("gDossier","ac")));
 $action=HtmlInput::default_value_post('action', '');
@@ -117,7 +117,7 @@ if ( $action == 'save_line' )
 /*******************************************************************************************/
 if ( isset($_POST['add_modele']))
 {
-	$single=new Tool_Uos("dup");
+	$single=new Single_Record("dup");
 	if ($single->get_count()==0)
 	{
 		$single->save();

@@ -5,7 +5,7 @@
 echo Dossier::hidden();
 echo HtmlInput::hidden('t_id',$data->t_id);
 echo HtmlInput::hidden('ac',$_REQUEST['ac']);
-$uos=new Tool_Uos('tag');
+$uos=new Single_Record('tag');
 echo $uos->hidden();
 $t_tag=new IText('t_tag',$data->t_tag);
 $t_description=new ITextarea('t_description',$data->t_description);

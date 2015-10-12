@@ -27,7 +27,7 @@
  */
 if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 require_once NOALYSS_INCLUDE.'/class/class_fiche_def.php';
-require_once NOALYSS_INCLUDE.'/lib/class_tool_uos.php';
+require_once NOALYSS_INCLUDE.'/lib/class_single_record.php';
 global $g_user;
 
 $g_user->can_request(FICCAT,0);

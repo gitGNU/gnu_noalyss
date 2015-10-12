@@ -6,7 +6,7 @@
 //see licence.txt
 
 if ( !defined ('ALLOWED') )  die('Appel direct ne sont pas permis');
-require_once NOALYSS_INCLUDE.'/lib/class_tool_uos.php';
+require_once NOALYSS_INCLUDE.'/lib/class_single_record.php';
 require_once NOALYSS_INCLUDE.'/class/class_tag.php';
 ob_start();
 $tag=new Tag($cn);

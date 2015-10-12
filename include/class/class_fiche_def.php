@@ -802,7 +802,7 @@ $order
 	}
 	function input_new()
 	{
-		$single=new Tool_Uos("dup");
+		$single=new Single_Record("dup");
 		echo '<form method="post" style="display:inline">';
 		echo $single->hidden();
 		echo HtmlInput::hidden("p_action","fiche");
