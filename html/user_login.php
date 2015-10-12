@@ -88,7 +88,7 @@ if ( $User->Admin()  == 1)
 	 if ($update > $version_noalyss ) {
 		 echo '<div id="version_div" class="inner_box" style="width:25%;margin-left:10%;margin-top:3px;">';
 		 echo '<p class="notice">';
-		 echo "Mise à jour disponible de NOALYSS version actuelle : $update votre version $version_noalyss";
+		 printf ( "Mise à jour disponible de NOALYSS version actuelle : %s  votre version %s ",$update,$version_noalyss);
 		 echo '</p>';
                  echo '<p style="text-align:center"> <a class="button" onclick="document.body.removeChild(document.getElementById(\'version_div\'))">'.
                          _('Fermer').
