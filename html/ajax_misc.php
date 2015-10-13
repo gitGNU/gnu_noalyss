@@ -101,6 +101,9 @@ if ( LOGINPUT)
     }
 switch ($op)
 {
+        case "todo_list":
+            require NOALYSS_INCLUDE.'/ajax/ajax_todo_list.php';
+            return;
         case 'pcmn_update':
             require NOALYSS_INCLUDE.'/ajax/ajax_pcmn_update.php';
             return;

@@ -33,8 +33,7 @@
  * - gDossier
  * - i id
  */
-define ('ALLOWED',1);
-require_once '../include/constant.php';
+if ( ! defined ('ALLOWED') ) die (_('Aucun accès direct'));
 require_once  NOALYSS_INCLUDE.'/class/class_dossier.php';
 require_once  NOALYSS_INCLUDE.'/class/class_todo_list.php';
 require_once  NOALYSS_INCLUDE.'/lib/class_database.php';

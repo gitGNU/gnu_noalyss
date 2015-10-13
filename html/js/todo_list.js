@@ -37,15 +37,11 @@ function todo_list_show(p_id)
     {
          var gDossier = $('gDossier').value;
         var action = new Ajax.Request(
-                'ajax_todo_list.php',
+                'ajax_misc.php',
                 {
                     method: 'get',
                     parameters:
-                            {'show':
-                                        1, 'id':
-                                        p_id, 'gDossier':
-                                        gDossier
-                            },
+                            {'show':1, 'id':p_id, 'gDossier':gDossier,op:'todo_list'},
                     onFailure: todo_list_show_error,
                     onSuccess: function (req)
                     {
@@ -105,10 +101,10 @@ function todo_list_remove(p_ctl)
         var gDossier = $('gDossier').value;
 
         var action = new Ajax.Request(
-                'ajax_todo_list.php',
+                'ajax_misc.php',
                 {
                     method: 'get',
-                    parameters:{'del':1, 'id':p_ctl, 'gDossier':gDossier}
+                    parameters:{'del':1, 'id':p_ctl, 'gDossier':gDossier,op:'todo_list'}
                 }
         );
         return false;
@@ -119,7 +115,8 @@ function todo_list_save(p_form)
     try {
     var form=$('todo_form_'+p_form);
     var json=form.serialize(true);
-    new Ajax.Request('ajax_todo_list.php',
+    json['op']="todo_list";
+    new Ajax.Request('ajax_misc.php',
                     {
                         method:'get',
                        parameters:json,
@@ -198,12 +195,13 @@ function todo_list_share(p_note, p_dossier)
 {
     waiting_node();
     new Ajax.Request(
-            'ajax_todo_list.php',
+            'ajax_misc.php',
             {
                 method: "get",
                 parameters: {"act": 'shared_note',
                     "todo_id": p_note,
-                    "gDossier": p_dossier
+                    "gDossier": p_dossier,
+                    op:'todo_list'
                 },
                 onSuccess: function (p_xml) {
                     try {
@@ -236,10 +234,10 @@ function todo_list_share(p_note, p_dossier)
 function todo_list_set_share(note_id,p_login,p_dossier)
 {
     waiting_node();
-    new Ajax.Request('ajax_todo_list.php',
+    new Ajax.Request('ajax_misc.php',
             {
                 method:"get",
-                parameters: { todo_id:note_id,act:"set_share","gDossier":p_dossier,"login":p_login},
+                parameters: { todo_id:note_id,act:"set_share","gDossier":p_dossier,"login":p_login,op:'todo_list'},
                 onSuccess:function() {
                     remove_waiting_node();
                 }
@@ -249,12 +247,13 @@ function todo_list_set_share(note_id,p_login,p_dossier)
 function todo_list_remove_share(note_id,p_login,p_dossier)
 {
     waiting_node();
-    new Ajax.Request('ajax_todo_list.php',{
+    new Ajax.Request('ajax_misc.php',{
         parameters : {
             'gDossier':p_dossier,
             'todo_id':note_id,
             'login':p_login,
-            'act':"remove_share"
+            'act':"remove_share",
+            op:'todo_list'
         },
         method:"get",
         onSuccess:function (p_xml) {
