@@ -88,8 +88,8 @@ function search_card(obj)
         }
 	var query=encodeJSON({'gDossier':gDossier,
                       'inp':inp,'label':label,'price':price,'tvaid':tvaid,
-                      'ctl':'search_card','op':'fs','jrn':jrn,
-                      'typecard':typecard,'query':string_to_search
+                      'ctl':'search_card','op2':'fs','jrn':jrn,
+                      'typecard':typecard,'query':string_to_search,'op':'card'
                              });
 	if (  $('search_card') ) {
 	    removeDiv('search_card');
@@ -99,7 +99,7 @@ function search_card(obj)
         waiting_box();
 	
 
-        var action=new Ajax.Request ( 'ajax_card.php',
+        var action=new Ajax.Request ( 'ajax_misc.php',
                                       {
                                   method:'get',
                                   parameters:query,
@@ -154,16 +154,17 @@ function action_add_concerned_card(obj)
         }
         var query = encodeJSON({
             'gDossier': dossier,
-            'op': 'action_add_concerned_card',
+            'op2': 'action_add_concerned_card',
             'query' : inp,
             'ctl' : 'unused',
-            'ag_id' : ag_id
+            'ag_id' : ag_id,
+            'op':'card'
         });
 
         waiting_box();
 
 
-        var action = new Ajax.Request('ajax_card.php',
+        var action = new Ajax.Request('ajax_misc.php',
                 {
                     method: 'get',
                     parameters: query,
@@ -224,7 +225,7 @@ function search_get_card(obj)
     var dossier=$('gDossier').value;
 
     var queryString="gDossier="+dossier;
-    queryString+="&op=fs";
+    queryString+="&op2=fs&op=card";
 
     if ( obj.elements['inp'] )
     {
@@ -259,7 +260,7 @@ function search_get_card(obj)
         queryString+="&ctl="+obj.ctl;
     }
     $('asearch').innerHTML=loading();
-    var action=new Ajax.Request ( 'ajax_card.php',
+    var action=new Ajax.Request ( 'ajax_misc.php',
                                   {
                                   method:'get',
                                   parameters:queryString,
@@ -462,7 +463,8 @@ function fill_ipopcard(obj)
     var queryString='gDossier='+dossier;
     queryString+='&qcode='+qcode;
     queryString+='&ctl='+content;
-    queryString+='&op=dc'; 	// dc for detail card
+    queryString+='&op2=dc'; 	// dc for detail card
+    queryString+='&op=card'; 	// dc for detail card
     if ( obj.readonly != undefined) {
      queryString+='&ro';
     }
@@ -471,7 +473,7 @@ function fill_ipopcard(obj)
      queryString+='&nohistory';
     }
 
-    var action=new Ajax.Request ( 'ajax_card.php',
+    var action=new Ajax.Request ( 'ajax_misc.php',
                                   {
                                   method:'get',
                                   parameters:queryString,
@@ -560,7 +562,8 @@ function select_card_type(obj)
 
     var queryString='gDossier='+dossier;
     queryString+='&ctl='+content;
-    queryString+='&op=st'; 	// st for selecting type
+    queryString+='&op2=st'; 	// st for selecting type
+    queryString+='&op=card'; 	// st for selecting type
     if ( $(obj).win_refresh!=undefined)
     {
         queryString+='&ref';
@@ -584,7 +587,7 @@ function select_card_type(obj)
         queryString+='&cat='+obj.type_cat;
     }
 
-    var action=new Ajax.Request ( 'ajax_card.php',
+    var action=new Ajax.Request ( 'ajax_misc.php',
                                   {
                                   method:'get',
                                   parameters:queryString,
@@ -637,9 +640,10 @@ function dis_blank_card(obj)
     queryString+='&ctl='+content;
     queryString+='&fd_id='+fd_id;
     queryString+=ref;
-    queryString+='&op=bc'; 	// bc for blank card
+    queryString+='&op2=bc'; 	// bc for blank card
+    queryString+='&op=card'; 	// bc for blank card
 
-    var action=new Ajax.Request ( 'ajax_card.php',
+    var action=new Ajax.Request ( 'ajax_misc.php',
                                   {
                                   method:'get',
                                   parameters:queryString,
@@ -667,9 +671,10 @@ function form_blank_card(obj)
     var queryString='gDossier='+dossier;
     queryString+='&ctl='+content;
     queryString+='&fd_id='+fd_id;
-    queryString+='&op=bc'; 	// bc for blank card
+    queryString+='&op2=bc'; 	// bc for blank card
+    queryString+='&op=card'; 	// bc for blank card
 
-    var action=new Ajax.Request ( 'ajax_card.php',
+    var action=new Ajax.Request ( 'ajax_misc.php',
                                   {
                                   method:'get',
                                   parameters:queryString,
@@ -696,9 +701,10 @@ function save_card(obj)
     var queryString='gDossier='+dossier;
     queryString+='&ctl='+content;
     queryString+=data;
-    queryString+='&op=sc'; 	// sc for save card
+    queryString+='&op2=sc'; 	// sc for save card
+    queryString+='&op=card'; 	// sc for save card
 
-    var action=new Ajax.Request ( 'ajax_card.php',
+    var action=new Ajax.Request ( 'ajax_misc.php',
                                   {
                                   method:'post',
                                   parameters:queryString,
@@ -736,13 +742,14 @@ function add_category(obj)
 	waiting_box();
     var dossier=$('gDossier').value;
     var queryString='gDossier='+dossier;
-    queryString+='&op=ac';
+    queryString+='&op2=ac';
+    queryString+='&op=card';
     queryString+='&ctl='+obj.ipopup;
     if ( obj.type_cat)
     {
         queryString+='&cat='+obj.type_cat;
     }
-    var action=new Ajax.Request ( 'ajax_card.php',
+    var action=new Ajax.Request ( 'ajax_misc.php',
                                   {
                                   method:'get',
                                   parameters:queryString,
@@ -768,11 +775,12 @@ function save_card_category(obj)
 
     data=$('newcat').serialize(false);
     var dossier=$('gDossier').value;
-    queryString='ctl='+obj.ipopup+'&';
+    var queryString='ctl='+obj.ipopup+'&';
     queryString+=data;
-    queryString+='&op=scc'; 	// sc for save card
+    queryString+='&op2=scc'; 	// sc for save card
+    queryString+='&op=card'; 	// sc for save card
 
-    var action=new Ajax.Request ( 'ajax_card.php',
+    var action=new Ajax.Request ( 'ajax_misc.php',
                                   {
                                   method:'get',
                                   parameters:queryString,
@@ -798,10 +806,11 @@ function save_card_category(obj)
 function removeCardAttribut(ad_id,gDossier,table_id,row)
 {
     var queryString='gDossier='+gDossier;
-    queryString+='&op=rmfa';
+    queryString+='&op=card';
+    queryString+='&op2=rmfa';
     queryString+='&ctl=debug'; 	// debug id
     queryString+='&ad_id='+ad_id;
-    var action=new Ajax.Request ( 'ajax_card.php',
+    var action=new Ajax.Request ( 'ajax_misc.php',
                                   {
                                   method:'get',
                                   parameters:queryString,
@@ -820,8 +829,8 @@ function update_card(obj)
 {
 try {
     var name=obj.id;
-    var qs=Form.serialize(name)+'&op=upc';
-    var action=new Ajax.Request ( 'ajax_card.php',
+    var qs=Form.serialize(name)+'&op2=upc&op=card';
+    var action=new Ajax.Request ( 'ajax_misc.php',
 				  {
 				      method:'get',
 				      parameters:qs,
@@ -843,8 +852,8 @@ try {
  * @returns {undefined} nothing
  */
 function action_save_concerned(p_dossier, p_fiche_id, p_action_id) {
-    var query = encodeJSON({'gDossier': p_dossier, 'f_id': p_fiche_id, 'ag_id': p_action_id,'op':'action_save_concerned','ctl':'unused'});
-    var a=new Ajax.Request('ajax_card.php',
+    var query = encodeJSON({'gDossier': p_dossier, 'f_id': p_fiche_id, 'ag_id': p_action_id,'op':'card','op2':'action_save_concerned','ctl':'unused'});
+    var a=new Ajax.Request('ajax_misc.php',
             {
                 method: 'get',
                 parameters: query,
@@ -876,8 +885,8 @@ function action_save_concerned(p_dossier, p_fiche_id, p_action_id) {
     }
 function action_remove_concerned(p_dossier,p_fiche_id,p_action_id)
 {
- var query = encodeJSON({'gDossier': p_dossier, 'f_id': p_fiche_id, 'ag_id': p_action_id,'op':'action_remove_concerned','ctl':'unused'});
-    var a=new Ajax.Request('ajax_card.php',
+ var query = encodeJSON({'gDossier': p_dossier, 'f_id': p_fiche_id, 'ag_id': p_action_id,'op':'card','op2':'action_remove_concerned','ctl':'unused'});
+    var a=new Ajax.Request('ajax_misc.php',
             {
                 method: 'get',
                 parameters: query,

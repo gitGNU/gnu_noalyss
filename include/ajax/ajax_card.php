@@ -53,9 +53,8 @@
  * - ref if we want to refresh the window
  *\see fiche fiche::Save constant.php
  */
-if ( ! defined('ALLOWED')) define ('ALLOWED',1);
+if ( ! defined('ALLOWED')) die (_('Accès non autorisé'));
 
-require_once '../include/constant.php';
 require_once NOALYSS_INCLUDE.'/lib/class_database.php';
 require_once NOALYSS_INCLUDE.'/class/class_fiche.php';
 require_once NOALYSS_INCLUDE.'/lib/class_iradio.php';
@@ -66,7 +65,7 @@ require_once NOALYSS_INCLUDE.'/class/class_fiche_attr.php';
 
 mb_internal_encoding("UTF-8");
 
-$var=array('gDossier','op','ctl');
+$var=array('gDossier','op2','ctl');
 $cont=0;
 /*  check if mandatory parameters are given */
 foreach ($var as $v)
@@ -78,8 +77,6 @@ foreach ($var as $v)
     }
 }
 extract($_REQUEST );
-
-ajax_disconnected($ctl);
 
 if ( $cont != 0 ) exit();
 
@@ -95,25 +92,8 @@ $g_user=new User($cn);
 $g_user->check(true);
 $g_user->check_dossier($gDossier,true);
 $html=var_export($_REQUEST,true);
-if ( LOGINPUT)
-    {
-        $file_loginput=fopen($_ENV['TMP'].'/scenario-'.$_SERVER['REQUEST_TIME'].'.php','a+');
-        fwrite ($file_loginput,"<?php \n");
-        fwrite ($file_loginput,'//@description:'.$op."\n");
-        fwrite($file_loginput, '$_GET='.var_export($_GET,true));
-        fwrite($file_loginput,";\n");
-        fwrite($file_loginput, '$_POST='.var_export($_POST,true));
-        fwrite($file_loginput,";\n");
-        fwrite($file_loginput, '$_POST[\'gDossier\']=$gDossierLogInput;');
-        fwrite($file_loginput,"\n");
-        fwrite($file_loginput, '$_GET[\'gDossier\']=$gDossierLogInput;');
-        fwrite($file_loginput,"\n");
-        fwrite($file_loginput,' $_REQUEST=array_merge($_GET,$_POST);');
-        fwrite($file_loginput,"\n");
-        fwrite($file_loginput,"include '".basename(__FILE__)."';\n");
-        fclose($file_loginput);
-    }
-switch($op)
+
+switch($op2)
 {
     /* ------------------------------------------------------------ */
     /* Remove a attribut */
