@@ -648,23 +648,31 @@ function go_next_concerned()
     }
     return true;
 }
+/**
+ * @brief View the history of an account
+ * @param {type} p_value
+ * @param {type} dossier
+ * @returns {undefined}
+ */
 function view_history_account(p_value, dossier)
 {
     layer++;
     id = 'det' + layer;
     var popup = {'id': id, 'cssclass': 'inner_box', 'html': loading(), 'drag': true};
 
-    querystring = 'gDossier=' + dossier + '&act=de&pcm_val=' + p_value + '&div=' + id + "&l=" + layer;
-    add_div(popup);
+    var querystring={'gDossier':dossier,'act':'de','pcm_val':p_value,'div':id,'l':layer,'op':'history'};
+    waiting_box();
 
     var action = new Ajax.Request(
-            "ajax_history.php",
+            "ajax_misc.php",
             {
                 method: 'get',
                 parameters: querystring,
                 onFailure: error_box,
                 onSuccess: function (req, xml)
                 {
+                    remove_waiting_box();
+                    add_div(popup);
                     success_box(req, xml);
                     g(id).style.top = calcy(140 + (layer * 3)) + "px";
                 }
@@ -672,19 +680,31 @@ function view_history_account(p_value, dossier)
     );
 
 }
-
+/**
+ * @brief Change the view of account history
+ * @param {type} obj
+ * @returns {Boolean}
+ */
 function update_history_account(obj)
 {
     try {
-        var querystring = "l=" + obj.div + "&div=" + obj.div + "&gDossier=" + obj.gDossier + "&pcm_val=" + obj.pcm_val + "&ex=" + obj.select.options[obj.select.selectedIndex].text;
+        var querystring = {
+            "l" :obj.div ,
+            "div" :obj.div ,
+            "gDossier" : obj.gDossier,
+            "pcm_val" : obj.pcm_val ,
+            "ex" : obj.select.options[obj.select.selectedIndex].text
+        };
+        waiting_box();
         var action = new Ajax.Request(
-                "ajax_history.php",
+                "ajax_misc.php",
                 {
                     method: 'get',
                     parameters: querystring,
                     onFailure: error_box,
                     onSuccess: function (req, xml)
                     {
+                        remove_waiting_box();
                         success_box(req, xml);
                         g(obj.div).style.top = calcy(140 + (layer * 3)) + "px";
                     }
@@ -696,48 +716,65 @@ function update_history_account(obj)
 
     return false;
 }
-/*!\brief
+/*!\brief Change the view of card history
  * \param p_value f_id of the card
  */
-
 function view_history_card(p_value, dossier)
 {
     layer++;
     id = 'det' + layer;
-    var popup = {'id':
-                id, 'cssclass': 'inner_box'
-        , 'html':
-                loading(), 'drag':
-                true};
-    querystring = 'gDossier=' + dossier + '&act=de&f_id=' + p_value + '&div=' + id + "&l=" + layer;
-    add_div(popup);
+    var popup = {'id':id,
+                'cssclass': 'inner_box', 
+                'html':loading(), 
+                'drag':true};
+    var querystring = { 'gDossier' : dossier ,
+         'act':'de',
+         'f_id' : p_value , 
+         'div' : id ,
+          "l" : layer,
+          "op":"history"};
+    waiting_box();
     var action = new Ajax.Request(
-            "ajax_history.php",
+            "ajax_misc.php",
             {
                 method: 'get',
                 parameters: querystring,
                 onFailure: error_box,
                 onSuccess: function (req, xml)
                 {
+                    remove_waiting_box();
+                    add_div(popup);
                     success_box(req, xml);
                     g(id).style.top = calcy(140 + (layer * 3)) + "px";
                 }
             }
     );
 }
-
+/**
+ * @brief update history view after changing the exercice
+ * @param {type} obj
+ * @returns {Boolean}
+ */
 function update_history_card(obj)
 {
     try {
-        var querystring = "l=" + obj.div + "&div=" + obj.div + "&gDossier=" + obj.gDossier + "&f_id=" + obj.f_id + "&ex=" + obj.select.options[obj.select.selectedIndex].text;
+        var querystring = {
+            "l" : obj.div , 
+            "div" : obj.div ,
+            "gDossier" : obj.gDossier,
+            "f_id" : obj.f_id ,
+            "ex" : obj.select.options[obj.select.selectedIndex].text
+        };
+        waiting_box();
         var action = new Ajax.Request(
-                "ajax_history.php",
+                "ajax_misc.php",
                 {
                     method: 'get',
                     parameters: querystring,
                     onFailure: error_box,
                     onSuccess: function (req, xml)
                     {
+                        remove_waiting_box();
                         success_box(req, xml);
                         g(obj.div).style.top = calcy(140 + (layer * 3)) + "px";
                     }

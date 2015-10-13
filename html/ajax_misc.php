@@ -58,8 +58,8 @@ foreach ($var as $v)
 }
 if ($cont != 0)
 	exit();
-extract($_REQUEST);
-set_language();
+ajax_disconnected($div);
+
 global $g_user, $cn, $g_parameter;
 //
 // If database id == 0 then we are not connected to a folder 
@@ -80,7 +80,7 @@ else
     $g_user->check(true);
 }
 $html = var_export($_REQUEST, true);
-
+set_language();
 if ( LOGINPUT)
     {
         $file_loginput=fopen($_ENV['TMP'].'/scenario-'.$_SERVER['REQUEST_TIME'].'.php','a+');
@@ -103,6 +103,9 @@ switch ($op)
 {
         case "todo_list":
             require NOALYSS_INCLUDE.'/ajax/ajax_todo_list.php';
+            return;
+        case "history":
+            require NOALYSS.'/ajax/ajax_history.php';
             return;
         case 'pcmn_update':
             require NOALYSS_INCLUDE.'/ajax/ajax_pcmn_update.php';

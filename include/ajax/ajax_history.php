@@ -23,9 +23,8 @@
    * \brief show the history of a card of an accounting
    * for the card f_id is set and for an accounting : pcm_val
    */
-if ( ! defined('ALLOWED')) define ('ALLOWED',1);
+if ( ! defined('ALLOWED')) die (_('Accès interdit'));
 
-require_once '../include/constant.php';
 require_once NOALYSS_INCLUDE.'/lib/class_database.php';
 require_once NOALYSS_INCLUDE.'/class/class_user.php';
 require_once NOALYSS_INCLUDE.'/class/class_dossier.php';
@@ -39,33 +38,11 @@ mb_internal_encoding("UTF-8");
 /**
  *if $_SESSION['g_user'] is not set : echo a warning
  */
-ajax_disconnected($div);
-global $g_user,$cn;
-$cn=Dossier::connect();
-$g_user=new User($cn);
-set_language();
 /* security */
 if ( $g_user->check_dossier(dossier::id(),true) == 'X' ) exit();
 
 $from_div = (isset($_REQUEST['ajax'])) ? 1 : $_GET['l'];
-if ( LOGINPUT)
-    {
-        $file_loginput=fopen($_ENV['TMP'].'/scenario-'.$_SERVER['REQUEST_TIME'].'.php','a+');
-        fwrite ($file_loginput,"<?php \n");
-        fwrite ($file_loginput,"//@description:\n");
-        fwrite($file_loginput, '$_GET='.var_export($_GET,true));
-        fwrite($file_loginput,";\n");
-        fwrite($file_loginput, '$_POST='.var_export($_POST,true));
-        fwrite($file_loginput,";\n");
-        fwrite($file_loginput, '$_POST[\'gDossier\']=$gDossierLogInput;');
-        fwrite($file_loginput,"\n");
-        fwrite($file_loginput, '$_GET[\'gDossier\']=$gDossierLogInput;');
-        fwrite($file_loginput,"\n");
-        fwrite($file_loginput,' $_REQUEST=array_merge($_GET,$_POST);');
-        fwrite($file_loginput,"\n");
-        fwrite($file_loginput,"include '".basename(__FILE__)."';\n");
-        fclose($file_loginput);
-    }
+
 ///////////////////////////////////////////////////////////////////////////
 /* first detail for a card */
 ///////////////////////////////////////////////////////////////////////////
