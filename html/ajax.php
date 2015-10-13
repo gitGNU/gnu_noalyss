@@ -4,6 +4,7 @@
  * 
  */
 /**
+ * @file
  * @brief this file is used for the ajax from the extension, it will the ajax.php file from the plugin directory
  * all the variable are in $_REQUEST
  * The code (of the plugin) is required
