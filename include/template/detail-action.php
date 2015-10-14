@@ -56,7 +56,6 @@
       else:
           echo _('Pas de catégorie de contact');
       endif;
-    echo $ag_contact->search().$ag_contact->input();
   endif;
             ?>
           </td>

@@ -850,7 +850,7 @@ function modifyOperation(p_value, dossier)
         "op":"ledger",
         "act":"de",
         "div" : id_div ,
-        "jr_id" : p_jr_id};
+        "jr_id" : p_value};
     var action = new Ajax.Request(
             "ajax_misc.php",
             {
