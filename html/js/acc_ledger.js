@@ -795,9 +795,13 @@ function update_history_card(obj)
 function removeOperation(p_jr_id, dossier, div)
 {
     waiting_box();
-    var qs = "gDossier=" + dossier + "&act=rmop&div=" + div + "&jr_id=" + p_jr_id;
-    var action = new Ajax.Request(
-            "ajax_ledger.php",
+    var qs = { "gDossier" :  dossier ,
+        "op":"ledger",
+        "act":"rmop",
+        "div" : div ,
+        "jr_id" : p_jr_id};
+    new Ajax.Request(
+            "ajax_misc.php",
             {
                 method: 'get',
                 parameters: qs,
@@ -815,11 +819,12 @@ function removeOperation(p_jr_id, dossier, div)
 function reverseOperation(obj)
 {
     var qs = $(obj).serialize();
+    qs["op"]="ledger";
     g('ext' + obj.divname).style.display = 'none';
     g('bext' + obj.divname).style.display = 'none';
     waiting_box();
-    var action = new Ajax.Request(
-            "ajax_ledger.php",
+    new Ajax.Request(
+            "ajax_misc.php",
             {
                 method: 'get',
                 parameters: qs,
@@ -839,18 +844,21 @@ function reverseOperation(obj)
 function modifyOperation(p_value, dossier)
 {
     layer++;
-    var id = 'det' + layer;
+    var id_div = 'det' + layer;
     waiting_box();
-    var querystring = 'gDossier=' + dossier + '&act=de&jr_id=' + p_value + '&div=' + id;
-
+    var querystring = { "gDossier" :  dossier ,
+        "op":"ledger",
+        "act":"de",
+        "div" : id_div ,
+        "jr_id" : p_jr_id};
     var action = new Ajax.Request(
-            "ajax_ledger.php",
+            "ajax_misc.php",
             {
                 method: 'get',
                 parameters: querystring,
                 onFailure: error_box,
                 onSuccess: function (xml, txt) {
-                    var popup = {'id': id, 'cssclass': 'inner_box'
+                    var popup = {'id': id_div, 'cssclass': 'inner_box'
                         , 'html': "", 'drag': true};
                     remove_waiting_box();
                     add_div(popup);
@@ -872,12 +880,13 @@ function viewOperation(p_value, p_dossier)
 }
 function dropLink(p_dossier, p_div, p_jr_id, p_jr_id2)
 {
-    var querystring = 'gDossier=' + p_dossier;
-    querystring += '&div=' + p_div;
-    querystring += '&jr_id=' + p_jr_id;
-    querystring += '&act=rmr';
-    querystring += '&jr_id2=' + p_jr_id2;
-    var action = new Ajax.Request('ajax_ledger.php',
+    var querystring = { "gDossier" :  p_dossier ,
+        "op":"ledger",
+        "act":"rmr",
+        "div" : p_div ,
+        "jr_id" : p_jr_id,
+        "jr_id2" : p_jr_id2};
+    var action = new Ajax.Request('ajax_misc.php',
             {
                 method: 'get',
                 parameters: querystring,
@@ -1035,13 +1044,15 @@ function op_save(obj)
         queryString += '&div=' + obj.whatdiv.value;
         var divid=obj.whatdiv.value;
         queryString += '&act=save';
+        queryString += '&op=ledger';
+        
         waiting_box();
         /*
          * Operation detail is in a new window
          */
         if (g('inpopup'))
         {
-            var action = new Ajax.Request('ajax_ledger.php',
+            var action = new Ajax.Request('ajax_misc.php',
                     {
                         method: 'post',
                         parameters: queryString,
@@ -1056,15 +1067,16 @@ function op_save(obj)
             /*
              *Operation is in a modal box 
              */
-            var action = new Ajax.Request('ajax_ledger.php',
+            var action = new Ajax.Request('ajax_misc.php',
                     {
                         method: 'post',
                         parameters: queryString,
                         onFailure: null,
                         onSuccess: function(req,json) {
-                            new Ajax.Request('ajax_ledger.php', {
+                            new Ajax.Request('ajax_misc.php', {
                                 parameters:{'gDossier':obj.gDossier.value,
                                          'act':'de',
+                                         'op':'ledger',
                                          'jr_id' :  jr_id,
                                          'div' :  divid},
                                 onSuccess:function(xml) {
@@ -1181,9 +1193,9 @@ function document_remove(p_dossier,p_div,p_jrid)
     smoke.confirm('Effacer ?', function (e) 
     {
         if (e) {
-            new Ajax.Request('ajax_ledger.php',
+            new Ajax.Request('ajax_misc.php',
             {
-                parameters:{"p_dossier":p_dossier,"div":p_div,"p_jrid":p_jrid,'act':'rmf'},
+                parameters:{"op":"ledger","gDossier":p_dossier,"div":p_div,"p_jrid":p_jrid,'act':'rmf'},
                 onSuccess : function(x) {
                     $('receipt'+p_div).innerHTML=x.responseText;
                 }

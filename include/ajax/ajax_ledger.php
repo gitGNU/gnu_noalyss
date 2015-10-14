@@ -28,9 +28,8 @@
     - for reconcialiation
     - update of analytic content
 */
-if ( ! defined('ALLOWED')) define ('ALLOWED',1);
+if ( ! defined('ALLOWED')) die(_('Non authorisé'));
 
-require_once '../include/constant.php';
 require_once NOALYSS_INCLUDE.'/lib/class_database.php';
 require_once NOALYSS_INCLUDE.'/class/class_user.php';
 require_once NOALYSS_INCLUDE.'/class/class_acc_operation.php';
@@ -60,32 +59,10 @@ $gDossier=dossier::id();
 /**
  *if $_SESSION['g_user'] is not set : echo a warning
  */
-ajax_disconnected($div);
 
 $cn=Dossier::connect();
 $g_parameter=new Own($cn);
-if ( LOGINPUT)
-    {
-        $file_loginput=fopen($_ENV['TMP'].'/scenario-'.$_SERVER['REQUEST_TIME'].'.php','a+');
-        fwrite ($file_loginput,"<?php \n");
-        fwrite ($file_loginput,'//@description:'.$action."\n");
-        fwrite($file_loginput, '$_GET='.var_export($_GET,true));
-        fwrite($file_loginput,";\n");
-        fwrite($file_loginput, '$_POST='.var_export($_POST,true));
-        fwrite($file_loginput,";\n");
-        fwrite($file_loginput, '$_POST[\'gDossier\']=$gDossierLogInput;');
-        fwrite($file_loginput,"\n");
-        fwrite($file_loginput, '$_GET[\'gDossier\']=$gDossierLogInput;');
-        fwrite($file_loginput,"\n");
-        fwrite($file_loginput,' $_REQUEST=array_merge($_GET,$_POST);');
-        fwrite($file_loginput,"\n");
-         fwrite($file_loginput,"include '".basename(__FILE__)."';\n");
-        fclose($file_loginput);
-    }
-// check if the user is valid and can access this folder
-global $g_user;
-$g_user=new User($cn);
-set_language();
+
 $g_user->check();
 if ( $g_user->check_dossier(dossier::id(),true)=='X' )
 {
@@ -297,7 +274,7 @@ case 'file':
         {
             // Not possible to remove the file thanks a modal dialog box,
             // because of the frameset
-            $x=sprintf('<a class="smallbutton" style="margin-left:12;margin-right:12" href="ajax_ledger.php?gDossier=%d&div=%s&jr_id=%s&act=rmf" onclick="return confirm(\'Effacer le document ?\')">'.SMALLX.'</a>',
+            $x=sprintf('<a class="smallbutton" style="margin-left:12;margin-right:12" href="ajax_misc.php?op=ledger&gDossier=%d&div=%s&jr_id=%s&act=rmf" onclick="return confirm(\'Effacer le document ?\')">'.SMALLX.'</a>',
                        $gDossier,$div,$jr_id);
             
         }  
@@ -342,7 +319,7 @@ case 'loadfile':
         if ($g_user->check_action (RMRECEIPT) == 1) {
             // Not possible to remove the file thanks a modal dialog box,
             // because of the frameset
-            $x=sprintf('<a class="mtitle" class="notice" style="margin-left:12;margin-right:12px" href="ajax_ledger.php?gDossier=%d&div=%s&jr_id=%s&act=rmf" onclick="return confirm(\'Effacer le document ?\')">'.SMALLX.'</a>',
+            $x=sprintf('<a class="mtitle" class="notice" style="margin-left:12;margin-right:12px" href="ajax_misc.php?op=ledger&gDossier=%d&div=%s&jr_id=%s&act=rmf" onclick="return confirm(\'Effacer le document ?\')">'.SMALLX.'</a>',
                    $gDossier,$div,$jr_id);
             echo $x;
         }

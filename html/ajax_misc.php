@@ -104,6 +104,9 @@ switch ($op)
         case 'card' : 
             require NOALYSS_INCLUDE.'/ajax/ajax_card.php';
             return;
+        case 'ledger' : 
+            require NOALYSS_INCLUDE.'/ajax/ajax_ledger.php';
+            return;
         case "todo_list":
             require NOALYSS_INCLUDE.'/ajax/ajax_todo_list.php';
             return;
