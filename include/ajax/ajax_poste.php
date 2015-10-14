@@ -32,9 +32,8 @@
  *
  *
  */
-if ( ! defined('ALLOWED')) define ('ALLOWED',1);
+if ( ! defined('ALLOWED')) die (_('Non authorisé'));
 
-require_once '../include/constant.php';
 require_once  NOALYSS_INCLUDE.'/lib/ac_common.php';
 require_once NOALYSS_INCLUDE.'/class/class_acc_ledger.php';
 require_once  NOALYSS_INCLUDE.'/lib/class_database.php';
@@ -43,48 +42,10 @@ require_once NOALYSS_INCLUDE.'/class/class_acc_account_ledger.php';
 mb_internal_encoding("UTF-8");
 
 extract($_REQUEST);
-$var=array('gDossier','op','ctl');
-$cont=0;
-/*  check if mandatory parameters are given */
-foreach ($var as $v)
-{
-    if ( ! isset ($_REQUEST [$v] ) )
-    {
-        echo "$v is not set ";
-        $cont=1;
-    }
-}
-ajax_disconnected($ctl);
 
-set_language();
-
-if ( $cont != 0 ) exit();
-$cn=Dossier::connect();
-require_once  NOALYSS_INCLUDE.'/class/class_user.php';
-global $g_user;
-$g_user=new User($cn);
-$g_user->Check();
 if  ($g_user->check_dossier(dossier::id()) == 'X') exit();
-$xml="";
-if ( LOGINPUT)
-    {
-        $file_loginput=fopen($_ENV['TMP'].'/scenario-'.$_SERVER['REQUEST_TIME'].'.php','a+');
-        fwrite ($file_loginput,"<?php \n");
-        fwrite ($file_loginput,'//@description:'.$op."\n");
-        fwrite($file_loginput, '$_GET='.var_export($_GET,true));
-        fwrite($file_loginput,";\n");
-        fwrite($file_loginput, '$_POST='.var_export($_POST,true));
-        fwrite($file_loginput,";\n");
-        fwrite($file_loginput, '$_POST[\'gDossier\']=$gDossierLogInput;');
-        fwrite($file_loginput,"\n");
-        fwrite($file_loginput, '$_GET[\'gDossier\']=$gDossierLogInput;');
-        fwrite($file_loginput,"\n");
-        fwrite($file_loginput,' $_REQUEST=array_merge($_GET,$_POST);');
-        fwrite($file_loginput,"\n");
-         fwrite($file_loginput,"include '".basename(__FILE__)."';\n");
-        fclose($file_loginput);
-    }
-switch ($op)
+
+switch ($op2)
 {
     /*----------------------------------------------------------------------
      * Show the form and the result

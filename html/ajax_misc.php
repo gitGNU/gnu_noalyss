@@ -101,6 +101,9 @@ if ( LOGINPUT)
     }
 switch ($op)
 {
+        case 'account':
+            require NOALYSS_INCLUDE.'/ajax/ajax_poste.php';
+            return;
         case 'card' : 
             require NOALYSS_INCLUDE.'/ajax/ajax_card.php';
             return;

@@ -124,7 +124,8 @@ function search_poste(obj)
 
     var queryString="gDossier="+dossier;
 
-    queryString+="&op=sf";
+    queryString+="&op2=sf";
+    queryString+="&op=account";
     try
     {
         if ( obj.jrn)
@@ -174,7 +175,7 @@ function search_poste(obj)
 
         queryString+="&ctl="+'search_account';
         queryString=encodeURI(queryString);
-        var action=new Ajax.Request ( 'ajax_poste.php',
+        var action=new Ajax.Request ( 'ajax_misc.php',
                                       {
                                   method:'get',
                                   parameters:queryString,
@@ -199,7 +200,8 @@ function search_get_poste(obj)
     var dossier=$('gDossier').value;
     var queryString="gDossier="+dossier;
 
-    queryString+="&op=sf";
+    queryString+="&op=account";
+    queryString+="&op2=sf";
 
     if ( obj.elements['jrn'] )
     {
@@ -235,7 +237,7 @@ function search_get_poste(obj)
     }
 
     $('asearch').innerHTML=loading();
-    var action=new Ajax.Request ( 'ajax_poste.php',
+    var action=new Ajax.Request ( 'ajax_misc.php',
                                   {
                                   method:'get',
                                   parameters:queryString,
