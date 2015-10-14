@@ -693,7 +693,8 @@ function update_history_account(obj)
             "div" :obj.div ,
             "gDossier" : obj.gDossier,
             "pcm_val" : obj.pcm_val ,
-            "ex" : obj.select.options[obj.select.selectedIndex].text
+            "ex" : obj.select.options[obj.select.selectedIndex].text,
+            "op":"history"
         };
         waiting_box();
         var action = new Ajax.Request(
@@ -763,7 +764,8 @@ function update_history_card(obj)
             "div" : obj.div ,
             "gDossier" : obj.gDossier,
             "f_id" : obj.f_id ,
-            "ex" : obj.select.options[obj.select.selectedIndex].text
+            "ex" : obj.select.options[obj.select.selectedIndex].text,
+            "op":"history"
         };
         waiting_box();
         var action = new Ajax.Request(
@@ -863,8 +865,8 @@ function modifyOperation(p_value, dossier)
                     remove_waiting_box();
                     add_div(popup);
                     success_box(xml, txt);
-                    $(id).style.position = "absolute";
-                    $(id).style.top = calcy(100 + (layer * 3)) + "px";
+                    $(id_div).style.position = "absolute";
+                    $(id_div).style.top = calcy(100 + (layer * 3)) + "px";
                 }
             }
     );

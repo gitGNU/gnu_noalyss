@@ -30,7 +30,7 @@ require_once NOALYSS_INCLUDE.'/class/class_periode.php';
 html_page_start($_SESSION['g_theme']);
 echo '<div style="float:left;">';
 global $g_user;
-if ( basename($_GET['ajax']) == 'ajax_history.php' )
+if ( basename($_GET['op']) == 'history' )
   {
     $href=dossier::get();
     $cn=Dossier::connect();

@@ -81,7 +81,7 @@ if ( isset($_GET['f_id']))
 	    $dossier=dossier::id();
 	    if ( $div != 'popup')
 	      {
-		$obj="{div:'$div',f_id:'".$_GET['f_id']."',gDossier:'$dossier',select:this}";
+		$obj="{op:'history',div:'$div',f_id:'".$_GET['f_id']."',gDossier:'$dossier',select:this}";
 		$is=$exercice->select('p_exercice',$default,' onchange="update_history_card('.$obj.');"');
 		$old=_("Autre exercice")." ".$is->input();
 	      }
@@ -95,6 +95,7 @@ if ( isset($_GET['f_id']))
 		$old.=HtmlInput::hidden('f_id',$_GET['f_id']);
 		$old.=HtmlInput::hidden('ajax',$_GET['ajax']);
 		$old.=dossier::hidden();
+                $old.=HtmlInput::hidden('op','history');
 		$old.='</form>';
 	      }
 	  }
@@ -104,7 +105,7 @@ if ( isset($_GET['f_id']))
 	$detail_card=HtmlInput::card_detail($fiche->strAttribut(ATTR_DEF_QUICKCODE),$fiche->getName());
 	echo h2(  $fiche->getName().'['.$fiche->strAttribut(ATTR_DEF_QUICKCODE).']',' class="title" ');
 	echo '<p style="text-align:center;">'.$detail_card.'</p>';
-
+ 
 	if (   $fiche->HtmlTable($array,0,$from_div)==-1){
 	  echo h2(_("Aucune opération pour l'exercice courant"),'class="error"');
 	}
@@ -152,7 +153,7 @@ if ( isset($_REQUEST['pcm_val']))
 	    $dossier=dossier::id();
 	    if ( $div != 'popup')
 	      {
-		$obj="{div:'$div',pcm_val:'".$_GET['pcm_val']."',gDossier:'$dossier',select:this}";
+		$obj="{op:'history',div:'$div',pcm_val:'".$_GET['pcm_val']."',gDossier:'$dossier',select:this}";
 		$is=$exercice->select('p_exercice',$default,' onchange="update_history_account('.$obj.');"');
 		$old=_("Autre exercice")." ".$is->input();
 	      }
@@ -166,6 +167,7 @@ if ( isset($_REQUEST['pcm_val']))
 		$old.=HtmlInput::hidden('pcm_val',$_GET['pcm_val']);
 		$old.=HtmlInput::hidden('ajax',$_GET['ajax']);
 		$old.=dossier::hidden();
+                $old.=HtmlInput::hidden('op','history');
 		$old.='</form>';
 	      }
 

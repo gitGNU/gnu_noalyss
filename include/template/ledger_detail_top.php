@@ -11,6 +11,7 @@
              'jr_id'=>$obj->det->jr_id,
              'act'=>'de',
              'div'=>$div,
+             'op'=>'ledger',
             'ajax'=>$callback));
      $msg_close=_('Fermer');
      $msg_pop=_('Ouvrir dans une fenêtre séparée');
