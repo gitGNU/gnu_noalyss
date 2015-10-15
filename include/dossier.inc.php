@@ -315,7 +315,7 @@ if ( $sa == 'list' )
             $mod=Database::fetch_array($Res,$i);
             $template.='<OPTION VALUE="'.$mod['mod_id'].'"> '.h($mod['mod_name']." - ".mb_substr($mod['mod_desc'],0,30));
         }// for
-         $template.='<option value="0" >'._('Aucun modèle (dossier vide, devant être restauré manuellement)');
+         $template.='<option value="0" > ** '._('Aucun modèle (dossier vide, devant être restauré manuellement)').' ** ';
         $template.="</SELECT>";
     }// if count = 0
     $m_date=date('Y');
