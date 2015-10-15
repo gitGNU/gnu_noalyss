@@ -136,7 +136,7 @@ if ( isset( $_REQUEST['bt_html'] ) )
     {
         if ( isset ($_GET['poste_fille']) )
         {
-            $parent=$_GET['poste_id'];
+            $parent=sql_string($_GET['poste_id']);
             $a_poste=$cn->get_array("select pcm_val from tmp_pcmn where pcm_val::text like '$parent%' order by pcm_val::text");
             $go=3;
         }
@@ -168,7 +168,14 @@ if ( isset( $_REQUEST['bt_html'] ) )
         {
             Acc_Account_Ledger::HtmlTableHeader();
 	    echo '<div class="content">';
-            $Poste->HtmlTable(null,$_GET['ople']);
+            $Poste->load();
+            ob_start();
+            $result=$Poste->HtmlTable(null,$_GET['ople']);
+            $table=ob_get_clean();
+            if ( $result == 0) {
+            echo '<h2 class="title">'.$Poste->id." ".h($Poste->label).'</h2>';
+            echo $table;
+            }
 	    echo '</div>';
             echo Acc_Account_Ledger::HtmlTableHeader();
         }
@@ -257,7 +264,15 @@ if ( isset( $_REQUEST['bt_html'] ) )
             foreach ($a_poste as $poste_id )
             {
                 $Poste=new Acc_Account_Ledger ($cn,$poste_id['pcm_val']);
-                $Poste->HtmlTable(null,$_GET['ople']);
+                $Poste->load();
+                ob_start();
+                $result=$Poste->HtmlTable(null,$_GET['ople']);
+                $table=ob_get_clean();
+                if ( $result == 0) {
+                echo '<h2 class="title">'.$Poste->id." ".h($Poste->label).'</h2>';
+                echo $table;
+                }
+                
             }
             echo Acc_Account_Ledger::HtmlTableHeader();
             echo "</div>";
