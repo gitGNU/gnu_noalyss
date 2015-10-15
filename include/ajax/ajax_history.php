@@ -87,7 +87,7 @@ if ( isset($_GET['f_id']))
 	      }
 	    else
 	      {
-		$old='<form method="get" action="popup.php">';
+		$old='<form method="get" style="display:inline" action="popup.php">';
 		$is=$exercice->select('ex',$default,'onchange = "submit(this)"');
 		$old.=_("Autre exercice")." ".$is->input();
 		$old.=HtmlInput::hidden('div','popup');
@@ -108,7 +108,10 @@ if ( isset($_GET['f_id']))
  
 	if (   $fiche->HtmlTable($array,0,$from_div)==-1){
 	  echo h2(_("Aucune opération pour l'exercice courant"),'class="error"');
-	}
+	} else {
+            echo $fiche->button_csv($array['from_periode'],$array['to_periode']);
+            echo $fiche->button_pdf($array['from_periode'],$array['to_periode']);
+          }
 
 	echo $old;
 
@@ -159,7 +162,7 @@ if ( isset($_REQUEST['pcm_val']))
 	      }
 	    else
 	      {
-		$old='<form method="get" action="popup.php">';
+		$old='<form method="get" style="display:inline" action="popup.php">';
 		$is=$exercice->select('ex',$default,'onchange = "submit(this)"');
 		$old.=_("Autre exercice")." ".$is->input();
 		$old.=HtmlInput::hidden('div','popup');
@@ -175,12 +178,18 @@ if ( isset($_REQUEST['pcm_val']))
 
         ob_start();
         require_once NOALYSS_INCLUDE.'/template/history_top.php';
-
+        
+        
+        
         if ( $poste->HtmlTable($array) == -1)
 	  {
 	    echo h2($poste->id." ".$poste->name,' class="title"');
 	    echo h2(_("Aucune opération pour l'exercice courant"),'class="error"');
-	  }
+	  } else {
+                 
+                 echo $poste->button_csv($array['from_periode'],$array['to_periode']);
+                 echo $poste->button_pdf($array['from_periode'],$array['to_periode']);
+          }
 	echo $old;
 
         $html=ob_get_contents();

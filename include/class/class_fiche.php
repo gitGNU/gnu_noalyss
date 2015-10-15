@@ -1987,6 +1987,50 @@ class Fiche
 	{
 
 	}
+    /**
+     * @brief Return a string with the HTML code to display a button to export the 
+     * history in CSV
+     * @param type $p_from from date (DD.MM.YYYY)
+     * @param type $p_to to date (DD.MM.YYYY)
+     * @return HTML string
+     */
+    function button_csv($p_from,$p_to) {
+        $href="export.php?".http_build_query(
+                array(
+                    "gDossier"=>Dossier::id(),
+                    "f_id"=>$this->id,
+                    "ople"=>0,
+                    "type"=>"poste",
+                    "from_periode"=>$p_from,
+                    "to_periode"=>$p_to,
+                    "act"=>"CSV:fichedetail"
+                    )
+                );
+        return '<a class="smallbutton" style="display:inline" href="'.$href.'">'._("Export CSV").'</a>';
+
+    }
+    /**
+     * @brief Return a string with the HTML code to display a button to export the 
+     * history in PDF
+     * @param type $p_from from date (DD.MM.YYYY)
+     * @param type $p_to to date (DD.MM.YYYY)
+     * @return HTML string
+     */
+    function button_pdf($p_from,$p_to) {
+        $href="export.php?".http_build_query(
+                array(
+                    "gDossier"=>Dossier::id(),
+                    "f_id"=>$this->id,
+                    "ople"=>0,
+                    "type"=>"poste",
+                    "from_periode"=>$p_from,
+                    "to_periode"=>$p_to,
+                    "act"=>"PDF:fichedetail"
+                    )
+                );
+        return '<a class="smallbutton" style="display:inline" href="'.$href.'">'._("Export PDF").'</a>';
+        
+    }
 }
 
 ?>

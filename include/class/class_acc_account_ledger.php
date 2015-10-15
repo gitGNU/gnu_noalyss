@@ -635,17 +635,61 @@ class Acc_Account_Ledger
         $sql=substr($sql,0,strlen($sql)-2);
         return $sql;
     }
-	/**
-	 * Find the id of the cards which are using the current account
-         * 
-	 * @return an array of f_id
-	 */
-	function find_card()
-	{
-		$sql="select f_id from fiche_detail where ad_id=$1 and ad_value=$2";
-		$account=$this->db->get_array($sql,array(ATTR_DEF_ACCOUNT,$this->id));
-		return $account;
-	}
+    /**
+     * Find the id of the cards which are using the current account
+     * 
+     * @return an array of f_id
+     */
+    function find_card()
+    {
+            $sql="select f_id from fiche_detail where ad_id=$1 and ad_value=$2";
+            $account=$this->db->get_array($sql,array(ATTR_DEF_ACCOUNT,$this->id));
+            return $account;
+    }
+    /**
+     * @brief Return a string with the HTML code to display a button to export the 
+     * history in CSV
+     * @param type $p_from from date (DD.MM.YYYY)
+     * @param type $p_to to date (DD.MM.YYYY)
+     * @return HTML string
+     */
+    function button_csv($p_from,$p_to) {
+        $href="export.php?".http_build_query(
+                array(
+                    "gDossier"=>Dossier::id(),
+                    "poste_id"=>$this->id,
+                    "ople"=>0,
+                    "type"=>"poste",
+                    "from_periode"=>$p_from,
+                    "to_periode"=>$p_to,
+                    "act"=>"CSV:postedetail"
+                    )
+                );
+        return '<a class="smallbutton" style="display:inline" href="'.$href.'">'._("Export CSV").'</a>';
+
+    }
+    /**
+     * @brief Return a string with the HTML code to display a button to export the 
+     * history in PDF
+     * @param type $p_from from date (DD.MM.YYYY)
+     * @param type $p_to to date (DD.MM.YYYY)
+     * @return HTML string
+     */
+    function button_pdf($p_from,$p_to) {
+        $href="export.php?".http_build_query(
+                array(
+                    "gDossier"=>Dossier::id(),
+                    "poste_id"=>$this->id,
+                    "ople"=>0,
+                    "type"=>"poste",
+                    "from_periode"=>$p_from,
+                    "to_periode"=>$p_to,
+                    "act"=>"PDF:postedetail"
+                    )
+                );
+        return '<a class="smallbutton" style="display:inline" href="'.$href.'">'._("Export PDF").'</a>';
+        
+    }
     static function test_me()
     {
         $cn=Dossier::connect();
