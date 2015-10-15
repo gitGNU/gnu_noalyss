@@ -330,11 +330,11 @@ class Acc_Account_Ledger
 
         $rep="";
 
-        echo '<h2 class="title">'.$this->id." ".$this->name.'</h2>';
-        if ( $from_div == 0)
-			echo "<TABLE class=\"resultfooter\" style=\"border-collapse:separate;margin:1%;width:98%;;border-spacing:0px 5px\">";
+        
+        if ( $from_div == 1)
+			echo "<TABLE id=\"tbpopup\" class=\"resultfooter\" style=\"border-collapse:separate;margin:1%;width:98%;;border-spacing:0px 5px\">";
 		else
-			echo "<TABLE class=\"resultfooter\" style=\"border-collapse:separate;margin:1%;width:98%;;border-spacing:0px 2px\">";
+			echo "<TABLE id=\"tb".$from_div."\" class=\"resultfooter\" style=\"border-collapse:separate;margin:1%;width:98%;;border-spacing:0px 2px\">";
         echo '<tbody>';
         echo "<TR>".
         "<TH style=\"text-align:left\"> Date</TH>".
@@ -689,6 +689,14 @@ class Acc_Account_Ledger
                 );
         return '<a class="smallbutton" style="display:inline" href="'.$href.'">'._("Export PDF").'</a>';
         
+    }
+    /**
+     * @brief Filter in javascript the table with the history
+     * @param type $p_table_id id of the table containting the data to filter
+     * @return html string
+     */
+    function filter_history($p_table_id) {
+        return _('Filtre rapide').' '.HtmlInput::filter_table($p_table_id, '0,1,2,3,5,6,7', 1);
     }
     static function test_me()
     {

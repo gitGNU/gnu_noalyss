@@ -1293,7 +1293,7 @@ class Fiche
         $rep="";
 	if ( $from_div==1)
 	  {
-	    echo "<TABLE class=\"resultfooter\" style=\"margin:1%;width:98%;;border-collapse:separate;border-spacing:0px 5px\">";
+	    echo "<TABLE id=\"tbpopup\" class=\"resultfooter\" style=\"margin:1%;width:98%;;border-collapse:separate;border-spacing:0px 5px\">";
 	  }
 	else
 	  {
@@ -2030,6 +2030,15 @@ class Fiche
                 );
         return '<a class="smallbutton" style="display:inline" href="'.$href.'">'._("Export PDF").'</a>';
         
+    }
+    /**
+     * @brief Filter in javascript the table with the history
+     * @param type $p_table_id id of the table containting the data to filter
+     * @return html string
+     */
+
+    function filter_history($p_table_id) {
+        return _('Filtre rapide').' '.HtmlInput::filter_table($p_table_id, '0,1,2,3,5,6,7', 1);
     }
 }
 

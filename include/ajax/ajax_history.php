@@ -41,7 +41,7 @@ mb_internal_encoding("UTF-8");
 /* security */
 if ( $g_user->check_dossier(dossier::id(),true) == 'X' ) exit();
 
-$from_div = (isset($_REQUEST['ajax'])) ? 1 : $_GET['l'];
+$from_div = (isset($_REQUEST['ajax'])) ? 1 : $div;
 
 ///////////////////////////////////////////////////////////////////////////
 /* first detail for a card */
@@ -99,16 +99,23 @@ if ( isset($_GET['f_id']))
 		$old.='</form>';
 	      }
 	  }
-
+        ob_start();
+        $result=$fiche->HtmlTable($array,0,$from_div);
+        $table=ob_get_contents();
+        ob_end_clean();
+        
+        
         ob_start();
         require_once NOALYSS_INCLUDE.'/template/history_top.php';
 	$detail_card=HtmlInput::card_detail($fiche->strAttribut(ATTR_DEF_QUICKCODE),$fiche->getName());
 	echo h2(  $fiche->getName().'['.$fiche->strAttribut(ATTR_DEF_QUICKCODE).']',' class="title" ');
 	echo '<p style="text-align:center;">'.$detail_card.'</p>';
  
-	if (   $fiche->HtmlTable($array,0,$from_div)==-1){
+	if (   $result ==-1){
 	  echo h2(_("Aucune opération pour l'exercice courant"),'class="error"');
 	} else {
+            echo $fiche->filter_history("tb".$div);
+            echo $table;
             echo $fiche->button_csv($array['from_periode'],$array['to_periode']);
             echo $fiche->button_pdf($array['from_periode'],$array['to_periode']);
           }
@@ -175,20 +182,25 @@ if ( isset($_REQUEST['pcm_val']))
 	      }
 
 	  }
-
+        ob_start();
+        $result=$poste->HtmlTable($array,0,$from_div);
+        $table=ob_get_contents();
+        ob_end_clean();
+        
         ob_start();
         require_once NOALYSS_INCLUDE.'/template/history_top.php';
+             
+        echo '<h2 class="title">'.$poste->id." ".h($poste->name).'</h2>';
         
-        
-        
-        if ( $poste->HtmlTable($array) == -1)
+        if ( $result == -1)
 	  {
 	    echo h2($poste->id." ".$poste->name,' class="title"');
 	    echo h2(_("Aucune opération pour l'exercice courant"),'class="error"');
 	  } else {
-                 
-                 echo $poste->button_csv($array['from_periode'],$array['to_periode']);
-                 echo $poste->button_pdf($array['from_periode'],$array['to_periode']);
+                echo $poste->filter_history('tb'.$div);
+                echo $table;
+                echo $poste->button_csv($array['from_periode'],$array['to_periode']);
+                echo $poste->button_pdf($array['from_periode'],$array['to_periode']);
           }
 	echo $old;
 
