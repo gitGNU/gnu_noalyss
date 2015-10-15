@@ -54,32 +54,32 @@ if (isset($_POST['upd']) &&
 
 $cn = new Database();
 
-
+$fmod_dbid=HtmlInput::default_value_post("FMOD_DBID", 0);
 
 // IF FMOD_NAME is posted then must add a template
 if (isset($_POST["FMOD_NAME"]))
 {
-	$encoding = $cn->get_value("select encoding from pg_database  where " .
-			" datname='" . domaine . 'dossier' . sql_string($_POST["FMOD_DBID"]) . "'");
+        $encoding = $cn->get_value("select encoding from pg_database  where " .
+			" datname='" . domaine . 'dossier' . sql_string($fmod_dbid) . "'");
 
 	if ($encoding != 6)
 	{
 		alert(_('Désolé vous devez migrer ce modèle en unicode'));
-		echo '<span class="error">'._('la base de donnée')." " .
-		domaine . 'mod' . $_POST["FMOD_DBID"]." " . _("doit être migrée en unicode")."</span>";
+		echo '<span class="error">';
+                printf (_('la base de donnée %smod%s doit être migrée en unicode'),domaine,$fmod_dbid);
+		echo  "</span>";
 		echo '<span class="error"> '._("Pour le passer en unicode, faites-en un backup puis restaurez le fichier reçu").'</span>';
 
 		echo HtmlInput::button_anchor(_('Retour'), 'admin_repo.php?action=dossier_mgt');
 		return;
 	}
 
-	$mod_name = sql_string($_POST["FMOD_NAME"]);
-	$mod_desc = sql_string($_POST["FMOD_DESC"]);
-	if ($mod_name != null)
+	$mod_name = HtmlInput::default_value_post("FMOD_NAME",null);
+	$mod_desc = HtmlInput::default_value_post("FMOD_DESC",null);
+	if ($mod_name != null || trim ($mod_name) != "")
 	{
 		$Res = $cn->exec_sql("insert into modeledef(mod_name,mod_desc)
-                           values ('" . $mod_name . "'," .
-				"'" . $mod_desc . "')");
+                           values ($1,$2)",array($mod_name,$mod_desc));
 
 		// get the mod_id
 		$l_id = $cn->get_current_seq('s_modid');
@@ -90,14 +90,20 @@ if (isset($_POST["FMOD_NAME"]))
 			if ($cn->exec_sql($Sql) == false)
 			{
 				ob_end_clean();
-				echo "<h2 class=\"error\"> Base de donn&eacute;e " . domaine . "dossier" . $_POST['FMOD_DBID'] . "  "._("est accèd&eacute;e, d&eacute;connectez-vous en d'abord")."</h2>";
-				$Res = $cn->exec_sql("delete from modeledef where mod_id=" . $l_id);
+				echo "<h2 class=\"error\">";
+                                printf(_('Base de donnée %sdossier%d" est accèdée, déconnectez-vous en d\'abord'),domaine,$fmod_dbid);
+                                echo "</h2>";
+				$Res = $cn->exec_sql("delete from modeledef where mod_id=$1",array($l_id));
 
 				exit;
 			}
 		}
 	}// if $mod_name != null
-
+        else
+        {
+            alert(_('Le nom est vide'));
+            return;
+        }
 	$cn_mod = new Database($l_id, 'mod');
 
 	// Clean some tables
@@ -109,7 +115,6 @@ if (isset($_POST["FMOD_NAME"]))
 		for ($i = 0; $i < count($a_lob); $i++)
 			$cn_mod->lo_unlink($a_lob[$i]['jr_pj']);
 	}
-	Extension::clean($cn_mod);
 	$Res = $cn_mod->exec_sql("truncate table centralized");
 	$Res = $cn_mod->exec_sql("truncate table jrn cascade");
 	$Res = $cn_mod->exec_sql("delete from del_jrn");
@@ -177,6 +182,15 @@ if (isset($_POST["FMOD_NAME"]))
 				$cn_mod->lo_unlink($lob['loid']);
 			}
 		}
+                // reset sequences for Follow-up
+                $a_seq=$cn_mod->get_array(" select sequence_name "
+                        . " from information_schema.sequences "
+                        . "where sequence_name like 'seq_doc_type%"
+                        );
+                $n_seq=count($a_seq);
+                for ($i = 0;$i < $n_seq;$i++) {
+                    $cn_mod->alter_seq($a_seq[$i]['sequence_name'], 1);
+                }
 	}
 	if (isset($_POST['CARD']))
 	{
