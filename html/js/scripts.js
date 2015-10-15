@@ -2809,6 +2809,7 @@ function unselect_other_tab(p_tab)
     } catch (e) {
         if (console)
             console.log(e.message);
+        alert_box('unselect_other_tab '+e.message);
     }
 }
 /**

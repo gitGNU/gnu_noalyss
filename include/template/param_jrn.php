@@ -361,7 +361,6 @@ echo $str_add_button;
    {
        hide_ledger();
        var ch=$('p_jrn_type_select_id').options[$('p_jrn_type_select_id').selectedIndex].value;
-       console.log(" div = "+ch);
        $(ch+'_div').style.display='block';
        switch (ch) {
            case 'FIN':

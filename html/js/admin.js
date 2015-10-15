@@ -34,7 +34,6 @@ function folder_display(p_user)
      */
     var p_filter = "";
     if ($('database_filter_input')) {
-        console.log($('database_filter_input').value);
         p_filter = $('database_filter_input').value;
     }
     /*
@@ -172,7 +171,7 @@ function display_admin_answer(p_dossier,p_action)
             folder.show();
             remove_waiting_box();
         } catch (e) {
-            console.log(e.message);
+                alert_box(e.message);
         }
         }
     });

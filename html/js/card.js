@@ -911,6 +911,7 @@ function action_remove_concerned(p_dossier,p_fiche_id,p_action_id)
                         $('concerned_card_td').innerHTML = code_html;
                     } catch (e) {
                         if ( console) { console.log('Erreur ') + e.message;}
+                        alert_box('action_remove_concerned '+e.message);
                     }
                 }
             }

@@ -152,7 +152,8 @@ function todo_list_save(p_form)
                     );
         }
         catch (e) {
-            console.log(e.message);
+            if ( console) console.log(e.message);
+            alert_box('todo_list_save '+e.message);
             return false;
         }
         return false;
