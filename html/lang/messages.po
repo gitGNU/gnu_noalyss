@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-08 13:38+0200\n"
+"POT-Creation-Date: 2015-10-15 18:16+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -23,6 +23,7 @@ msgstr ""
 
 #: html/ajax_card.php:145 html/ajax_card.php:163 html/ajax_card.php:164
 #: include/class_fiche.php:653 include/class/class_fiche.php:653
+#: include/ajax/ajax_card.php:144
 msgid "Fiche non trouvée"
 msgstr ""
 
@@ -36,12 +37,12 @@ msgstr ""
 #: include/database.item.php:104 include/ext/sav/index.php:46
 #: include/ext/rapport_avance/index.php:63 html/ajax_card.php:182
 #: include/database.item.php:101 include/database.item.php:100
-#: include/database.item.php:8
+#: include/database.item.php:8 include/ajax/ajax_card.php:162
 msgid "Historique"
 msgstr ""
 
 #: html/ajax_card.php:172 html/ajax_card.php:190 html/ajax_card.php:191
-#: html/ajax_card.php:192
+#: html/ajax_card.php:192 include/ajax/ajax_card.php:172
 msgid "Aucune fiche demandée"
 msgstr ""
 
@@ -56,26 +57,30 @@ msgstr ""
 #: html/ajax_card.php:506 html/ajax_card.php:543 html/ajax_card.php:551
 #: html/ajax_card.php:220 html/ajax_card.php:351 html/ajax_card.php:507
 #: html/ajax_card.php:553 html/ajax_card.php:552
-#: include/ajax/ajax_pcmn_update.php:30
+#: include/ajax/ajax_pcmn_update.php:30 include/ajax/ajax_card.php:200
+#: include/ajax/ajax_card.php:331 include/ajax/ajax_card.php:487
+#: include/ajax/ajax_card.php:524 include/ajax/ajax_card.php:532
 msgid "Action interdite"
 msgstr ""
 
 #: html/ajax_card.php:253 html/ajax_card.php:356 html/ajax_card.php:357
 #: html/ajax_card.php:271 html/ajax_card.php:393 html/ajax_card.php:273
 #: html/ajax_card.php:394 html/ajax_card.php:274 html/ajax_card.php:395
+#: include/ajax/ajax_card.php:254 include/ajax/ajax_card.php:375
 msgid ""
 "Aucune catégorie de fiche ne correspond à votre demande, le journal pourrait "
 "n'avoir accès à aucune fiche"
 msgstr ""
 
 #: html/ajax_card.php:265 html/ajax_card.php:283 html/ajax_card.php:285
-#: html/ajax_card.php:286
+#: html/ajax_card.php:286 include/ajax/ajax_card.php:266
 msgid "Aucune catégorie de fiche ne correspond  à votre demande"
 msgstr ""
 
 #: html/ajax_card.php:326 html/ajax_card.php:327 html/ajax_card.php:363
 #: include/ajax_add_concerned_card.php:38 html/ajax_card.php:364
 #: html/ajax_card.php:365 include/ajax/ajax_add_concerned_card.php:38
+#: include/ajax/ajax_card.php:345
 msgid "Fiche contenant"
 msgstr ""
 
@@ -122,6 +127,7 @@ msgstr ""
 #: include/ajax/ajax_anc_search.php:45 include/ajax/ajax_anc_search.php:56
 #: include/class/class_anc_balance_double.php:330
 #: include/class/class_anc_print.php:128 include/class/class_anc_print.php:134
+#: include/ajax/ajax_card.php:347 include/ajax/ajax_poste.php:62
 #, php-format
 msgid "Recherche"
 msgstr ""
@@ -135,22 +141,25 @@ msgstr ""
 #: html/ajax_card.php:391 include/forecast.inc.php:242
 #: include/forecast.inc.php:308 html/ajax_card.php:392
 #: include/fiche.inc.php:92 html/ajax_card.php:393
-#: include/forecast.inc.php:244
+#: include/forecast.inc.php:244 include/ajax/ajax_card.php:373
 msgid "Recherche de fiche"
 msgstr ""
 
 #: html/ajax_card.php:408 html/ajax_card.php:409 html/ajax_card.php:410
 #: html/ajax_card.php:457 html/ajax_card.php:458 html/ajax_card.php:459
+#: include/ajax/ajax_card.php:439
 msgid " de clients"
 msgstr ""
 
 #: html/ajax_card.php:412 html/ajax_card.php:413 html/ajax_card.php:414
 #: html/ajax_card.php:461 html/ajax_card.php:462 html/ajax_card.php:463
+#: include/ajax/ajax_card.php:443
 msgid " de fournisseurs"
 msgstr ""
 
 #: html/ajax_card.php:416 html/ajax_card.php:417 html/ajax_card.php:418
 #: html/ajax_card.php:465 html/ajax_card.php:466 html/ajax_card.php:467
+#: include/ajax/ajax_card.php:447
 msgid " d'administration"
 msgstr ""
 
@@ -172,7 +181,7 @@ msgstr ""
 #: include/ext/rapport_avance/include/class_formulaire_param_detail.php:354
 #: include/ext/rapport_avance/include/class_formulaire_param_detail.php:361
 #: html/ajax_card.php:490 html/ajax_card.php:491
-#: include/class/class_acc_report.php:151
+#: include/class/class_acc_report.php:151 include/ajax/ajax_card.php:471
 msgid "Recherche poste"
 msgstr ""
 
@@ -201,18 +210,22 @@ msgstr ""
 #: include/template/dashboard.php:343 include/ext/modop/modop_display.php:294
 #: include/class_fiche_def.php:811 include/template/detail-action.php:464
 #: include/ajax/ajax_mod_predf_op.php:55 include/class/class_fiche_def.php:811
+#: include/template/detail-action.php:463 include/ajax/ajax_card.php:193
+#: include/ajax/ajax_card.php:478
 msgid "Sauve"
 msgstr ""
 
 #: html/ajax_card.php:468 html/ajax_card.php:469 html/ajax_card.php:470
 #: html/ajax_card.php:521 html/ajax_card.php:522 html/ajax_card.php:528
 #: html/ajax_card.php:530 html/ajax_card.php:529
+#: include/ajax/ajax_card.php:509
 msgid "Catégorie existe déjà"
 msgstr ""
 
 #: html/ajax_card.php:470 html/ajax_card.php:471 html/ajax_card.php:472
 #: html/ajax_card.php:523 html/ajax_card.php:524 html/ajax_card.php:530
 #: html/ajax_card.php:532 html/ajax_card.php:531
+#: include/ajax/ajax_card.php:511
 msgid "Catégorie sauvée"
 msgstr ""
 
@@ -225,6 +238,7 @@ msgstr ""
 #: html/ajax_card.php:497 html/ajax_card.php:498 html/ajax_card.php:499
 #: html/ajax_card.php:550 html/ajax_card.php:551 html/ajax_card.php:557
 #: html/ajax_card.php:559 html/ajax_card.php:558
+#: include/ajax/ajax_card.php:538
 msgid "Fiche non valide"
 msgstr ""
 
@@ -232,20 +246,24 @@ msgstr ""
 #: include/template/ledger_detail_bottom.php:6 html/ajax_ledger.php:118
 #: html/ajax_ledger.php:140 include/template/ledger_detail_bottom.php:32
 #: html/ajax_ledger.php:119 html/ajax_ledger.php:141
+#: include/ajax/ajax_ledger.php:96 include/ajax/ajax_ledger.php:118
 msgid "Information"
 msgstr ""
 
 #: html/ajax_ledger.php:156 html/ajax_ledger.php:174 html/ajax_ledger.php:175
+#: include/ajax/ajax_ledger.php:152
 msgid "Opération Effacée"
 msgstr ""
 
 #: html/ajax_ledger.php:200 html/ajax_ledger.php:218 html/ajax_ledger.php:222
 #: html/ajax_ledger.php:223 html/ajax_ledger.php:225
+#: include/ajax/ajax_ledger.php:202
 msgid "Désolé il y a une erreur"
 msgstr ""
 
 #: html/ajax_ledger.php:263 html/ajax_ledger.php:281 html/ajax_ledger.php:276
 #: html/ajax_ledger.php:277 html/ajax_ledger.php:279
+#: include/ajax/ajax_ledger.php:256
 msgid "Aucun fichier"
 msgstr ""
 
@@ -265,6 +283,7 @@ msgstr ""
 #: html/ajax_ledger.php:360 html/ajax_ledger.php:336 html/ajax_ledger.php:338
 #: html/ajax_ledger.php:368 include/database.item.php:92
 #: include/database.item.php:91 include/class/class_acc_ledger.php:873
+#: include/ajax/ajax_ledger.php:315 include/ajax/ajax_ledger.php:345
 msgid "Document"
 msgstr ""
 
@@ -274,44 +293,47 @@ msgstr ""
 #: html/ajax_ledger.php:515 html/ajax_ledger.php:516 html/ajax_ledger.php:523
 #: include/anc_od.inc.php:123 include/stock_inv.inc.php:40
 #: include/ext/modop/modop_save.php:84 include/ext/modop/modop_save.php:166
-#: html/ajax_ledger.php:525
+#: html/ajax_ledger.php:525 include/ajax/ajax_ledger.php:502
 msgid "Opération sauvée"
 msgstr ""
 
 #: html/ajax_ledger.php:504 html/ajax_ledger.php:528 html/ajax_ledger.php:521
 #: html/ajax_ledger.php:522 html/ajax_ledger.php:529 html/ajax_ledger.php:531
+#: include/ajax/ajax_ledger.php:508
 msgid ""
 "Changement impossible: on ne peut pas changer la date dans une période fermée"
 msgstr ""
 
 #: html/ajax_ledger.php:546 html/ajax_ledger.php:570 html/ajax_ledger.php:563
 #: html/ajax_ledger.php:564 html/ajax_ledger.php:576 html/ajax_ledger.php:578
+#: include/ajax/ajax_ledger.php:555
 msgid "Opération extournée"
 msgstr ""
 
 #: html/ajax_misc.php:194 html/ajax_misc.php:213 html/ajax_misc.php:227
-#: html/ajax_misc.php:233
+#: html/ajax_misc.php:233 html/ajax_misc.php:311
 msgid "code"
 msgstr ""
 
 #: html/ajax_misc.php:195 html/ajax_misc.php:214 html/ajax_misc.php:228
-#: html/ajax_misc.php:234
+#: html/ajax_misc.php:234 html/ajax_misc.php:312
 msgid "Taux"
 msgstr ""
 
 #: html/ajax_misc.php:196 html/ajax_misc.php:215 html/ajax_misc.php:229
-#: html/ajax_misc.php:235
+#: html/ajax_misc.php:235 html/ajax_misc.php:313
 msgid "Symbole"
 msgstr ""
 
 #: html/ajax_misc.php:197 html/ajax_misc.php:216 html/ajax_misc.php:230
-#: html/ajax_misc.php:236
+#: html/ajax_misc.php:236 html/ajax_misc.php:314
 msgid "Explication"
 msgstr ""
 
 #: html/ajax_misc.php:250 html/ajax_misc.php:255 html/ajax_misc.php:269
 #: html/ajax_misc.php:274 html/ajax_misc.php:283 html/ajax_misc.php:288
-#: html/ajax_misc.php:289 html/ajax_misc.php:294
+#: html/ajax_misc.php:289 html/ajax_misc.php:294 html/ajax_misc.php:367
+#: html/ajax_misc.php:372
 msgid "tva inconnue"
 msgstr ""
 
@@ -332,6 +354,7 @@ msgstr ""
 #: include/dossier.inc.php:361 include/dossier.inc.php:404
 #: include/opening.inc.php:166 include/opening.inc.php:253
 #: include/ajax/ajax_get_profile.php:47 include/forecast.inc.php:337
+#: html/ajax_misc.php:398
 msgid "Retour"
 msgstr ""
 
@@ -342,23 +365,23 @@ msgstr ""
 #: include/database.item.php:75 include/database.item.php:80
 #: html/ajax_misc.php:324 include/category_card.inc.php:74
 #: html/ajax_misc.php:330 include/database.item.php:78
-#: include/database.item.php:77
+#: include/database.item.php:77 html/ajax_misc.php:408
 msgid "Lettrage"
 msgstr ""
 
 #: html/ajax_misc.php:316 html/ajax_misc.php:335 html/ajax_misc.php:349
-#: html/ajax_misc.php:355
+#: html/ajax_misc.php:355 html/ajax_misc.php:433
 msgid "Montant min. "
 msgstr ""
 
 #: html/ajax_misc.php:323 html/ajax_misc.php:342 html/ajax_misc.php:356
-#: html/ajax_misc.php:362
+#: html/ajax_misc.php:362 html/ajax_misc.php:440
 msgid "Montant max. "
 msgstr ""
 
 #: html/ajax_misc.php:338 html/ajax_misc.php:352 html/ajax_misc.php:357
 #: html/ajax_misc.php:371 html/ajax_misc.php:385 html/ajax_misc.php:377
-#: html/ajax_misc.php:391
+#: html/ajax_misc.php:391 html/ajax_misc.php:455 html/ajax_misc.php:469
 msgid "Date malformée"
 msgstr ""
 
@@ -367,6 +390,7 @@ msgstr ""
 #: include/ext/tools/include/class_anc_grandlivre_ext.php:126
 #: html/ajax_misc.php:383 include/fiche.inc.php:502 html/ajax_misc.php:397
 #: include/fiche.inc.php:570 include/fiche.inc.php:573 html/ajax_misc.php:403
+#: html/ajax_misc.php:481
 msgid "Debit"
 msgstr ""
 
@@ -375,11 +399,12 @@ msgstr ""
 #: include/ext/tools/include/class_anc_grandlivre_ext.php:127
 #: html/ajax_misc.php:384 include/fiche.inc.php:506 html/ajax_misc.php:398
 #: include/fiche.inc.php:574 include/fiche.inc.php:577 html/ajax_misc.php:404
+#: html/ajax_misc.php:482
 msgid "Credit"
 msgstr ""
 
 #: html/ajax_misc.php:366 html/ajax_misc.php:385 html/ajax_misc.php:399
-#: html/ajax_misc.php:405
+#: html/ajax_misc.php:405 html/ajax_misc.php:483
 msgid "Les 2"
 msgstr ""
 
@@ -434,11 +459,12 @@ msgstr ""
 #: include/class/class_fiche_def.php:774 include/forecast.inc.php:248
 #: include/forecast.inc.php:263 include/forecast.inc.php:283
 #: include/forecast.inc.php:307 include/forecast.inc.php:354
+#: html/ajax_misc.php:578 include/ajax/ajax_card.php:160
 msgid "Sauver"
 msgstr ""
 
 #: html/ajax.php:48 html/extension.raw.php:59 html/ajax.php:66
-#: html/extension.raw.php:57
+#: html/extension.raw.php:57 html/ajax.php:67
 msgid "Cette extension n'existe pas "
 msgstr ""
 
@@ -458,7 +484,7 @@ msgstr ""
 #: include/template/ledger_detail_misc.php:95 include/class_fiche.php:466
 #: include/database.item.php:178 include/database.item.php:177
 #: include/database.item.php:166 include/class/class_fiche.php:466
-#: include/database.item.php:167
+#: include/database.item.php:167 include/ajax/ajax_poste.php:65
 msgid "Poste Comptable"
 msgstr ""
 
@@ -946,6 +972,7 @@ msgstr ""
 
 #: include/cat_document.inc.php:42 include/class_forecast.php:70
 #: html/ajax_card.php:536 include/class/class_forecast.php:70
+#: include/ajax/ajax_card.php:516
 msgid "Le nom ne peut pas être vide"
 msgstr ""
 
@@ -984,6 +1011,7 @@ msgstr ""
 #: include/template/security_list_action.php:56 include/database.item.php:84
 #: include/database.item.php:115 include/database.item.php:83
 #: include/database.item.php:114 include/template/detail-action.php:344
+#: include/template/detail-action.php:343
 msgid "Fiche"
 msgstr ""
 
@@ -1077,7 +1105,7 @@ msgstr ""
 #: html/ajax_card.php:323 include/category_detail.inc.php:70
 #: include/template/dashboard.php:339 include/template/dashboard.php:344
 #: include/ext/amortis/include/template/material_add.php:87
-#: include/ajax/ajax_mod_predf_op.php:56
+#: include/ajax/ajax_mod_predf_op.php:56 include/ajax/ajax_card.php:303
 msgid "Annuler"
 msgstr ""
 
@@ -1210,7 +1238,8 @@ msgstr ""
 #: include/class/class_acc_ledger_fin.php:74
 #: include/class/class_acc_ledger.php:1856
 #: include/class/class_acc_ledger_purchase.php:75
-#: include/class/class_acc_ledger_sold.php:82
+#: include/class/class_acc_ledger_sold.php:82 include/ajax/ajax_history.php:26
+#: include/ajax/ajax_todo_list.php:181 include/ajax/ajax_todo_list.php:244
 msgid "Accès interdit"
 msgstr ""
 
@@ -1498,7 +1527,8 @@ msgstr ""
 #: include/class/class_anc_listing.php:75
 #: include/class/class_balance_age.php:141 include/class/class_fiche.php:1229
 #: include/class/class_fiche.php:1304
-#: include/class/class_print_ledger_detail_item.php:57
+#: include/class/class_print_ledger_detail_item.php:57 html/ajax_misc.php:413
+#: include/template/detail-action.php:95
 msgid "Date"
 msgstr ""
 
@@ -1558,7 +1588,7 @@ msgstr ""
 #: include/class/class_acc_ledger_sold.php:1343
 #: include/class/class_anc_grandlivre.php:190
 #: include/class/class_anc_listing.php:76
-#: include/class/class_pre_op_advanced.php:196
+#: include/class/class_pre_op_advanced.php:196 html/ajax_misc.php:409
 msgid "Poste"
 msgstr ""
 
@@ -1868,7 +1898,7 @@ msgstr ""
 #: include/class_acc_ledger.php:2967 include/class_acc_ledger.php:2975
 #: html/ajax_card.php:304 include/class_pre_operation.php:282
 #: include/class/class_acc_ledger.php:2975
-#: include/class/class_pre_operation.php:282
+#: include/class/class_pre_operation.php:282 include/ajax/ajax_card.php:284
 msgid "Filtrer"
 msgstr ""
 
@@ -2290,6 +2320,7 @@ msgstr ""
 #: include/class/class_acc_ledger_purchase.php:1775
 #: include/class/class_acc_ledger_sold.php:684
 #: include/class/class_acc_ledger_sold.php:1358
+#: include/template/detail-action.php:346
 msgid "quantité"
 msgstr ""
 
@@ -2332,6 +2363,7 @@ msgstr ""
 #: include/class/class_acc_ledger_purchase.php:1773
 #: include/class/class_acc_ledger_sold.php:689
 #: include/class/class_acc_ledger_sold.php:1356
+#: include/template/detail-action.php:348
 msgid "Montant TVA"
 msgstr ""
 
@@ -2358,6 +2390,7 @@ msgstr ""
 #: include/template/detail-action.php:350
 #: include/class/class_acc_ledger_purchase.php:1397
 #: include/class/class_acc_ledger_sold.php:691
+#: include/template/detail-action.php:349
 msgid "Montant TVAC"
 msgstr ""
 
@@ -2725,6 +2758,10 @@ msgstr ""
 #: include/class/class_anc_listing.php:79 include/class/class_anc_plan.php:124
 #: include/class/class_fiche.php:1230 include/class/class_fiche.php:1307
 #: include/class/class_user.php:980 include/database.item.php:149
+#: include/template/detail-action.php:240
+#: include/template/detail-action.php:268
+#: include/template/detail-action.php:344
+#: include/template/detail-action.php:502
 msgid "Description"
 msgstr ""
 
@@ -2791,6 +2828,7 @@ msgstr ""
 #: include/template/detail-action.php:401
 #: include/class/class_anc_group_operation.php:189
 #: include/class/class_anticipation.php:431
+#: include/template/detail-action.php:400
 msgid "Ajouter une ligne"
 msgstr ""
 
@@ -3012,6 +3050,7 @@ msgstr ""
 #: include/ajax/ajax_view_mod_stock.php:55
 #: include/class/class_document_modele.php:70
 #: include/class/class_document_type.php:82 include/forecast.inc.php:333
+#: include/template/detail-action.php:476
 msgid "Effacer"
 msgstr ""
 
@@ -3069,6 +3108,7 @@ msgstr ""
 #: include/dossier.inc.php:274 include/template/detail-action.php:455
 #: include/ajax/ajax_get_profile.php:84 include/ajax/ajax_view_action.php:48
 #: include/class/class_document_type.php:75
+#: include/template/detail-action.php:454
 msgid "Modifier"
 msgstr ""
 
@@ -3330,6 +3370,7 @@ msgstr ""
 #: include/template/ledger_detail_top.php:15
 #: include/lib/class_html_input.php:420 include/ajax/ajax_mod_periode.php:89
 #: include/class/class_extension.php:237
+#: include/template/ledger_detail_top.php:16
 #, php-format
 msgid "Fermer"
 msgstr ""
@@ -3603,6 +3644,7 @@ msgstr ""
 #: include/ext/modop/modop_display.php:112 include/compta_ach.inc.php:286
 #: include/compta_ven.inc.php:324 include/ext/modop/modop_display.php:123
 #: include/template/detail-action.php:400
+#: include/template/detail-action.php:399
 msgid "Actualiser"
 msgstr ""
 
@@ -4907,6 +4949,7 @@ msgstr ""
 #: include/ext/sav/include/template/sas_display_detail.php:142
 #: html/ajax_misc.php:397 include/database.item.php:169
 #: include/database.item.php:168 include/database.item.php:167
+#: html/ajax_misc.php:475
 msgid "Date Fin"
 msgstr ""
 
@@ -5737,6 +5780,7 @@ msgstr ""
 #: include/template/detail-action.php:119
 #: include/ext/sav/include/template/sas_display_detail.php:145
 #: include/template/detail-action.php:124
+#: include/template/detail-action.php:123
 msgid "Etat"
 msgstr ""
 
@@ -5857,6 +5901,7 @@ msgstr ""
 #: include/template/todo_list_display.php:54
 #: include/template/dashboard.php:334 include/template/dashboard.php:339
 #: include/template/detail-action.php:259
+#: include/template/detail-action.php:258
 msgid "Titre"
 msgstr ""
 
@@ -5875,6 +5920,7 @@ msgstr ""
 #: include/template/detail-action.php:45 include/template/detail-action.php:94
 #: include/template/detail-action.php:100
 #: include/template/detail-action.php:105
+#: include/template/detail-action.php:104
 msgid "Heure"
 msgstr ""
 
@@ -5882,6 +5928,7 @@ msgstr ""
 #: include/template/detail-action.php:104
 #: include/template/detail-action.php:110
 #: include/template/detail-action.php:115
+#: include/template/detail-action.php:114
 msgid "Date limite"
 msgstr ""
 
@@ -5903,6 +5950,7 @@ msgstr ""
 #: include/template/detail-action.php:123
 #: include/template/detail-action.php:129
 #: include/template/detail-action.php:134
+#: include/template/detail-action.php:133
 msgid "Priorité"
 msgstr ""
 
@@ -5919,6 +5967,7 @@ msgstr ""
 #: include/template/detail-action.php:190
 #: include/template/detail-action.php:196
 #: include/template/detail-action.php:201
+#: include/template/detail-action.php:200
 #, php-format
 msgid "Voulez-vous effacer cette action "
 msgstr ""
@@ -5947,6 +5996,7 @@ msgstr ""
 #: include/template/detail-action.php:271
 #: include/class/class_acc_ledger_purchase.php:1761
 #: include/class/class_acc_ledger_sold.php:1344
+#: include/template/detail-action.php:270
 msgid "Commentaire"
 msgstr ""
 
@@ -5966,6 +6016,7 @@ msgstr ""
 #: include/template/detail-action.php:335
 #: include/template/detail-action.php:341
 #: include/template/detail-action.php:346
+#: include/template/detail-action.php:345
 msgid "prix unitaire"
 msgstr ""
 
@@ -5987,6 +6038,7 @@ msgstr ""
 #: include/template/detail-action.php:348
 #: include/class/class_acc_ledger_purchase.php:1772
 #: include/class/class_acc_ledger_sold.php:1355
+#: include/template/detail-action.php:347
 msgid "Code TVA"
 msgstr ""
 
@@ -5996,6 +6048,7 @@ msgstr ""
 #: include/template/detail-action.php:366
 #: include/template/detail-action.php:372
 #: include/template/detail-action.php:377
+#: include/template/detail-action.php:376
 msgid "Montrer les détails"
 msgstr ""
 
@@ -6005,6 +6058,7 @@ msgstr ""
 #: include/template/detail-action.php:367
 #: include/template/detail-action.php:373
 #: include/template/detail-action.php:378
+#: include/template/detail-action.php:377
 msgid "Cacher les détails"
 msgstr ""
 
@@ -6016,6 +6070,7 @@ msgstr ""
 #: include/template/detail-action.php:413
 #: include/template/detail-action.php:419
 #: include/template/detail-action.php:424
+#: include/template/detail-action.php:423
 msgid "Document à générer"
 msgstr ""
 
@@ -6025,6 +6080,7 @@ msgstr ""
 #: include/template/detail-action.php:424
 #: include/template/detail-action.php:430
 #: include/template/detail-action.php:435
+#: include/template/detail-action.php:434
 msgid "Pièces attachées"
 msgstr ""
 
@@ -6034,6 +6090,7 @@ msgstr ""
 #: include/template/detail-action.php:459
 #: include/template/detail-action.php:465
 #: include/template/detail-action.php:470
+#: include/template/detail-action.php:469
 #, php-format
 msgid "Voulez-vous effacer le document"
 msgstr ""
@@ -6044,6 +6101,7 @@ msgstr ""
 #: include/template/detail-action.php:482
 #: include/template/detail-action.php:488
 #: include/template/detail-action.php:493
+#: include/template/detail-action.php:492
 msgid "Je ne peux pas ajouter de fichier"
 msgstr ""
 
@@ -6258,6 +6316,7 @@ msgstr ""
 #: include/template/detail-action.php:325
 #: include/ext/sav/include/template/sas_display_list.php:66
 #: include/template/detail-action.php:330
+#: include/template/detail-action.php:329
 msgid "Détail"
 msgstr ""
 
@@ -7155,7 +7214,8 @@ msgstr ""
 #: html/ajax_card.php:322 html/ajax_card.php:148 html/ajax_card.php:358
 #: include/ajax_add_concerned_card.php:32 html/ajax_card.php:359
 #: html/ajax_card.php:149 html/ajax_card.php:360
-#: include/ajax/ajax_add_concerned_card.php:32
+#: include/ajax/ajax_add_concerned_card.php:32 include/ajax/ajax_card.php:129
+#: include/ajax/ajax_card.php:340
 msgid "Détail fiche"
 msgstr ""
 
@@ -7300,6 +7360,8 @@ msgstr ""
 #: include/fiche.inc.php:295 include/fiche.inc.php:331 html/popup.php:73
 #: include/class_fiche.php:1413 include/class_fiche.php:1419
 #: include/class_fiche.php:1436 include/class/class_fiche.php:1436
+#: include/class/class_acc_account_ledger.php:668
+#: include/class/class_fiche.php:2009
 msgid "Export CSV"
 msgstr ""
 
@@ -8109,10 +8171,12 @@ msgid "Numéro TVA"
 msgstr ""
 
 #: html/ajax_card.php:106 html/ajax_card.php:124 html/ajax_card.php:125
+#: include/ajax/ajax_card.php:105
 msgid "Parametre ad_id est invalide"
 msgstr ""
 
 #: html/ajax_card.php:182 html/ajax_card.php:200 html/ajax_card.php:201
+#: include/ajax/ajax_card.php:181
 msgid "Nouvelle fiche"
 msgstr ""
 
@@ -8120,6 +8184,8 @@ msgstr ""
 #: html/ajax_card.php:269 html/ajax_card.php:279 html/ajax_card.php:334
 #: html/ajax_card.php:271 html/ajax_card.php:281 html/ajax_card.php:336
 #: html/ajax_card.php:272 html/ajax_card.php:282 html/ajax_card.php:337
+#: include/ajax/ajax_card.php:252 include/ajax/ajax_card.php:262
+#: include/ajax/ajax_card.php:317
 msgid "Choix de la catégorie"
 msgstr ""
 
@@ -8129,25 +8195,27 @@ msgid ""
 msgstr ""
 
 #: html/ajax_card.php:304 html/ajax_card.php:340 html/ajax_card.php:342
-#: html/ajax_card.php:343
+#: html/ajax_card.php:343 include/ajax/ajax_card.php:323
 msgid "Fiche sauvée"
 msgstr ""
 
 #: html/ajax_card.php:421 html/ajax_card.php:422 html/ajax_card.php:469
 #: html/ajax_card.php:470 html/ajax_card.php:471
+#: include/ajax/ajax_card.php:451
 msgid " de contacts"
 msgstr ""
 
 #: html/ajax_card.php:504 html/ajax_card.php:505 html/ajax_card.php:556
 #: html/ajax_card.php:555 html/ajax_card.php:562 html/ajax_card.php:564
-#: html/ajax_card.php:563
+#: html/ajax_card.php:563 include/ajax/ajax_card.php:543
 msgid "Détail fiche (sauvée)"
 msgstr ""
 
 #: html/ajax_history.php:61 html/ajax_history.php:131
 #: include/balance_card.inc.php:36 include/balance_card.inc.php:35
 #: html/ajax_history.php:79 html/ajax_history.php:149 html/ajax_history.php:80
-#: html/ajax_history.php:150
+#: html/ajax_history.php:150 include/ajax/ajax_history.php:57
+#: include/ajax/ajax_history.php:138
 msgid ""
 "erreur aucune période par défaut, allez dans préférence pour en choisir une"
 msgstr ""
@@ -8157,7 +8225,9 @@ msgstr ""
 #: html/ajax_history.php:114 html/ajax_history.php:179
 #: html/ajax_history.php:185 html/ajax_history.php:109
 #: html/ajax_history.php:115 html/ajax_history.php:180
-#: html/ajax_history.php:186
+#: html/ajax_history.php:186 include/ajax/ajax_history.php:86
+#: include/ajax/ajax_history.php:92 include/ajax/ajax_history.php:168
+#: include/ajax/ajax_history.php:174
 msgid "Autre exercice"
 msgstr ""
 
@@ -8165,6 +8235,7 @@ msgstr ""
 #: include/balance_card.inc.php:70 include/balance_card.inc.php:69
 #: html/ajax_history.php:131 html/ajax_history.php:202
 #: html/ajax_history.php:132 html/ajax_history.php:203
+#: include/ajax/ajax_history.php:115 include/ajax/ajax_history.php:198
 msgid "Aucune opération pour l'exercice courant"
 msgstr ""
 
@@ -8176,25 +8247,26 @@ msgstr ""
 
 #: html/ajax_ledger.php:353 html/ajax_ledger.php:371 html/ajax_ledger.php:364
 #: html/ajax_ledger.php:365 html/ajax_ledger.php:373
+#: include/ajax/ajax_ledger.php:350
 msgid "Chargement"
 msgstr ""
 
 #: html/ajax_ledger.php:527 html/ajax_ledger.php:551 html/ajax_ledger.php:544
 #: include/template/ledger_detail_bottom.php:314 html/ajax_ledger.php:545
 #: html/ajax_ledger.php:557 include/template/ledger_detail_bottom.php:320
-#: html/ajax_ledger.php:559
+#: html/ajax_ledger.php:559 include/ajax/ajax_ledger.php:536
 msgid "entrez une date"
 msgstr ""
 
 #: html/ajax_misc.php:297 include/template/ledger_detail_fin.php:59
 #: include/ext/tools/raw.php:82 html/ajax_misc.php:316
 #: include/template/ledger_detail_fin.php:60 html/ajax_misc.php:330
-#: html/ajax_misc.php:336
+#: html/ajax_misc.php:336 html/ajax_misc.php:414
 msgid "montant"
 msgstr ""
 
 #: html/ajax_misc.php:458 html/ajax_misc.php:477 html/ajax_misc.php:491
-#: html/ajax_misc.php:497
+#: html/ajax_misc.php:497 html/ajax_misc.php:575
 msgid "Mauvais type objet"
 msgstr ""
 
@@ -8208,7 +8280,7 @@ msgid "Résultat limité à 12"
 msgstr ""
 
 #: html/login.php:53 html/login.php:85 html/login.php:52 html/login.php:88
-#: html/login.php:89
+#: html/login.php:89 html/login.php:90
 msgid "Version de base de données incorrectes, vous devez mettre à jour"
 msgstr ""
 
@@ -8223,6 +8295,8 @@ msgstr ""
 #: html/popup.php:55 html/popup.php:72 include/class_fiche.php:1397
 #: html/popup.php:74 include/class_fiche.php:1398 include/class_fiche.php:1404
 #: include/class_fiche.php:1421 include/class/class_fiche.php:1421
+#: include/class/class_acc_account_ledger.php:690
+#: include/class/class_fiche.php:2031
 msgid "Export PDF"
 msgstr ""
 
@@ -8653,6 +8727,7 @@ msgid ""
 msgstr ""
 
 #: include/class_acc_account.php:97 include/class/class_acc_account.php:97
+#: include/class/class_acc_account_ledger.php:184
 msgid "Poste inconnu"
 msgstr ""
 
@@ -9059,6 +9134,7 @@ msgstr ""
 #: include/template/detail-action.php:181
 #: include/template/detail-action.php:187
 #: include/template/detail-action.php:192
+#: include/template/detail-action.php:191
 msgid "Actions concernées"
 msgstr ""
 
@@ -9068,6 +9144,7 @@ msgstr ""
 #: include/template/detail-action.php:268
 #: include/template/detail-action.php:274
 #: include/template/detail-action.php:279
+#: include/template/detail-action.php:278
 #, php-format
 msgid "Voulez-vous effacer ce commentaire"
 msgstr ""
@@ -9078,6 +9155,7 @@ msgstr ""
 #: include/template/detail-action.php:497
 #: include/template/detail-action.php:503
 #: include/template/detail-action.php:508
+#: include/template/detail-action.php:507
 msgid "Ajouter un fichier"
 msgstr ""
 
@@ -9476,7 +9554,7 @@ msgid "Choississez la TVA "
 msgstr ""
 
 #: html/ajax_misc.php:361 html/ajax_misc.php:380 html/ajax_misc.php:394
-#: html/ajax_misc.php:400
+#: html/ajax_misc.php:400 html/ajax_misc.php:478
 msgid "Debit / Credit"
 msgstr ""
 
@@ -9917,6 +9995,7 @@ msgstr ""
 #: include/template/detail-action.php:400
 #: include/template/detail-action.php:406
 #: include/template/detail-action.php:411
+#: include/template/detail-action.php:410
 msgid "Transformer en facture"
 msgstr ""
 
@@ -10106,11 +10185,12 @@ msgid "Les clauses FROM sont ignorés avec les dates calendriers"
 msgstr ""
 
 #: html/ajax_card.php:295 html/ajax_card.php:297 html/ajax_card.php:298
+#: include/ajax/ajax_card.php:278
 msgid "Choisissez une catégorie svp"
 msgstr ""
 
 #: html/ajax_card.php:472 html/ajax_card.php:473 html/ajax_card.php:474
-#: html/ajax_card.php:475
+#: html/ajax_card.php:475 include/ajax/ajax_card.php:455
 msgid " Banque"
 msgstr ""
 
@@ -10479,7 +10559,7 @@ msgid " pour la fiche "
 msgstr ""
 
 #: include/template/detail-action.php:64 include/template/detail-action.php:67
-#: include/template/detail-action.php:72
+#: include/template/detail-action.php:72 include/template/detail-action.php:71
 msgid "Autres concernés"
 msgstr ""
 
@@ -10596,6 +10676,7 @@ msgstr ""
 
 #: include/template/ledger_detail_top.php:10
 #: include/template/ledger_detail_top.php:16
+#: include/template/ledger_detail_top.php:17
 msgid "Ouvrir dans une fenêtre séparée"
 msgstr ""
 
@@ -10861,11 +10942,13 @@ msgid "Dépense  charge du gérant (partie privé) "
 msgstr ""
 
 #: html/ajax_card.php:291 html/ajax_card.php:293 html/ajax_card.php:294
+#: include/ajax/ajax_card.php:274
 msgid ""
 "Choisissez la catégorie de fiche à laquelle vous aimeriez ajouter une fiche"
 msgstr ""
 
 #: html/ajax_misc.php:209 html/ajax_misc.php:223 html/ajax_misc.php:229
+#: html/ajax_misc.php:307
 msgid "Choisissez la TVA "
 msgstr ""
 
@@ -10905,34 +10988,41 @@ msgid "Opération non effacée: vous n'avez pas confirmé"
 msgstr ""
 
 #: html/ajax_ledger.php:186 html/ajax_ledger.php:187
+#: include/ajax/ajax_ledger.php:164
 msgid "Effacement refusé"
 msgstr ""
 
-#: html/ajax_misc.php:225 html/ajax_misc.php:231
+#: html/ajax_misc.php:225 html/ajax_misc.php:231 html/ajax_misc.php:309
 msgid "Filter"
 msgstr ""
 
 #: html/ajax_todo_list.php:140 html/ajax_todo_list.php:141
+#: include/ajax/ajax_todo_list.php:140
 msgid "Erreur : note invalide"
 msgstr ""
 
 #: html/ajax_todo_list.php:148 html/ajax_todo_list.php:187
 #: html/ajax_todo_list.php:149 html/ajax_todo_list.php:188
+#: include/ajax/ajax_todo_list.php:148 include/ajax/ajax_todo_list.php:187
 msgid "Liste utilisateurs"
 msgstr ""
 
 #: html/ajax_todo_list.php:150 html/ajax_todo_list.php:151
+#: include/ajax/ajax_todo_list.php:150
 msgid "Vous devez d'abord sauver"
 msgstr ""
 
 #: html/ajax_todo_list.php:172 html/ajax_todo_list.php:226
 #: html/ajax_todo_list.php:235 html/ajax_todo_list.php:173
 #: html/ajax_todo_list.php:227 html/ajax_todo_list.php:236
+#: include/ajax/ajax_todo_list.php:172 include/ajax/ajax_todo_list.php:226
+#: include/ajax/ajax_todo_list.php:235
 msgid "Cette note n'est pas à vous"
 msgstr ""
 
 #: html/ajax_todo_list.php:214 html/ajax_todo_list.php:273
 #: html/ajax_todo_list.php:215 html/ajax_todo_list.php:274
+#: include/ajax/ajax_todo_list.php:214 include/ajax/ajax_todo_list.php:273
 msgid "Erreur : paramètre invalide"
 msgstr ""
 
@@ -11415,6 +11505,7 @@ msgstr ""
 
 #: include/template/ledger_detail_top.php:21
 #: include/template/ledger_detail_top.php:27
+#: include/template/ledger_detail_top.php:28
 msgid "Opération ID"
 msgstr ""
 
@@ -11534,6 +11625,7 @@ msgid "Type de menu"
 msgstr ""
 
 #: html/ajax_card.php:478 html/ajax_card.php:479
+#: include/ajax/ajax_card.php:459
 msgid " Employé ou administrateur"
 msgstr ""
 
@@ -11570,11 +11662,11 @@ msgstr ""
 msgid "Modifie description"
 msgstr ""
 
-#: html/ajax_misc.php:179
+#: html/ajax_misc.php:179 html/ajax_misc.php:257
 msgid "Action non autorisée"
 msgstr ""
 
-#: html/ajax_misc.php:196
+#: html/ajax_misc.php:196 html/ajax_misc.php:274
 msgid "Des actions dépendent de cette catégorie"
 msgstr ""
 
@@ -11749,6 +11841,7 @@ msgstr ""
 
 #: include/template/detail-action.php:139
 #: include/template/detail-action.php:144
+#: include/template/detail-action.php:143
 msgid "Groupe Gestion"
 msgstr ""
 
@@ -12008,11 +12101,11 @@ msgstr ""
 msgid "Salaire"
 msgstr ""
 
-#: html/ajax_misc.php:571
+#: html/ajax_misc.php:571 html/ajax_misc.php:613
 msgid "Ce plugin n'existe pas "
 msgstr ""
 
-#: html/ajax_misc.php:572
+#: html/ajax_misc.php:572 html/ajax_misc.php:614
 msgid "Il y a une erreur, ce plugin n'existe pas"
 msgstr ""
 
@@ -12039,10 +12132,12 @@ msgid "Pas de catégorie de contact"
 msgstr ""
 
 #: include/template/detail-action.php:310
+#: include/template/detail-action.php:309
 msgid "Montrer articles"
 msgstr ""
 
 #: include/template/detail-action.php:311
+#: include/template/detail-action.php:310
 msgid "Générer"
 msgstr ""
 
@@ -12750,4 +12845,33 @@ msgstr ""
 
 #: include/database.item.php:133
 msgid "Ce menu vous présente  un menu rapide de vos menus préférés"
+msgstr ""
+
+#: html/admin/setup.php:132
+msgid "Mot de passe de l'utilisateur de Postgresql"
+msgstr ""
+
+#: html/admin/template_config_form.php:47
+msgid "Utilisateur Postgresql"
+msgstr ""
+
+#: html/admin/template_config_form.php:51
+msgid "Mot de passe de l'utilisateur Postgresql"
+msgstr ""
+
+#: include/ajax/ajax_card.php:56
+msgid "Accès non autorisé"
+msgstr ""
+
+#: include/ajax/ajax_ledger.php:31 include/ajax/ajax_poste.php:35
+msgid "Non authorisé"
+msgstr ""
+
+#: include/ajax/ajax_todo_list.php:36
+msgid "Aucun accès direct"
+msgstr ""
+
+#: include/class/class_acc_account_ledger.php:699
+#: include/class/class_fiche.php:2041
+msgid "Filtre rapide"
 msgstr ""

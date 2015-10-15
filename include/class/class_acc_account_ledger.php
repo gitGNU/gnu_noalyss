@@ -181,7 +181,7 @@ class Acc_Account_Ledger
         }
         else
         {
-            $this->name="Poste inconnu";
+            $this->name=_("Poste inconnu");
         }
         return $this->name;
     }

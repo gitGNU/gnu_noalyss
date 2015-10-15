@@ -20,7 +20,8 @@
 
 // Copyright Author Dany De Bontridder danydb@aevalys.eu
 
-/**\file
+/**
+ * \file
  * \brief this file respond to an ajax request
  * The parameters are
  * - gDossier
