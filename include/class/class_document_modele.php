@@ -52,8 +52,8 @@ class Document_modele
      */
     function myList()
     {
-        $s=dossier::get();
-        $sql="select md_id,md_name,md_affect,dt_value from document_modele join document_type on(dt_id=md_type) order by md_name";
+        $dosid=dossier::id();
+        $sql="select md_id,md_name,md_affect,dt_value,md_filename from document_modele join document_type on(dt_id=md_type) order by md_name";
         $Res=$this->cn->exec_sql($sql);
         $all=Database::fetch_all($Res);
 	$r='';
@@ -80,14 +80,15 @@ class Document_modele
 	      $r.="</td>";
 	      $r.=td(h($row['md_affect']));
 	      $r.="<td>";
-	      $r.='<A HREF="show_document_modele.php?md_id='.$row['md_id'].'&'.$s.'">Document</a>';
+              $href=http_build_query(array('gDossier'=>$dosid,'md_id'=>$row['md_id'],'act'=>'RAW:document_template'));
+	      $r.='<A HREF="export.php?'.$href.'">'.h($row['md_filename']).'</a>';
 	      $r.="</td>";
 	      $r.="<TD>";
 	      $c=new ICheckBox();
 	      $c->name="dm_remove_".$row['md_id'];
 	      $r.=$c->input();
 	      $r.="</td>";
-	      $r.=td(HtmlInput::detail_modele_document($row['md_id'],'Modifier'));
+	      $r.=td(HtmlInput::detail_modele_document($row['md_id'],_('Modifier')));
 
 	      $r.="</tr>";
 	    }

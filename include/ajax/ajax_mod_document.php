@@ -28,7 +28,7 @@ require_once NOALYSS_INCLUDE.'/class/class_dossier.php';
 require_once NOALYSS_INCLUDE.'/class/class_document_modele.php';
 
   /* 1. Check security */
-$cn=Dossier::id();
+$cn=Dossier::connect();
   /* 2. find the document */
 $doc=new Document_Modele($cn,$id);
 

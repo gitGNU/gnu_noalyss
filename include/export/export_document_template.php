@@ -21,22 +21,10 @@
 /*! \file
  * \brief send the document template
  */
-require_once '../include/constant.php';
 require_once NOALYSS_INCLUDE.'/lib/class_database.php';
 require_once NOALYSS_INCLUDE.'/lib/ac_common.php';
 require_once NOALYSS_INCLUDE.'/class/class_dossier.php';
 
-$gDossier=dossier::id();
-$cn=Dossier::connect();
-
-
-require_once NOALYSS_INCLUDE.'/class/class_user.php';
-global $g_user;
-$g_user=new User($cn);
-$g_user->Check();
-$g_user->check_dossier($gDossier);
-
-set_language();
 if ( $g_user->check_module("CFGDOC") == 0 ) exit();
 // retrieve the document
 $r=$cn->exec_sql("select md_id,md_lob,md_filename,md_mimetype
