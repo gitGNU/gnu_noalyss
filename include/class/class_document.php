@@ -162,7 +162,8 @@ class Document
 		}
         $this->SaveGenerated($dirname.DIRECTORY_SEPARATOR.$file_to_parse);
         // Invoice
-        $ret='<A class="mtitle" HREF="show_document.php?d_id='.$this->d_id.'&'.dossier::get().'">Document g&eacute;n&eacute;r&eacute;</A>';
+        $href=http_build_query(array('gDossier'=>Dossier::id(),"d_id"=>$this->d_id,'act'=>'RAW:document'));
+        $ret='<A class="mtitle" HREF="export.php?'.$href.'">Document g&eacute;n&eacute;r&eacute;</A>';
         @rmdir($dirname);
         return $ret;
     }
@@ -409,7 +410,9 @@ class Document
             return '';
         $image='<IMG SRC="image/insert_table.gif" title="'.$this->d_filename.'" border="0">';
         $r="";
-        $r='<A class="mtitle" HREF="show_document.php?d_id='.$this->d_id.'&'.dossier::get().'">'.$image.'</A>';
+        $href=http_build_query(array('gDossier'=>Dossier::id(),"d_id"=>$this->d_id,'act'=>'RAW:document'));
+
+        $r='<A class="mtitle" HREF="export.php?'.$href.'">'.$image.'</A>';
         return $r;
     }
     /** Get

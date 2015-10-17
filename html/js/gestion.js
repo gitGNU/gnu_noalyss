@@ -33,9 +33,14 @@
 */
 function remove_document(p_dossier,p_id)
 {
-	var queryString="gDossier="+p_dossier+"&a=rm&d_id="+p_id;
+	var queryString={
+            "gDossier":p_dossier,
+            "a":"rm",
+            "d_id":p_id,
+            'act':'RAW:document'
+        };
 	var action=new Ajax.Request (
-		"show_document.php",
+		"export.php",
 		{
 			method:'get',
 			parameters:queryString,
@@ -53,10 +58,15 @@ function remove_document(p_dossier,p_id)
 */
 function update_document(p_dossier,p_id)
 {
-	var queryString="gDossier="+p_dossier+"&a=upd_doc&d_id="+p_id;
-        queryString+="&value="+$('input_desc_txt'+p_id).value;
+        var queryString={
+            "gDossier":p_dossier,
+            "a":"upd_doc",
+            "d_id":p_id,
+            'act':'RAW:document',
+            'value':$('input_desc_txt'+p_id).value
+        };
 	var action=new Ajax.Request (
-		"show_document.php",
+		"export.php",
 		{
 			method:'get',
 			parameters:queryString,
@@ -79,9 +89,14 @@ function update_document(p_dossier,p_id)
 */
 function remove_operation(p_dossier,p_id)
 {
-	var queryString="gDossier="+p_dossier+"&a=rmop&id="+p_id;
+        var queryString={
+            "gDossier":p_dossier,
+            "a":"rmop",
+            "id":p_id,
+            'act':'RAW:document'
+        };
 	var action=new Ajax.Request (
-		"show_document.php",
+		"export.php",
 		{
 			method:'get',
 			parameters:queryString,
@@ -115,9 +130,15 @@ function successRemoveOp(request,json)
 */
 function remove_action(p_dossier,p_id,ag_id)
 {
-	queryString="gDossier="+p_dossier+"&a=rmaction&id="+p_id+"&ag_id="+ag_id;
+        var queryString={
+            "gDossier":p_dossier,
+            "a":"rmaction",
+            "id":p_id,
+            "ag_id":ag_id,
+            'act':'RAW:document'
+        };
 	var action=new Ajax.Request (
-		"show_document.php",
+		"export.php",
 		{
 			method:'get',
 			parameters:queryString,
@@ -146,9 +167,14 @@ function remove_action(p_dossier,p_id,ag_id)
 */
 function remove_comment(p_dossier,p_id)
 {
-	queryString="gDossier="+p_dossier+"&a=rmcomment&id="+p_id;
+        var queryString={
+            "gDossier":p_dossier,
+            "a":"rmcomment",
+            "id":p_id,
+            'act':'RAW:document'
+        };
 	var action=new Ajax.Request (
-		"show_document.php",
+		"export.php",
 		{
 			method:'get',
 			parameters:queryString,

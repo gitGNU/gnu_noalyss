@@ -404,7 +404,7 @@ class Follow_Up
         $upload->readOnly=$readonly;
         $upload->value="";
         $aAttachedFile=$this->db->get_array('select d_id,d_filename,d_description,d_mimetype,'.
-                '\'show_document.php?'.
+                '\'export.php?act=RAW:document&'.
                 Dossier::get().'&d_id=\'||d_id as link'.
                 ' from document where ag_id=$1', array($this->ag_id));
         /* create the select for document */
