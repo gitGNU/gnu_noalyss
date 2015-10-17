@@ -796,7 +796,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
             if ( isset($_POST['gen_invoice']) )
             {
                 $ref_doc= $this->create_document($internal,$p_array);
-                $this->doc='<A class="line" HREF="show_pj.php?'.dossier::get().'&jr_grpt_id='.$seq.'&jrn='.$this->id.'">'.$ref_doc.'</A>';
+                $this->doc=HtmlInput::show_receipt_document($this->jr_id,h($ref_doc));
             }
 
             //----------------------------------------

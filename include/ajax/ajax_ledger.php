@@ -231,7 +231,7 @@ case 'file':
 
             $sp=new ISpan('file'.$div);
             $sp->style="display:none;background-color:red;color:white;font-size:12px";
-            $sp->value="Chargement";
+            $sp->value=_("Chargement");
             echo $sp->input();
             echo HtmlInput::hidden('act','loadfile');
             echo dossier::hidden();
@@ -283,9 +283,7 @@ case 'file':
         {
             $filename=mb_substr($obj->det->jr_pj_name,0,23);
         }
-        $h=sprintf('<a class="mtitle"  href="show_pj.php?gDossier=%d&jrn=%d&jr_grpt_id=%d">%s</a>',
-                   $gDossier,$ledger,$obj->det->jr_grpt_id,h( $filename));
-        echo $h;
+        echo HtmlInput::show_receipt_document($jr_id,h($filename));
         echo $x;
         echo '</div>';
         echo '</body></html>';
@@ -324,9 +322,8 @@ case 'loadfile':
             echo $x;
         }
         $filename= $obj->det->jr_pj_name;
-        $h=sprintf('<a class="mtitle"  href="show_pj.php?gDossier=%d&jrn=%d&jr_grpt_id=%d">%s</a>',
-                   $gDossier,$ledger,$obj->det->jr_grpt_id,h($filename));
-        echo $h;
+        echo HtmlInput::show_receipt_document($jr_id,h($filename));
+
         echo '</div>';
 
     }

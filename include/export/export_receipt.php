@@ -21,37 +21,21 @@
 /*!\file
  * \brief show an attach of an operation
  */
-require_once '../include/constant.php';
+if ( ! defined ('ALLOWED')) die (_('Non autorisé'));
+
 include_once NOALYSS_INCLUDE.'/lib/ac_common.php';
 require_once  NOALYSS_INCLUDE.'/class/class_dossier.php';
-$gDossier=dossier::id();
-
-if ( !isset ($_GET['jrn'] ) ||
-        !isset($_GET['jr_grpt_id']))
-{
-    echo_error("Missing parameters");
-}
-
 require_once NOALYSS_INCLUDE.'/lib/class_database.php';
-set_language();
 
-$jr_grpt_id=$_GET['jr_grpt_id'];
+$jr_id=HtmlInput::default_value_get('jr_id',"0");
 
-$cn=Dossier::connect();
+if ( $jr_id==0 || isNumber($jr_id) != 1 ) die (_('Données invalides'));
 
+$r=$cn->exec_sql("select jr_def_id from jrn where jr_id=$1",array($jr_id));
 
-require_once NOALYSS_INCLUDE.'/class/class_user.php';
-global $g_user;
-$g_user=new User($cn);
-$g_user->Check();
-$g_user->check_dossier($gDossier);
-if ( isNumber($jr_grpt_id) != 1 ) die (_('Données invalides'));
-
-// retrieve the jrn
-$r=$cn->exec_sql("select jr_def_id from jrn where jr_grpt_id=$jr_grpt_id");
 if ( Database::num_row($r) == 0 )
 {
-    echo_error("Invalid operation id jr_grpt_id=$jr_grpt_id");
+    echo_error("Invalid operation id jr_id=$jr_id");
     exit;
 }
 $a=Database::fetch_array($r,0);
@@ -65,10 +49,14 @@ if ($g_user->check_jrn($jrn) == 'X' )
 }
 
 $cn->start();
-$ret=$cn->exec_sql("select jr_pj,jr_pj_name,jr_pj_type from jrn where jr_grpt_id=$jr_grpt_id");
+$ret=$cn->exec_sql("select jr_pj,jr_pj_name,jr_pj_type from jrn where jr_id=$1",
+        array($jr_id));
+
 if ( Database::num_row ($ret) == 0 )
     return;
+
 $row=Database::fetch_array($ret,0);
+
 if ( $row['jr_pj']==null )
 {
     ini_set('zlib.output_compression','Off');

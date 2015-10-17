@@ -884,18 +884,29 @@ class HtmlInput
          * the ledger 
          * @global $cn database connx
          * @param $p_jr_id jrn.jr_id
+         * @param $p_name name in the link , if the name is empty then we show the icon
          * @return nothing or HTML Code for a link to the document
          */
-        static function show_receipt_document($p_jr_id)
+        static function show_receipt_document($p_jr_id,$p_name="")
         {
             global $cn;
+            $image=$p_name;
             
+            // Check the jr_id has a receipt document
             $array=$cn->get_array('select jr_def_id,jr_pj_name,jr_grpt_id from jrn where jr_id=$1',array($p_jr_id));
             if (count($array)==0) return "";
             if ($array[0]['jr_pj_name'] == "") return "";
             $str_dossier=Dossier::get();
-            $image='<IMG style="width:24px;height:24px;border:0px" SRC="image/documents.png" title="' . $array[0]['jr_pj_name'] . '" >';
-            $r=sprintf('<A class="detail" HREF="show_pj.php?jrn=%s&jr_grpt_id=%s&%s">%s</A>', $array[0]['jr_def_id'], $array[0]['jr_grpt_id'], $str_dossier, $image);
+            
+            // Name is empty then use an image
+            if ( $p_name == "") {
+                $image='<IMG style="width:24px;height:24px;border:0px" SRC="image/documents.png" title="' . h($array[0]['jr_pj_name']) . '" >';
+            } 
+            
+            // Build the url
+            $href=http_build_query(array('gDossier'=>Dossier::id(),'jr_id'=>$p_jr_id,'act'=>'RAW:receipt'));
+            
+            $r=sprintf('<A class="mtitle line" HREF="export.php?%s">%s</A>', $href, $image);
             return $r;
             
         }
