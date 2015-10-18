@@ -16,32 +16,18 @@
  *   along with NOALYSS; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
+/*!\file
+ * \brief Make and restore backup
+ */
+if ( !defined("ALLOWED")) { die (_("Non autorisé")); }
 
 // Copyright Author Dany De Bontridder danydb@aevalys.eu
-require_once '../include/constant.php';
-require_once("constant.php");
-require_once('lib/class_database.php');
-require_once  ("class/class_user.php");
-require_once ('lib/ac_common.php');
-
-$rep=new Database();
-$User=new User($rep);
-$User->Check();
-
-
-if ($User->admin != 1)
-{
-    echo "<script>alert('"._("Vous n\'êtes pas administrateur")."') </script>";
-    return;
-}
 $dossier_number=HtmlInput::default_value_request("d", 0);
 if ($dossier_number == 0  
    || isNumber($dossier_number) ==0 ) {
     die ('Invalid folder number');
 }
-/*!\file
- * \brief Make and restore backup
- */
+
 if ( isset ($_REQUEST['sa']) )
 {
     if ( defined ('PG_PATH') )
@@ -50,7 +36,7 @@ if ( isset ($_REQUEST['sa']) )
 
     if ( ! isset($_REQUEST['t']))
     {
-        echo "Erreur : paramètre manquant ";
+        echo _("Erreur : paramètre manquant ");
         exit();
     }
 

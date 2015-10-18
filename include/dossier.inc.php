@@ -274,7 +274,7 @@ if ( $sa == 'list' )
                 echo td(HtmlInput::anchor(_('Modifier'),'?action=dossier_mgt&sa=mod&d='
                                                  .$Dossier['dos_id']," onclick=\"folder_modify('".$Dossier['dos_id']."')\""));
 
-                echo td(HtmlInput::anchor(_('Backup'),'backup.php?action=backup&sa=b&t=d&d='
+                echo td(HtmlInput::anchor(_('Backup'),'?action=backup&sa=b&t=d&d='
                                               .$Dossier['dos_id']));
             } else
             {

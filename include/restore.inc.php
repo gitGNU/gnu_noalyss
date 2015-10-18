@@ -77,22 +77,22 @@ if ( isset ($_REQUEST['sa'] ))
         $id=$cn->get_next_seq('dossier_id');
 
         if ( strlen(trim($_REQUEST['database'])) == 0 )
-		{
+        {
             $lname=$id." Restauration :".sql_string($_FILES['file']['name']);
-		}
+        }
         else
-		{
+        {
             $lname=$id." ".$_REQUEST['database'];
-		}
+        }
 
-		if (strlen(trim($_REQUEST['desc']))==0)
-		{
-			$ldesc=$lname;
-		}
-		else
-		{
-			$ldesc=sql_string($_REQUEST['desc']);
-		}
+        if (strlen(trim($_REQUEST['desc']))==0)
+        {
+            $ldesc=$lname;
+        }
+        else
+        {
+            $ldesc=sql_string($_REQUEST['desc']);
+        }
 
         $sql="insert into ac_dossier (dos_id,dos_name,dos_description) values ($1,$2,$3)";
         $cn->start();

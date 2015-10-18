@@ -21,15 +21,15 @@
  * \brief Administration of the repository : creation of user, folder, security,
  *        templates... Accessible only by the administrator
  */
-if ( ! defined ('ALLOWED')) { die ('Non autorisé');}
+if ( ! defined ('ALLOWED')) { die (_('Non autorisé'));}
 
+include_once NOALYSS_INCLUDE."/class/class_user.php";
 require_once NOALYSS_INCLUDE."/lib/user_common.php";
 include_once NOALYSS_INCLUDE."/lib/ac_common.php";
 require_once NOALYSS_INCLUDE.'/lib/class_database.php';
 require_once NOALYSS_INCLUDE."/lib/user_menu.php";
 
 $rep=new Database();
-include_once ("class/class_user.php");
 $User=new User($rep);
 $User->Check();
 
@@ -37,11 +37,14 @@ html_page_start($User->theme);
 
 if ($User->admin != 1)
 {
+    echo "<h2 class=\"warning\">";
+    echo _("Vous n'êtes pas administateur");
+    echo "</h2>";
     html_page_stop();
     return;
 }
 load_all_script();
-echo '<H2 class="info"> '._('Administration Globale').'</H2>';
+echo '<H2 class="info"> '._('Administration').'</H2>';
 echo '<div class="topmenu">';
 
 echo MenuAdmin()."</div>";
@@ -60,7 +63,7 @@ if ( isset ($_REQUEST["action"]) )
         //----------------------------------------------------------------------
         // User management
         //----------------------------------------------------------------------
-        require_once("user.inc.php");
+        require_once NOALYSS_INCLUDE."/user.inc.php";
     }
     // action=user_mgt
     if ( $_REQUEST["action"]=="dossier_mgt")
@@ -68,25 +71,29 @@ if ( isset ($_REQUEST["action"]) )
         //-----------------------------------------------------------------------
         // action = dossier_mgt
         //-----------------------------------------------------------------------
-        require_once("dossier.inc.php");
+        require_once NOALYSS_INCLUDE."/dossier.inc.php";
     }
     if ( $_REQUEST["action"] == "modele_mgt" )
     {
         //-----------------------------------------------------------------------
         //  Template Management
         //-----------------------------------------------------------------------
-        require_once("modele.inc.php");
+        require_once NOALYSS_INCLUDE."/modele.inc.php";
     } // action is set
     if ( $_REQUEST['action'] == 'restore')
     {
         // Backup and restaure folders
-        require_once("restore.inc.php");
+        require_once NOALYSS_INCLUDE."/restore.inc.php";
     }
     if ($_REQUEST['action'] == 'audit_log')
-      {
+    {
 	/* List the connexion successuf and failed */
-	require_once('audit_log.php');
-      }
+	require_once NOALYSS_INCLUDE."/audit_log.php";
+    }
+    if ( $_REQUEST['action'] == 'backup') {
+        /* take backup */
+        require_once NOALYSS_INCLUDE."/backup.inc.php";
+    }
 }// action = modele_mgt
 
 ?>

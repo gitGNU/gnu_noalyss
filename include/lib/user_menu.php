@@ -107,11 +107,11 @@ function MenuAdmin()
     }
 	if (!defined("MULTI")||(defined("MULTI")&&MULTI==1))
 	{
-		$item=array (array("admin_repo.php?action=user_mgt",_("Utilisateurs"),_('Gestion des utilisateurs'),0),
-                 array("admin_repo.php?action=dossier_mgt",_("Dossiers"),_('Gestion des dossiers'),1),
-                 array("admin_repo.php?action=modele_mgt",_("Modèles"),_('Gestion des modèles'),2),
-                 array("admin_repo.php?action=restore",_("Restaure"),_("Restaure une base de données"),3),
-                 array("admin_repo.php?action=audit_log",_("Audit"),_("Utilisateurs qui se sont connectés"),4),
+		$item=array (array("admin-noalyss.php?action=user_mgt",_("Utilisateurs"),_('Gestion des utilisateurs'),0),
+                 array("admin-noalyss.php?action=dossier_mgt",_("Dossiers"),_('Gestion des dossiers'),1),
+                 array("admin-noalyss.php?action=modele_mgt",_("Modèles"),_('Gestion des modèles'),2),
+                 array("admin-noalyss.php?action=restore",_("Restaure"),_("Restaure une base de données"),3),
+                 array("admin-noalyss.php?action=audit_log",_("Audit"),_("Utilisateurs qui se sont connectés"),4),
                  array("login.php",_("Accueil"))
                 );
 	}

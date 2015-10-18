@@ -289,7 +289,7 @@ if ($sa == 'list')
 					'</td>' .
 					'<td>' . HtmlInput::anchor(_('Modifie'), '?action=modele_mgt&sa=mod&m=' . $mod['mod_id']," onclick = \"modele_modify('{$mod['mod_id']}') \"") . '</td>' .
 					'</td>' .
-					'<td>' . HtmlInput::anchor(_('Backup'), 'backup.php?action=backup&sa=b&t=m&d='
+					'<td>' . HtmlInput::anchor(_('Backup'), '?action=backup&sa=b&t=m&d='
 							. $mod['mod_id']) . '</td>' .
 					'</TR>', $mod['mod_id'], $mod['mod_name'], $mod['mod_desc']);
 		}// for

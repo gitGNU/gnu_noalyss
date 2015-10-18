@@ -104,7 +104,7 @@ session_start();
 if ( ! isset($_GET['lang'])){
 ?>
 <form method="GET">
-    Enter your language : <select name="lang">
+    Language : <select name="lang">
         <OPTION value="fr_FR.utf8">Français</option>
         <OPTION value="en_US.utf8">English</option>
         <OPTION value="none">Not Used</option>
@@ -206,7 +206,7 @@ function create_htaccess()
 
 /* The config file is created here */
 if (isset($_POST['save_config'])) {
-  require_once '../../include/config_file.php';
+  require_once NOALYSS_INCLUDE.'/lib/config_file.php';
   $url=config_file_create($_POST,1,$os);
 echo '
 <form method="post" action="?lang='.$_GET['lang'].'" >'.
@@ -227,7 +227,8 @@ if ( is_writable ('..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'include'.DI
 if ( ! file_exists('..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'include'.DIRECTORY_SEPARATOR.'config.inc.php')) {
   echo '<h1 class="info">'._('Entrez les informations nécessaires à noalyss').'</h1>';
   echo '<form method="post">';
-  require_once('../../include/config_file.php');
+  require_once NOALYSS_INCLUDE.'/lib/config_file.php';
+  
   echo config_file_form();
   echo '<div style="position:float;float:left;"></div>';
   echo '<p style="text-align:center">',
@@ -633,5 +634,5 @@ for ($e=0;$e < $MaxDossier;$e++) {
 ?>
 </p>
 <p style="text-align: center">
-<A style="" class="button" HREF="../index.php"><?php echo _('Connectez-vous à NOALYSS')?></A>
+<A style="" class="button" HREF="index.php"><?php echo _('Connectez-vous à NOALYSS')?></A>
 </p>

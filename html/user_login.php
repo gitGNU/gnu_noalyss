@@ -152,7 +152,7 @@ $result.="<table border=\"0\">";
 $result.='<TR>';
 if ( $User->Admin()  == 1 )
 {
-    $result.="<TD  class=\"tool\" ><A class=\"cell\" HREF=\"admin_repo.php\"> Administration  </A></TD>";
+    $result.="<TD  class=\"tool\" ><A class=\"cell\" HREF=\"setup.php\">"._("Administration")."  </A></TD>";
 }
 $result.='<TD class="tool">';
 $result.='<a onclick="set_preference(0)" title="Préférence" href="javascript:void(0)" class="cell">'._('Préférence').'</a>';
