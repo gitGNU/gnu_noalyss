@@ -30,6 +30,6 @@ if (file_exists("../include/config.inc.php") ) {
      */
     define ('ALLOWED',1);
     require_once '../include/constant.php';
-    require_once NOALYSS_INCLUDE.'/admin.inc.php';
+    require_once NOALYSS_INCLUDE.'/admin_repo.inc.php';
 }
 ?>
