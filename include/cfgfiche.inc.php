@@ -26,7 +26,7 @@ require_once NOALYSS_INCLUDE.'/lib/class_itext.php';
 require_once NOALYSS_INCLUDE.'/lib/class_ihidden.php';
 require_once NOALYSS_INCLUDE.'/class/class_fiche.php';
 require_once NOALYSS_INCLUDE.'/lib/class_database.php';
-require_once NOALYSS_INCLUDE.'/user_menu.php';
+require_once NOALYSS_INCLUDE.'/lib/user_menu.php';
 require_once NOALYSS_INCLUDE.'/class/class_dossier.php';
 require_once NOALYSS_INCLUDE.'/lib/class_sort_table.php';
 require_once NOALYSS_INCLUDE.'/class/class_fiche_def.php';

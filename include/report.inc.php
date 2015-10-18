@@ -24,14 +24,13 @@
 if (!defined('ALLOWED'))
     die('Appel direct ne sont pas permis');
 require_once  NOALYSS_INCLUDE.'/lib/ac_common.php';
-require_once  NOALYSS_INCLUDE.'/user_menu.php';
+require_once  NOALYSS_INCLUDE.'/lib/user_menu.php';
 require_once NOALYSS_INCLUDE.'/lib/class_ifile.php';
 require_once NOALYSS_INCLUDE.'/lib/class_ibutton.php';
 require_once NOALYSS_INCLUDE.'/class/class_acc_report.php';
 require_once NOALYSS_INCLUDE.'/class/class_dossier.php';
 require_once NOALYSS_INCLUDE.'/lib/class_database.php';
 require_once  NOALYSS_INCLUDE.'/class/class_user.php';
-require_once  NOALYSS_INCLUDE.'/user_menu.php';
 require_once NOALYSS_INCLUDE.'/lib/class_ipopup.php';
 
 

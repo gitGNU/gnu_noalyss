@@ -98,7 +98,8 @@ if ( $User->Admin()  == 1)
 	}
 }
 
-include_once("user_menu.php");
+include_once NOALYSS_INCLUDE."/lib/user_menu.php";
+
 $priv=($User->admin==1)?_("Administrateur"):_("Utilisateur");
 load_all_script();
 if ( isset ($_POST['set_preference'])) {

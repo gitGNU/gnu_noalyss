@@ -39,7 +39,7 @@ global $g_user;
 $g_user->Check();
 $g_user->check_dossier($gDossier);
 
-require_once  NOALYSS_INCLUDE.'/user_menu.php';
+require_once  NOALYSS_INCLUDE.'/lib/user_menu.php';
 
 /////////////////////////////////////////////////////////////////////////
 // List users

@@ -31,7 +31,7 @@ require_once NOALYSS_INCLUDE.'/class/class_dossier.php';
 require_once NOALYSS_INCLUDE.'/lib/ac_common.php';
 require_once NOALYSS_INCLUDE.'/lib/class_database.php';
 require_once NOALYSS_INCLUDE.'/class/class_user.php';
-require_once NOALYSS_INCLUDE.'/user_menu.php';
+require_once NOALYSS_INCLUDE.'/lib/user_menu.php';
 require_once NOALYSS_INCLUDE.'/class/class_acc_ledger.php';
 
 $gDossier=dossier::id();

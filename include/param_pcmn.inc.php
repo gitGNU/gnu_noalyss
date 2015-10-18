@@ -36,7 +36,7 @@ $cn=Dossier::connect();
 
 require_once  NOALYSS_INCLUDE.'/class/class_user.php';
 
-require_once  NOALYSS_INCLUDE.'/user_menu.php';
+require_once  NOALYSS_INCLUDE.'/lib/user_menu.php';
 echo '<div id="acc_update" class="inner_box" style="display:none;position:absolute;text-align:left;z-index:1"></div>';
 
 /* Store the p_start parameter */

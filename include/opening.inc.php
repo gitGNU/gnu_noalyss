@@ -37,7 +37,7 @@ $p_mesg="";
 $sa = (isset($_REQUEST['sa'])) ? $_REQUEST['sa'] : '';
 $g_user->Check();
 
-require_once NOALYSS_INCLUDE.'/user_menu.php';
+require_once NOALYSS_INCLUDE.'/lib/user_menu.php';
 
 // Correct (last step)
 if (isset($_POST['correct']))

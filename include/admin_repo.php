@@ -21,11 +21,13 @@
  * \brief Administration of the repository : creation of user, folder, security,
  *        templates... Accessible only by the administrator
  */
-require_once '../include/constant.php';
-require_once("lib/user_common.php");
-include_once("lib/ac_common.php");
-require_once('lib/class_database.php');
-include_once("user_menu.php");
+if ( ! defined ('ALLOWED')) { die ('Non autorisé');}
+
+require_once NOALYSS_INCLUDE."/lib/user_common.php";
+include_once NOALYSS_INCLUDE."/lib/ac_common.php";
+require_once NOALYSS_INCLUDE.'/lib/class_database.php';
+require_once NOALYSS_INCLUDE."/lib/user_menu.php";
+
 $rep=new Database();
 include_once ("class/class_user.php");
 $User=new User($rep);
