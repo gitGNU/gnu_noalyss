@@ -399,11 +399,10 @@ class Database
      * \brief loop to apply all the path to a folder or
      *         a template
      * \param $p_name database name
-     * \param $from_setup == 1 if called from setup.php
      *
      */
 
-    function apply_patch($p_name, $from_setup=1)
+    function apply_patch($p_name)
     {
         if ( ! $this->exist_table('version')) {
             echo _('Base de donnée vide');
@@ -412,7 +411,6 @@ class Database
         $MaxVersion=DBVERSION-1;
         $succeed="<span style=\"font-size:18px;color:green\">&#x2713;</span>";
         echo '<ul style="list-type-style:square">';
-        $add=($from_setup==0)?'admin/':'';
         for ($i=4; $i<=$MaxVersion; $i++)
         {
             $to=$i+1;
@@ -431,7 +429,7 @@ class Database
                 echo "<li>Patching ".$p_name.
                 " from the version ".$this->get_version()." to $to ";
 
-                $this->execute_script($add.'sql/patch/upgrade'.$i.'.sql');
+                $this->execute_script (NOALYSS_INCLUDE.'/sql/patch/upgrade'.$i.'.sql');
                 echo $succeed;
 
                 if (!DEBUG)
@@ -467,7 +465,7 @@ class Database
                 // specific to version 17
                 if ($i==17)
                 {
-                    $this->execute_script($add.'sql/patch/upgrade17.sql');
+                    $this->execute_script(NOALYSS_INCLUDE.'/sql/patch/upgrade17.sql');
                     $max=$this->get_value('select last_value from s_jnt_fic_att_value');
                     $this->alter_seq($p_cn, 's_jnt_fic_att_value', $max+1);
                 } // version
@@ -497,7 +495,7 @@ class Database
                     /* check the country and apply the path */
                     $res=$this->exec_sql("select pr_value from parameter where pr_id='MY_COUNTRY'");
                     $country=pg_fetch_result($res, 0, 0);
-                    $this->execute_script($add."sql/patch/upgrade36.".$country.".sql");
+                    $this->execute_script(NOALYSS_INCLUDE."/sql/patch/upgrade36.".$country.".sql");
                     $this->exec_sql('update tmp_pcmn set pcm_type=find_pcm_type(pcm_val)');
                 }
                 if ($i==59)
@@ -512,7 +510,7 @@ class Database
                 if ($i==61)
                 {
                     $country=$this->get_value("select pr_value from parameter where pr_id='MY_COUNTRY'");
-                    $this->execute_script($add."sql/patch/upgrade61.".$country.".sql");
+                    $this->execute_script(NOALYSS_INCLUDE."/sql/patch/upgrade61.".$country.".sql");
                 }
 
                 if (!DEBUG)

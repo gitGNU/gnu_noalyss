@@ -28,74 +28,75 @@ require_once NOALYSS_INCLUDE."/lib/user_common.php";
 include_once NOALYSS_INCLUDE."/lib/ac_common.php";
 require_once NOALYSS_INCLUDE.'/lib/class_database.php';
 require_once NOALYSS_INCLUDE."/lib/user_menu.php";
+$action = HtmlInput::default_value_request("action", "");
 
 $rep=new Database();
 $User=new User($rep);
 $User->Check();
 
-html_page_start($User->theme);
 
 if ($User->admin != 1)
 {
+    html_page_start($User->theme);
     echo "<h2 class=\"warning\">";
     echo _("Vous n'êtes pas administateur");
     echo "</h2>";
     html_page_stop();
     return;
 }
+// For a backup , we must avoid to send anything before the 
+// dump file
+if ( $action== 'backup') {
+        /* take backup */
+        require_once NOALYSS_INCLUDE."/backup.inc.php";
+        exit();
+}
+html_page_start();
 load_all_script();
 echo '<H2 class="info"> '._('Administration').'</H2>';
 echo '<div class="topmenu">';
 
 echo MenuAdmin()."</div>";
 
-define('ALLOWED',true);
-
-
 ?>
 <DIV >
 <?php
-if ( isset ($_REQUEST["action"]) )
+echo js_include("admin.js");
+if ( $action=="user_mgt" )
 {
-    echo js_include("admin.js");
-    if ( $_REQUEST["action"]=="user_mgt" )
-    {
-        //----------------------------------------------------------------------
-        // User management
-        //----------------------------------------------------------------------
-        require_once NOALYSS_INCLUDE."/user.inc.php";
-    }
-    // action=user_mgt
-    if ( $_REQUEST["action"]=="dossier_mgt")
-    {
-        //-----------------------------------------------------------------------
-        // action = dossier_mgt
-        //-----------------------------------------------------------------------
-        require_once NOALYSS_INCLUDE."/dossier.inc.php";
-    }
-    if ( $_REQUEST["action"] == "modele_mgt" )
-    {
-        //-----------------------------------------------------------------------
-        //  Template Management
-        //-----------------------------------------------------------------------
-        require_once NOALYSS_INCLUDE."/modele.inc.php";
-    } // action is set
-    if ( $_REQUEST['action'] == 'restore')
-    {
-        // Backup and restaure folders
-        require_once NOALYSS_INCLUDE."/restore.inc.php";
-    }
-    if ($_REQUEST['action'] == 'audit_log')
-    {
-	/* List the connexion successuf and failed */
-	require_once NOALYSS_INCLUDE."/audit_log.php";
-    }
-    if ( $_REQUEST['action'] == 'backup') {
-        /* take backup */
-        require_once NOALYSS_INCLUDE."/backup.inc.php";
-    }
-}// action = modele_mgt
-
+    //----------------------------------------------------------------------
+    // User management
+    //----------------------------------------------------------------------
+    require_once NOALYSS_INCLUDE."/user.inc.php";
+}
+// action=user_mgt
+if ( $action=="dossier_mgt")
+{
+    //-----------------------------------------------------------------------
+    // action = dossier_mgt
+    //-----------------------------------------------------------------------
+    require_once NOALYSS_INCLUDE."/dossier.inc.php";
+}
+if ( $action== "modele_mgt" )
+{
+    //-----------------------------------------------------------------------
+    //  Template Management
+    //-----------------------------------------------------------------------
+    require_once NOALYSS_INCLUDE."/modele.inc.php";
+} // action is set
+if ( $action== 'restore')
+{
+    // Backup and restaure folders
+    require_once NOALYSS_INCLUDE."/restore.inc.php";
+}
+if ($action== 'audit_log')
+{
+    /* List the connexion successuf and failed */
+    require_once NOALYSS_INCLUDE."/audit_log.php";
+}
+if ( $action == "logout") {
+     require_once 'logout.php';
+}
 ?>
 </DIV>
 <?php

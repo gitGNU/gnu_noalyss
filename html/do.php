@@ -146,7 +146,7 @@ if (DBVERSION > dossier::get_version($cn))
     $a = _("cliquez ici pour appliquer le patch");
     $base = dirname($_SERVER['REQUEST_URI']);
     if ($base == '/') { $base = ''; }
-    $base .= '/admin/setup.php';
+    $base .= '/admin-noalyss.php';
     echo '<a hreF="' . $base . '">' . $a . '</a></h2>';
 }
 

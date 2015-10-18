@@ -466,7 +466,7 @@ if ( $flag == 0 ) {
 if ( ! isset($_POST['go']) ) {
 ?>
 <span style="text-align: center">
-    <FORM METHOD="post" action="setup.php?lang=<?php echo $_GET['lang']?>">
+    <FORM METHOD="post" action="admin-noalyss.php?lang=<?php echo $_GET['lang']?>">
 <input type="submit" class="button" name="go" value="<?php echo _("Commencer la mise à jour ou l'installation");?>">
 </form>
 </span>
@@ -618,7 +618,7 @@ for ($e=0;$e < $MaxDossier;$e++) {
 //----------------------------------------------------------------------
 // Upgrade the account_repository
 //----------------------------------------------------------------------
- echo "<h2>"._("Mise à Repository")."</h2>";
+ echo "<h2>"._("Mise à jour de la base de données Paramètrage")."</h2>";
  $cn=new Database();
  if ( DEBUG == false ) ob_start();
  $MaxVersion=DBVERSIONREPO-1;

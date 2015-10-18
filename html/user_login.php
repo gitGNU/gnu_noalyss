@@ -77,7 +77,7 @@ if ( $version < DBVERSIONREPO )
     $a=_("cliquez ici pour appliquer le patch");
     $base = dirname($_SERVER['REQUEST_URI']);
     if ($base == '/') { $base = ''; }
-    $base .= '/admin/setup.php';
+    $base .= 'admin-noalyss.php';
     echo '<a hreF="'.$base.'">'.$a.'</a></h2>';
 
 }
@@ -152,7 +152,7 @@ $result.="<table border=\"0\">";
 $result.='<TR>';
 if ( $User->Admin()  == 1 )
 {
-    $result.="<TD  class=\"tool\" ><A class=\"cell\" HREF=\"setup.php\">"._("Administration")."  </A></TD>";
+    $result.="<TD  class=\"tool\" ><A class=\"cell\" HREF=\"admin-noalyss.php\">"._("Administration")."  </A></TD>";
 }
 $result.='<TD class="tool">';
 $result.='<a onclick="set_preference(0)" title="Préférence" href="javascript:void(0)" class="cell">'._('Préférence').'</a>';

@@ -51,7 +51,7 @@ if (  isset ($_POST["p_user"] ) )
 	if ($version != DBVERSIONREPO)
 	{
 		echo alert(_('Version de base de données incorrectes, vous devez mettre à jour'));
-		echo "<META HTTP-EQUIV=\"REFRESH\" content=\"0;url=admin/setup.php\">";
+		echo "<META HTTP-EQUIV=\"REFRESH\" content=\"0;url=admin-noalyss.php\">";
 		exit();
 	}
     include_once NOALYSS_INCLUDE."/class/class_user.php";
@@ -88,7 +88,7 @@ else
     if ( $version != DBVERSIONREPO)
       {
 	echo alert(_('Version de base de données incorrectes, vous devez mettre à jour'));
-	echo "<META HTTP-EQUIV=\"REFRESH\" content=\"1;url=admin/setup.php\">";
+	echo "<META HTTP-EQUIV=\"REFRESH\" content=\"1;url=admin-noalyss.php\">";
 	exit();
 
       }

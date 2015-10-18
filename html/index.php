@@ -134,7 +134,7 @@
 
 if ( ! file_exists('..'.DIRECTORY_SEPARATOR.'include'.DIRECTORY_SEPARATOR.'config.inc.php'))
 {
-    header("Location: admin/setup.php",true, 307);
+    header("Location: setup.php",true, 307);
     exit(0);
 }
 
