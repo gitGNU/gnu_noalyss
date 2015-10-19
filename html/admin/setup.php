@@ -591,7 +591,7 @@ for ($e=0;$e < $MaxDossier;$e++) {
   {
       echo_warning(_("Dossier inexistant")." $name");
   }
- }
+ } 
 
 //----------------------------------------------------------------------
 // Upgrade the template

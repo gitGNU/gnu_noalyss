@@ -94,6 +94,9 @@ if ($action== 'audit_log')
     /* List the connexion successfull and failed */
     require_once NOALYSS_INCLUDE."/audit_log.php";
 }
+/*
+ * Display information about current installation
+ */
 if ( $action == "info") {
     echo "<h2>"._('Variables').":".NOALYSS_INCLUDE.'/config.inc.php </h2>';
     echo '<ul style="list-style:square">';
@@ -103,6 +106,7 @@ if ( $action == "info") {
     echo "<li>"."DEBUG".":".DEBUG."</li>";
     echo "<li>"."LOGINPUT".":".LOGINPUT."</li>";
     echo "<li>"."LOCALE".":".LOCALE."</li>";
+    echo "<li>"."MULTI".":".MULTI."</li>";
     echo "<li>"."DOMAINE".":".domaine."</li>";
     echo "<li>"."PG_PATH".":".PG_PATH."</li>";
     echo "<li>"."PG_DUMP".":".PG_DUMP."</li>";

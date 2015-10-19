@@ -100,8 +100,14 @@ function MenuAdmin()
 	case 'audit_log':
 	  $def=4;
 	  break;
-        case 'restore';
+        case 'restore':
             $def=3;
+            break;
+        case 'upgrade':
+            $def = 5;
+            break;
+        case 'info':
+            $def=6;
             break;
         }
     }
@@ -111,8 +117,9 @@ function MenuAdmin()
                  array("admin-noalyss.php?action=dossier_mgt",_("Dossiers"),_('Gestion des dossiers'),1),
                  array("admin-noalyss.php?action=modele_mgt",_("Modèles"),_('Gestion des modèles'),2),
                  array("admin-noalyss.php?action=restore",_("Restaure"),_("Restaure une base de données"),3),
+                 array("admin-noalyss.php?action=upgrade",_("Mise à jour"),_("Mise à jour du système et des bases de données"),5),
                  array("admin-noalyss.php?action=audit_log",_("Audit"),_("Utilisateurs qui se sont connectés"),4),
-                 array("admin-noalyss.php?action=info",_("Information système")),
+                 array("admin-noalyss.php?action=info",_("Information système"),('Information à propos de votre installation'),6),
                  array("login.php",_("Accueil")),
                  array("logout.php",_("Sortie"))
                 );
