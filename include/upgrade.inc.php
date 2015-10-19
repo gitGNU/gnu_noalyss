@@ -39,13 +39,31 @@ if (!defined('ALLOWED'))
 $sb= HtmlInput::default_value_get("sb", "none");
 if ($sb === "upg_all" && (!defined('MULTI')||(defined('MULTI')&&MULTI==1)))
 {
+    echo '<div class="content">';
     /* If multi folders */
     $Resdossier=$rep->exec_sql("select dos_id, dos_name from ac_dossier");
     $MaxDossier=$rep->size($Resdossier);
-
+    
+    //----------------------------------------------------------------------
+    // Upgrade the account_repository
+    //----------------------------------------------------------------------
+    echo "<h2>"._("Mise à jour de la base de données principale")."</h2>";
+    $cn=new Database();
+    if (DEBUG==false)
+        ob_start();
+    $MaxVersion=DBVERSIONREPO-1;
+    for ($i=4; $i<=$MaxVersion; $i++)
+    {
+        if ($cn->get_version()<=$i)
+        {
+            $cn->execute_script('sql/patch/ac-upgrade'.$i.'.sql');
+        }
+    }
     //----------------------------------------------------------------------
     // Upgrade the folders
     //----------------------------------------------------------------------
+    echo "<h2>"._("Mise à jour dossiers")."</h2>";
+
     for ($e=0; $e<$MaxDossier; $e++)
     {
         $db_row=Database::fetch_array($Resdossier, $e);
@@ -70,7 +88,7 @@ if ($sb === "upg_all" && (!defined('MULTI')||(defined('MULTI')&&MULTI==1)))
     //----------------------------------------------------------------------
     $Resdossier=$rep->exec_sql("select mod_id, mod_name from modeledef");
     $MaxDossier=$rep->size();
-    echo "<h2>"._("Mise à modèle")."</h2>";
+    echo "<h2>"._("Mise à jour modèles")."</h2>";
 
     for ($e=0; $e<$MaxDossier; $e++)
     {
@@ -88,20 +106,6 @@ if ($sb === "upg_all" && (!defined('MULTI')||(defined('MULTI')&&MULTI==1)))
             echo_warning(_("Modèle inexistant")." $name");
         }
     }
-    //----------------------------------------------------------------------
-    // Upgrade the account_repository
-    //----------------------------------------------------------------------
-    echo "<h2>"._("Mise à jour de la base de données principale")."</h2>";
-    $cn=new Database();
-    if (DEBUG==false)
-        ob_start();
-    $MaxVersion=DBVERSIONREPO-1;
-    for ($i=4; $i<=$MaxVersion; $i++)
-    {
-        if ($cn->get_version()<=$i)
-        {
-            $cn->execute_script('sql/patch/ac-upgrade'.$i.'.sql');
-        }
-    }
+
 }
 ?>
