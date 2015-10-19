@@ -91,11 +91,63 @@ if ( $action== 'restore')
 }
 if ($action== 'audit_log')
 {
-    /* List the connexion successuf and failed */
+    /* List the connexion successfull and failed */
     require_once NOALYSS_INCLUDE."/audit_log.php";
 }
-if ( $action == "logout") {
-     require_once 'logout.php';
+if ( $action == "info") {
+    
+    echo "<h2>"._("Paramètre base de données")."</h2>";
+    $a_option = array ("client_encoding","lc_collate","listen_addresses",
+        "server_encoding","work_mem","shared_buffers","server_version",
+        "hba_file","config_file","data_directory");
+    echo '<ul style="list-style:square">';
+    echo "<li>";
+    echo _('Hôte')." = ".noalyss_psql_host;
+    echo "</li>";
+    echo "<li>";
+    echo _('Port')." = ".noalyss_psql_port;
+    echo "</li>";
+    echo "<li>";
+    echo _('Utilisateur')." = ".noalyss_user;
+    echo "</li>";
+    
+    for ( $i = 0 ; $i < count($a_option); $i++) {
+        $name=$a_option[$i];
+        
+        $sql="select setting from pg_settings where name=$1";
+        $value=$rep->get_value($sql,array($name));
+        echo "<li> ".$name." = ".$value."</li>";
+    }
+    
+    echo "</ul>";
+    
+    echo "<h2>"._('Paramètre PHP')."</h2>";
+    ob_start();
+    echo phpinfo(INFO_GENERAL | INFO_CONFIGURATION | INFO_MODULES | INFO_ENVIRONMENT | INFO_VARIABLES);
+    $r=ob_get_clean();
+    $html=new DOMDocument();
+    $html->loadHTML($r);
+    $nodelist=$html->getElementsByTagName("style");
+    $nodelist->item(0)->nodeValue=' 
+.p {text-align: left;}
+.e {background-color: #ccccff; font-weight: bold; color: #000000;}
+.h {background-color: #9999cc; font-weight: bold; color: #000000;word-wrap:break-word;word-break: break-all;}
+.v {background-color: #cccccc; color: #000000;;word-wrap:break-word;word-break: break-all}
+.vr {background-color: #cccccc; text-align: right; color: #000000;word-wrap:break-word;word-break: break-all}
+img {float: right; border: 0px;}
+hr {width: 600px; background-color: #cccccc; border: 0px; height: 1px; color: #000000;}
+            ';
+    $a_table=$html->getElementsByTagName("table");
+    for ( $i = 0 ; $i < $a_table->length;$i++) {
+        $a_table->item($i)->attributes->getNamedItem("width")->nodeValue="100%";
+        
+    }
+    $a_title = $html->getElementsByTagName("title");
+    for ( $i = 0;$i<$a_title->length;$i++) {
+        $a_title->item($i)->nodeValue="";
+    }
+    echo $html->saveHTML();
+    
 }
 ?>
 </DIV>

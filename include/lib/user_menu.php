@@ -112,7 +112,9 @@ function MenuAdmin()
                  array("admin-noalyss.php?action=modele_mgt",_("Modèles"),_('Gestion des modèles'),2),
                  array("admin-noalyss.php?action=restore",_("Restaure"),_("Restaure une base de données"),3),
                  array("admin-noalyss.php?action=audit_log",_("Audit"),_("Utilisateurs qui se sont connectés"),4),
-                 array("login.php",_("Accueil"))
+                 array("admin-noalyss.php?action=info",_("Information système")),
+                 array("login.php",_("Accueil")),
+                 array("logout.php",_("Sortie"))
                 );
 	}
 	else

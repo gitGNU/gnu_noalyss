@@ -298,8 +298,7 @@ function html_page_start($p_theme="", $p_script="", $p_script2="")
     {
         echo '<!doctype html>';
         printf("\n");
-        echo '<meta name="viewport" content="width=device-width, initial-scale=1.0">';
-        printf("\n");
+ 
     }
     else {
         echo '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 FINAL//EN" >';
@@ -316,6 +315,7 @@ function html_page_start($p_theme="", $p_script="", $p_script2="")
     <TITLE>$title</TITLE>
 	<link rel=\"icon\" type=\"image/ico\" href=\"favicon.ico\" />
     <META http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">
+    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">
     <LINK REL=\"stylesheet\" type=\"text/css\" href=\"".$style."?version=".SVNINFO."\" media=\"screen\"/>
     <link rel=\"stylesheet\" type=\"text/css\" href=\"./style-print.css?version=".SVNINFO."\" media=\"print\"/>" .
     $p_script2 . "
