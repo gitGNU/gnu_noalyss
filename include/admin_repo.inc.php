@@ -95,11 +95,24 @@ if ($action== 'audit_log')
     require_once NOALYSS_INCLUDE."/audit_log.php";
 }
 if ( $action == "info") {
-    
+    echo "<h2>"._('Variables').":".NOALYSS_INCLUDE.'/config.inc.php </h2>';
+    echo '<ul style="list-style:square">';
+    echo "<li>". "NOALYSS_HOME".":".NOALYSS_HOME."</li>";
+    echo "<li>"."NOALYSS_INCLUDE".":".NOALYSS_INCLUDE."</li>";
+    echo "<li>"."NOALYSS_TEMPLATE".":".NOALYSS_TEMPLATE."</li>";
+    echo "<li>"."DEBUG".":".DEBUG."</li>";
+    echo "<li>"."LOGINPUT".":".LOGINPUT."</li>";
+    echo "<li>"."LOCALE".":".LOCALE."</li>";
+    echo "<li>"."DOMAINE".":".domaine."</li>";
+    echo "<li>"."PG_PATH".":".PG_PATH."</li>";
+    echo "<li>"."PG_DUMP".":".PG_DUMP."</li>";
+    echo "<li>"."PG_RESTORE".":".PG_RESTORE."</li>";
+    echo "<li>"."PSQL".":".PSQL."</li>";
+    echo "</ul>";
     echo "<h2>"._("Paramètre base de données")."</h2>";
     $a_option = array ("client_encoding","lc_collate","listen_addresses",
         "server_encoding","work_mem","shared_buffers","server_version",
-        "hba_file","config_file","data_directory");
+        "hba_file","config_file","data_directory","effective_cache_size");
     echo '<ul style="list-style:square">';
     echo "<li>";
     echo _('Hôte')." = ".noalyss_psql_host;
@@ -148,6 +161,9 @@ hr {width: 600px; background-color: #cccccc; border: 0px; height: 1px; color: #0
     }
     echo $html->saveHTML();
     
+}
+if ( $action == "upgrade" ) {
+    require_once NOALYSS_INCLUDE."/upgrade.inc.php";
 }
 ?>
 </DIV>
