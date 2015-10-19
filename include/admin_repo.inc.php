@@ -100,18 +100,18 @@ if ($action== 'audit_log')
 if ( $action == "info") {
     echo "<h2>"._('Variables').":".NOALYSS_INCLUDE.'/config.inc.php </h2>';
     echo '<ul style="list-style:square">';
-    echo "<li>". "NOALYSS_HOME".":".NOALYSS_HOME."</li>";
-    echo "<li>"."NOALYSS_INCLUDE".":".NOALYSS_INCLUDE."</li>";
-    echo "<li>"."NOALYSS_TEMPLATE".":".NOALYSS_TEMPLATE."</li>";
-    echo "<li>"."DEBUG".":".DEBUG."</li>";
-    echo "<li>"."LOGINPUT".":".LOGINPUT."</li>";
-    echo "<li>"."LOCALE".":".LOCALE."</li>";
-    echo "<li>"."MULTI".":".MULTI."</li>";
-    echo "<li>"."DOMAINE".":".domaine."</li>";
-    echo "<li>"."PG_PATH".":".PG_PATH."</li>";
-    echo "<li>"."PG_DUMP".":".PG_DUMP."</li>";
-    echo "<li>"."PG_RESTORE".":".PG_RESTORE."</li>";
-    echo "<li>"."PSQL".":".PSQL."</li>";
+    echo "<li>". "NOALYSS_HOME".": ".NOALYSS_HOME."</li>";
+    echo "<li>"."NOALYSS_INCLUDE".": ".NOALYSS_INCLUDE."</li>";
+    echo "<li>"."NOALYSS_TEMPLATE".": ".NOALYSS_TEMPLATE."</li>";
+    echo "<li>"."DEBUG".": ".DEBUG."</li>";
+    echo "<li>"."LOGINPUT".": ".LOGINPUT."</li>";
+    echo "<li>"."LOCALE".": ".LOCALE."</li>";
+    echo "<li>"."MULTI".": ".MULTI."</li>";
+    echo "<li>"."DOMAINE".": ".domaine."</li>";
+    echo "<li>"."PG_PATH".": ".PG_PATH."</li>";
+    echo "<li>"."PG_DUMP".": ".PG_DUMP."</li>";
+    echo "<li>"."PG_RESTORE".": ".PG_RESTORE."</li>";
+    echo "<li>"."PSQL".": ".PSQL."</li>";
     echo "</ul>";
     echo "<h2>"._("Paramètre base de données")."</h2>";
     $a_option = array ("client_encoding","lc_collate","listen_addresses",
