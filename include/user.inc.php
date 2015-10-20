@@ -22,7 +22,7 @@ if ( !defined ('ALLOWED')) die('Forbidden');
 /*!\file
  *
  *
- * \brief user managemnt, included from admin_repo,
+ * \brief user managemnt, included from admin-noalyss,
  * action=user_mgt
  *
  */
@@ -72,7 +72,7 @@ if ( isset($_REQUEST['det']))
 
 <div id="create_user" style="display:none;width:30%;margin-right: 20%" class="inner_box">
 <?php echo HtmlInput::title_box(_('Ajout Utilisateur'),"create_user","hide");?>
-    <form action="admin_repo.php?action=user_mgt" method="POST" onsubmit="return check_form()">
+    <form action="admin-noalyss.php?action=user_mgt" method="POST" onsubmit="return check_form()">
     <div style="text-align: center">
 <TABLE class="result" >            
        <TR><TD style="text-align: right"> <?php echo _('login')?></TD><TD><INPUT id="input_login" class="input_text"  TYPE="TEXT" NAME="LOGIN"></TD></tr>

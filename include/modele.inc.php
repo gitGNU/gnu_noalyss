@@ -70,7 +70,7 @@ if (isset($_POST["FMOD_NAME"]))
 		echo  "</span>";
 		echo '<span class="error"> '._("Pour le passer en unicode, faites-en un backup puis restaurez le fichier reçu").'</span>';
 
-		echo HtmlInput::button_anchor(_('Retour'), 'admin_repo.php?action=dossier_mgt');
+		echo HtmlInput::button_anchor(_('Retour'), 'admin-noalyss.php?action=dossier_mgt');
 		return;
 	}
 
@@ -324,7 +324,7 @@ if ($sa == 'list')
 		$available.='</SELECT>';
 	}//if count !=0
 	?>
-	<form action="admin_repo.php?action=modele_mgt" METHOD="post">
+	<form action="admin-noalyss.php?action=modele_mgt" METHOD="post">
 		<TABLE>
 			<tr>
 				<td><?php echo _('Nom')?> </TD>

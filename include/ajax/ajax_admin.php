@@ -24,8 +24,8 @@ if (!defined('ALLOWED'))
 /**
  * @file
  * @brief the file contents the code which answer to ajax call from 
- * admin_repo.php
- * @see admin_repo.php ajax_misc.php admin.js
+ * admin-noalyss.php
+ * @see admin-noalyss.php ajax_misc.php admin.js
  */
 if ($g_user->Admin()==0)
 {
@@ -194,7 +194,7 @@ if (in_array($op, array('modele_drop', 'modele_modify', 'folder_modify', 'folder
         $dos->load();
         echo HtmlInput::title_box(_('Modification'), 'folder_admin_div');
         $wText=new IText();
-        echo '<form action="admin_repo.php" method="post">';
+        echo '<form action="admin-noalyss.php" method="post">';
         echo HtmlInput::hidden('action', 'dossier_mgt');
         echo HtmlInput::hidden('d', $dos->get_parameter("id"));
         echo _('Nom').' : ';
@@ -217,7 +217,7 @@ if (in_array($op, array('modele_drop', 'modele_modify', 'folder_modify', 'folder
         ob_start();
         echo HtmlInput::title_box(_('Efface'), 'folder_admin_div');
         $dos->load();
-        echo '<form action="admin_repo.php" method="post">';
+        echo '<form action="admin-noalyss.php" method="post">';
         echo HtmlInput::hidden('action', 'dossier_mgt');
         echo HtmlInput::hidden('d', $dossier);
         echo HtmlInput::hidden('sa', 'remove');
@@ -242,7 +242,7 @@ if (in_array($op, array('modele_drop', 'modele_modify', 'folder_modify', 'folder
         $name=$cn->get_value('select mod_name from modeledef where mod_id=$1', array($dossier));
         ob_start();
         echo HtmlInput::title_box(_('Efface'), 'folder_admin_div');
-        echo '<form  action="admin_repo.php" method="post">';
+        echo '<form  action="admin-noalyss.php" method="post">';
         echo HtmlInput::hidden('m', $dossier);
         echo HtmlInput::hidden('sa', 'remove');
         echo HtmlInput::hidden('action', 'modele_mgt');

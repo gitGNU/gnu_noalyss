@@ -126,8 +126,8 @@ function MenuAdmin()
 	}
 	else
 	{
-		$item=array (array("admin_repo.php?action=user_mgt",_("Utilisateurs"),_('Gestion des utilisateurs'),0),
-                 array("admin_repo.php?action=audit_log",_("Audit"),_("Utilisateurs qui se sont connectés"),4),
+		$item=array (array("admin-noalyss.php?action=user_mgt",_("Utilisateurs"),_('Gestion des utilisateurs'),0),
+                 array("admin-noalyss.php?action=audit_log",_("Audit"),_("Utilisateurs qui se sont connectés"),4),
                  array("login.php",_("Accueil"))
                 );
 
