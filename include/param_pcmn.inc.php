@@ -114,13 +114,14 @@ for ($i=0; $i <$MaxRow; $i++):
 		for ($e=0;$e<$max;$e++) :
 			echo '<li style="padding-start-value:0;margin:2px;display:inline">'.HtmlInput::card_detail($det_qcode[$e],'',' style="display:inline"').'</li>';
 		endfor;
-		echo '</ol>';
-		if ($max < count($det_qcode)) :
-			echo "...";
-		else :
-			echo HtmlInput::card_detail($A['acode']);
-		endif;
+                if ($max < count($det_qcode)) :
+                        echo "...";
+                endif;
+                echo '</ol>';
+            else :
+                echo HtmlInput::card_detail($A['acode']);
             endif;
+            
 	endif;
         ?>
 	</td>
