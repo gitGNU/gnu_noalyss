@@ -37,10 +37,15 @@ $User->Check();
 
 if ($User->admin != 1)
 {
+    $theme=(isset($User->theme))?$User->theme:"";
     html_page_start($User->theme);
     echo "<h2 class=\"warning\">";
     echo _("Vous n'êtes pas administateur");
     echo "</h2>";
+    $reconnect=http_build_query(array("reconnect"=>1,"backurl"=>"admin-noalyss.php?action=upgrade"));
+    echo '<a href="index.php?'.$reconnect.'">';
+    echo _("Connectez-vous comme administrateur");
+    echo '</a>';
     html_page_stop();
     return;
 }
