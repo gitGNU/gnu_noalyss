@@ -140,7 +140,6 @@ content[208]="<?php echo _("Serveur postgresql")?>";
 </script>
 
 <DIV id="bulle" class="infobulle"></DIV>
-		 <script type="text/javascript" charset="utf-8" language="javascript" src="setup.js"></script>
 
 <?php
 
