@@ -166,3 +166,15 @@ CREATE TRIGGER todo_list_shared_ins_upd
   FOR EACH ROW
   EXECUTE PROCEDURE comptaproc.trg_todo_list_shared_ins_upd();
 COMMENT ON TRIGGER todo_list_shared_ins_upd ON todo_list_shared IS 'Force the column ua_login to lowercase';
+
+CREATE OR REPLACE FUNCTION comptaproc.action_gestion_ins_upd()
+  RETURNS trigger AS
+$BODY$
+begin
+NEW.ag_title := substr(trim(NEW.ag_title),1,70);
+NEW.ag_hour := substr(trim(NEW.ag_hour),1,5);
+NEW.ag_owner := lower(NEW.ag_owner);
+return NEW;
+end;
+$BODY$
+LANGUAGE plpgsql;
