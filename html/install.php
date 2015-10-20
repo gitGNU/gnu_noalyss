@@ -159,8 +159,9 @@ if ( strpos($inc_path,";") != 0 ) {
 
 /**
  *@brief create correctly the htaccess file
+ * @deprecated since version 6.9
  */
-function create_htaccess()
+function create_htaccess_deprecated()
 {
 	global $os;
 
@@ -290,7 +291,7 @@ if ( ! file_exists(NOALYSS_INCLUDE.'/config.inc.php')) {
   echo '<form method="post">';
   require_once NOALYSS_INCLUDE.'/lib/config_file.php';
   
-  echo config_file_form();
+  echo config_file_form($_POST);
   echo '<div style="position:float;float:left;"></div>';
   echo '<p style="text-align:center">',
         HtmlInput::submit('save_config',_('Continuer'),"","button"),
