@@ -52,7 +52,11 @@
 		<TD><?php echo $icpasswd->input();echo HtmlInput::infobulle(204)?></TD>
 </TR>
 <TR>
-	<TD><?php echo _('Port de postgresql');?> </TD>
+	<TD><?php echo _('Adresse Serveur Postgresql');?> </TD>
+	<TD><?php echo $ichost->input();echo HtmlInput::infobulle(208)?></TD>
+</TR>
+<TR>
+	<TD><?php echo _('Port de Postgresql');?> </TD>
 	<TD><?php echo $icport->input();echo HtmlInput::infobulle(205)?></TD>
 </TR>
 <tr>
@@ -77,4 +81,18 @@
 	}
 	?>
 </div>
-
+<script>
+function show_dbname(obj) {
+	try {
+		if (obj.checked === true)
+		{
+			this.document.getElementById('div_db').style.visibility= 'visible';
+		}
+		else {
+                        this.document.getElementById('div_db').style.visibility= 'hidden';
+		}
+	} catch (e) {
+		alert_box(e.getMessage);
+	}
+}
+</script>

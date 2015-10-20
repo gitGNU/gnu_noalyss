@@ -114,7 +114,20 @@ class Database
         pg_exec($this->db, 'set DateStyle to ISO, MDY;');
         ob_end_clean();
     }
-
+    /**
+     * Connect to a database return an connx to db or false if it fails
+     * 
+     * @param string $p_user Username 
+     * @param type $p_password User's password
+     * @param $p_dbname name of the database to connect
+     * @param type $p_host Host of DB
+     * @param type $p_port Port of DB
+     */
+    static function connect($p_user,$p_password,$p_dbname,$p_host,$p_port) {
+        $a=pg_connect("dbname=$p_dbname host='$p_host' user='$p_user'
+                      password='$p_password' port=$p_port");
+        return $a;
+    }
     public function verify()
     {
         // Verify that the elt we want to add is correct

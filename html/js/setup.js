@@ -6,16 +6,4 @@
  */
 
 
-function show_dbname(obj) {
-	try {
-		if (obj.checked === true)
-		{
-			this.document.getElementById('div_db').style.visibility= 'visible';
-		}
-		else {
-                        this.document.getElementById('div_db').style.visibility= 'hidden';
-		}
-	} catch (e) {
-		alert_box(e.getMessage);
-	}
-}
+

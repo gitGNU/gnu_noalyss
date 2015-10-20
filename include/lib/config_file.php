@@ -66,8 +66,9 @@ function config_file_form($p_array=null)
         $cport=5432;
         $cdomain='';
         $clocale=1;
-		$multi=1;
-		$cdbname="database_noalyss";
+	$multi=1;
+	$cdbname="database_noalyss";
+        $chost="localhost";
 
     }
     else extract ($p_array);
@@ -88,6 +89,7 @@ function config_file_form($p_array=null)
 	$icuser=new IText('cuser',$cuser);
 	$icpasswd=new IText('cpasswd',$cpasswd);
 	$icport=new IText("cport",$cport);
+	$ichost=new IText("chost",$chost);
 	/*
 	 * For version MONO
 	 */
@@ -96,97 +98,110 @@ function config_file_form($p_array=null)
 
 	$icdbname=new IText('cdbname');
 
-	require 'template_config_form.php';
+	require NOALYSS_INCLUDE.'/template/template_config_form.php';
 }
-/*!\brief create the config file
+/**
+ * Display the  content of the config.inc.php with variables
+ * @param type $p_array
+ * @param type $from_setup
+ * @param type $p_os
  */
-function config_file_create($p_array,$from_setup=1,$p_os=1)
+function display_file_config($p_array,$from_setup=1,$p_os=1) 
 {
-    extract ($p_array);
-    $add=($from_setup==1)?'..'.DIRECTORY_SEPARATOR:'';
-    $hFile=  fopen($add.'..'.DIRECTORY_SEPARATOR.'include'.DIRECTORY_SEPARATOR.'config.inc.php','w');
-    fputs($hFile,'<?php ');
-    fputs($hFile,"\r\n");
-    fputs($hFile, 'date_default_timezone_set (\'Europe/Brussels\');');
-    fputs($hFile,"\r\n");
-    fputs($hFile, "\$_ENV['TMP']='".$ctmp."';");
-    fputs($hFile,"\r\n");
-    fputs($hFile, 'define("PG_PATH","'.$cpath.'");');
-    fputs($hFile,"\r\n");
+    extract($p_array);
+    print ('<?php ');
+    print ("\r\n");
+    print ( 'date_default_timezone_set (\'Europe/Brussels\');');
+    print ("\r\n");
+    print ( "\$_ENV['TMP']='".$ctmp."';");
+    print ("\r\n");
+    print ( 'define("PG_PATH","'.$cpath.'");');
+    print ("\r\n");
     if ( $p_os == 1 )
     {
-        fputs($hFile, 'define("PG_RESTORE","'.$cpath.DIRECTORY_SEPARATOR.'pg_restore ");');
-        fputs($hFile,"\r\n");
-        fputs($hFile, 'define("PG_DUMP","'.$cpath.DIRECTORY_SEPARATOR.'pg_dump ");');
-        fputs($hFile,"\r\n");
-        fputs($hFile, 'define ("PSQL","'.$cpath.DIRECTORY_SEPARATOR.'psql");');
+        print ( 'define("PG_RESTORE","'.$cpath.DIRECTORY_SEPARATOR.'pg_restore ");');
+        print ("\r\n");
+        print ( 'define("PG_DUMP","'.$cpath.DIRECTORY_SEPARATOR.'pg_dump ");');
+        print ("\r\n");
+        print ( 'define ("PSQL","'.$cpath.DIRECTORY_SEPARATOR.'psql");');
     }
     else
     {
-        fputs($hFile, 'define("PG_RESTORE","pg_restore.exe");');
-        fputs($hFile,"\r\n");
-        fputs($hFile, 'define("PG_DUMP","pg_dump.exe");');
-        fputs($hFile,"\r\n");
-        fputs($hFile, 'define ("PSQL","psql.exe");');
+        print ( 'define("PG_RESTORE","pg_restore.exe");');
+        print ("\r\n");
+        print ( 'define("PG_DUMP","pg_dump.exe");');
+        print ("\r\n");
+        print ( 'define ("PSQL","psql.exe");');
     }
-    fputs($hFile,"\r\n");
-    fputs($hFile, 'define ("noalyss_user","'.$cuser.'");');
-    fputs($hFile,"\r\n");
-    fputs($hFile, 'define ("noalyss_password","'.$cpasswd.'");');
-    fputs($hFile,"\r\n");
-    fputs($hFile, 'define ("noalyss_psql_port","'.$cport.'");');
-    fputs($hFile,"\r\n");
-    fputs($hFile, 'define ("noalyss_psql_host","127.0.0.1");');
-    fputs($hFile,"\r\n");
+    print ("\r\n");
+    print ( 'define ("noalyss_user","'.$cuser.'");');
+    print ("\r\n");
+    print ( 'define ("noalyss_password","'.$cpasswd.'");');
+    print ("\r\n");
+    print ( 'define ("noalyss_psql_port","'.$cport.'");');
+    print ("\r\n");
+    print ( 'define ("noalyss_psql_host","'.$chost.'");');
+    print ("\r\n");
 
-    fputs($hFile, 'define ("LOCALE",'.$clocale.');');
-    fputs($hFile,"\r\n");
+    print ( 'define ("LOCALE",'.$clocale.');');
+    print ("\r\n");
 
-    fputs($hFile, 'define ("domaine","");');
-    fputs($hFile,"\r\n");
+    print ( 'define ("domaine","");');
+    print ("\r\n");
     if (isset($multi))
     {
-        fputs($hFile, 'define ("MULTI",0);');
+        print ( 'define ("MULTI",0);');
     }
     if (!isset($multi))
     {
-        fputs($hFile, 'define ("MULTI",1);');
+        print ( 'define ("MULTI",1);');
     }
-    fputs($hFile,"\r\n");
-    fputs($hFile, 'define ("dbname","'.$cdbname.'");');
-    fputs($hFile,"\r\n");
+    print ("\r\n");
+    print ( 'define ("dbname","'.$cdbname.'");');
+    print ("\r\n");
     
-    fputs($hFile,' // Uncomment to DEBUG');
-    fputs($hFile,"\r\n");
-    fputs($hFile, '// define ("DEBUG",TRUE);');
-    fputs($hFile,"\r\n");
-    fputs($hFile,' // Uncomment to log your input');
-    fputs($hFile,"\r\n");   
-    fputs($hFile, '// define ("LOGINPUT",TRUE);');
-    fputs($hFile,"\r\n");
-    fputs($hFile,"\r\n");
-    fputs($hFile,"\r\n");
-    fputs($hFile,' // Do not change below !!!');
-    fputs($hFile,"\r\n");
-    fputs($hFile,' // These variable are computed but could be changed in ');
-    fputs($hFile,"\r\n");
-    fputs($hFile,' // very special configuration');
-    fputs($hFile,"\r\n");
-    fputs($hFile, '// define ("NOALYSS_HOME","");');
-    fputs($hFile,"\r\n");
-    fputs($hFile, '// define ("NOALYSS_PLUGIN","");');
-    fputs($hFile,"\r\n");
-    fputs($hFile, '// define ("NOALYSS_INCLUDE","");');
-    fputs($hFile,"\r\n");
-    fputs($hFile, '// define ("NOALYSS_TEMPLATE","");');
-    fputs($hFile,"\r\n");
-    fputs($hFile,"\r\n");
-    fputs($hFile,"\r\n");
-    fputs($hFile, "// Uncomment if you don't want "."\r\n");
-    fputs($hFile, "// to be informed when a new release is "."\r\n");
-    fputs($hFile, "// published"."\r\n");
-    fputs($hFile, '// define ("SITE_UPDATE","");'."\r\n");
-    fputs($hFile, '// define ("SITE_UPDATE_PLUGIN","");'."\r\n");
-    fputs($hFile,'?>');
+    print (' // Uncomment to DEBUG');
+    print ("\r\n");
+    print ( '// define ("DEBUG",TRUE);');
+    print ("\r\n");
+    print (' // Uncomment to log your input');
+    print ("\r\n");   
+    print ( '// define ("LOGINPUT",TRUE);');
+    print ("\r\n");
+    print ("\r\n");
+    print ("\r\n");
+    print (' // Do not change below !!!');
+    print ("\r\n");
+    print (' // These variable are computed but could be changed in ');
+    print ("\r\n");
+    print (' // very special configuration');
+    print ("\r\n");
+    print ( '// define ("NOALYSS_HOME","");');
+    print ("\r\n");
+    print ( '// define ("NOALYSS_PLUGIN","");');
+    print ("\r\n");
+    print ( '// define ("NOALYSS_INCLUDE","");');
+    print ("\r\n");
+    print ( '// define ("NOALYSS_TEMPLATE","");');
+    print ("\r\n");
+    print ("\r\n");
+    print ("\r\n");
+    print ( "// Uncomment if you don't want "."\r\n");
+    print ( "// to be informed when a new release is "."\r\n");
+    print ( "// published"."\r\n");
+    print ( '// define ("SITE_UPDATE","");'."\r\n");
+    print ( '// define ("SITE_UPDATE_PLUGIN","");'."\r\n");
+    print ('?>');
+}
+/*!\brief create the config file
+ */
+function config_file_create($p_array,$p_os=1)
+{
+    extract ($p_array);
+    $hFile=  fopen(NOALYSS_INCLUDE.'/config.inc.php','w');
+    ob_start();
+    display_file_config($p_array,$from_setup,$p_os);
+    $r=ob_get_clean();
+    fputs($hFile, $r);
     fclose($hFile);
 }

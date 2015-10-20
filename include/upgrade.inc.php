@@ -56,7 +56,7 @@ if ($sb === "upg_all" && (!defined('MULTI')||(defined('MULTI')&&MULTI==1)))
     {
         if ($cn->get_version()<=$i)
         {
-            $cn->execute_script('sql/patch/ac-upgrade'.$i.'.sql');
+            $cn->execute_script(NOALYSS_INCLUDE.'/sql/patch/ac-upgrade'.$i.'.sql');
         }
     }
     //----------------------------------------------------------------------

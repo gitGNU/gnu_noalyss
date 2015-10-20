@@ -31,5 +31,10 @@ if (file_exists("../include/config.inc.php") ) {
     define ('ALLOWED',1);
     require_once '../include/constant.php';
     require_once NOALYSS_INCLUDE.'/admin_repo.inc.php';
+} else {
+    // Redirect to install file , if this file exists then 
+    // we can't connect to anything
+    echo '<HTML><head><META HTTP-EQUIV="REFRESH" content="0;url=install.php"></head><body> Connecting... </body></html>';
+
 }
 ?>

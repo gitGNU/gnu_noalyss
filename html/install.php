@@ -3,13 +3,14 @@ session_start();
 ?>
 <!doctype html>
 <HTML><HEAD>
-    <TITLE>Noalyss - Mise à jour</TITLE>
+    <TITLE>Noalyss - Install</TITLE>
     <META http-equiv="Content-Type" content="text/html; charset=UTF8">
     </title>
 <head>
-<link rel="icon" type="image/ico" href="../favicon.ico" />
+<link rel="icon" type="image/ico" href="favicon.ico" />
  <META http-equiv="Content-Type" content="text/html; charset=UTF8">
- <script type="text/javascript" charset="<div>utf-8</div>" language="javascript" src="../js/prototype.js"></script>
+ <script type="text/javascript" charset="utf-8" language="javascript" src="js/prototype.js"></script>
+ <link type="text/css" REL="stylesheet" href="style-classic.css"/>
  <style>
      body {
          font : 100%;
@@ -43,7 +44,7 @@ session_start();
         border:0px;
         text-decoration:none;
         font-family: helvetica,arial,sans-serif;
-        background-image: url("../image/bg-submit2.gif");
+        background-image: url("image/bg-submit2.gif");
         background-repeat: repeat-x;
         background-position: left;
         text-decoration:none;
@@ -70,7 +71,7 @@ session_start();
 </head>
 <body>
 <p align="center">
-  <IMG SRC="../image/logo6820.png" style="width: 415px;height: 200px" alt="NOALYSS">
+  <IMG SRC="image/logo6820.png" style="width: 365px;height: 150px" alt="NOALYSS">
 </p>
 
 <?php
@@ -114,15 +115,16 @@ if ( ! isset($_GET['lang'])){
 <?php
     exit();
 }
-require_once '../../include/constant.php';
+require_once '../include/constant.php';
 include_once NOALYSS_INCLUDE.'/lib/ac_common.php';
+include_once NOALYSS_INCLUDE.'/lib/class_html_input.php';
 if ( $_GET['lang'] == "en_US.utf8" || $_GET['lang']=='fr_FR.utf8')
 {
-    $_SESSION['g_lang']='en_US.utf8';
+    $_SESSION['g_lang']=$_GET['lang'];
     set_language();
 }
 ?>
- <script type="text/javascript" charset="utf-8" language="javascript" src="../js/infobulle.js">
+ <script type="text/javascript" charset="utf-8" language="javascript" src="js/infobulle.js">
 </script>
 <script>
 content[200]="<?php echo _("Indiquez ici le récuterpertoire où les documents temporaires peuvent être sauvés exemple c:/temp, /tmp")?>";
@@ -133,6 +135,7 @@ content[204]="<?php echo _("Mot de passe de l'utilisateur de Postgresql")?>";
 content[205]="<?php echo _("Port de postgresql")?>";
 content[206]="<?php echo _("En version mono dossier, le nom de la base de données doit être mentionné")?>";
 content[207]="<?php echo _("Vous devez choisir si NOALYSS est installé sur l'un de vos servers ou sur un server mutualisé qui ne donne qu'une seule base de données")?>";
+content[208]="<?php echo _("Serveur postgresql")?>";
 
 </script>
 
@@ -203,28 +206,87 @@ function create_htaccess()
 	}
 
 }
+// Retrieve informations from the very screen
+// 
+$db_user=HtmlInput::default_value_request("cuser", "");
+$db_password=HtmlInput::default_value_request("cpasswd", "");
+$db_host=HtmlInput::default_value_request("chost", "");
+$db_port=HtmlInput::default_value_request("cport", "");
+$multi=HtmlInput::default_value_request("multi", "N");
+$locale=HtmlInput::default_value_request("clocale", "1");
+$ctmp=HtmlInput::default_value_request("ctmp", "/tmp");
+$cpath=HtmlInput::default_value_request("cpath", "/usr/bin");
+$db_name=HtmlInput::default_value_request("cdbname", "");
 
-/* The config file is created here */
-if (isset($_POST['save_config'])) {
-  require_once NOALYSS_INCLUDE.'/lib/config_file.php';
-  $url=config_file_create($_POST,1,$os);
-echo '
-<form method="post" action="?lang='.$_GET['lang'].'" >'.
-    _('Les informations sont sauv&eacute;es vous pouvez continuer').
-'<input type="submit" class="button" value="'._('Continuer').'">
-</form>';
- exit();
- }
+//-------------------------------------------------------------------------
+// warn only if we can not write in include 
+//-------------------------------------------------------------------------
 if ( is_writable ('..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'include'.DIRECTORY_SEPARATOR.'constant.php') == false ) {
     echo '<h2 class="notice"> '._("Ecriture non possible").' </h2>'.
             '<p class="warning"> '.
             _("On ne peut pas écrire dans le répertoire de NOALYSS, changez-en les droits ")
             .'</p>';
-    exit();
   }
+  
+//----------------------------------------------------------------------------
+// We try to connect with the supplied information
+// If we succeed we continue the check
+// otherwise we turn back to the first screen
+// The config file is created here 
+//----------------------------------------------------------------------------
+
+if (isset($_POST['save_config'])) {
+  require_once NOALYSS_INCLUDE.'/lib/config_file.php';
+  // Try to connect , if it doesn't work that do not create the config file 
+  if ($multi=="N") {
+    $cnx = Database::connect($db_user, $db_password,'template1', $db_host, $db_port); 
+  }else {
+    $cnx = Database::connect($db_user, $db_password,$db_name, $db_host, $db_port); 
+  }
+  // ----- 
+  // If conx successfull save the file or display it
+  // -----
+  if ( $cnx !== false ) {
+      // Create the db
+      if (is_writable(NOALYSS_INCLUDE)) { 
+        $url=config_file_create($_POST,1,$os); 
+        echo '
+            <form method="post" action="?lang='.$_GET['lang'].'" >'.
+           _('Les informations sont sauv&eacute;es vous pouvez continuer').
+          '<input type="submit" class="button" value="'._('Continuer').'">
+            </form>';
+        return;
+      } else {
+          echo '<p class="warning">';
+          echo _('Fichier non sauvé');
+          echo '</p>';
+          echo '<p>';
+          printf ( _('Créez ce fichier %s avec les informations suivantes '),
+                  NOALYSS_INCLUDE.'/config.inc.php');
+          echo '</p>';
+          echo '<p>';
+          print (_('Puis cliquez sur ce lien'))." ";
+          echo '<a href="install.php?lang='.$_GET['lang'].'">'._('Installation')."</a>";
+          echo '</p>';
+          echo '<textarea cols="80" rows="50" style="height:auto">';
+          echo display_file_config($_POST,1,$os);
+          echo '</textarea>';
+          return;
+      }
+  } else {
+      echo '<h1 class="warning">';
+      echo _('Impossible de se connecter à Postgresql, vérifiez les informations de connection');
+      echo '</h1>';
+  }
+ }
 
 
-if ( ! file_exists('..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'include'.DIRECTORY_SEPARATOR.'config.inc.php')) {
+//------------------------------------------------------------------------
+// Check that the file config.inc.php exists , if not then propose to 
+// enter information and exit
+//
+//------------------------------------------------------------------------
+if ( ! file_exists(NOALYSS_INCLUDE.'/config.inc.php')) {
   echo '<h1 class="info">'._('Entrez les informations nécessaires à noalyss').'</h1>';
   echo '<form method="post">';
   require_once NOALYSS_INCLUDE.'/lib/config_file.php';
@@ -232,7 +294,7 @@ if ( ! file_exists('..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'include'.D
   echo config_file_form();
   echo '<div style="position:float;float:left;"></div>';
   echo '<p style="text-align:center">',
-        HtmlInput::submit('save_config',_('Sauver la configuration'),"","button"),
+        HtmlInput::submit('save_config',_('Continuer'),"","button"),
           '</p>';
   echo "</div>";
   echo '</form>';
@@ -249,10 +311,11 @@ if ( ! file_exists('..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'include'.D
 // magic_quotes_runtime = Off
 // magic_quotes_sybase = Off
 // include_path
-require_once NOALYSS_INCLUDE.'/config_file.php';
+require_once NOALYSS_INCLUDE.'/lib/config_file.php';
 require_once NOALYSS_INCLUDE.'/lib/class_database.php';
 
-if ( defined ("MULTI") && MULTI==1) { create_htaccess();}
+// we shouldn't use it 
+// if ( defined ("MULTI") && MULTI==1) { create_htaccess();}
 
 echo '<h1 class="title">'._('Configuration').'</h1>';
 ?>
@@ -466,7 +529,7 @@ if ( $flag == 0 ) {
 if ( ! isset($_POST['go']) ) {
 ?>
 <span style="text-align: center">
-    <FORM METHOD="post" action="admin-noalyss.php?lang=<?php echo $_GET['lang']?>">
+    <FORM METHOD="post" action="install.php?lang=<?php echo $_GET['lang']?>">
 <input type="submit" class="button" name="go" value="<?php echo _("Commencer la mise à jour ou l'installation");?>">
 </form>
 </span>
@@ -475,10 +538,10 @@ if ( ! isset($_POST['go']) ) {
 if ( ! isset($_POST['go']) )
 	exit();
 // Check if account_repository exists
-	if (!defined("MULTI") || (defined("MULTI") && MULTI == 1))
-		$account = $cn->count_sql("select * from pg_database where datname=lower('" . domaine . "account_repository')");
-	else
-		$account=1;
+if (!defined("MULTI") || (defined("MULTI") && MULTI == 1))
+        $account = $cn->count_sql("select * from pg_database where datname=lower('" . domaine . "account_repository')");
+else
+        $account=1;
 
 // Create the account_repository
 if ($account == 0 ) {
@@ -488,9 +551,9 @@ if ($account == 0 ) {
   $cn->exec_sql("create database ".domaine."account_repository encoding='utf8'");
   $cn=new Database();
   $cn->start();
-  $cn->execute_script("sql/account_repository/schema.sql");
-  $cn->execute_script("sql/account_repository/data.sql");
-  $cn->execute_script("sql/account_repository/constraint.sql");
+  $cn->execute_script(NOALYSS_INCLUDE."/sql/account_repository/schema.sql");
+  $cn->execute_script(NOALYSS_INCLUDE."/sql/account_repository/data.sql");
+  $cn->execute_script(NOALYSS_INCLUDE."/sql/account_repository/constraint.sql");
   $cn->commit($cn);
 
  if ( ! DEBUG) ob_end_clean();
@@ -501,9 +564,9 @@ if ($account == 0 ) {
 
   $cn=new Database(1,'mod');
   $cn->start();
-  $cn->execute_script('sql/mod1/schema.sql');
-  $cn->execute_script('sql/mod1/data.sql');
-  $cn->execute_script('sql/mod1/constraint.sql');
+  $cn->execute_script(NOALYSS_INCLUDE.'/sql/mod1/schema.sql');
+  $cn->execute_script(NOALYSS_INCLUDE.'/sql/mod1/data.sql');
+  $cn->execute_script(NOALYSS_INCLUDE.'/sql/mod1/constraint.sql');
   $cn->commit();
 
   if ( ! DEBUG) ob_end_clean();
@@ -513,9 +576,9 @@ if ($account == 0 ) {
   $cn=new Database(2,'mod');
   $cn->start();
   if ( ! DEBUG) { ob_start();  }
-  $cn->execute_script('sql/mod1/schema.sql');
-  $cn->execute_script('sql/mod2/data.sql');
-  $cn->execute_script('sql/mod1/constraint.sql');
+  $cn->execute_script(NOALYSS_INCLUDE.'/sql/mod1/schema.sql');
+  $cn->execute_script(NOALYSS_INCLUDE.'/sql/mod2/data.sql');
+  $cn->execute_script(NOALYSS_INCLUDE.'/sql/mod1/constraint.sql');
   $cn->commit();
 
  if ( ! DEBUG) ob_end_clean();
@@ -553,13 +616,15 @@ if  (defined("MULTI") && MULTI == 0)
         for ($i=4;$i<= $MaxVersion;$i++)
         {
             if ( $db->get_value (' select val from repo_version') <= $i ) {
-                $db->execute_script('sql/patch/ac-upgrade'.$i.'.sql');
+                $db->execute_script(NOALYSS_INCLUDE.'/sql/patch/ac-upgrade'.$i.'.sql');
             }
         }
-
+        echo "<h2 class=\"warning\">";
+        printf (" VOUS DEVEZ EFFACER CE FICHIER %s",__FILE__);
+        echo "</h2>";
 	?>
 <p style="text-align: center">
-		<A style="" class="button" HREF="../index.php"><?php echo _('Connectez-vous à NOALYSS')?></A>
+		<A style="" class="button" HREF="./index.php"><?php echo _('Connectez-vous à NOALYSS')?></A>
                 </p>
 	<?php
 	exit();
@@ -568,68 +633,14 @@ if  (defined("MULTI") && MULTI == 0)
 /*
  * If multi folders
  */
-$Resdossier=$cn->exec_sql("select dos_id, dos_name from ac_dossier");
-$MaxDossier=$cn->size($Resdossier);
+define ('ALLOWED',1);
+$_GET['sb']="upg_all";
+$rep=new Database();
+require NOALYSS_INCLUDE."/upgrade.inc.php";
+echo "<h2 class=\"warning\">";
+printf (" VOUS DEVEZ EFFACER CE FICHIER %s",__FILE__);
+echo "</h2>";
 
-//----------------------------------------------------------------------
-// Upgrade the folders
-//----------------------------------------------------------------------
-
-for ($e=0;$e < $MaxDossier;$e++) {
-   $db_row=Database::fetch_array($Resdossier,$e);
-  echo "<h3>Patching ".$db_row['dos_name'].'</h3>';
-
-  $name=$cn->format_name($db_row['dos_id'],'dos');
-
-  if ( $cn->exist_database($name)> 0 )
-  {
-    $db=new Database($db_row['dos_id'],'dos');
-    $db->apply_patch($db_row['dos_name']);
-    Dossier::synchro_admin($db_row['dos_id']);
-
-  } else
-  {
-      echo_warning(_("Dossier inexistant")." $name");
-  }
- } 
-
-//----------------------------------------------------------------------
-// Upgrade the template
-//----------------------------------------------------------------------
-$Resdossier=$cn->exec_sql("select mod_id, mod_name from modeledef");
-$MaxDossier=$cn->size();
-echo "<h2>"._("Mise à modèle")."</h2>";
-
-for ($e=0;$e < $MaxDossier;$e++) {
-  $db_row=Database::fetch_array($Resdossier,$e);
-  echo "<h3>Patching ".$db_row['mod_name']."</h3>";
-  $name=$cn->format_name($db_row['mod_id'],'mod');
-
-  if ( $cn->exist_database($name)> 0 )
-  {
-    $db=new Database($db_row['mod_id'],'mod');
-    $db->apply_patch($db_row['mod_name']);
-   } else
-  {
-      echo_warning(_("Modèle inexistant")." $name");
-  }
- }
-
-//----------------------------------------------------------------------
-// Upgrade the account_repository
-//----------------------------------------------------------------------
- echo "<h2>"._("Mise à jour de la base de données Paramètrage")."</h2>";
- $cn=new Database();
- if ( DEBUG == false ) ob_start();
- $MaxVersion=DBVERSIONREPO-1;
- for ($i=4;$i<= $MaxVersion;$i++)
-   {
- 	if ( $cn->get_version() <= $i ) {
- 	  $cn->execute_script('sql/patch/ac-upgrade'.$i.'.sql');
- 	}
-   }
-
- if (! DEBUG) ob_end_clean();
  echo "<p class=\"info\">"._("Tout est install&eacute;")." ". $succeed;
 ?>
 </p>

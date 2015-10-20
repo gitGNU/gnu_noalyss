@@ -134,7 +134,7 @@
 
 if ( ! file_exists('..'.DIRECTORY_SEPARATOR.'include'.DIRECTORY_SEPARATOR.'config.inc.php'))
 {
-    header("Location: setup.php",true, 307);
+    header("Location: install.php",true, 307);
     exit(0);
 }
 
@@ -209,7 +209,13 @@ $my_domain="";
 require_once '../include/constant.php';
 require_once '../include/config.inc.php';
 require_once NOALYSS_INCLUDE.'/lib/ac_common.php';
-
+if (file_exists("install.php")) {
+    /*
+     * This file shouldn't exist
+     */
+    echo _("Le fichier install.php est encore présent, vous devez l'effacer avant d'utiliser NOALYSS");
+    return;
+}
 if ( strlen(domaine) > 0 )
 {
     $my_domain="Domaine : ".domaine;
