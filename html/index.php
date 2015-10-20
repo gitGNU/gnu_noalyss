@@ -213,7 +213,7 @@ if (file_exists("install.php")) {
     /*
      * This file shouldn't exist
      */
-    echo _("Le fichier install.php est encore présent, vous devez l'effacer avant d'utiliser NOALYSS");
+    echo _("Le fichier ".__DIR__."/install.php est encore présent, vous devez l'effacer avant d'utiliser NOALYSS");
     return;
 }
 if ( strlen(domaine) > 0 )
