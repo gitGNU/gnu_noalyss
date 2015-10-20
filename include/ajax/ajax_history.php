@@ -190,7 +190,6 @@ if ( isset($_REQUEST['pcm_val']))
         ob_start();
         require_once NOALYSS_INCLUDE.'/template/history_top.php';
              
-        echo '<h2 class="title">'.$poste->id." ".h($poste->name).'</h2>';
         
         if ( $result == -1)
 	  {
