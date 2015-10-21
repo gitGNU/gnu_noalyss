@@ -339,9 +339,9 @@ class Lettering
         case 'letter':
             return $this->show_lettered();
             break;
-		case 'letter_diff':
-			return $this->show_lettered_diff();
-			break;
+        case 'letter_diff':
+                return $this->show_lettered_diff();
+                break;
         }
         throw new Exception ("[$p_type] is no unknown");
     }
