@@ -64,21 +64,21 @@ require_once NOALYSS_INCLUDE.'/class/class_default_menu.php';
 class Follow_Up
 {
 
-    var $db; /* !<  $db  database connexion    */
-    var $ag_timestamp;  /* !<   $ag_timestamp document date (ag_gestion.ag_timestamp) */
-    var $dt_id;   /* !<   $dt_id type of the document (document_type.dt_id) */
-    var $ag_state; /* !<   $ag_state stage of the document (printed, send to client...) */
-    var $d_number;   /* !<   $d_number number of the document */
-    var $d_filename; /* !<   $d_filename filename's document      */
-    var $d_mimetype; /* !<   $d_mimetype document's filename      */
-    var $ag_title;   /* !<   $ag_title title document	      */
-    var $f_id; /* !<   $f_id_dest fiche id (From field )  */
-    var $ag_ref;  /* !< $ag_ref is the ref  */
-    var $ag_hour;  /* !< $ag_hour is the hour of the meeting, action */
-    var $ag_priority; /* !< $ag_priority is the priority 1 High, 2 medium, 3 low */
-    var $ag_dest;  /* !< $ag_dest person who is in charged */
-    var $ag_contact;  /* !< $ag_contact contact */
-    var $ag_remind_date;  /* !< $ag_contact contact */
+    var $db; /*!<  $db  database connexion    */
+    var $ag_timestamp;  /*!<   $ag_timestamp document date (ag_gestion.ag_timestamp) */
+    var $dt_id;   /*!<   $dt_id type of the document (document_type.dt_id) */
+    var $ag_state; /*!<   $ag_state stage of the document (printed, send to client...) */
+    var $d_number;   /*!<   $d_number number of the document */
+    var $d_filename; /*!<   $d_filename filename's document      */
+    var $d_mimetype; /*!<   $d_mimetype document's filename      */
+    var $ag_title;   /*!<   $ag_title title document	      */
+    var $f_id; /*!<   $f_id_dest fiche id (From field )  */
+    var $ag_ref;  /*!< $ag_ref is the ref  */
+    var $ag_hour;  /*!< $ag_hour is the hour of the meeting, action */
+    var $ag_priority; /*!< $ag_priority is the priority 1 High, 2 medium, 3 low */
+    var $ag_dest;  /*!< $ag_dest person who is in charged */
+    var $ag_contact;  /*!< $ag_contact contact */
+    var $ag_remind_date;  /*!< $ag_contact contact */
 
     /**
      * @brief $operation string related operation

@@ -18,7 +18,7 @@
 
  */
 // Copyright Author Dany De Bontridder danydb@aevalys.eu
-/* ! \file
+/*! \file
  * \brief handle your own report: create or view report
  */
 if (!defined('ALLOWED'))

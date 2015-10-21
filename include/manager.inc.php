@@ -17,7 +17,7 @@
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 // Copyright Author Dany De Bontridder danydb@aevalys.eu
-/* !\brief include from supplier.inc.php and concerned only the supplier card and
+/*!\brief include from supplier.inc.php and concerned only the supplier card and
  * the supplier category
  */
 if (!defined('ALLOWED'))
@@ -34,7 +34,7 @@ require_once NOALYSS_INCLUDE.'/class/class_fiche_def.php';
 global $g_user;
 
 $low_action = (isset($_REQUEST['sb'])) ? $_REQUEST['sb'] : "list";
-/* ! \file
+/*! \file
  * \brief Called from the module "Gestion" to manage the supplier
  */
 $href = basename($_SERVER['PHP_SELF']);

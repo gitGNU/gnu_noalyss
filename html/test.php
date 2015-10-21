@@ -18,7 +18,7 @@
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 // Copyright Author Dany De Bontridder danydb@aevalys.eu
-/* !\file
+/*!\file
  * \brief this file let you debug and test the different functionnalities, there are 2 important things to do
  * It is only a quick and dirty testing. You should use a tool as PHPUNIT for the unit testing
  * 

@@ -116,7 +116,7 @@ class Anc_GrandLivre extends Anc_Print
 
         return $array;
     }
-    /* !
+    /*!
      * \brief Show the button to export in PDF all the receipt
      * 
      * \param $p_string extra hidden value

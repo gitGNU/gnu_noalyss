@@ -30,7 +30,7 @@ require_once NOALYSS_INCLUDE.'/database/class_anc_key_sql.php';
 class Anc_Key
 {
 
-    private $key; /* !  the distribution key */
+    private $key; /*!  the distribution key */
     /**
      * Return the number of keys available.
      *  Return the number of keys available for the ledger given in parameter

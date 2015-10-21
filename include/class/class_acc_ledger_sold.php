@@ -20,7 +20,8 @@
 
 // Copyright Author Dany De Bontridder danydb@aevalys.eu
 
-/* !\file
+/*!
+ * \file
  * \brief class for the sold, herits from acc_ledger
  */
 require_once NOALYSS_INCLUDE.'/lib/class_iselect.php';
@@ -42,7 +43,8 @@ require_once NOALYSS_INCLUDE.'/class/class_acc_ledger_fin.php';
 require_once NOALYSS_INCLUDE.'/class/class_stock_goods.php';
 require_once NOALYSS_INCLUDE.'/class/class_acc_ledger.php';
 
-/* !\brief Handle the ledger of sold,
+/*!
+ * \brief Handle the ledger of sold,
  *
  * @exception throw an exception is something is wrong
  */
@@ -54,7 +56,7 @@ class Acc_Ledger_Sold extends Acc_Ledger {
         $this->type = 'VEN';
     }
 
-    /* !\brief verify that the data are correct before inserting or confirming
+    /*!\brief verify that the data are correct before inserting or confirming
      * \param an array (usually $_POST)
      * \return String
      * \throw Exception if an error occurs
@@ -219,7 +221,7 @@ class Acc_Ledger_Sold extends Acc_Ledger {
         }
     }
 
-    /* !\brief insert into the database, it calls first the verify function,
+    /*!\brief insert into the database, it calls first the verify function,
      * change the value of this->jr_id and this->jr_internal
      * * It generates the document if gen_invoice is set and save the middle of payment if any ($e_mp)
      *
@@ -590,7 +592,7 @@ class Acc_Ledger_Sold extends Acc_Ledger {
         return $internal;
     }
 
-    /* !
+    /*!
      * @brief show the summary of the operation and propose to save it
      * @param array contains normally $_POST. It proposes also to save
      * the Analytic accountancy
@@ -904,7 +906,7 @@ EOF;
         return $r;
     }
 
-    /* !\brief the function extra info allows to
+    /*!\brief the function extra info allows to
      * - add a attachment
      * - generate an invoice
      * - insert extra info
@@ -980,7 +982,7 @@ EOF;
             echo HtmlInput::submit('paid', _('Mise à jour paiement'));
     }
 
-    /* !\brief display the form for entering data for invoice,
+    /*!\brief display the form for entering data for invoice,
      * \param $p_array is null or you can put the predef operation or the $_POST
      *
      * \return HTML string
@@ -1361,7 +1363,7 @@ EOF;
         $array['tot_vat'] = _('TVA Opération');
         return $array;
     }
-    /* !\brief test function
+    /*!\brief test function
      */
 
     static function test_me($p_string = '') {
