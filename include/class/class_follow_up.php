@@ -558,7 +558,8 @@ class Follow_Up
     }
 
     //----------------------------------------------------------------------
-    /*     * \brief This function shows the detail of an action thanks the ag_id
+    /** 
+     * \brief This function shows the detail of an action thanks the ag_id
      */
     function get()
     {
