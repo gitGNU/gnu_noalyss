@@ -127,7 +127,9 @@ class Pre_op_ven extends Pre_operation_detail
                 $array+=array("e_march".$count=>$row['opd_poste'],
                               "e_march".$count."_price"=>$row['opd_amount'],
                               "e_march".$count."_tva_id"=>$row['opd_tva_id'],
-                              "e_quant".$count=>$row['opd_quantity']
+                              "e_quant".$count=>$row['opd_quantity'],
+                              "e_march".$count."_label"=>$row['opd_comment'],
+                              "e_march".$count."_tva_amount"=>$row['opd_tva_amount'],
                              );
                 $count++;
             }
@@ -140,7 +142,7 @@ class Pre_op_ven extends Pre_operation_detail
     function load()
     {
         $sql="select opd_id,opd_poste,opd_amount,opd_tva_id,opd_debit,".
-             " opd_quantity from op_predef_detail where od_id=".$this->operation->od_id.
+             " opd_quantity , opd_comment,opd_tva_amount from op_predef_detail where od_id=".$this->operation->od_id.
              " order by opd_id";
         $res=$this->db->exec_sql($sql);
         $array=Database::fetch_all($res);
