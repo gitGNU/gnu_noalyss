@@ -209,7 +209,7 @@ $my_domain="";
 require_once '../include/constant.php';
 require_once '../include/config.inc.php';
 require_once NOALYSS_INCLUDE.'/lib/ac_common.php';
-if (file_exists("install.php")) {
+if (file_exists("install.php")&& ! DEBUG ) {
     /*
      * This file shouldn't exist
      */
