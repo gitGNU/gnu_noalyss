@@ -250,4 +250,6 @@ begin
         return;
 end;
  $BODY$
-  LANGUAGE plpgsql 
+  LANGUAGE plpgsql ;
+
+update attr_def set ad_extra=4 where ad_id in (6,7);
