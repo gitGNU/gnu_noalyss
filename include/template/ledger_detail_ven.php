@@ -174,10 +174,8 @@ echo $ipaid->input();
 
                     $row.=td($input->input() . $hidden);
                     $sym_tva = '';
-                    $pu = 0;
-                    if ($q['qs_quantite'] != 0)
-                        $pu = bcdiv($q['qs_price'], $q['qs_quantite']);
-                    $row.=td(nbm($pu), 'class="num"');
+                    $pu = $q['qs_unit'];
+                    $row.=td(nbm($pu,4), 'class="num"');
                     $row.=td(nbm($q['qs_quantite']), 'class="num"');
                     $sym_tva = '';
                     if ($owner->MY_TVA_USE == 'Y' && $q['qs_vat_code'] != '')

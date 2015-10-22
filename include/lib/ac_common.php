@@ -115,8 +115,9 @@ function nb($p_number)
 /**
  * format the number with a sep. for the thousand
  * @param $p_number number
+ * @param $p_dec number of decimal to display
  */
-function nbm($p_number)
+function nbm($p_number,$p_dec = 2)
 {
 
     if (trim($p_number) == '')
@@ -125,7 +126,7 @@ function nbm($p_number)
 	return "0,00";
     
     $a = doubleval($p_number);
-    $r = number_format($a, 2, ",", ".");
+    $r = number_format($a, $p_dec, ",", ".");
     if (trim($r) == '')
     {
 	var_dump($r);

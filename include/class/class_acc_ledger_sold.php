@@ -363,7 +363,7 @@ class Acc_Ledger_Sold extends Acc_Ledger {
                 }
                 if ($g_parameter->MY_TVA_USE == 'Y') {
                     /* save into quant_sold */
-                    $r = $this->db->exec_sql("select insert_quant_sold ($1,$2,$3,$4,$5,$6,$7,$8,$9)", array(null, /* 1 */
+                    $r = $this->db->exec_sql("select insert_quant_sold ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)", array(null, /* 1 */
                         $j_id, /* 2 */
                         ${'e_march' . $i}, /* 3 */
                         ${'e_quant' . $i}, /* 4 */
@@ -371,9 +371,11 @@ class Acc_Ledger_Sold extends Acc_Ledger {
                         $tva_item, /* 6 */
                         $idx_tva, /* 7 */
                         $e_client, /* 8 */
-                        $n_both));
+                        $n_both, /* 9 */
+                        ${'e_march' . $i . '_price'} /* Price /unit */ 
+                        ));
                 } else {
-                    $r = $this->db->exec_sql("select insert_quant_sold ($1,$2,$3,$4,$5,$6,$7,$8,$9) ", array(null, /* 1 */
+                    $r = $this->db->exec_sql("select insert_quant_sold ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10) ", array(null, /* 1 */
                         $j_id, /* 2 */
                         ${'e_march' . $i}, /* 3 */
                         ${'e_quant' . $i}, /* 4 */
@@ -381,7 +383,9 @@ class Acc_Ledger_Sold extends Acc_Ledger {
                         0,
                         null,
                         $e_client,
-                        0));
+                        0, /* 9 */
+                        ${'e_march' . $i . '_price'} /* Price /unit */ 
+                        ));
                 }  // if ( $g_parameter->MY_TVA_USE=='Y') {
             }// end loop : save all items
 
@@ -750,7 +754,7 @@ class Acc_Ledger_Sold extends Acc_Ledger {
             $r.=$fiche_name;
             $r.='</td>';
             $r.='<td class="num">';
-            $r.=nbm(${"e_march" . $i . "_price"});
+            $r.=nbm(${"e_march" . $i . "_price"},4);
             $r.='</td>';
             $r.='<td class="num">';
             $r.=nbm(${"e_quant" . $i});
@@ -1249,7 +1253,7 @@ EOF;
             $Price = new INum();
             $Price->setReadOnly(false);
             $Price->size = 9;
-            $Price->javascript = "onBlur='format_number(this);clean_tva($i);compute_ledger($i)'";
+            $Price->javascript = "onBlur='format_number(this,4);clean_tva($i);compute_ledger($i)'";
             $array[$i]['pu'] = $Price->input("e_march" . $i . "_price", $march_price);
             $array[$i]['tva'] = '';
             $array[$i]['amount_tva'] = '';

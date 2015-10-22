@@ -178,3 +178,27 @@ return NEW;
 end;
 $BODY$
 LANGUAGE plpgsql;
+
+alter table quant_sold add column qs_unit numeric(20,4) default 0;
+update quant_sold set qs_unit = qs_price / qs_quantite;
+
+CREATE OR REPLACE FUNCTION comptaproc.insert_quant_sold(p_internal text, p_jid numeric, p_fiche character varying, p_quant numeric, p_price numeric, p_vat numeric, p_vat_code integer, p_client character varying, p_tva_sided numeric, p_price_unit numeric)
+  RETURNS void AS
+$BODY$
+declare
+        fid_client integer;
+        fid_good   integer;
+begin
+
+        select f_id into fid_client from
+                fiche_detail where ad_id=23 and ad_value=upper(trim(p_client));
+        select f_id into fid_good from
+                fiche_detail where ad_id=23 and ad_value=upper(trim(p_fiche));
+        insert into quant_sold
+                (qs_internal,j_id,qs_fiche,qs_quantite,qs_price,qs_vat,qs_vat_code,qs_client,qs_valid,qs_vat_sided,qs_unit)
+        values
+                (p_internal,p_jid,fid_good,p_quant,p_price,p_vat,p_vat_code,fid_client,'Y',p_tva_sided,p_price_unit);
+        return;
+end;
+ $BODY$
+  LANGUAGE plpgsql;

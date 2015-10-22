@@ -26,7 +26,8 @@
 require_once NOALYSS_INCLUDE.'/class/class_user.php';
 require_once NOALYSS_INCLUDE.'/class/class_acc_ledger.php';
 
-/*! \brief  this file match the tables jrn & jrnx the purpose is to
+/*!
+ * \brief  this file match the tables jrn & jrnx the purpose is to
  *   remove or save accountant writing to these table.
  *
  */
@@ -661,7 +662,7 @@ class Acc_Sold extends Acc_Detail
     {
         parent::get();
         $sql="SELECT qs_id, qs_internal, qs_fiche, qs_quantite, qs_price, qs_vat,
-             qs_vat_code, qs_client, qs_valid, j_id,j_text,qs_vat_sided
+             qs_vat_code, qs_client, qs_valid, j_id,j_text,qs_vat_sided , qs_unit
              FROM quant_sold  join jrnx using(j_id) where j_grpt=$1";
         $this->det->array=$this->db->get_array($sql,array($this->det->jr_grpt_id));
     }
