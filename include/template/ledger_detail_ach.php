@@ -179,10 +179,8 @@ $str_anc="";
                     }
                     $row.=td($input->input() . $hidden);
                     $row.=td($sym_tva, 'style="text-align:center"');
-                    $pu = 0;
-                    if ($q['qp_quantite'] != 0)
-                        $pu = bcdiv($q['qp_price'], $q['qp_quantite']);
-                    $row.=td(nbm($pu), 'class="num"');
+                    $pu = $q['qp_unit'];
+                    $row.=td(nbm($pu,4), 'class="num"');
                     $row.=td(nbm($q['qp_quantite']), 'class="num"');
 
                     $no_ded = bcadd($q['qp_dep_priv'], $q['qp_nd_amount']);

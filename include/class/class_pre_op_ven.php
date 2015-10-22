@@ -76,7 +76,7 @@ class Pre_op_ven extends Pre_operation_detail
             // save the selling
             for ($i=0;$i<$this->operation->nb_item;$i++)
             {
-                if ( strlen(trim($this->{"e_march".$i}))==0) continue;
+                if ( strlen(trim($this->{"e_march".$i}))=="") continue;
                 $sql= 'insert into op_predef_detail (opd_poste,'
                         . 'opd_amount,'
                         . 'opd_tva_id,'

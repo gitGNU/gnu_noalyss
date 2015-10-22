@@ -662,38 +662,45 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
                 if ( $g_parameter->MY_TVA_USE=='Y')
                 {
 
-                    $r=$this->db->exec_sql("select insert_quant_purchase ".
-                                           "(null".
-                                           ",".$j_id.		 /* 2 */
-                                           ",'".${"e_march".$i}."'". /* 3 */
-                                           ",".${"e_quant".$i}.",".  /* 4 */
-                                           round($amount,2).	       /* 5 */
-                                           ",".$acc_amount->amount_vat. /* 6 */
-                                           ",".$oTva->get_parameter('id'). /* 7 */
-                                           ",".$acc_amount->amount_nd.     /* 8 */
-                                           ",".$acc_amount->nd_vat.	     /* 9 */
-                                           ",".$acc_amount->nd_ded_vat.    /* 10 */
-                                           ",".$acc_amount->amount_perso.  /* 11 */ 
-                                           ",'".$e_client."',". $acc_amount->amount_unpaid.")");	     /* 12 */
+                   $r=$this->db->exec_sql("select insert_quant_purchase ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14)",
+                           array(
+                                null             /*1*/
+                                ,$j_id		 /* 2 */
+                                ,${"e_march".$i} /* 3 */
+                                ,${"e_quant".$i}  /* 4 */
+                                ,round($amount,2)	       /* 5 */
+                                ,$acc_amount->amount_vat  /* 6 */
+                                ,$oTva->get_parameter('id') /* 7 */
+                                ,$acc_amount->amount_nd     /* 8 */
+                                ,$acc_amount->nd_vat	     /* 9 */
+                                ,$acc_amount->nd_ded_vat    /* 10 */
+                                ,$acc_amount->amount_perso  /* 11 */ 
+                                ,$e_client  /* 12 */
+                                , $acc_amount->amount_unpaid /*13*/
+                                ,${'e_march'.$i.'_price'} /* 14 */
+                           ));
+                           
 
                 }
                 else
                 {
-                    $r=$this->db->exec_sql("select insert_quant_purchase ".
-                                           "(null".
-                                           ",".$j_id.
-                                           ",'".${"e_march".$i}."'".
-                                           ",".${"e_quant".$i}.",".
-                                           round($amount,2).
-                                           ",0".
-                                           ",null".
-                                           ",".$acc_amount->amount_nd.
-                                           ",0".
-                                           ",".$acc_amount->nd_ded_vat.
-                                           ",".$acc_amount->amount_perso.
-                                           ",'".$e_client."',".$acc_amount->amount_unpaid.")");
-
-
+                     $r=$this->db->exec_sql("select insert_quant_purchase ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14)",
+                           array(
+                                null             /*1*/
+                                ,$j_id		 /* 2 */
+                                ,${"e_march".$i} /* 3 */
+                                ,${"e_quant".$i}  /* 4 */
+                                ,round($amount,2)	       /* 5 */
+                                ,0 /* 6 */
+                                ,null/* 7 */
+                                ,$acc_amount->amount_nd     /* 8 */
+                                ,0 /* 9 */
+                                ,$acc_amount->nd_ded_vat    /* 10 */
+                                ,$acc_amount->amount_perso  /* 11 */ 
+                                ,$e_client  /* 12 */
+                                , $acc_amount->amount_unpaid /*13*/
+                                ,${'e_march'.$i.'_price'} /* 14 */
+                           ));
                 }
 
             }       // end loop : save all items
@@ -1236,7 +1243,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
             $Price=new INum();
             $Price->setReadOnly(false);
             $Price->size=9;
-            $Price->javascript="onBlur='format_number(this);clean_tva($i);compute_ledger($i)'";
+            $Price->javascript="onBlur='format_number(this,4);clean_tva($i);compute_ledger($i)'";
             $array[$i]['pu']=$Price->input("e_march".$i."_price",$march_price);
             if ( $g_parameter->MY_TVA_USE=='Y')
             {
@@ -1469,7 +1476,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
             $r.=$fiche_name;
             $r.='</td>';
             $r.='<td class="num">';
-            $r.=nbm(${"e_march".$i."_price"});
+            $r.=nbm(${"e_march".$i."_price"},4);
             $r.='</td>';
             $r.='<td class="num">';
             $r.=nbm(${"e_quant".$i});

@@ -47,8 +47,10 @@ class Pre_op_ach extends Pre_operation_detail
             $march="e_march".$i;
             $this->$march=$_POST['e_march'.$i];
             $this->{"e_march".$i."_price"}=(isset ($_POST['e_march'.$i."_price"]))?$_POST['e_march'.$i."_price"]:0;
+            $this->{"e_march".$i."_price"}=(trim($_POST['e_march'.$i."_price"])=="")?0:$_POST['e_march'.$i."_price"];
             $this->{"e_march".$i."_tva_id"}=(isset ($_POST['e_march'.$i."_tva_id"]))?$_POST['e_march'.$i."_tva_id"]:0;
             $this->{"e_march".$i."_tva_amount"}=(isset($_POST['e_march'.$i."_tva_amount"]))?$_POST['e_march'.$i."_tva_amount"]:0;
+            $this->{"e_march".$i."_label"}=(isset($_POST['e_march'.$i."_label"]))?$_POST['e_march'.$i."_label"]:null;
             $this->{"e_quant".$i}=$_POST['e_quant'.$i];
 
         }
@@ -76,19 +78,27 @@ class Pre_op_ach extends Pre_operation_detail
             // save the selling
             for ($i=0;$i<$this->operation->nb_item;$i++)
             {
-                $sql=sprintf('insert into op_predef_detail (opd_poste,opd_amount,opd_tva_id,opd_quantity,'.
-                             'opd_debit,od_id,opd_tva_amount)'.
-                             ' values '.
-                             "('%s',%.2f,%d,%f,'%s',%d,%f)",
-                             $this->{"e_march".$i},
+                if ( strlen(trim($this->{"e_march".$i}))=="") continue;
+                $sql= 'insert into op_predef_detail (opd_poste,'
+                        . 'opd_amount,'
+                        . 'opd_tva_id,'
+                        . 'opd_quantity,'
+                        . 'opd_debit,'
+                        . 'od_id ,'
+                        . 'opd_tva_amount,'
+                        . 'opd_comment'.
+                        ')'.
+                             ' values ($1,$2,$3,$4,$5,$6,$7,$8)';
+                $this->db->exec_sql($sql,
+                        array($this->{"e_march".$i},
                              $this->{"e_march".$i."_price"},
                              $this->{"e_march".$i."_tva_id"},
                              $this->{"e_quant".$i},
                              't',
                              $this->operation->od_id,
-                             $this->{"e_march".$i."_tva_amount"}
-                            );
-                $this->db->exec_sql($sql);
+                             $this->{"e_march".$i."_tva_amount"},
+                             $this->{"e_march".$i."_label"},
+                            ));
             }
         }
         catch (Exception $e)
