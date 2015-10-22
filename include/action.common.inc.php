@@ -20,7 +20,8 @@
 
 // Copyright Author Dany De Bontridder danydb@aevalys.eu
 
-/**\file
+/**
+ * \file
  * \brief this file is common to suivi client, suivi fournisseur, suivi
  * administration.
  * The needed variables are

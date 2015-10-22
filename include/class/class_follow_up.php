@@ -487,7 +487,7 @@ class Follow_Up
             $text->readOnly=$readonly;
             $aArticle[$i]['desc']=$text->input();
 
-            $num->javascript=' onchange="format_number(this);clean_tva('.$i.');compute_ledger('.$i.')"';
+            $num->javascript=' onchange="format_number(this,4);clean_tva('.$i.');compute_ledger('.$i.')"';
             $num->name="e_march".$i."_price";
             $num->id="e_march".$i."_price";
             $num->size=8;
