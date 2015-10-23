@@ -268,9 +268,9 @@ class Follow_Up
         $ag_priority->readOnly=$readonly;
         $ag_priority->name="ag_priority";
         $ag_priority->selected=$this->ag_priority;
-        $ag_priority->value=array(array('value'=>1, 'label'=>'Haute'),
-            array('value'=>2, 'label'=>'Moyenne'),
-            array('value'=>3, 'label'=>'Basse')
+        $ag_priority->value=array(array('value'=>1, 'label'=>_('Haute')),
+            array('value'=>2, 'label'=>_('Moyenne')),
+            array('value'=>3, 'label'=>_('Basse'))
         );
         $str_ag_priority=$ag_priority->input();
 
