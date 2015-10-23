@@ -79,10 +79,12 @@ function compute_total_table(p_table, seq)
         var i = 0;
         var tot = 0;
         var col = document.getElementsByName("val[" + seq + "][]");
+        var rounded_value = 0 ;
         for (i = 0; i < col.length; i++)
         {
             if ( $(p_table).contains(col[i])) {
-                tot += parseFloat(col[i].value);
+                rounded_value = parseFloat(col[i].value);
+                tot += Math.round(rounded_value*100)/100;
             }
         }
         return tot;
@@ -156,6 +158,7 @@ function verify_ca(div)
                     total_amount += parseFloat(array_value[i].value);
                 }
                 var amount = Math.abs(parseFloat(g('amount_t' + idx).value));
+                amount = Math.round(amount*100)/100;
                 var diff = amount - total_amount;
 
                 if (Math.round(diff, 2) != 0.0)
@@ -282,6 +285,7 @@ function caod_checkTotal()
         {
             amount = 0.0;
         }
+        amount = Math.round(amount*100)/100;
         if (side.checked == false)
         {
             total_cred += amount;
