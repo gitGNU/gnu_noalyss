@@ -617,7 +617,7 @@ class Anc_Operation
         if ($p_add_button && $p_mode == 1)
         {
             $style_remain=($remain==0)?'style="color:green"':' style="color:red"';
-            $result.=" Reste à imputer =  ".
+            $result.=" "._("Reste")." =  ".
                      '<span class="remain" '.$style_remain.' id="'.$ctrl_remain.'">'.
                             $remain.'</span>';
             // add a button to add a row

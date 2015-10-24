@@ -797,7 +797,7 @@ class Acc_Ledger_Sold extends Acc_Ledger {
                 $p_array['pa_id'] = $a_anc;
                 /* op is the operation it contains either a sequence or a jrnx.j_id */
                 $r.=HtmlInput::hidden('op[]=', $i);
-                $r.=$anc_op->display_form_plan($p_array, $null, $p_mode, $i, $amount);
+                $r.=$anc_op->display_form_plan($p_array, $null, $p_mode, $i,  round($amount,2));
                 $r.='</td>';
             }
 
