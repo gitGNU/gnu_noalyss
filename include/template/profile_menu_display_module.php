@@ -53,7 +53,7 @@
                     else
 		    {
 			$url=HtmlInput::anchor(_('Menu'),'',
-                                sprintf(" onclick = \" \$('menu_table').innerHTML='';display_sub_menu(%d,%d,%d,%d)\" ",
+                                sprintf(" onclick = \" \$('menu_table').innerHTML='';display_sub_menu(%d,%d,%d,%d);menu_select('".$row['pm_id']."')\" ",
                                         Dossier::id(),
                                         $this->p_id,
                                         $row['pm_id'],0));
@@ -101,3 +101,13 @@
 
     </table>
 </div>
+<script>
+    var selected_menu="";
+    function menu_select(rowid) {
+        $('sub'+rowid).style.background="yellow";
+        if ( selected_menu != "" ) {
+            $('sub'+selected_menu).style.background="";
+        }
+        selected_menu=rowid;
+    }
+</script>    
