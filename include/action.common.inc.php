@@ -94,7 +94,11 @@ if (isset($_POST['generate']))
 	{
 		$act->Update();
 	}
-	$act->generate_document($_POST['doc_mod'], $_POST);
+        $doc_mod=HtmlInput::default_value_post('doc_mod', "-1");
+        if ( $doc_mod == "-1") {
+            throw new Exception(_('Donnée invalide'));
+        }
+	$act->generate_document($doc_mod, $_POST);
 	$sub_action = 'detail';
 }
 /* for delete  */
