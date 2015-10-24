@@ -807,19 +807,7 @@ class User
 
 	function is_local_admin($p_dossier = -1)
 	{
-            if ($p_dossier==-1)
-            {
-                $p_dossier=dossier::id();
-            }
-
-            if ($this->login=='admin')
-            {
-                return 1;
-            }
-            else
-            {
-                return 0;
-            }
+            return 0;
         }
 	/**
 	 *@brief return array of available repository
