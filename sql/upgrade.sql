@@ -253,3 +253,52 @@ end;
   LANGUAGE plpgsql ;
 
 update attr_def set ad_extra=4 where ad_id in (6,7);
+
+CREATE OR REPLACE FUNCTION comptaproc.menu_complete_dependency(n_profile numeric)
+  RETURNS void AS
+$BODY$
+declare 
+ n_count integer;
+ csr_root_menu cursor (p_profile numeric) is select pm_id,
+	me_code,
+	me_code_dep 
+	
+	from profile_menu 
+	where 
+	me_code in 
+		(select a.me_code_dep 
+			from profile_menu as a 
+			join profile_menu as b on (a.me_code=b.me_code and a.me_code_dep=b.me_code_dep and a.pm_id <> b.pm_id and a.p_id=b.p_id) 
+			where a.p_id=n_profile) 
+		and p_id=p_profile;
+
+begin
+	for duplicate in csr_root_menu(n_profile)
+	loop
+		raise notice 'found %',duplicate;
+		update profile_menu set pm_id_dep  = duplicate.pm_id 
+			where pm_id in (select a.pm_id
+				from profile_menu as a 
+				left join profile_menu as b on (a.me_code=b.me_code and a.me_code_dep=b.me_code_dep)
+				where 
+				a.p_id=n_profile
+				and b.p_id=n_profile
+				and a.pm_id_dep is null 
+				and a.me_code_dep = duplicate.me_code
+				and a.pm_id < b.pm_id);
+	end loop;
+	
+	for duplicate in csr_root_menu(n_profile) 
+	loop
+		select count(*) into n_count from profile_menu where p_id=n_profile and pm_id_dep = duplicate.pm_id;
+		raise notice '% use % times',duplicate,n_count;
+		if n_count = 0 then
+			raise notice ' Update with %',duplicate;
+			update profile_menu set pm_id_dep = duplicate.pm_id where p_id = n_profile and me_code_dep = duplicate.me_code and pm_id_dep is null;
+		end if;
+
+	end loop;
+	
+end;
+$BODY$
+LANGUAGE plpgsql ;

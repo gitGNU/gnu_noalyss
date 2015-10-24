@@ -154,10 +154,17 @@ if (isset($_POST['clone']))
 			select 'copie de '||p_name,p_desc,with_calc,
 			with_direct_form from profile where p_id=$1 returning p_id", array($p_id));
         $cn->exec_sql("
-				insert into profile_menu (p_id,me_code,me_code_dep,p_order,p_type_display,pm_default)
-				select $1,me_code,me_code_dep,p_order,p_type_display,pm_default from profile_menu
-				where p_id=$2
+                        insert into profile_menu (p_id,me_code,me_code_dep,p_order,p_type_display,pm_default)
+                        select $1,me_code,me_code_dep,p_order,p_type_display,pm_default from profile_menu
+                        where p_id=$2
 			", array($new_id, $p_id));
+        $cn->exec_sql("select menu_complete_dependency($1)",array($new_id));
+        $cn->exec_sql("update profile_menu 
+            set pm_id_dep=(select distinct higher_dep 
+                            from v_menu_dependency as a 
+                            where
+                            a.pm_id= profile_menu.pm_id) 
+                        where pm_id_dep is null and p_id=$1",array($new_id));
         $cn->commit();
         $p_id=$new_id;
     }
