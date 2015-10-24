@@ -240,7 +240,7 @@ if (!isset($_REQUEST ['p_jrn']))
     $def_ledger=$Ledger->get_first('ven', 2);
     if (empty($def_ledger))
     {
-        exit('Pas de journal disponible');
+        exit(_('Pas de journal disponible'));
     }
     $Ledger->id=$def_ledger['jrn_def_id'];
 }
