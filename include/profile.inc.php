@@ -145,7 +145,10 @@ if (isset($_POST['save_name']))
 //************************************
 if (isset($_POST['clone']))
 {
-    extract($_POST);
+    $p_id = HtmlInput::default_value_post("p_id", 0);
+    if ( $p_id == 0 || isNumber($p_id) == 0) {
+     throw new Exception (_('Argument'));
+    }
     try
     {
         $cn->start();
@@ -167,12 +170,17 @@ if (isset($_POST['clone']))
                         where pm_id_dep is null and p_id=$1",array($new_id));
         $cn->commit();
         $p_id=$new_id;
+        $_POST['p_id'] = $new_id;
+        $_GET['p_id'] = $new_id;
+        $_REQUEST['p_id'] = $new_id;
+        $_POST['tab']="profile_gen_div";
     }
     catch (Exception $exc)
     {
         echo alert($exc->getMessage());
         $cn->rollback();
     }
+
 }
 //************************************
 // Delete
