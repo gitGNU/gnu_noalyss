@@ -436,4 +436,17 @@ if (isset($_POST['delete_profil']))
     <?php
 
 }
+$dep=HtmlInput::default_value_post("dep", 0);
 ?>
+<script>
+    var selected_menu="<?php echo $dep;?>";
+    function menu_select(rowid) {
+        $('sub'+rowid).addClassName("selectedcell");
+        if ( selected_menu != "0" && rowid != selected_menu ) {
+            if ( $('sub'+selected_menu) ) {
+                $('sub'+selected_menu).removeClassName("selectedcell");
+            }
+        }
+        selected_menu=rowid;
+    }
+</script>  

@@ -24,10 +24,11 @@
  * Profile_Menu
  */
 ?>
- <div id="module_setting">
+ <div id="module_setting" class="content">
 	<table class="result">
 	    <tr>
 		<?php
+                $dep=HtmlInput::default_value_post("dep", 0);
 		foreach ($ap_module as $row):
 			$js="";
 		    $style="";
@@ -36,7 +37,7 @@
 			echo "</tr><tr>";
 			continue;
 		    }
-                    $style=" tool ";
+                    $style=($dep == $row['pm_id'])?" selectedcell":" tool ";
                     $url="XX";
 		    if ( $row['me_url']!='')
 		    {
@@ -101,13 +102,4 @@
 
     </table>
 </div>
-<script>
-    var selected_menu="";
-    function menu_select(rowid) {
-        $('sub'+rowid).style.background="yellow";
-        if ( selected_menu != "" ) {
-            $('sub'+selected_menu).style.background="";
-        }
-        selected_menu=rowid;
-    }
-</script>    
+  
