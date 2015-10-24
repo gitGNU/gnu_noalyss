@@ -919,8 +919,8 @@ class User
 			if (!$silent)
 			{
 				alert(_('Dossier non accessible'));
-				exit();
 			}
+                        exit();
 		}
 		return $dossier;
 	}
