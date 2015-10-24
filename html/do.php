@@ -102,6 +102,8 @@ $g_user = new User($cn);
 
 $g_parameter=new Own($cn);
 
+$g_user->Check();
+$g_user->check_dossier(Dossier::id());
 load_all_script();
 /*  Check Browser version if < IE6 then unsupported */
 $browser = $_SERVER['HTTP_USER_AGENT'];
