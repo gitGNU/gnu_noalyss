@@ -72,7 +72,7 @@ if ($gDossier<>0) {
     $g_user = new User($cn);
     $g_user->check(true);
     if ( $g_user->check_dossier($gDossier, true) == 'X' ) {
-        die(_('Non autorisé'))
+        die(_('Non autorisé'));
     }
 }
 else
