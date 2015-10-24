@@ -38,7 +38,7 @@ $p_id=HtmlInput::default_value_request('p_id', -1);
 $profile=new Profile_sql($cn,$p_id);
 $gDossier=Dossier::id();
 $add_impression=HtmlInput::button("add", _("Ajout Menu"),"onclick=\"add_menu({dossier:$gDossier,p_id:$p_id,type:'pr'})\"");
-$call_tab=HtmlInput::default_value_post('tab', 'none');
+$call_tab=HtmlInput::default_value_post('tab', 'profile_gen_div');
 $a_tab=array('profile_gen_div'=>'tabs','profile_menu_div'=>'tabs','profile_print_div'=>'tabs','profile_gestion_div'=>'tabs','profile_repo_div'=>'tabs');
 $a_tab[$call_tab]='tabs_selected';
 ?>
@@ -123,10 +123,7 @@ if ($profile->p_id > 0)
 	echo "<h1 class=\"legend\">"._("Dépôt de stock accessible")."</h1>";
 	$profile_menu->available_repository();
         echo '</div>';
-        if ( isset ($_POST['tab']))
-        {
-            echo create_script("profile_show('".$_POST['tab']."');");
-        }
+        echo create_script("profile_show('".$call_tab."');");
 }
 else
 {
