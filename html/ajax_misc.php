@@ -71,7 +71,9 @@ if ($gDossier<>0) {
     $g_parameter=new Own($cn);
     $g_user = new User($cn);
     $g_user->check(true);
-    $g_user->check_dossier($gDossier, true);
+    if ( $g_user->check_dossier($gDossier, true) == 'X' ) {
+        die(_('Non autorisé'))
+    }
 }
 else
 {
