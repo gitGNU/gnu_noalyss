@@ -178,7 +178,7 @@ show_tab(a_tab,'facturation_div_id');
             /* Show link for Invoice */
             if (isset ($Ledger->doc) )
             {
-                echo '<h2>Document </h2>';
+                echo '<h2>'._('Document').' </h2>';
                 echo $Ledger->doc;
             }
 
