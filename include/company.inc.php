@@ -17,7 +17,11 @@
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 // Copyright Author Dany De Bontridder danydb@aevalys.eu
-
+/*!
+ * \file
+ *\brief Manage the company setting  : address, vat number, Check period, VAT,
+ * CA ....
+ */
 if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 global $g_user;
 echo '<div class="content">';
