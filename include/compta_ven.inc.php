@@ -20,7 +20,7 @@
 // Copyright Author Dany De Bontridder danydb@aevalys.eu
 
 /*!\file
- * \brief file included to manage all the sold operation
+ * \brief file included to manage all the operations for the ledger of sales 
  */
 if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 require_once NOALYSS_INCLUDE.'/lib/class_icheckbox.php';
