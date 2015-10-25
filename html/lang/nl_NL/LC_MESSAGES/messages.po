@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: NOALYSS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-15 18:16+0200\n"
+"POT-Creation-Date: 2015-10-25 18:25+0100\n"
 "PO-Revision-Date: 2015-08-28 17:38+0200\n"
 "Last-Translator: Dany De Bontridder <danydb@noalyss.eu>\n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
@@ -66,7 +66,7 @@ msgstr "Deze bestanden zijn niet verwijderd geweest"
 #: include/ac_common.php:415 include/ac_common.php:416
 #: include/ac_common.php:424 include/ac_common.php:425
 #: include/ac_common.php:434 include/ac_common.php:437
-#: include/lib/ac_common.php:434
+#: include/lib/ac_common.php:434 include/lib/ac_common.php:435
 msgid " Cette action ne vous est pas autorisée Contactez votre responsable"
 msgstr "U bent niet bevoegd voor deze actie. Contacteer uw verantwoordelijke"
 
@@ -102,10 +102,12 @@ msgid " Fin période : "
 msgstr "End "
 
 #: include/user_menu.php:147 include/user_menu.php:151
+#: include/lib/user_menu.php:160
 msgid " Hors Bilan"
 msgstr "Buiten de balansstelling"
 
 #: include/user_menu.php:148 include/user_menu.php:152
+#: include/lib/user_menu.php:161
 msgid " Immobilisé"
 msgstr "Vastleggen"
 
@@ -119,6 +121,7 @@ msgstr "Onmogelijk om op te slaan"
 #: include/class_acc_ledger_sold.php:188
 #: include/class/class_acc_ledger_purchase.php:194
 #: include/class/class_acc_ledger_sold.php:188
+#: include/class/class_acc_ledger_sold.php:190
 msgid " La TVA "
 msgstr "De BTW"
 
@@ -156,7 +159,7 @@ msgstr "Alle dagboeken"
 msgid " Un poste comptable est manquant"
 msgstr "de begrotingspost ["
 
-#: html/admin/setup.php:402
+#: html/admin/setup.php:402 html/install.php:466
 msgid ""
 " Vous devez absolument utiliser au minimum une version 8.4 de PostGresql, si "
 "votre distribution n'en\n"
@@ -209,7 +212,7 @@ msgid " doit être migré en unicode."
 msgstr "moet in een unicode worden omgezet"
 
 #: include/action.common.inc.php:218 include/action.common.inc.php:238
-#: include/action.common.inc.php:239
+#: include/action.common.inc.php:239 include/action.common.inc.php:244
 msgid " effacée"
 msgstr "wissen"
 
@@ -248,6 +251,8 @@ msgstr "de begrotingspost"
 #: include/class/class_acc_ledger_purchase.php:149
 #: include/class/class_acc_ledger_sold.php:143
 #: include/class/class_acc_ledger_sold.php:202
+#: include/class/class_acc_ledger_sold.php:145
+#: include/class/class_acc_ledger_sold.php:204
 msgid " le poste comptable ["
 msgstr "de begrotingspost ["
 
@@ -283,6 +288,7 @@ msgstr "in dit dagboek mag u geen vroegere dagtekening invoeren"
 #: include/class/class_acc_ledger_fin.php:127
 #: include/class/class_acc_ledger_fin.php:211
 #: include/class/class_acc_ledger_sold.php:120
+#: include/class/class_acc_ledger_sold.php:122
 msgid " vous ne pouvez pas encoder à une date antérieure"
 msgstr "u mag niet een vroegere dagtekening invoeren"
 
@@ -407,7 +413,8 @@ msgstr "Aanvaarden"
 #: include/database.item.php:73 include/user_menu.php:115
 #: include/user_menu.php:122 include/database.item.php:76
 #: include/database.item.php:81 include/database.item.php:79
-#: include/database.item.php:78
+#: include/database.item.php:78 include/lib/user_menu.php:123
+#: include/lib/user_menu.php:131
 msgid "Accueil"
 msgstr "Home"
 
@@ -419,6 +426,7 @@ msgstr "Toegang"
 
 # Je suppose que "Direct Form" est une application en anglais
 #: include/profile.inc.php:358 include/profile.inc.php:360
+#: include/profile.inc.php:383
 #, fuzzy
 msgid "Accès Direct visible"
 msgstr "Met Direct Form"
@@ -444,6 +452,7 @@ msgstr "Foute toegang"
 #: include/class/class_acc_ledger_purchase.php:75
 #: include/class/class_acc_ledger_sold.php:82 include/ajax/ajax_history.php:26
 #: include/ajax/ajax_todo_list.php:181 include/ajax/ajax_todo_list.php:244
+#: include/class/class_acc_ledger_sold.php:84
 msgid "Accès interdit"
 msgstr "Verboden toegang"
 
@@ -458,6 +467,7 @@ msgstr ""
 "verantwoordelijke"
 
 #: html/do.php:210 html/do.php:211 html/do.php:239 html/do.php:252
+#: html/do.php:254
 msgid "Accès menu impossible"
 msgstr ""
 
@@ -490,6 +500,7 @@ msgid "Actif"
 msgstr "Actie"
 
 #: include/user_menu.php:149 include/user_menu.php:153
+#: include/lib/user_menu.php:162
 msgid "Actif a un an au plus"
 msgstr "Activa van een jaar tot meer"
 
@@ -504,7 +515,7 @@ msgid "Action"
 msgstr "Actie"
 
 #: include/action.common.inc.php:218 include/action.common.inc.php:238
-#: include/action.common.inc.php:239
+#: include/action.common.inc.php:239 include/action.common.inc.php:244
 msgid "Action "
 msgstr "Actie"
 
@@ -551,7 +562,7 @@ msgid "Action non accessible"
 msgstr "Actie is ontoegankelijk"
 
 # Je suppose que Action = ce qu'il a fait et pas le terme de comptabilité = Aandelen
-#: html/ajax_misc.php:179 html/ajax_misc.php:257
+#: html/ajax_misc.php:179 html/ajax_misc.php:257 html/ajax_misc.php:262
 #, fuzzy
 msgid "Action non autorisée"
 msgstr "Bewerking Opgeslagen"
@@ -604,12 +615,14 @@ msgstr "Updaten"
 #: include/param_sec.inc.php:93 include/user.inc.php:171
 #: html/user_login.php:102 include/user_detail.inc.php:166
 #: include/database.item.php:130 include/database.item.php:129
+#: html/user_login.php:103
 msgid "Administrateur"
 msgstr "Beheerder"
 
 #: include/database.item.php:122 include/database.item.php:125
 #: include/database.item.php:131 include/database.item.php:127
-#: include/database.item.php:126
+#: include/database.item.php:126 html/user_login.php:155
+#: include/admin_repo.inc.php:61
 msgid "Administration"
 msgstr "Administratie"
 
@@ -635,6 +648,11 @@ msgstr "Adres"
 msgid "Adresse "
 msgstr "Adres"
 
+#: include/template/template_config_form.php:55
+#, fuzzy
+msgid "Adresse Serveur Postgresql"
+msgstr "Gebruiker toevoegen"
+
 #: include/class_document_modele.php:68
 #: include/class/class_document_modele.php:68
 msgid "Affect."
@@ -643,6 +661,7 @@ msgstr "Beïnvloeden."
 #: include/class_document_modele.php:255
 #: include/template/modele_document.php:40
 #: include/class/class_document_modele.php:255
+#: include/class/class_document_modele.php:256
 msgid "Affectation"
 msgstr "Boeking"
 
@@ -660,6 +679,7 @@ msgid "Afficher"
 msgstr "Weergeven"
 
 #: include/company.inc.php:121 include/company.inc.php:140
+#: include/company.inc.php:144
 msgid "Afficher la période comptable pour éviter les erreurs de date"
 msgstr "Toon de boekhoudperiode om fouten in data te voorkomen"
 
@@ -729,12 +749,16 @@ msgstr "Gebruiker toevoegen"
 #: include/class/class_acc_ledger_sold.php:1296
 #: include/class/class_pre_op_ach.php:390
 #: include/class/class_pre_op_ven.php:384
+#: include/class/class_acc_ledger_purchase.php:1289
+#: include/class/class_acc_ledger_sold.php:1302
+#: include/class/class_pre_op_ach.php:400
+#: include/class/class_pre_op_ven.php:397
 msgid "Ajout article"
 msgstr "Artikel toevoegen"
 
 #: include/class_html_input.php:890 include/class_html_input.php:891
 #: include/class_html_input.php:916 include/class_html_input.php:920
-#: include/lib/class_html_input.php:920
+#: include/lib/class_html_input.php:920 include/lib/class_html_input.php:931
 #, fuzzy
 msgid "Ajout autres"
 msgstr "Factuur toevoegen"
@@ -764,12 +788,12 @@ msgstr "Toevoeging van een boekhoudkundige oefening"
 msgid "Ajout d'un menu"
 msgstr "Toevoeging van een menu"
 
-#: include/modele.inc.php:346
+#: include/modele.inc.php:346 include/modele.inc.php:360
 #, fuzzy
 msgid "Ajout d'un modele"
 msgstr "Toevoeging van een menu"
 
-#: include/modele.inc.php:292
+#: include/modele.inc.php:292 include/modele.inc.php:306
 #, fuzzy
 msgid "Ajout d'un modèle"
 msgstr "Toevoeging van een menu"
@@ -889,7 +913,8 @@ msgstr "Artikel toevoegen"
 
 #: include/param_pcmn.inc.php:95 include/param_pcmn.inc.php:174
 #: include/param_pcmn.inc.php:63 include/param_pcmn.inc.php:141
-#: include/param_pcmn.inc.php:144
+#: include/param_pcmn.inc.php:144 include/param_pcmn.inc.php:142
+#: include/param_pcmn.inc.php:145
 #, fuzzy
 msgid "Ajout poste comptable"
 msgstr "de begrotingspost"
@@ -903,7 +928,7 @@ msgstr "Raming toevoegen"
 msgid "Ajout utilisateur"
 msgstr "Gebruiker toevoegen"
 
-#: include/action.common.inc.php:207
+#: include/action.common.inc.php:207 include/action.common.inc.php:212
 #, fuzzy
 msgid "Ajoute un événement à celui-ci"
 msgstr "Hierbij een actie toevoegen"
@@ -915,6 +940,7 @@ msgstr "Hierbij een actie toevoegen"
 #: include/dossier.inc.php:160 include/anc_group.inc.php:81
 #: include/dossier.inc.php:159 include/modele.inc.php:240
 #: include/dossier.inc.php:179 include/dossier.inc.php:213
+#: include/modele.inc.php:254
 msgid "Ajouter"
 msgstr "Toevoegen"
 
@@ -943,12 +969,13 @@ msgstr "Een bestand toevoegen"
 msgid "Ajouter un fichier"
 msgstr "Een bestand toevoegen"
 
-#: include/modele.inc.php:240
+#: include/modele.inc.php:240 include/modele.inc.php:254
 #, fuzzy
 msgid "Ajouter un modèle"
 msgstr "Geen enkel model"
 
 #: include/profile.inc.php:391 include/profile.inc.php:393
+#: include/profile.inc.php:416
 #, fuzzy
 msgid "Ajouter un profil"
 msgstr "Een bestand toevoegen"
@@ -988,6 +1015,8 @@ msgstr "VOeg het huidige menu toe aan favorieten"
 #: include/class_acc_ledger_purchase.php:1651
 #: include/class/class_acc_ledger_purchase.php:1652
 #: include/class/class_acc_ledger_sold.php:920
+#: include/class/class_acc_ledger_purchase.php:1659
+#: include/class/class_acc_ledger_sold.php:926
 msgid "Ajoutez une pièce justificative "
 msgstr "Voeg een kasstuk toe"
 
@@ -1132,7 +1161,13 @@ msgstr "Invalid call Service_After°Sake"
 msgid "Après le "
 msgstr "Na"
 
+#: include/profile.inc.php:150
+#, fuzzy
+msgid "Argument"
+msgstr "Laden"
+
 #: include/company.inc.php:118 include/company.inc.php:137
+#: include/company.inc.php:141
 msgid "Assujetti à la tva"
 msgstr "Onderworpen aan de BTW"
 
@@ -1214,6 +1249,7 @@ msgstr ""
 "       Gebruik de balans van de rekening als controle. </span>"
 
 #: html/admin/template_config_form.php:76
+#: include/template/template_config_form.php:80
 msgid ""
 "Attention : si vous installez sous windows n'utilisez pas le \\ mais plutôt "
 "le / dans les nom de répertoire (càd les chemins ou path)"
@@ -1239,6 +1275,8 @@ msgstr ""
 #: include/class_acc_ledger_purchase.php:1495
 #: include/class/class_acc_ledger_purchase.php:1496
 #: include/class/class_acc_ledger_sold.php:767
+#: include/class/class_acc_ledger_purchase.php:1503
+#: include/class/class_acc_ledger_sold.php:773
 msgid "Attention Différence entre TVA calculée et donnée"
 msgstr "Let op: Verschil tussen BTW en berekende gegevens"
 
@@ -1257,7 +1295,7 @@ msgid ""
 "Attention le param&egrave;tre effective_cache_size est de %s au lieu de 1000"
 msgstr ""
 
-#: html/admin/setup.php:442
+#: html/admin/setup.php:442 html/install.php:506
 #, php-format
 msgid "Attention le paramètre effective_cache_size est de %s au lieu de 1000"
 msgstr ""
@@ -1272,6 +1310,8 @@ msgstr ""
 #: include/ext/modop/modop_save.php:90 include/ext/modop/modop_save.php:171
 #: include/class/class_acc_ledger_purchase.php:1355
 #: include/class/class_acc_ledger_sold.php:651
+#: include/class/class_acc_ledger_purchase.php:1362
+#: include/class/class_acc_ledger_sold.php:657
 msgid "Attention numéro pièce existante, elle a du être adaptée"
 msgstr "Opgelet: het bestaand bewijsnummer moest aangepast worden"
 
@@ -1283,7 +1323,7 @@ msgstr "Let op: geen categorie van bestanden die afgelost moeten worden"
 #: include/ac_common.php:608 include/ac_common.php:609
 #: include/ac_common.php:617 include/ac_common.php:618
 #: include/ac_common.php:627 include/ac_common.php:630
-#: include/lib/ac_common.php:627
+#: include/lib/ac_common.php:627 include/lib/ac_common.php:628
 #, php-format
 msgid ""
 "Attention periode \n"
@@ -1304,7 +1344,7 @@ msgid "Attention, ne changer pas la signification de ce poste."
 msgstr "Opgelet, niet de betekenis van deze post veranderen"
 
 #: html/do.php:104 html/do.php:103 html/do.php:98 html/do.php:100
-#: html/do.php:128 html/do.php:141
+#: html/do.php:128 html/do.php:141 html/do.php:143
 msgid ""
 "Attention: la version de base de donnée est supérieure à la version du "
 "programme, vous devriez mettre à jour"
@@ -1322,6 +1362,7 @@ msgstr "Attribuut van het bestand"
 #: include/class_follow_up.php:1200 include/class_follow_up.php:1211
 #: include/class_follow_up.php:1218 include/class_follow_up.php:1223
 #: include/class/class_follow_up.php:1227
+#: include/class/class_follow_up.php:1228
 msgid "Aucun"
 msgstr "Geen"
 
@@ -1381,7 +1422,7 @@ msgid "Aucun dossier"
 msgstr "Naam van de map"
 
 #: include/class_user.php:985 include/class_user.php:986
-#: include/class/class_user.php:986
+#: include/class/class_user.php:986 include/class/class_user.php:974
 #, fuzzy
 msgid "Aucun dossier disponible"
 msgstr "Geen enkele sleutel beschikbaar"
@@ -1413,7 +1454,7 @@ msgstr "Geen enkele record gevonden"
 
 #: html/ajax_ledger.php:263 html/ajax_ledger.php:281 html/ajax_ledger.php:276
 #: html/ajax_ledger.php:277 html/ajax_ledger.php:279
-#: include/ajax/ajax_ledger.php:256
+#: include/ajax/ajax_ledger.php:256 include/ajax/ajax_ledger.php:259
 msgid "Aucun fichier"
 msgstr "Geen bestand"
 
@@ -1444,7 +1485,7 @@ msgstr "Geen enkel model"
 msgid "Aucun modèle (dossier vide, devant être restauré manuellement)"
 msgstr ""
 
-#: include/modele.inc.php:245
+#: include/modele.inc.php:245 include/modele.inc.php:259
 #, fuzzy
 msgid "Aucun modèle disponible"
 msgstr "Geen enkele sleutel beschikbaar"
@@ -1468,7 +1509,7 @@ msgid "Aucun poste trouvé"
 msgstr "Geen enkele post gevonden "
 
 #: html/do.php:219 html/do.php:224 html/do.php:252 html/do.php:265
-#: html/do.php:268
+#: html/do.php:268 html/do.php:270
 #, fuzzy
 msgid "Aucun profil utilisateur"
 msgstr "Gebruiker toevoegen"
@@ -1540,6 +1581,7 @@ msgstr "Toevoeging van een correspondentie/overeenkomst"
 #: include/ac_common.php:1109 include/ac_common.php:1120
 #: include/ac_common.php:1184 include/template/ledger_detail_bottom.php:257
 #: include/ac_common.php:1187 include/lib/ac_common.php:1184
+#: include/lib/ac_common.php:1185
 msgid "Aucune donnée"
 msgstr "Geen enkel gegeven"
 
@@ -1582,6 +1624,7 @@ msgstr "Geen enkele operatie in de huidige oefening"
 #: html/ajax_history.php:131 html/ajax_history.php:202
 #: html/ajax_history.php:132 html/ajax_history.php:203
 #: include/ajax/ajax_history.php:115 include/ajax/ajax_history.php:198
+#: include/ajax/ajax_history.php:197
 msgid "Aucune opération pour l'exercice courant"
 msgstr "Geen enkele operatie in de huidige oefening"
 
@@ -1621,6 +1664,8 @@ msgstr "Geen enkel stuk om te verzenden"
 #: include/class/class_acc_ledger.php:1653
 #: include/class/class_acc_ledger_purchase.php:1020
 #: include/class/class_acc_ledger_sold.php:1060
+#: include/class/class_acc_ledger_purchase.php:1027
+#: include/class/class_acc_ledger_sold.php:1066
 msgid "Aucune période ouverte"
 msgstr "Geen enkele periode open"
 
@@ -1639,6 +1684,7 @@ msgid "Aucune étiquette disponible"
 msgstr "Geen label beschikbaar"
 
 #: include/user_menu.php:114 include/user_menu.php:121
+#: include/lib/user_menu.php:121 include/lib/user_menu.php:130
 msgid "Audit"
 msgstr "Audit"
 
@@ -1673,6 +1719,8 @@ msgstr "Andere informatie"
 #: include/class_acc_ledger_purchase.php:1669
 #: include/class/class_acc_ledger_purchase.php:1670
 #: include/class/class_acc_ledger_sold.php:938
+#: include/class/class_acc_ledger_purchase.php:1677
+#: include/class/class_acc_ledger_sold.php:944
 msgid "Autre information : "
 msgstr "Andere informatie :"
 
@@ -1735,6 +1783,7 @@ msgstr "Met het bestand"
 #: html/admin/setup.php:327 html/admin/setup.php:336 html/admin/setup.php:344
 #: html/admin/setup.php:345 html/admin/setup.php:354 html/admin/setup.php:362
 #: html/admin/setup.php:347 html/admin/setup.php:356 html/admin/setup.php:364
+#: html/install.php:411 html/install.php:420 html/install.php:428
 #, fuzzy
 msgid "Avertissement"
 msgstr "Aflossing"
@@ -1746,7 +1795,7 @@ msgstr "Analytisch"
 
 #: include/dossier.inc.php:225 include/dossier.inc.php:223
 #: include/modele.inc.php:278 include/dossier.inc.php:243
-#: include/dossier.inc.php:277
+#: include/dossier.inc.php:277 include/modele.inc.php:292
 msgid "Backup"
 msgstr "Back-up"
 
@@ -1884,7 +1933,7 @@ msgstr "Dubbel gecombineerd balans"
 msgid "Banque"
 msgstr "Bank"
 
-#: include/modele.inc.php:324
+#: include/modele.inc.php:324 include/modele.inc.php:338
 msgid "Bas&eacute; sur"
 msgstr ""
 
@@ -1893,27 +1942,35 @@ msgstr ""
 msgid "Base de donnée "
 msgstr "Database"
 
-#: include/modele.inc.php:378
+#: include/modele.inc.php:378 include/modele.inc.php:392
 #, fuzzy, php-format
 msgid "Base de donnée %s mod %s est accèdée, déconnectez-vous d'abord"
 msgstr "is in use of, logout eerst"
 
+#: include/modele.inc.php:94
+#, fuzzy, php-format
+msgid "Base de donnée %sdossier%d\" est accèdée, déconnectez-vous en d'abord"
+msgstr "is in use of, logout eerst"
+
 #: html/do.php:97 html/user_login.php:66 html/do.php:96 html/do.php:91
 #: html/do.php:93 html/user_login.php:67 html/do.php:121 html/do.php:134
+#: html/do.php:136
 msgid "Base de donnée invalide"
 msgstr "Ongeldige database"
 
 #: include/class_database.php:408 include/lib/class_database.php:409
+#: include/lib/class_database.php:421
 #, fuzzy
 msgid "Base de donnée vide"
 msgstr "Ongeldige database"
 
-#: html/admin/setup.php:388
+#: html/admin/setup.php:388 html/install.php:452
 #, fuzzy
 msgid "Base de données"
 msgstr "Database"
 
 #: include/template/action_display_short.php:61
+#: include/class/class_follow_up.php:273
 msgid "Basse"
 msgstr ""
 
@@ -2015,6 +2072,7 @@ msgid "Calculatrice"
 msgstr "Rekenmachine"
 
 #: include/profile.inc.php:356 include/profile.inc.php:358
+#: include/profile.inc.php:381
 #, fuzzy
 msgid "Calculatrice visible"
 msgstr "Rekenmachine"
@@ -2138,7 +2196,7 @@ msgstr "Dit plan bestaat niet"
 #: include/action.common.inc.php:197 include/ajax_view_action.php:51
 #: include/action.common.inc.php:217 include/ajax_view_action.php:52
 #: include/action.common.inc.php:218 include/ajax_view_action.php:55
-#: include/ajax/ajax_view_action.php:55
+#: include/ajax/ajax_view_action.php:55 include/action.common.inc.php:223
 msgid "Ce document n'est pas accessible"
 msgstr "Dit document is niet beschikbaar"
 
@@ -2167,7 +2225,7 @@ msgstr ""
 msgid "Ce plan n'existe pas"
 msgstr "Dit plan bestaat niet"
 
-#: html/ajax_misc.php:571 html/ajax_misc.php:613
+#: html/ajax_misc.php:571 html/ajax_misc.php:613 html/ajax_misc.php:408
 #, fuzzy
 msgid "Ce plugin n'existe pas "
 msgstr "Dit plan bestaat niet"
@@ -2205,7 +2263,8 @@ msgstr "Dit bestand bestaat niet"
 #: include/action.common.inc.php:127 include/ac_common.php:410
 #: include/ac_common.php:418 include/ac_common.php:419
 #: include/ac_common.php:428 include/ac_common.php:431
-#: include/lib/ac_common.php:428
+#: include/lib/ac_common.php:428 include/action.common.inc.php:132
+#: include/lib/ac_common.php:429
 msgid "Cette action ne vous est pas autorisée Contactez votre responsable"
 msgstr "U bent niet bevoegd voor deze actie. Contacteer uw verantwoordelijke"
 
@@ -2275,6 +2334,7 @@ msgid "Change de langue"
 msgstr "Handmatige wijziging"
 
 #: html/admin/template_config_form.php:39
+#: include/template/template_config_form.php:39
 #, fuzzy
 msgid "Changement de langue"
 msgstr "Handmatige wijziging"
@@ -2297,6 +2357,7 @@ msgid "Changement manuel"
 msgstr "Handmatige wijziging"
 
 #: include/company.inc.php:123 include/company.inc.php:142
+#: include/company.inc.php:146
 msgid "Changer le libellé des détails"
 msgstr "Verander de verwoording van de gegevens"
 
@@ -2312,7 +2373,7 @@ msgstr "Iedere fiche zal automatische zijn eigen boekhoudkundige post hebben: "
 
 #: html/ajax_ledger.php:353 html/ajax_ledger.php:371 html/ajax_ledger.php:364
 #: html/ajax_ledger.php:365 html/ajax_ledger.php:373
-#: include/ajax/ajax_ledger.php:350
+#: include/ajax/ajax_ledger.php:350 include/ajax/ajax_ledger.php:237
 msgid "Chargement"
 msgstr "Laden"
 
@@ -2323,6 +2384,7 @@ msgid ""
 msgstr ""
 
 #: include/user_menu.php:153 include/user_menu.php:157
+#: include/lib/user_menu.php:166
 msgid "Charges"
 msgstr "Kosten"
 
@@ -2332,6 +2394,7 @@ msgid "Chemin"
 msgstr "Pad"
 
 #: html/admin/template_config_form.php:43
+#: include/template/template_config_form.php:43
 msgid "Chemin complet vers les executable de Postgresql"
 msgstr ""
 
@@ -2341,7 +2404,7 @@ msgid "Chercher"
 msgstr "Vinden"
 
 #: html/ajax_misc.php:209 html/ajax_misc.php:223 html/ajax_misc.php:229
-#: html/ajax_misc.php:307
+#: html/ajax_misc.php:307 html/ajax_misc.php:312
 #, fuzzy
 msgid "Choisissez la TVA "
 msgstr "Kies de BTW"
@@ -2352,6 +2415,11 @@ msgstr "Kies de BTW"
 msgid ""
 "Choisissez la catégorie de fiche à laquelle vous aimeriez ajouter une fiche"
 msgstr "Kies de bestandscategorie waar u een record wil toevoegen"
+
+#: include/impress_poste.inc.php:58
+#, fuzzy
+msgid "Choisissez le poste"
+msgstr "Kies uw dossier"
 
 #: include/impress_rapport.inc.php:203
 #, fuzzy
@@ -2380,6 +2448,11 @@ msgstr "Kies een dossier"
 #: include/class/class_pre_operation.php:281
 #, fuzzy
 msgid "Choisissez un modèle"
+msgstr "Kies een dossier"
+
+#: include/impress_poste.inc.php:59
+#, fuzzy
+msgid "Choisissez un poste"
 msgstr "Kies een dossier"
 
 #: html/ajax_card.php:295 html/ajax_card.php:297 html/ajax_card.php:298
@@ -2533,6 +2606,10 @@ msgstr "Ongeldige sleutel"
 #: include/class/class_acc_ledger_sold.php:1031
 #: include/class/class_acc_ledger_sold.php:1283
 #: include/class/class_pre_op_ven.php:371
+#: include/class/class_acc_ledger_sold.php:680
+#: include/class/class_acc_ledger_sold.php:1037
+#: include/class/class_acc_ledger_sold.php:1289
+#: include/class/class_pre_op_ven.php:384
 msgid "Client"
 msgstr "Klant"
 
@@ -2558,7 +2635,7 @@ msgid "Cliquez ici pour mettre à jour vos préférences"
 msgstr "Klik hier om uw voorkeuren bij te werken"
 
 #: include/ac_common.php:814 include/ac_common.php:817
-#: include/lib/ac_common.php:814
+#: include/lib/ac_common.php:814 include/lib/ac_common.php:815
 msgid "Cliquez ici pour vous reconnecter dans une autre page"
 msgstr ""
 
@@ -2639,6 +2716,8 @@ msgstr "Vink aan om deze fiche te verwijderen "
 #: include/class/class_acc_ledger_purchase.php:1387
 #: include/class/class_acc_ledger_sold.php:681
 #: include/class/class_print_ledger_detail_item.php:59
+#: include/class/class_acc_ledger_purchase.php:1394
+#: include/class/class_acc_ledger_sold.php:687
 msgid "Code"
 msgstr "Code"
 
@@ -2647,6 +2726,7 @@ msgstr "Code"
 #: include/ac_common.php:1080 include/ac_common.php:1088
 #: include/ac_common.php:1087 include/ac_common.php:1151
 #: include/ac_common.php:1154 include/lib/ac_common.php:1151
+#: include/lib/ac_common.php:1152
 msgid "Code Interne"
 msgstr "Interne code"
 
@@ -2662,6 +2742,8 @@ msgstr "Interne code"
 #: include/class_acc_ledger_purchase.php:1761
 #: include/class/class_acc_ledger_purchase.php:1762
 #: include/class/class_acc_ledger_sold.php:1345
+#: include/class/class_acc_ledger_purchase.php:1769
+#: include/class/class_acc_ledger_sold.php:1351
 msgid "Code Item"
 msgstr "Item code"
 
@@ -2676,6 +2758,7 @@ msgid "Code Pays incorrect"
 msgstr "Verkeerde landcode"
 
 #: include/company.inc.php:107 include/company.inc.php:126
+#: include/company.inc.php:130
 msgid "Code Postal"
 msgstr "Postcode"
 
@@ -2704,6 +2787,8 @@ msgstr "Stock code"
 #: include/class/class_acc_ledger_purchase.php:1772
 #: include/class/class_acc_ledger_sold.php:1355
 #: include/template/detail-action.php:347
+#: include/class/class_acc_ledger_purchase.php:1779
+#: include/class/class_acc_ledger_sold.php:1361
 msgid "Code TVA"
 msgstr "BTW-code"
 
@@ -2734,6 +2819,8 @@ msgstr "Menucode"
 #: include/class_acc_ledger_purchase.php:1766
 #: include/class/class_acc_ledger_purchase.php:1767
 #: include/class/class_acc_ledger_sold.php:1350
+#: include/class/class_acc_ledger_purchase.php:1774
+#: include/class/class_acc_ledger_sold.php:1356
 msgid "Code fournisseur"
 msgstr "Levernacierscode"
 
@@ -2762,6 +2849,8 @@ msgstr "Ongeldige code"
 #: include/class_acc_ledger_purchase.php:1758
 #: include/class/class_acc_ledger_purchase.php:1759
 #: include/class/class_acc_ledger_sold.php:1342
+#: include/class/class_acc_ledger_purchase.php:1766
+#: include/class/class_acc_ledger_sold.php:1348
 msgid "Code journal"
 msgstr "Code dagboek"
 
@@ -2789,6 +2878,7 @@ msgid "Comm"
 msgstr "Comm"
 
 #: html/admin/setup.php:445 html/admin/setup.php:463 html/admin/setup.php:469
+#: html/install.php:533
 msgid "Commencer la mise à jour ou l'installation"
 msgstr ""
 
@@ -2817,6 +2907,8 @@ msgstr ""
 #: include/class/class_acc_ledger_purchase.php:1761
 #: include/class/class_acc_ledger_sold.php:1344
 #: include/template/detail-action.php:270
+#: include/class/class_acc_ledger_purchase.php:1768
+#: include/class/class_acc_ledger_sold.php:1350
 msgid "Commentaire"
 msgstr "Commentaar"
 
@@ -2837,10 +2929,13 @@ msgstr "Commentaar"
 #: include/class_acc_ledger_purchase.php:1768
 #: include/class/class_acc_ledger_purchase.php:1769
 #: include/class/class_acc_ledger_sold.php:1352
+#: include/class/class_acc_ledger_purchase.php:1776
+#: include/class/class_acc_ledger_sold.php:1358
 msgid "Commentaire TVA"
 msgstr "Opmerking BTW"
 
 #: include/company.inc.php:109 include/company.inc.php:128
+#: include/company.inc.php:132
 msgid "Commune"
 msgstr "Gemeente"
 
@@ -2873,6 +2968,8 @@ msgstr "Gemeente"
 #: include/class/class_acc_ledger.php:1462
 #: include/class/class_acc_ledger_purchase.php:1409
 #: include/class/class_acc_ledger_sold.php:701
+#: include/class/class_acc_ledger_purchase.php:1416
+#: include/class/class_acc_ledger_sold.php:707
 msgid "Compt. Analytique"
 msgstr "Analytischer ekening"
 
@@ -2942,6 +3039,7 @@ msgid "Compte inverse : produit avec un solde crediteur"
 msgstr "????? : product met een creditsaldo"
 
 #: include/user_menu.php:151 include/user_menu.php:155
+#: include/lib/user_menu.php:164
 msgid "Compte tiers"
 msgstr "Derde rekening"
 
@@ -3043,6 +3141,7 @@ msgid "Config. poste comptable de base"
 msgstr "Config. van de basis van de boekhoudkundige post"
 
 #: html/admin/setup.php:236 html/admin/setup.php:254 html/admin/setup.php:256
+#: html/install.php:320
 #, fuzzy
 msgid "Configuration"
 msgstr "Informatie"
@@ -3165,6 +3264,11 @@ msgstr "Bevestigen"
 msgid "Confirmer effacement?"
 msgstr "Wissen bevestigen"
 
+#: include/upgrade.inc.php:32
+#, fuzzy
+msgid "Confirmez"
+msgstr "Bevestigen"
+
 #: include/class_periode.php:242 include/class_periode.php:360
 #: include/class_periode.php:243 include/class_periode.php:375
 #: include/class/class_periode.php:243 include/class/class_periode.php:375
@@ -3185,7 +3289,13 @@ msgstr "Bevestigt u de toevoeging van een boekhoudkundige oefening?"
 msgid "Confirmez vous l\\'ajout d\\'un exercice comptable ?"
 msgstr "Bevestigt u de toevoeging van een boekhoudkundige oefening?"
 
-#: html/admin/setup.php:561 html/admin/setup.php:636
+#: include/admin_repo.inc.php:47
+#, fuzzy
+msgid "Connectez-vous comme administrateur"
+msgstr "U bent geen beheerder"
+
+#: html/admin/setup.php:561 html/admin/setup.php:636 html/install.php:627
+#: html/install.php:648
 msgid "Connectez-vous à NOALYSS"
 msgstr ""
 
@@ -3199,7 +3309,8 @@ msgid "Contact"
 msgstr "Contact"
 
 #: include/opening.inc.php:132 include/opening.inc.php:163
-#: include/opening.inc.php:251 html/admin/setup.php:214
+#: include/opening.inc.php:251 html/admin/setup.php:214 html/install.php:256
+#: html/install.php:297
 #, fuzzy
 msgid "Continuer"
 msgstr "Contact"
@@ -3283,12 +3394,12 @@ msgstr "Post"
 msgid "Creation Dossier"
 msgstr "Dossier maken"
 
-#: html/admin/setup.php:497
+#: html/admin/setup.php:497 html/install.php:561
 #, fuzzy
 msgid "Creation of Modele 1"
 msgstr "Dossier maken"
 
-#: html/admin/setup.php:510
+#: html/admin/setup.php:510 html/install.php:574
 #, fuzzy
 msgid "Creation of Modele 2"
 msgstr "Dossier maken"
@@ -3298,13 +3409,14 @@ msgstr "Dossier maken"
 #: include/ext/tools/include/class_anc_grandlivre_ext.php:127
 #: html/ajax_misc.php:384 include/fiche.inc.php:506 html/ajax_misc.php:398
 #: include/fiche.inc.php:574 include/fiche.inc.php:577 html/ajax_misc.php:404
-#: html/ajax_misc.php:482
+#: html/ajax_misc.php:482 include/ajax/ajax_display_letter.php:118
 msgid "Credit"
 msgstr "Credit"
 
 #: include/class_acc_ledger.php:3280 include/user_menu.php:51
 #: include/class_acc_ledger.php:3349 include/class_acc_ledger.php:3348
 #: include/ajax_create_menu.php:7 include/ajax/ajax_create_menu.php:7
+#: include/lib/user_menu.php:51
 msgid "Création"
 msgstr "Aanmaken"
 
@@ -3490,8 +3602,20 @@ msgstr "Een nieuwe fiche aanmaken"
 #: include/class/class_pre_op_advanced.php:173
 #: include/class/class_pre_op_ven.php:153
 #: include/class/class_pre_op_ven.php:160
+#: include/class/class_acc_ledger_purchase.php:967
+#: include/class/class_acc_ledger_sold.php:1004
+#: include/class/class_acc_ledger_sold.php:1011
+#: include/class/class_pre_op_ach.php:169
+#: include/class/class_pre_op_ach.php:177
+#: include/class/class_pre_op_ven.php:166
+#: include/class/class_pre_op_ven.php:173
 msgid "Créer une nouvelle fiche"
 msgstr "Een nieuwe fiche aanmaken"
+
+#: html/install.php:264
+#, php-format
+msgid "Créez ce fichier %s avec les informations suivantes "
+msgstr ""
 
 # D = ?
 #: include/ext/invoicing/include/class_acc_ledger_sold_generate.php:118
@@ -3615,7 +3739,12 @@ msgstr "In het dagboek"
 #: include/class/class_balance_age.php:141 include/class/class_fiche.php:1229
 #: include/class/class_fiche.php:1304
 #: include/class/class_print_ledger_detail_item.php:57 html/ajax_misc.php:413
-#: include/template/detail-action.php:95
+#: include/template/detail-action.php:95 include/lib/ac_common.php:1151
+#: include/ajax/ajax_display_letter.php:49
+#: include/class/class_acc_ledger_purchase.php:1368
+#: include/class/class_acc_ledger_purchase.php:1759
+#: include/class/class_acc_ledger_sold.php:664
+#: include/class/class_acc_ledger_sold.php:1341
 msgid "Date"
 msgstr "Datum"
 
@@ -3641,7 +3770,7 @@ msgstr "Begindatum"
 #: include/ext/sav/include/template/sas_display_detail.php:142
 #: html/ajax_misc.php:397 include/database.item.php:169
 #: include/database.item.php:168 include/database.item.php:167
-#: html/ajax_misc.php:475
+#: html/ajax_misc.php:475 include/ajax/ajax_display_letter.php:111
 msgid "Date Fin"
 msgstr "Einddatum"
 
@@ -3710,6 +3839,7 @@ msgstr "Begindatum"
 #: include/class/class_acc_ledger.php:1879
 #: include/class/class_acc_ledger_purchase.php:104
 #: include/class/class_acc_ledger_sold.php:102
+#: include/class/class_acc_ledger_sold.php:104
 msgid "Date et periode ne correspondent pas"
 msgstr "Datum en periode komen niet overeen"
 
@@ -3742,6 +3872,9 @@ msgstr "Einddatum"
 #: include/class/class_acc_ledger_sold.php:90
 #: include/class/class_follow_up.php:1703
 #: include/class/class_follow_up.php:1705
+#: include/class/class_acc_ledger_sold.php:92
+#: include/class/class_follow_up.php:1704
+#: include/class/class_follow_up.php:1706
 msgid "Date invalide"
 msgstr "Ongeldig datum"
 
@@ -3771,6 +3904,8 @@ msgstr "Uiterste datum"
 #: html/ajax_misc.php:338 html/ajax_misc.php:352 html/ajax_misc.php:357
 #: html/ajax_misc.php:371 html/ajax_misc.php:385 html/ajax_misc.php:377
 #: html/ajax_misc.php:391 html/ajax_misc.php:455 html/ajax_misc.php:469
+#: include/ajax/ajax_display_letter.php:91
+#: include/ajax/ajax_display_letter.php:105
 msgid "Date malformée"
 msgstr "Datum misvormd"
 
@@ -3809,6 +3944,8 @@ msgstr "Datum van de verrichting"
 #: include/class_acc_ledger_purchase.php:1752
 #: include/class/class_acc_ledger_purchase.php:1753
 #: include/class/class_acc_ledger_sold.php:1336
+#: include/class/class_acc_ledger_purchase.php:1760
+#: include/class/class_acc_ledger_sold.php:1342
 msgid "Date paiement"
 msgstr "Datum van de betaling"
 
@@ -3834,6 +3971,8 @@ msgstr "Aankoopdatum"
 #: include/class_acc_ledger_purchase.php:1753
 #: include/class/class_acc_ledger_purchase.php:1754
 #: include/class/class_acc_ledger_sold.php:1337
+#: include/class/class_acc_ledger_purchase.php:1761
+#: include/class/class_acc_ledger_sold.php:1343
 msgid "Date échéance"
 msgstr "Vervaldatum"
 
@@ -3842,22 +3981,24 @@ msgstr "Vervaldatum"
 #: include/ext/tools/include/class_anc_grandlivre_ext.php:126
 #: html/ajax_misc.php:383 include/fiche.inc.php:502 html/ajax_misc.php:397
 #: include/fiche.inc.php:570 include/fiche.inc.php:573 html/ajax_misc.php:403
-#: html/ajax_misc.php:481
+#: html/ajax_misc.php:481 include/ajax/ajax_display_letter.php:117
 msgid "Debit"
 msgstr "Debet"
 
 #: html/ajax_misc.php:361 html/ajax_misc.php:380 html/ajax_misc.php:394
 #: html/ajax_misc.php:400 html/ajax_misc.php:478
+#: include/ajax/ajax_display_letter.php:114
 msgid "Debit / Credit"
 msgstr "Debet / Credit"
 
 #: html/user_login.php:151 html/user_login.php:153 html/user_login.php:155
-#: html/user_login.php:159
+#: html/user_login.php:159 html/user_login.php:160
 msgid "Deconnexion"
 msgstr "Afmelden"
 
 #: include/template/profile_menu_display_module.php:78
 #: include/template/profile_menu_display_submenu.php:63
+#: include/template/profile_menu_display_module.php:79
 msgid "Default"
 msgstr ""
 
@@ -3880,6 +4021,7 @@ msgid "Depuis le poste"
 msgstr "Vanuit de post"
 
 #: include/template/modele_document.php:80
+#: include/template/modele_document.php:81
 msgid "Dernier numéro utilisé pour ce type de document"
 msgstr "Het laatste nummer gebruikt voor dit type document"
 
@@ -3893,7 +4035,7 @@ msgstr "Laatst genummerd stuk"
 msgid "Dernières opérations"
 msgstr "Laatste handelingen"
 
-#: html/ajax_misc.php:196 html/ajax_misc.php:274
+#: html/ajax_misc.php:196 html/ajax_misc.php:274 html/ajax_misc.php:279
 #, fuzzy
 msgid "Des actions dépendent de cette catégorie"
 msgstr "Kan dit bestand op te slaan"
@@ -3989,7 +4131,9 @@ msgstr "Kan dit bestand op te slaan"
 #: include/template/detail-action.php:240
 #: include/template/detail-action.php:268
 #: include/template/detail-action.php:344
-#: include/template/detail-action.php:502
+#: include/template/detail-action.php:502 include/modele.inc.php:240
+#: include/modele.inc.php:334 include/profile.inc.php:379
+#: include/lib/ac_common.php:1154 include/class/class_user.php:968
 msgid "Description"
 msgstr "Beschrijving"
 
@@ -4138,6 +4282,7 @@ msgstr "Divers"
 #: html/ajax_ledger.php:368 include/database.item.php:92
 #: include/database.item.php:91 include/class/class_acc_ledger.php:873
 #: include/ajax/ajax_ledger.php:315 include/ajax/ajax_ledger.php:345
+#: include/compta_ven.inc.php:181 include/ajax/ajax_ledger.php:316
 msgid "Document"
 msgstr "Document"
 
@@ -4195,6 +4340,12 @@ msgstr "Gegevens van het lid is onbekend"
 msgid "Donnez un nom pour sauver cette opération comme modèle"
 msgstr ""
 
+#: include/action.common.inc.php:99 include/ajax/ajax_ledger.php:152
+#: include/ajax/ajax_remove_submenu.php:29
+#, fuzzy
+msgid "Donnée invalide"
+msgstr "Ongeldig jaar"
+
 #: include/class_fiche_def.php:767 include/class_fiche_def.php:748
 #: include/class_fiche_def.php:754 include/class_fiche_def.php:766
 #: include/class_fiche_def.php:765 include/class/class_fiche_def.php:765
@@ -4202,7 +4353,8 @@ msgstr ""
 msgid "Données générales"
 msgstr "Algemeen Opties"
 
-#: html/show_pj.php:48
+#: html/show_pj.php:48 include/export/export_document.php:43
+#: include/export/export_receipt.php:32
 #, fuzzy
 msgid "Données invalides"
 msgstr "Ongeldig jaar"
@@ -4211,6 +4363,7 @@ msgstr "Ongeldig jaar"
 #: include/ac_common.php:784 include/ac_common.php:792
 #: include/ac_common.php:793 include/ac_common.php:803
 #: include/ac_common.php:806 include/lib/ac_common.php:803
+#: include/lib/ac_common.php:804
 msgid "Données non disponibles"
 msgstr "Gegevens zijn niet beschikbaar"
 
@@ -4229,16 +4382,17 @@ msgstr "Map niet bestaat"
 #: include/dossier.inc.php:214 include/dossier.inc.php:213
 #: include/dossier.inc.php:233 include/dossier.inc.php:267
 #: html/admin/setup.php:566 html/admin/setup.php:584 html/admin/setup.php:591
+#: include/upgrade.inc.php:82
 msgid "Dossier inexistant"
 msgstr "Map niet bestaat"
 
 #: include/class_user.php:897 include/class_user.php:926
 #: include/class_user.php:932 include/class_user.php:933
-#: include/class/class_user.php:933
+#: include/class/class_user.php:933 include/class/class_user.php:921
 msgid "Dossier non accessible"
 msgstr "Folder niet Bereikbaar"
 
-#: include/user_menu.php:111
+#: include/user_menu.php:111 include/lib/user_menu.php:117
 msgid "Dossiers"
 msgstr "Archief"
 
@@ -4272,10 +4426,11 @@ msgstr "Staffing"
 #: include/class/class_acc_ledger_fin.php:70
 #: include/class/class_acc_ledger_purchase.php:80
 #: include/class/class_acc_ledger_sold.php:78
+#: include/class/class_acc_ledger_sold.php:80
 msgid "Double Encodage"
 msgstr "Dubbel gecodeerd"
 
-#: include/cfgfiche.inc.php:143
+#: include/cfgfiche.inc.php:143 include/profile.inc.php:355
 msgid "Doublon"
 msgstr ""
 
@@ -4396,10 +4551,13 @@ msgstr "Afmelden"
 #: include/class_acc_ledger_purchase.php:1627
 #: include/class/class_acc_ledger_purchase.php:1628
 #: include/class/class_acc_ledger_sold.php:887
+#: include/class/class_acc_ledger_purchase.php:1635
+#: include/class/class_acc_ledger_sold.php:893
 msgid "Déduction acompte "
 msgstr "Borg aftrek"
 
 #: include/report.inc.php:97 include/report.inc.php:83
+#: include/report.inc.php:82
 msgid "Définition"
 msgstr "Definitie"
 
@@ -4419,6 +4577,8 @@ msgstr "Scheidingsteken"
 #: include/template/form_ledger_detail.php:68
 #: include/class/class_acc_ledger_purchase.php:1388
 #: include/class/class_acc_ledger_sold.php:682
+#: include/class/class_acc_ledger_purchase.php:1395
+#: include/class/class_acc_ledger_sold.php:688
 msgid "Dénomination"
 msgstr "Beschrijving"
 
@@ -4482,6 +4642,7 @@ msgid "Dépôts"
 msgstr "Deposito"
 
 #: html/admin/setup.php:75 html/admin/setup.php:78 html/admin/setup.php:129
+#: html/install.php:131
 msgid "Désactiver le changement de langue (requis pour MacOSX)"
 msgstr ""
 
@@ -4495,7 +4656,7 @@ msgstr "Sorry Geen Result van stuurprogramma"
 
 #: html/ajax_ledger.php:200 html/ajax_ledger.php:218 html/ajax_ledger.php:222
 #: html/ajax_ledger.php:223 html/ajax_ledger.php:225
-#: include/ajax/ajax_ledger.php:202
+#: include/ajax/ajax_ledger.php:202 include/ajax/ajax_ledger.php:205
 msgid "Désolé il y a une erreur"
 msgstr "Sorry er is een fout opgetreden"
 
@@ -4511,7 +4672,7 @@ msgstr "This model Moet are in unicode"
 
 #: include/dossier.inc.php:345 include/dossier.inc.php:301
 #: include/modele.inc.php:358 include/dossier.inc.php:324
-#: include/dossier.inc.php:360
+#: include/dossier.inc.php:360 include/modele.inc.php:372
 msgid "Désolé, vous n'avez pas coché la case"
 msgstr "Sorry hebt u Het niet VAK aangekruisd"
 
@@ -4550,6 +4711,7 @@ msgid "Détail action"
 msgstr "Gedetailleerde Actie"
 
 #: include/class_pre_op_ach.php:183 include/class/class_pre_op_ach.php:183
+#: include/class/class_pre_op_ach.php:193
 msgid "Détail articles acheté"
 msgstr "Detail gekochte Artikelen"
 
@@ -4561,6 +4723,8 @@ msgstr "Detail gekochte Artikelen"
 #: include/class_acc_ledger_purchase.php:1382
 #: include/class/class_acc_ledger_purchase.php:983
 #: include/class/class_acc_ledger_purchase.php:1383
+#: include/class/class_acc_ledger_purchase.php:990
+#: include/class/class_acc_ledger_purchase.php:1390
 msgid "Détail articles achetés"
 msgstr "Detail gekochte Artikelen"
 
@@ -4572,6 +4736,9 @@ msgstr "Detail gekochte Artikelen"
 #: include/class/class_acc_ledger_sold.php:677
 #: include/class/class_acc_ledger_sold.php:1163
 #: include/class/class_pre_op_ven.php:241
+#: include/class/class_acc_ledger_sold.php:683
+#: include/class/class_acc_ledger_sold.php:1169
+#: include/class/class_pre_op_ven.php:254
 msgid "Détail articles vendus"
 msgstr "Detail VERKOCHT Artikelen"
 
@@ -4593,6 +4760,11 @@ msgstr "Artikelen in detail "
 #: include/template/detail-action.php:289
 msgid "Détail des articles"
 msgstr "Artiken detal"
+
+#: include/impress_poste.inc.php:97
+#, fuzzy
+msgid "Détail des opérations"
+msgstr "Retail operatie"
 
 #: include/ajax_tag_detail.php:15 include/ajax/ajax_tag_detail.php:15
 msgid "Détail du dossier ou tag"
@@ -4624,6 +4796,8 @@ msgstr "Detail van de fiche (opgeslagen)"
 #: include/class_acc_ledger_purchase.php:1338
 #: include/class/class_acc_ledger_purchase.php:1339
 #: include/class/class_acc_ledger_sold.php:635
+#: include/class/class_acc_ledger_purchase.php:1346
+#: include/class/class_acc_ledger_sold.php:641
 msgid "Détail opération "
 msgstr "Retail operatie"
 
@@ -4648,6 +4822,8 @@ msgstr "Detail"
 #: include/class/class_acc_ledger.php:822
 #: include/class/class_acc_ledger_purchase.php:1364
 #: include/class/class_acc_ledger_sold.php:661
+#: include/class/class_acc_ledger_purchase.php:1371
+#: include/class/class_acc_ledger_sold.php:667
 msgid "Echeance"
 msgstr "Termijn"
 
@@ -4662,6 +4838,8 @@ msgstr "Termijn"
 #: include/class_acc_ledger_purchase.php:1701
 #: include/class/class_acc_ledger_purchase.php:1702
 #: include/class/class_acc_ledger_sold.php:969
+#: include/class/class_acc_ledger_purchase.php:1709
+#: include/class/class_acc_ledger_sold.php:975
 msgid "Echeance dépassée"
 msgstr "termijn wordt overschreden"
 
@@ -4695,6 +4873,7 @@ msgstr "fout bij het openen van het bestand"
 #: include/class_acc_ledger_sold.php:1037
 #: include/class_acc_ledger_sold.php:1038
 #: include/class/class_acc_ledger_sold.php:1038
+#: include/class/class_acc_ledger_sold.php:1044
 msgid "Echéance"
 msgstr "Termijn"
 
@@ -4741,6 +4920,7 @@ msgid ""
 msgstr ""
 
 #: html/admin/setup.php:199 html/admin/setup.php:217 html/admin/setup.php:219
+#: html/install.php:225
 #, fuzzy
 msgid "Ecriture non possible"
 msgstr "Boekhoudend schrijven"
@@ -4767,7 +4947,7 @@ msgstr "Boekingen"
 msgid "Efface"
 msgstr "Wissen"
 
-#: include/action.common.inc.php:208
+#: include/action.common.inc.php:208 include/action.common.inc.php:213
 #, fuzzy
 msgid "Efface cet événement "
 msgstr "Voeg dit element toe"
@@ -4777,10 +4957,11 @@ msgid "Efface cette action"
 msgstr "This Actie Wissen"
 
 #: include/report.inc.php:134 include/report.inc.php:120
+#: include/report.inc.php:119
 msgid "Effacement"
 msgstr "Erasure"
 
-#: include/modele.inc.php:342
+#: include/modele.inc.php:342 include/modele.inc.php:356
 msgid "Effacement de toutes les donn&eacute;es des plugins"
 msgstr ""
 
@@ -4789,7 +4970,7 @@ msgid "Effacement déclaration"
 msgstr "Deze verklaring verwijderen"
 
 #: html/ajax_ledger.php:186 html/ajax_ledger.php:187
-#: include/ajax/ajax_ledger.php:164
+#: include/ajax/ajax_ledger.php:164 include/ajax/ajax_ledger.php:167
 #, fuzzy
 msgid "Effacement refusé"
 msgstr "Erasure"
@@ -4831,7 +5012,7 @@ msgstr "Erasure"
 #: include/ajax/ajax_view_mod_stock.php:55
 #: include/class/class_document_modele.php:70
 #: include/class/class_document_type.php:82 include/forecast.inc.php:333
-#: include/template/detail-action.php:476
+#: include/template/detail-action.php:476 include/modele.inc.php:288
 msgid "Effacer"
 msgstr "Wissen"
 
@@ -4951,6 +5132,7 @@ msgid "En une opération"
 msgstr "Alle activiteiten"
 
 #: html/admin/setup.php:80 html/admin/setup.php:83 html/admin/setup.php:134
+#: html/install.php:136
 msgid ""
 "En version mono dossier, le nom de la base de données doit être mentionné"
 msgstr ""
@@ -4962,10 +5144,12 @@ msgid "En-cours"
 msgstr ""
 
 #: include/class_pre_op_ven.php:176 include/class/class_pre_op_ven.php:176
+#: include/class/class_pre_op_ven.php:189
 msgid "En-tête facture client"
 msgstr "Hoofding"
 
 #: include/class_pre_op_ach.php:182 include/class/class_pre_op_ach.php:182
+#: include/class/class_pre_op_ach.php:192
 msgid "En-tête facture fournisseur"
 msgstr "Hoefdbrief Leverancier"
 
@@ -5048,6 +5232,7 @@ msgstr "Opgeslagen"
 #: include/compta_ven.inc.php:274 include/compta_ach.inc.php:285
 #: include/compta_ven.inc.php:315 include/action.common.inc.php:310
 #: include/compta_ach.inc.php:288 include/compta_ven.inc.php:325
+#: include/action.common.inc.php:182 include/action.common.inc.php:315
 msgid "Enregistrer"
 msgstr "OPSLAAN"
 
@@ -5076,6 +5261,7 @@ msgid "Entrez la période de la déclaration"
 msgstr "Voer de datum van de verklaring"
 
 #: html/admin/setup.php:208 html/admin/setup.php:226 html/admin/setup.php:228
+#: html/install.php:290
 msgid "Entrez les informations nécessaires à noalyss"
 msgstr ""
 
@@ -5131,6 +5317,8 @@ msgstr "Kopie naar afzender"
 #: include/forecast.inc.php:351 include/ac_common.php:337
 #: include/ext/importbank/include/class_import_bank.php:140
 #: include/lib/ac_common.php:334 include/forecast.inc.php:345
+#: include/action.common.inc.php:145 include/action.common.inc.php:286
+#: include/lib/ac_common.php:335
 msgid "Erreur"
 msgstr "Fout"
 
@@ -5155,6 +5343,11 @@ msgstr "Ongeldig bericht ["
 msgid "Erreur : paramètre invalide"
 msgstr "Parameter is ongeldig"
 
+#: include/backup.inc.php:39
+#, fuzzy
+msgid "Erreur : paramètre manquant "
+msgstr "Parameter is ongeldig"
+
 #: include/ext/import_account/include/class_sql_impacc.php:36
 #: include/ext/import_account/include/class_sql_impacc.php:47
 #: include/class_acc_account.php:66 include/class_acc_account.php:77
@@ -5175,7 +5368,7 @@ msgstr "Foutenlogboek dit type wordt nog niet ondersteund"
 msgid "Erreur date invalide"
 msgstr "Ongeldig datum"
 
-#: html/do.php:196 html/do.php:224 html/do.php:237
+#: html/do.php:196 html/do.php:224 html/do.php:237 html/do.php:239
 #, fuzzy
 msgid "Erreur menu"
 msgstr "Fout"
@@ -5301,6 +5494,7 @@ msgid "Etiquette (tag)"
 msgstr "Label (tag)"
 
 #: include/action.common.inc.php:273 include/action.common.inc.php:277
+#: include/action.common.inc.php:278 include/action.common.inc.php:282
 msgid "Evènement Sauvée"
 msgstr ""
 
@@ -5318,7 +5512,7 @@ msgid "Exercice"
 msgstr "Oefening"
 
 #: html/ajax_misc.php:197 html/ajax_misc.php:216 html/ajax_misc.php:230
-#: html/ajax_misc.php:236 html/ajax_misc.php:314
+#: html/ajax_misc.php:236 html/ajax_misc.php:314 html/ajax_misc.php:319
 msgid "Explication"
 msgstr "Uitleg"
 
@@ -5629,7 +5823,7 @@ msgstr "Favorieten"
 #: include/company.inc.php:120 include/database.item.php:155
 #: include/database.item.php:161 include/database.item.php:165
 #: include/database.item.php:164 include/database.item.php:157
-#: include/database.item.php:158
+#: include/database.item.php:158 include/company.inc.php:124
 msgid "Fax"
 msgstr "Fax"
 
@@ -5786,9 +5980,14 @@ msgstr "Bestand"
 #: include/ext/rapport_avance/raw.php:109
 #: include/ext/rapport_avance/raw.php:163
 #: include/ext/rapport_avance/raw.php:210 html/show_pj.php:83
-#: include/ext/rapport_avance/raw.php:277
+#: include/ext/rapport_avance/raw.php:277 include/export/export_receipt.php:71
 msgid "Fichier effacé"
 msgstr "Verwijderde bestand"
+
+#: html/install.php:261
+#, fuzzy
+msgid "Fichier non sauvé"
+msgstr "Record niet gevonden"
 
 #: include/ext/import_account/include/template/input_file.php:19
 #: include/ext/import_account/include/template/test_file.php:20
@@ -5802,6 +6001,7 @@ msgid "Fichier à inclure (depuis le répertoire include)"
 msgstr "Dossier invoegen (vanuit de lijst include)"
 
 #: html/ajax_misc.php:225 html/ajax_misc.php:231 html/ajax_misc.php:309
+#: html/ajax_misc.php:314
 #, fuzzy
 msgid "Filter"
 msgstr "Filter"
@@ -5835,6 +6035,8 @@ msgstr "Gefilterd per categorie"
 #: include/forecast.inc.php:378 include/dossier.inc.php:230
 #: include/menu.inc.php:146 include/ajax/ajax_boxcard_search.php:46
 #: include/class/class_acc_ledger.php:3425 include/forecast.inc.php:372
+#: html/user_login.php:170 include/modele.inc.php:265
+#: include/report.inc.php:142
 msgid "Filtre"
 msgstr "Filter"
 
@@ -5913,7 +6115,7 @@ msgstr ""
 #: include/database.item.php:197 include/user_menu.php:152
 #: include/user_menu.php:156 include/database.item.php:200
 #: include/database.item.php:230 include/database.item.php:207
-#: include/database.item.php:208
+#: include/database.item.php:208 include/lib/user_menu.php:165
 msgid "Financier"
 msgstr "Financieel"
 
@@ -5939,6 +6141,9 @@ msgstr "Formules"
 #: include/class/class_acc_ledger_purchase.php:1273
 #: include/class/class_acc_ledger_purchase.php:1380
 #: include/class/class_pre_op_ach.php:381
+#: include/class/class_acc_ledger_purchase.php:1280
+#: include/class/class_acc_ledger_purchase.php:1387
+#: include/class/class_pre_op_ach.php:391
 msgid "Fournisseur"
 msgstr "Leverancier"
 
@@ -5947,6 +6152,8 @@ msgstr "Leverancier"
 #: include/class_acc_ledger_purchase.php:1106
 #: include/class/class_acc_ledger_purchase.php:1107
 #: include/class/class_pre_op_ach.php:216
+#: include/class/class_acc_ledger_purchase.php:1114
+#: include/class/class_pre_op_ach.php:226
 msgid "Fournisseur "
 msgstr "Leverancier"
 
@@ -5993,11 +6200,11 @@ msgstr "Categorie record management"
 msgid "Gestion des attributs de fiches "
 msgstr "Beheer attributen vellen"
 
-#: include/user_menu.php:111
+#: include/user_menu.php:111 include/lib/user_menu.php:117
 msgid "Gestion des dossiers"
 msgstr "Records Management"
 
-#: include/user_menu.php:112
+#: include/user_menu.php:112 include/lib/user_menu.php:118
 msgid "Gestion des modèles"
 msgstr "Managementmodellen"
 
@@ -6020,6 +6227,7 @@ msgid ""
 msgstr ""
 
 #: include/user_menu.php:110 include/user_menu.php:120
+#: include/lib/user_menu.php:116 include/lib/user_menu.php:129
 msgid "Gestion des utilisateurs"
 msgstr "Users Beheer"
 
@@ -6218,6 +6426,7 @@ msgid "Groupe analytique"
 msgstr "Analytische groep"
 
 #: include/action.common.inc.php:161 include/action.common.inc.php:178
+#: include/action.common.inc.php:183
 msgid "Génère le document"
 msgstr "Maak document"
 
@@ -6295,10 +6504,13 @@ msgstr "Zonder BTW"
 #: include/class_acc_ledger_purchase.php:1779
 #: include/class/class_acc_ledger_purchase.php:1780
 #: include/class/class_acc_ledger_sold.php:1360
+#: include/class/class_acc_ledger_purchase.php:1787
+#: include/class/class_acc_ledger_sold.php:1366
 msgid "HTVA Opération"
 msgstr "Operatie exclusief BTW"
 
 #: include/template/action_display_short.php:59
+#: include/class/class_follow_up.php:271
 msgid "Haute"
 msgstr ""
 
@@ -6462,8 +6674,13 @@ msgstr "Historische omzet"
 
 #: include/user_menu.php:155 include/user_menu.php:156
 #: include/user_menu.php:159 include/user_menu.php:160
+#: include/lib/user_menu.php:168 include/lib/user_menu.php:169
 msgid "Hors Comptabilité"
 msgstr "Exclusief Accounting"
+
+#: include/admin_repo.inc.php:127
+msgid "Hôte"
+msgstr ""
 
 #: include/template/stock_summary_list.php:47
 #: include/template/stock_summary_table.php:73
@@ -6472,7 +6689,7 @@ msgid "IN"
 msgstr "IN"
 
 #: include/class_user.php:973 include/class_user.php:974
-#: include/class/class_user.php:974
+#: include/class/class_user.php:974 include/class/class_user.php:962
 msgid "Id"
 msgstr ""
 
@@ -6490,15 +6707,16 @@ msgstr ""
 #: include/class_acc_ledger_sold.php:212
 #: include/class/class_acc_ledger_purchase.php:266
 #: include/class/class_acc_ledger_sold.php:212
+#: include/class/class_acc_ledger_sold.php:214
 msgid "Il n'y a aucune marchandise"
 msgstr "Er are Geen goederen"
 
-#: html/admin/setup.php:462
+#: html/admin/setup.php:462 html/install.php:526
 #, php-format
 msgid "Il y a %s param&egrave;tre qui sont trop bas"
 msgstr ""
 
-#: html/ajax_misc.php:572 html/ajax_misc.php:614
+#: html/ajax_misc.php:572 html/ajax_misc.php:614 html/ajax_misc.php:409
 msgid "Il y a une erreur, ce plugin n'existe pas"
 msgstr ""
 
@@ -6610,6 +6828,7 @@ msgid "Importation des opération"
 msgstr "Operaties invoegen"
 
 #: include/report.inc.php:116 include/report.inc.php:102
+#: include/report.inc.php:101
 msgid "Importer ce rapport"
 msgstr "Importeer dit verslag"
 
@@ -6623,10 +6842,12 @@ msgid "Impossible cette fiche est utilisée dans un journal"
 msgstr ""
 
 #: html/admin/setup.php:163 html/admin/setup.php:181 html/admin/setup.php:183
+#: html/install.php:186
 msgid "Impossible d'&eacute;crire dans le r&eacute;pertoire html"
 msgstr ""
 
 #: html/admin/setup.php:153 html/admin/setup.php:171 html/admin/setup.php:173
+#: html/install.php:176
 msgid "Impossible d'&eacute;crire dans le r&eacute;pertoire include"
 msgstr ""
 
@@ -6661,6 +6882,12 @@ msgstr "Onmogelijk om de waarde te veranderen: post is al in gebruik"
 #: include/ext/transform/include/intervat_listing_assujetti_step_2.inc.php:117
 msgid "Impossible de sauver ce fichier"
 msgstr "Kan dit bestand op te slaan"
+
+#: html/install.php:278
+msgid ""
+"Impossible de se connecter à Postgresql, vérifiez les informations de "
+"connection"
+msgstr ""
 
 #: include/database.item.php:68 include/database.item.php:114
 #: include/ajax_get_profile.php:98 include/template/action_other_action.php:22
@@ -6785,6 +7012,7 @@ msgid "Inclure les fournisseurs sans opération :"
 msgstr "Onder andere leveranciers zonder operatie:"
 
 #: html/admin/setup.php:74 html/admin/setup.php:77 html/admin/setup.php:128
+#: html/install.php:130
 msgid ""
 "Indiquez ici le récuterpertoire où les documents temporaires peuvent être "
 "sauvés exemple c:/temp, /tmp"
@@ -6824,6 +7052,11 @@ msgid ""
 "génération de documents"
 msgstr ""
 
+#: include/lib/user_menu.php:122
+#, fuzzy
+msgid "Information système"
+msgstr "Opgeslagen Informatie"
+
 #: include/template/ledger_detail_bottom.php:6
 msgid "Informations"
 msgstr "Informaties"
@@ -6831,6 +7064,11 @@ msgstr "Informaties"
 #: include/template/detail-action.php:6
 msgid "Informations générales"
 msgstr "Algemene informatie"
+
+#: html/install.php:269
+#, fuzzy
+msgid "Installation"
+msgstr "Herstelt"
 
 #: include/class_acc_ledger.php:656 include/class_acc_ledger.php:655
 #: include/class_acc_ledger.php:659 include/class_acc_ledger.php:660
@@ -6857,6 +7095,8 @@ msgstr "Intern"
 #: include/class/class_acc_ledger_sold.php:1341
 #: include/class/class_anc_grandlivre.php:195
 #: include/class/class_balance_age.php:143
+#: include/class/class_acc_ledger_purchase.php:1765
+#: include/class/class_acc_ledger_sold.php:1347
 msgid "Interne"
 msgstr "Intern"
 
@@ -6909,6 +7149,8 @@ msgstr "Donderdag"
 #: include/class/class_acc_ledger.php:665
 #: include/class/class_acc_ledger_purchase.php:1372
 #: include/class/class_acc_ledger_sold.php:667
+#: include/class/class_acc_ledger_purchase.php:1379
+#: include/class/class_acc_ledger_sold.php:673
 msgid "Journal"
 msgstr "Journaal"
 
@@ -6936,6 +7178,7 @@ msgstr "Inloggen bestaat niet"
 
 #: include/class_acc_operation.php:492
 #: include/class/class_acc_operation.php:492
+#: include/class/class_acc_operation.php:493
 #, fuzzy
 msgid "Journal non trouvé"
 msgstr "Handeling is niet gevonden"
@@ -6994,7 +7237,7 @@ msgstr "De extensie is geïnstalleerd, kunt u de instellingen te controleren?"
 msgid "La base de donn&eacute;es est bien configur&eacute;e "
 msgstr ""
 
-#: html/admin/setup.php:535
+#: html/admin/setup.php:535 html/install.php:599
 #, php-format
 msgid ""
 "La base de donnée %s est vide, veuillez executer noalyss/contrib/mono-"
@@ -7002,7 +7245,7 @@ msgid ""
 "                    puis faites un seul de ces choix : "
 msgstr ""
 
-#: html/admin/setup.php:459
+#: html/admin/setup.php:459 html/install.php:523
 #, fuzzy
 msgid "La base de données est bien configurée "
 msgstr "UW datagegevens is niet van de laatste versie"
@@ -7055,6 +7298,13 @@ msgstr "De datum is ongeldig, formaat is dd.mm.yyyy"
 #: include/class/class_acc_ledger_sold.php:174
 #: include/class/class_acc_ledger_sold.php:178
 #: include/class/class_acc_ledger_sold.php:208
+#: include/class/class_acc_ledger_sold.php:129
+#: include/class/class_acc_ledger_sold.php:152
+#: include/class/class_acc_ledger_sold.php:166
+#: include/class/class_acc_ledger_sold.php:171
+#: include/class/class_acc_ledger_sold.php:176
+#: include/class/class_acc_ledger_sold.php:180
+#: include/class/class_acc_ledger_sold.php:210
 msgid "La fiche "
 msgstr "Het blad"
 
@@ -7090,6 +7340,7 @@ msgid "Langue"
 msgstr "Taal"
 
 #: html/admin/setup.php:76 html/admin/setup.php:79 html/admin/setup.php:130
+#: html/install.php:132
 msgid "Le chemin vers le repertoire contenant psql, pg_dump..."
 msgstr ""
 
@@ -7098,6 +7349,11 @@ msgstr ""
 #, fuzzy, php-format
 msgid "Le dossier %s est effacé"
 msgstr "De Naam van de map is leeg"
+
+#: html/index.php:216
+#, fuzzy
+msgid "Le fichier "
+msgstr "Het blad"
 
 #: include/user.inc.php:51
 #, fuzzy
@@ -7114,7 +7370,7 @@ msgstr "De naam mag niet leeg zijn"
 msgid "Le mini rapport est un rapport qui s'affiche  sur votre page d'accueil"
 msgstr "De quick ratio is een verhouding die op uw homepage verschijnt"
 
-#: include/modele.inc.php:386
+#: include/modele.inc.php:386 include/modele.inc.php:400
 #, fuzzy, php-format
 msgid "Le modèle %s est effacé"
 msgstr "Lege regels worden gewist"
@@ -7140,6 +7396,11 @@ msgstr "De categorie naam mag niet leeg zijn"
 #: include/dossier.inc.php:56
 msgid "Le nom du dossier est vide"
 msgstr "De Naam van de map is leeg"
+
+#: include/modele.inc.php:104
+#, fuzzy
+msgid "Le nom est vide"
+msgstr "is leeg"
 
 #: html/ajax_card.php:475 html/ajax_card.php:476 html/ajax_card.php:477
 #: html/ajax_card.php:528 html/ajax_card.php:529 html/ajax_card.php:535
@@ -7192,6 +7453,7 @@ msgstr "Lezing"
 
 #: html/ajax_misc.php:366 html/ajax_misc.php:385 html/ajax_misc.php:399
 #: html/ajax_misc.php:405 html/ajax_misc.php:483
+#: include/ajax/ajax_display_letter.php:119
 msgid "Les 2"
 msgstr "2"
 
@@ -7214,18 +7476,20 @@ msgid "Les fiches doivent avoir au minimum un nom"
 msgstr "De stekkers moet ten minste een naam hebben"
 
 #: html/admin/setup.php:193 html/admin/setup.php:211 html/admin/setup.php:213
+#: html/install.php:255
 msgid "Les informations sont sauv&eacute;es vous pouvez continuer"
 msgstr ""
 
 #: include/report.inc.php:105 include/report.inc.php:120
 #: include/report.inc.php:144 include/report.inc.php:91
 #: include/report.inc.php:106 include/report.inc.php:132
+#: include/report.inc.php:90 include/report.inc.php:131
 msgid "Les lignes vides seront effacées"
 msgstr "Lege regels worden gewist"
 
 #: include/class_user.php:1141 include/class_user.php:1171
 #: include/class_user.php:1211 include/class_user.php:1212
-#: include/class/class_user.php:1212
+#: include/class/class_user.php:1212 include/class/class_user.php:1200
 msgid "Les mots de passe ne correspondent pas. Mot de passe inchangé"
 msgstr "Wachtwoorden komen niet overeen. Wachtwoord ongewijzigd"
 
@@ -7256,6 +7520,7 @@ msgstr "Laten."
 #: html/ajax_misc.php:324 include/category_card.inc.php:74
 #: html/ajax_misc.php:330 include/database.item.php:78
 #: include/database.item.php:77 html/ajax_misc.php:408
+#: include/ajax/ajax_display_letter.php:44
 msgid "Lettrage"
 msgstr "Belettering"
 
@@ -7367,6 +7632,10 @@ msgstr "smaad"
 #: include/class/class_anc_grandlivre.php:192
 #: include/class/class_pre_op_advanced.php:197
 #: include/class/class_print_ledger_detail_item.php:60
+#: include/class/class_acc_ledger_purchase.php:1382
+#: include/class/class_acc_ledger_purchase.php:1763
+#: include/class/class_acc_ledger_sold.php:676
+#: include/class/class_acc_ledger_sold.php:1345
 #, php-format
 msgid "Libellé"
 msgstr "Opstellen"
@@ -7382,6 +7651,8 @@ msgstr "Opstellen"
 #: include/class_acc_ledger_purchase.php:1628
 #: include/class/class_acc_ledger_purchase.php:1629
 #: include/class/class_acc_ledger_sold.php:888
+#: include/class/class_acc_ledger_purchase.php:1636
+#: include/class/class_acc_ledger_sold.php:894
 msgid "Libellé :"
 msgstr "Volgt:"
 
@@ -7608,6 +7879,7 @@ msgstr "Materiaaldemping"
 
 #: html/ajax_misc.php:458 html/ajax_misc.php:477 html/ajax_misc.php:491
 #: html/ajax_misc.php:497 html/ajax_misc.php:575
+#: include/ajax/ajax_display_letter.php:211
 msgid "Mauvais type objet"
 msgstr "Verkeerd type object"
 
@@ -7623,6 +7895,7 @@ msgstr "Maximale analytisch niveau is bereikt"
 #: include/template/profile_menu_display_module.php:55
 #: include/menu.inc.php:109 include/menu.inc.php:126
 #: include/ajax/ajax_get_profile.php:108
+#: include/template/profile_menu_display_module.php:56
 msgid "Menu"
 msgstr "Menu"
 
@@ -7742,7 +8015,7 @@ msgstr "Mini-Report:"
 msgid "Mis à jour"
 msgstr "Bijwerken"
 
-#: html/admin/setup.php:528
+#: html/admin/setup.php:528 html/install.php:592
 #, fuzzy
 msgid "Mise  à jour dossier"
 msgstr "Bijwerken"
@@ -7760,6 +8033,7 @@ msgid "Mise &agrave; jour mod&egrave;le"
 msgstr ""
 
 #: include/report.inc.php:133 include/report.inc.php:119
+#: include/report.inc.php:118
 msgid "Mise a jour"
 msgstr "Update"
 
@@ -7774,23 +8048,43 @@ msgid "Mise à Repository"
 msgstr "OPSLAAN"
 
 #: include/anc_pa.inc.php:93 include/anc_pa.inc.php:186
-#: include/anc_pa.inc.php:188
+#: include/anc_pa.inc.php:188 include/lib/user_menu.php:120
 msgid "Mise à jour"
 msgstr "Bijwerken"
 
-#: html/admin/setup.php:549
+#: html/admin/setup.php:549 html/install.php:613
 #, fuzzy
 msgid "Mise à jour Repository"
 msgstr "OPSLAAN"
+
+#: include/upgrade.inc.php:50
+#, fuzzy
+msgid "Mise à jour de la base de données principale"
+msgstr "Database"
+
+#: include/upgrade.inc.php:65
+#, fuzzy
+msgid "Mise à jour dossiers"
+msgstr "Bijwerken"
 
 #: include/ext/tva/index.php:98
 msgid "Mise à jour du plugin, pourriez-vous en vérifier le paramètrage ?"
 msgstr "Werk plugin, kunt u de parameter instelling te controleren?"
 
-#: html/admin/setup.php:527
+#: html/admin/setup.php:527 html/install.php:591
 #, fuzzy
 msgid "Mise à jour du systeme"
 msgstr "Update"
+
+#: include/lib/user_menu.php:120
+#, fuzzy
+msgid "Mise à jour du système et des bases de données"
+msgstr "Update"
+
+#: include/upgrade.inc.php:91
+#, fuzzy
+msgid "Mise à jour modèles"
+msgstr "Kies een dossier"
 
 #: include/class_acc_ledger_purchase.php:1689
 #: include/class_acc_ledger_sold.php:954 include/history_operation.inc.php:140
@@ -7804,6 +8098,8 @@ msgstr "Update"
 #: include/class_acc_ledger_purchase.php:1712
 #: include/class/class_acc_ledger_purchase.php:1713
 #: include/class/class_acc_ledger_sold.php:980
+#: include/class/class_acc_ledger_purchase.php:1720
+#: include/class/class_acc_ledger_sold.php:986
 msgid "Mise à jour paiement"
 msgstr "OPSLAAN"
 
@@ -7813,10 +8109,12 @@ msgid "Mise à modèle"
 msgstr "Kies een dossier"
 
 #: include/ext/amortis/include/am_generate.inc.php:72
+#: include/ext/amortis/include/am_generate.inc.php:74
 msgid "Missing parameter grouped"
 msgstr ""
 
 #: html/admin/template_config_form.php:59
+#: include/template/template_config_form.php:63
 msgid "Mode Serveur mutualisé"
 msgstr ""
 
@@ -7875,6 +8173,7 @@ msgstr "Materiaal aanpassen "
 #: include/dossier.inc.php:315 include/template/list_mod_payment.php:79
 #: include/ajax_admin.php:207 include/ajax_admin.php:208
 #: include/modele.inc.php:276 include/ajax/ajax_admin.php:208
+#: include/modele.inc.php:290
 msgid "Modifie"
 msgstr "Veranderen"
 
@@ -7898,6 +8197,7 @@ msgstr "Verandering"
 #: include/ajax/ajax_get_profile.php:84 include/ajax/ajax_view_action.php:48
 #: include/class/class_document_type.php:75
 #: include/template/detail-action.php:454
+#: include/class/class_document_modele.php:91
 msgid "Modifier"
 msgstr "Veranderen"
 
@@ -7958,6 +8258,7 @@ msgstr "Management Module"
 #: include/ac_common.php:835 include/ac_common.php:836
 #: include/ac_common.php:859 include/ac_common.php:862
 #: include/lib/ac_common.php:859 include/class/class_extension.php:121
+#: include/lib/ac_common.php:860
 msgid "Module inexistant"
 msgstr "Module bestaat niet"
 
@@ -7993,6 +8294,7 @@ msgid "Modèle de document"
 msgstr "Model van het document"
 
 #: html/admin/setup.php:588 html/admin/setup.php:606 html/admin/setup.php:613
+#: include/upgrade.inc.php:106
 #, fuzzy
 msgid "Modèle inexistant"
 msgstr "Module bestaat niet"
@@ -8004,6 +8306,7 @@ msgid "Modèle à sauver"
 msgstr "Modellen"
 
 #: include/user_menu.php:112 include/modele.inc.php:236
+#: include/modele.inc.php:250 include/lib/user_menu.php:118
 msgid "Modèles"
 msgstr "Modellen"
 
@@ -8061,7 +8364,9 @@ msgstr "Maand"
 #: include/class/class_acc_ledger_sold.php:693
 #: include/class/class_anc_account.php:272
 #: include/class/class_anc_listing.php:82 include/class/class_fiche.php:1231
-#: include/class/class_pre_op_advanced.php:198
+#: include/class/class_pre_op_advanced.php:198 include/lib/ac_common.php:1156
+#: include/class/class_acc_ledger_purchase.php:1406
+#: include/class/class_acc_ledger_sold.php:699
 msgid "Montant"
 msgstr "Bedrag"
 
@@ -8084,6 +8389,8 @@ msgstr "Afgeschreven hoeveelheid"
 #: include/class_acc_ledger_purchase.php:1395
 #: include/class/class_acc_ledger_purchase.php:1396
 #: include/class/class_acc_ledger_sold.php:690
+#: include/class/class_acc_ledger_purchase.php:1403
+#: include/class/class_acc_ledger_sold.php:696
 msgid "Montant HTVA"
 msgstr "BTW Bedrag Zonder"
 
@@ -8099,6 +8406,7 @@ msgstr "OOrspronkelijk bedrag"
 #: include/class_acc_ledger_purchase.php:1777
 #: include/class_acc_ledger_purchase.php:1776
 #: include/class/class_acc_ledger_purchase.php:1777
+#: include/class/class_acc_ledger_purchase.php:1784
 msgid "Montant ND"
 msgstr "Niet terug te vorderen bedrag"
 
@@ -8129,6 +8437,10 @@ msgstr "Niet terug te vorderen bedrag"
 #: include/class/class_acc_ledger_sold.php:689
 #: include/class/class_acc_ledger_sold.php:1356
 #: include/template/detail-action.php:348
+#: include/class/class_acc_ledger_purchase.php:1402
+#: include/class/class_acc_ledger_purchase.php:1780
+#: include/class/class_acc_ledger_sold.php:695
+#: include/class/class_acc_ledger_sold.php:1362
 msgid "Montant TVA"
 msgstr "BTW Bedrag"
 
@@ -8140,6 +8452,7 @@ msgstr "BTW Bedrag"
 #: include/class_acc_ledger_purchase.php:1778
 #: include/class_acc_ledger_purchase.php:1777
 #: include/class/class_acc_ledger_purchase.php:1778
+#: include/class/class_acc_ledger_purchase.php:1785
 msgid "Montant TVA ND"
 msgstr "Bedrag niet terug te vorderen BTW"
 
@@ -8162,6 +8475,8 @@ msgstr "Foutief bedrag van de BTW"
 #: include/class/class_acc_ledger_purchase.php:1397
 #: include/class/class_acc_ledger_sold.php:691
 #: include/template/detail-action.php:349
+#: include/class/class_acc_ledger_purchase.php:1404
+#: include/class/class_acc_ledger_sold.php:697
 msgid "Montant TVAC"
 msgstr "BTW Inbegrepen Bedrag"
 
@@ -8209,11 +8524,13 @@ msgstr "Ongeldig bedrag"
 
 #: html/ajax_misc.php:323 html/ajax_misc.php:342 html/ajax_misc.php:356
 #: html/ajax_misc.php:362 html/ajax_misc.php:440
+#: include/ajax/ajax_display_letter.php:76
 msgid "Montant max. "
 msgstr "Max bedrag."
 
 #: html/ajax_misc.php:316 html/ajax_misc.php:335 html/ajax_misc.php:349
 #: html/ajax_misc.php:355 html/ajax_misc.php:433
+#: include/ajax/ajax_display_letter.php:69
 msgid "Montant min. "
 msgstr "Bedragen min."
 
@@ -8276,11 +8593,12 @@ msgid "Mot de passe de l'utilisateur "
 msgstr "Gebruiker toevoegen"
 
 #: html/admin/template_config_form.php:51
+#: include/template/template_config_form.php:51
 #, fuzzy
 msgid "Mot de passe de l'utilisateur Postgresql"
 msgstr "Gebruiker toevoegen"
 
-#: html/admin/setup.php:132
+#: html/admin/setup.php:132 html/install.php:134
 #, fuzzy
 msgid "Mot de passe de l'utilisateur de Postgresql"
 msgstr "Gebruiker toevoegen"
@@ -8301,6 +8619,7 @@ msgid "Moyen de paiement"
 msgstr "Betaling"
 
 #: include/template/action_display_short.php:60
+#: include/class/class_follow_up.php:272
 msgid "Moyenne"
 msgstr ""
 
@@ -8311,7 +8630,7 @@ msgstr ""
 msgid "Navigateur"
 msgstr "Navigator"
 
-#: include/param_pcmn.inc.php:138
+#: include/param_pcmn.inc.php:138 include/param_pcmn.inc.php:139
 #, fuzzy
 msgid "Navigation"
 msgstr "Navigator"
@@ -8360,7 +8679,7 @@ msgid "Ne peut pas ajouter "
 msgstr "Kan niet worden toegevoegd"
 
 #: include/class_document.php:199 include/class_document.php:200
-#: include/class/class_document.php:200
+#: include/class/class_document.php:200 include/class/class_document.php:201
 #, fuzzy
 msgid "Ne peut pas créer le répertoire "
 msgstr "Kan niet worden omgezet in PDF"
@@ -8392,7 +8711,7 @@ msgstr ""
 #: include/ext/rapport_avance/include/class_rapav_declaration.php:340
 #: include/ext/rapport_avance/include/class_rapav_listing_compute_fiche.php:310
 #: include/ext/rapport_avance/include/class_rapav_listing_compute_fiche.php:472
-#: include/class/class_document.php:299
+#: include/class/class_document.php:299 include/class/class_document.php:300
 msgid "Ne peut pas sauver "
 msgstr "Het kan-niet OPSLAAN"
 
@@ -8400,21 +8719,21 @@ msgstr "Het kan-niet OPSLAAN"
 msgid "Ne remplissez pas s'il n'y a pas de mandataire"
 msgstr "Niet compleet als er geen vertegenwoordiger"
 
-#: include/modele.inc.php:337
+#: include/modele.inc.php:337 include/modele.inc.php:351
 msgid ""
 "Nettoyage de la comptabilit&eacute; analytique : effacement des plans et des "
 "postes, les op&eacute;rations\n"
 "\tsont de toute fa&ccedil;on effac&eacute;es"
 msgstr ""
 
-#: include/modele.inc.php:331
+#: include/modele.inc.php:331 include/modele.inc.php:345
 msgid ""
 "Nettoyage de toutes les fiches (ce qui effacera client,\n"
 "\top&eacute;rations pr&eacute;d&eacute;finies fournisseurs modèles de "
 "documents et documents)"
 msgstr ""
 
-#: include/modele.inc.php:328
+#: include/modele.inc.php:328 include/modele.inc.php:342
 msgid ""
 "Nettoyage des Documents et courriers (ce qui  n'effacera pas les modèles de "
 "documents)"
@@ -8478,7 +8797,9 @@ msgstr "Geen handeling"
 #: include/class/class_balance_age.php:139
 #: include/class/class_document_modele.php:66
 #: include/class/class_fiche.php:1598 include/class/class_user.php:977
-#: include/database.item.php:146
+#: include/database.item.php:146 include/modele.inc.php:239
+#: include/modele.inc.php:330 include/profile.inc.php:377
+#: include/class/class_user.php:965
 msgid "Nom"
 msgstr "Naam"
 
@@ -8499,16 +8820,20 @@ msgstr "Naam TVA"
 #: include/class_acc_ledger_purchase.php:1767
 #: include/class/class_acc_ledger_purchase.php:1768
 #: include/class/class_acc_ledger_sold.php:1351
+#: include/class/class_acc_ledger_purchase.php:1775
+#: include/class/class_acc_ledger_sold.php:1357
 msgid "Nom TVA"
 msgstr "Naam TVA"
 
 #: html/admin/template_config_form.php:64
+#: include/template/template_config_form.php:68
 #, fuzzy
 msgid "Nom base de donnée"
 msgstr "Database"
 
 #: include/modele.inc.php:259 include/dossier.inc.php:184
 #: include/dossier.inc.php:204 include/dossier.inc.php:238
+#: include/modele.inc.php:273
 #, fuzzy
 msgid "Nom base de données"
 msgstr "Database"
@@ -8555,6 +8880,8 @@ msgstr "Naam van de map"
 #: include/class_acc_ledger_purchase.php:1763
 #: include/class/class_acc_ledger_purchase.php:1764
 #: include/class/class_acc_ledger_sold.php:1347
+#: include/class/class_acc_ledger_purchase.php:1771
+#: include/class/class_acc_ledger_sold.php:1353
 msgid "Nom fiche"
 msgstr "Naam fiche"
 
@@ -8570,6 +8897,8 @@ msgstr "Naam fiche"
 #: include/class_acc_ledger_purchase.php:1765
 #: include/class/class_acc_ledger_purchase.php:1766
 #: include/class/class_acc_ledger_sold.php:1349
+#: include/class/class_acc_ledger_purchase.php:1773
+#: include/class/class_acc_ledger_sold.php:1355
 msgid "Nom fournisseur"
 msgstr "Naam leverancier"
 
@@ -8583,6 +8912,7 @@ msgid "Nom manquant"
 msgstr "Parameter"
 
 #: include/company.inc.php:97 include/company.inc.php:116
+#: include/company.inc.php:120
 msgid "Nom société"
 msgstr "Maatschappij Naam"
 
@@ -8663,6 +8993,9 @@ msgstr "Aantal operaties %d"
 #: include/user_detail.inc.php:153 include/user_detail.inc.php:149
 #: include/template/profile_menu_display_module.php:79
 #: include/template/profile_menu_display_submenu.php:64
+#: include/company.inc.php:67 include/company.inc.php:70
+#: include/company.inc.php:108
+#: include/template/profile_menu_display_module.php:80
 msgid "Non"
 msgstr "Geboren"
 
@@ -8681,6 +9014,8 @@ msgstr "Niet aftrekbaar"
 #: include/class_acc_ledger_purchase.php:1703
 #: include/class/class_acc_ledger_purchase.php:1704
 #: include/class/class_acc_ledger_sold.php:971
+#: include/class/class_acc_ledger_purchase.php:1711
+#: include/class/class_acc_ledger_sold.php:977
 msgid "Non Payée"
 msgstr "Niet Betaald &#39;"
 
@@ -8692,6 +9027,14 @@ msgstr "Niet gebruikt"
 #: include/ajax/ajax_ledger.php:31 include/ajax/ajax_poste.php:35
 #, fuzzy
 msgid "Non authorisé"
+msgstr "niet use of"
+
+#: html/ajax_misc.php:75 include/admin_repo.inc.php:24
+#: include/backup.inc.php:22 include/impress_poste.inc.php:20
+#: include/ajax/ajax_remove_submenu.php:23
+#: include/export/export_document.php:26 include/export/export_receipt.php:24
+#, fuzzy
+msgid "Non autorisé"
 msgstr "niet use of"
 
 #: include/template/ledger_detail_ach.php:129
@@ -8786,7 +9129,7 @@ msgstr "Nieuwe bankafschrift"
 
 #: include/class_html_input.php:926
 #: include/template/action_display_short.php:78
-#: include/lib/class_html_input.php:926
+#: include/lib/class_html_input.php:926 include/lib/class_html_input.php:937
 #, fuzzy
 msgid "Nouvel événement"
 msgstr "Voeg dit element toe"
@@ -8852,6 +9195,8 @@ msgstr "Num.interne"
 #: include/class_acc_ledger_purchase.php:1668
 #: include/class/class_acc_ledger_purchase.php:1669
 #: include/class/class_acc_ledger_sold.php:937
+#: include/class/class_acc_ledger_purchase.php:1676
+#: include/class/class_acc_ledger_sold.php:943
 msgid "Numero de bon de commande : "
 msgstr "Nummer van bestelbon"
 
@@ -8863,6 +9208,7 @@ msgid "Numero de client"
 msgstr "Aantal klanten"
 
 #: include/company.inc.php:105 include/company.inc.php:124
+#: include/company.inc.php:128
 msgid "Numéro"
 msgstr "Nummer"
 
@@ -8885,6 +9231,12 @@ msgstr "Nummer"
 #: include/class/class_acc_ledger_sold.php:645
 #: include/class/class_acc_ledger_sold.php:650
 #: include/class/class_acc_ledger_sold.php:653
+#: include/class/class_acc_ledger_purchase.php:1356
+#: include/class/class_acc_ledger_purchase.php:1361
+#: include/class/class_acc_ledger_purchase.php:1364
+#: include/class/class_acc_ledger_sold.php:651
+#: include/class/class_acc_ledger_sold.php:656
+#: include/class/class_acc_ledger_sold.php:659
 msgid "Numéro Pièce"
 msgstr "Referentie"
 
@@ -8898,6 +9250,7 @@ msgid "Numéro de TVA incorrect"
 msgstr "Ongeldig BTW nummer"
 
 #: include/company.inc.php:113 include/company.inc.php:132
+#: include/company.inc.php:136
 msgid "Numéro de Tva"
 msgstr "BTW nummer"
 
@@ -8951,6 +9304,8 @@ msgstr "Num.interne"
 #: include/ext/importbank/bank_constant.php:57
 #: include/class/class_acc_ledger_purchase.php:1751
 #: include/class/class_acc_ledger_sold.php:1334
+#: include/class/class_acc_ledger_purchase.php:1758
+#: include/class/class_acc_ledger_sold.php:1340
 msgid "Numéro opération"
 msgstr "Operatienummer"
 
@@ -8982,6 +9337,8 @@ msgstr "Document nr."
 #: include/class_acc_ledger_purchase.php:1762
 #: include/class/class_acc_ledger_purchase.php:1763
 #: include/class/class_acc_ledger_sold.php:1346
+#: include/class/class_acc_ledger_purchase.php:1770
+#: include/class/class_acc_ledger_sold.php:1352
 msgid "N° fiche"
 msgstr "Fiche nr."
 
@@ -8997,6 +9354,8 @@ msgstr "Fiche nr."
 #: include/class_acc_ledger_purchase.php:1764
 #: include/class/class_acc_ledger_purchase.php:1765
 #: include/class/class_acc_ledger_sold.php:1348
+#: include/class/class_acc_ledger_purchase.php:1772
+#: include/class/class_acc_ledger_sold.php:1354
 msgid "N° fiche fournisseur"
 msgstr "Nr. van Leveranciersfiche"
 
@@ -9067,6 +9426,7 @@ msgstr ""
 "veranderen"
 
 #: html/admin/setup.php:201 html/admin/setup.php:219 html/admin/setup.php:221
+#: html/install.php:227
 msgid ""
 "On ne peut pas écrire dans le répertoire de NOALYSS, changez-en les droits "
 msgstr ""
@@ -9111,7 +9471,7 @@ msgid "Opération Diverses"
 msgstr "Diverse operatie"
 
 #: html/ajax_ledger.php:156 html/ajax_ledger.php:174 html/ajax_ledger.php:175
-#: include/ajax/ajax_ledger.php:152
+#: include/ajax/ajax_ledger.php:152 include/ajax/ajax_ledger.php:155
 msgid "Opération Effacée"
 msgstr "Operatie Ontruimde"
 
@@ -9230,7 +9590,7 @@ msgstr "Verschillende bewerkingen"
 
 #: include/lettering.account.inc.php:85 include/lettering.card.inc.php:90
 #: include/lettering.gestion.inc.php:42 include/lettering.gestion.inc.php:41
-#: include/lettering.account.inc.php:93
+#: include/lettering.account.inc.php:93 include/impress_poste.inc.php:104
 msgid "Opérations lettrées"
 msgstr "Geletterde operaties"
 
@@ -9243,6 +9603,11 @@ msgstr "Geletterde operaties verschillende bedragen"
 #: include/template/ledger_detail_bottom.php:33
 msgid "Opérations liées"
 msgstr "Gelinkte operaties"
+
+#: include/impress_poste.inc.php:105
+#, fuzzy
+msgid "Opérations non lettrées"
+msgstr "Geletterde operaties"
 
 #: include/impress_rec.inc.php:72
 #, fuzzy
@@ -9278,6 +9643,11 @@ msgstr "Orde"
 msgid "Ordre d'apparition"
 msgstr "Volgorde van verschijning"
 
+#: include/impress_poste.inc.php:66
+#, fuzzy
+msgid "Ou Choisissez la fiche"
+msgstr "Kies de BTW"
+
 #: include/company.inc.php:41 include/company.inc.php:45
 #: include/company.inc.php:48 include/company.inc.php:86
 #: include/company.inc.php:60 include/company.inc.php:64
@@ -9285,6 +9655,9 @@ msgstr "Volgorde van verschijning"
 #: include/user_detail.inc.php:154 include/user_detail.inc.php:150
 #: include/template/profile_menu_display_module.php:79
 #: include/template/profile_menu_display_submenu.php:64
+#: include/company.inc.php:68 include/company.inc.php:71
+#: include/company.inc.php:109
+#: include/template/profile_menu_display_module.php:80
 msgid "Oui"
 msgstr "Ja"
 
@@ -9344,6 +9717,8 @@ msgstr "Bewijs nummer"
 #: include/class_acc_ledger_purchase.php:1775
 #: include/class/class_acc_ledger_purchase.php:1776
 #: include/class/class_acc_ledger_sold.php:1359
+#: include/class/class_acc_ledger_purchase.php:1783
+#: include/class/class_acc_ledger_sold.php:1365
 msgid "PU"
 msgstr "Eenheidsprijs"
 
@@ -9474,12 +9849,18 @@ msgstr "Parameter"
 msgid "Paramètre"
 msgstr "Parameter"
 
+#: include/admin_repo.inc.php:146
+#, fuzzy
+msgid "Paramètre PHP"
+msgstr "Parameter"
+
 #: include/ext/sav/index.php:47
 #, fuzzy
 msgid "Paramètre SAV"
 msgstr "Parameter"
 
-#: html/admin/setup.php:412
+#: html/admin/setup.php:412 html/install.php:476
+#: include/admin_repo.inc.php:121
 #, fuzzy
 msgid "Paramètre base de données"
 msgstr "Database"
@@ -9552,6 +9933,7 @@ msgstr "Fiscaal niet aftrekbare gedeelte"
 #: include/class_document_modele.php:261
 #: include/template/modele_document.php:50
 #: include/class/class_document_modele.php:261
+#: include/class/class_document_modele.php:262
 msgid "Partie gestion"
 msgstr "Deel beheer"
 
@@ -9598,7 +9980,9 @@ msgstr "Geen documenten gegeven"
 #: include/class/class_acc_ledger_fin.php:1015
 #: include/class/class_acc_ledger.php:1614
 #: include/class/class_acc_ledger_purchase.php:1046
-#: include/class/class_acc_ledger_sold.php:1080
+#: include/class/class_acc_ledger_sold.php:1080 include/compta_ven.inc.php:243
+#: include/class/class_acc_ledger_purchase.php:1053
+#: include/class/class_acc_ledger_sold.php:1086
 msgid "Pas de journal disponible"
 msgstr "Journaal available Geen"
 
@@ -9616,7 +10000,7 @@ msgstr "Passief met een debetsaldo"
 #: include/ajax_mod_stock_repo.php:63
 #: include/template/stock_summary_list.php:41 include/company.inc.php:130
 #: include/ext/sav/include/template/sas_display_detail.php:107
-#: include/ajax/ajax_mod_stock_repo.php:63
+#: include/ajax/ajax_mod_stock_repo.php:63 include/company.inc.php:134
 msgid "Pays"
 msgstr "Land"
 
@@ -9645,6 +10029,7 @@ msgstr "Betaald"
 #: include/class_acc_ledger_purchase.php:1626
 #: include/class/class_acc_ledger.php:3629
 #: include/class/class_acc_ledger_purchase.php:1627
+#: include/class/class_acc_ledger_purchase.php:1634
 msgid "Payé par"
 msgstr "Betaald deur"
 
@@ -9662,6 +10047,7 @@ msgstr "Je Doen fractie Lijst"
 #: include/class/class_acc_ledger_fin.php:200
 #: include/class/class_acc_ledger_purchase.php:109
 #: include/class/class_acc_ledger_sold.php:111
+#: include/class/class_acc_ledger_sold.php:113
 msgid "Periode fermee"
 msgstr "Gesloten periode"
 
@@ -9758,7 +10144,9 @@ msgstr "Personeel"
 #: include/class/class_acc_ledger.php:1674
 #: include/class/class_acc_ledger_purchase.php:1757
 #: include/class/class_acc_ledger_sold.php:1340
-#: include/class/class_anc_grandlivre.php:194
+#: include/class/class_anc_grandlivre.php:194 include/lib/ac_common.php:1153
+#: include/class/class_acc_ledger_purchase.php:1764
+#: include/class/class_acc_ledger_sold.php:1346
 msgid "Pièce"
 msgstr "Bewijs"
 
@@ -9829,11 +10217,27 @@ msgstr "Analytisch"
 msgid "Plusieurs code TVA correspondent à ce taux"
 msgstr "Verschillende fiscale code prijs evenaren"
 
+#: include/admin_repo.inc.php:130
+msgid "Port"
+msgstr ""
+
+# Plage heeft verschillende vertalingen: periode, marge/verschil, programmablok
+#: include/template/template_config_form.php:59
+#, fuzzy
+msgid "Port de Postgresql"
+msgstr "Basisklasse"
+
 # Plage heeft verschillende vertalingen: periode, marge/verschil, programmablok
 #: html/admin/setup.php:79 html/admin/setup.php:82
 #: html/admin/template_config_form.php:55 html/admin/setup.php:133
 #, fuzzy
 msgid "Port de postgresql"
+msgstr "Basisklasse"
+
+# Plage heeft verschillende vertalingen: periode, marge/verschil, programmablok
+#: html/install.php:135
+#, fuzzy
+msgid "Port pour postgresql"
 msgstr "Basisklasse"
 
 #: include/class_acc_ledger.php:1434 include/class_acc_ledger.php:1687
@@ -9868,6 +10272,9 @@ msgstr "Basisklasse"
 #: include/class/class_anc_grandlivre.php:190
 #: include/class/class_anc_listing.php:76
 #: include/class/class_pre_op_advanced.php:196 html/ajax_misc.php:409
+#: include/ajax/ajax_display_letter.php:45
+#: include/class/class_acc_ledger_purchase.php:1767
+#: include/class/class_acc_ledger_sold.php:1349
 msgid "Poste"
 msgstr "Rekening"
 
@@ -10011,7 +10418,7 @@ msgstr "Bericht bruikbare krant (debet / credit)"
 msgid "Pour aujourd'hui"
 msgstr "Voor vandaag"
 
-#: html/admin/setup.php:420
+#: html/admin/setup.php:420 html/install.php:484
 msgid ""
 "Pour cela, sur la ligne de commande en tant qu\\'utilisateur postgres, "
 "faites createlang plpgsql template1"
@@ -10052,6 +10459,8 @@ msgstr ""
 #: include/class/class_acc_ledger_purchase.php:220
 #: include/class/class_acc_ledger_sold.php:143
 #: include/class/class_acc_ledger_sold.php:202
+#: include/class/class_acc_ledger_sold.php:145
+#: include/class/class_acc_ledger_sold.php:204
 msgid "Pour la fiche "
 msgstr "VOOR Het blad"
 
@@ -10080,6 +10489,7 @@ msgstr "Voor de krant"
 
 #: include/dossier.inc.php:59 include/modele.inc.php:70
 #: include/dossier.inc.php:77 include/dossier.inc.php:83
+#: include/modele.inc.php:71
 msgid ""
 "Pour le passer en unicode, faites-en un backup puis restaurez le fichier reçu"
 msgstr ""
@@ -10164,6 +10574,7 @@ msgid "Prochain numéro"
 msgstr "Het volgende nummer"
 
 #: include/user_menu.php:154 include/user_menu.php:158
+#: include/lib/user_menu.php:167
 msgid "Produits"
 msgstr "Producten"
 
@@ -10217,6 +10628,7 @@ msgstr "Prefix voucher"
 #: html/user_login.php:153 include/ajax_preference.php:30
 #: html/user_login.php:157 include/database.item.php:85
 #: include/database.item.php:84 include/ajax/ajax_preference.php:30
+#: html/user_login.php:158
 msgid "Préférence"
 msgstr "Voorkeur"
 
@@ -10263,6 +10675,10 @@ msgstr ""
 msgid "Public"
 msgstr ""
 
+#: html/install.php:268
+msgid "Puis cliquez sur ce lien"
+msgstr ""
+
 #: include/ajax_preference.php:114 include/database.item.php:84
 #: include/template/forecast_result.php:25
 #: include/ext/transform/include/intervat_listing_assujetti_step_1.inc.php:67
@@ -10279,6 +10695,8 @@ msgstr ""
 #: include/database.item.php:88 include/ajax/ajax_preference.php:122
 #: include/class/class_acc_ledger_purchase.php:1755
 #: include/class/class_acc_ledger_sold.php:1338
+#: include/class/class_acc_ledger_purchase.php:1762
+#: include/class/class_acc_ledger_sold.php:1344
 msgid "Période"
 msgstr "Periode"
 
@@ -10297,6 +10715,8 @@ msgstr "Periode"
 #: include/class_acc_ledger.php:1444 include/class/class_acc_ledger.php:1444
 #: include/class/class_acc_ledger_purchase.php:1369
 #: include/class/class_acc_ledger_sold.php:664
+#: include/class/class_acc_ledger_purchase.php:1376
+#: include/class/class_acc_ledger_sold.php:670
 msgid "Période Comptable"
 msgstr "Boekhoudingsperiode"
 
@@ -10313,6 +10733,8 @@ msgstr "Boekhoudingsperiode"
 #: include/class/class_acc_ledger.php:1658
 #: include/class/class_acc_ledger_purchase.php:1026
 #: include/class/class_acc_ledger_sold.php:1064
+#: include/class/class_acc_ledger_purchase.php:1033
+#: include/class/class_acc_ledger_sold.php:1070
 msgid "Période comptable"
 msgstr "Boekhoudingsperiode"
 
@@ -10491,6 +10913,7 @@ msgstr "Bank Verzoening"
 #: include/class/class_anc_balance_double.php:330
 #: include/class/class_anc_print.php:128 include/class/class_anc_print.php:134
 #: include/ajax/ajax_card.php:347 include/ajax/ajax_poste.php:62
+#: include/lib/user_menu.php:52
 #, php-format
 msgid "Recherche"
 msgstr "Vinden"
@@ -10555,6 +10978,7 @@ msgid "Rechercher"
 msgstr "Vinden"
 
 #: include/template/modele_document.php:101
+#: include/template/modele_document.php:102
 msgid "Redémarrer la séquence (laisser à 0 pour ne pas changer)"
 msgstr "De reeks herbeginnen (op 0 laten om niet te veranderen)"
 
@@ -10622,11 +11046,11 @@ msgstr "Herstelt"
 msgid "Restauration réussie du dossier "
 msgstr "Records Management"
 
-#: include/user_menu.php:113
+#: include/user_menu.php:113 include/lib/user_menu.php:119
 msgid "Restaure"
 msgstr "Herstelt"
 
-#: include/user_menu.php:113
+#: include/user_menu.php:113 include/lib/user_menu.php:119
 msgid "Restaure une base de données"
 msgstr "Restore Database"
 
@@ -10634,6 +11058,7 @@ msgstr "Restore Database"
 #: include/ext/amortis/include/template/material_display.php:97
 #: include/ext/amortis/include/class_amortissement_table_pdf.php:61
 #: include/ext/amortis/include/class_amortissement_table_pdf.php:49
+#: include/class/class_anc_operation.php:620
 msgid "Reste"
 msgstr "Rest"
 
@@ -10664,7 +11089,9 @@ msgstr "Is te laat"
 #: include/dossier.inc.php:361 include/dossier.inc.php:404
 #: include/opening.inc.php:166 include/opening.inc.php:253
 #: include/ajax/ajax_get_profile.php:47 include/forecast.inc.php:337
-#: html/ajax_misc.php:398
+#: html/ajax_misc.php:398 include/modele.inc.php:73 include/modele.inc.php:373
+#: include/modele.inc.php:401 include/report.inc.php:129
+#: include/ajax/ajax_display_letter.php:34
 msgid "Retour"
 msgstr "Terug"
 
@@ -10709,6 +11136,7 @@ msgid "Rue"
 msgstr "Straat "
 
 #: include/company.inc.php:103 include/company.inc.php:122
+#: include/company.inc.php:126
 msgid "Rue "
 msgstr "Straat"
 
@@ -10747,6 +11175,7 @@ msgid "Répartition"
 msgstr "Omslag"
 
 #: html/admin/template_config_form.php:33
+#: include/template/template_config_form.php:33
 msgid "Répertoire temporaire"
 msgstr ""
 
@@ -10787,6 +11216,7 @@ msgstr ""
 
 #: include/class_follow_up.php:1777 include/class_follow_up.php:1782
 #: include/class/class_follow_up.php:1786
+#: include/class/class_follow_up.php:1787
 #, fuzzy
 msgid "SECURITE : Ajout impossible"
 msgstr "Export is onmogelijk"
@@ -10832,7 +11262,8 @@ msgstr "Nieuwe lijn"
 #: include/class_fiche_def.php:811 include/template/detail-action.php:464
 #: include/ajax/ajax_mod_predf_op.php:55 include/class/class_fiche_def.php:811
 #: include/template/detail-action.php:463 include/ajax/ajax_card.php:193
-#: include/ajax/ajax_card.php:478
+#: include/ajax/ajax_card.php:478 include/company.inc.php:149
+#: include/report.inc.php:88
 msgid "Sauve"
 msgstr "OPSLAAN"
 
@@ -10894,6 +11325,8 @@ msgstr "Opslaan"
 #: include/forecast.inc.php:263 include/forecast.inc.php:283
 #: include/forecast.inc.php:307 include/forecast.inc.php:354
 #: html/ajax_misc.php:578 include/ajax/ajax_card.php:160
+#: include/template/modele_document.php:119
+#: include/ajax/ajax_display_letter.php:214
 msgid "Sauver"
 msgstr "OPSLAAN"
 
@@ -10931,7 +11364,7 @@ msgid "Sauvé"
 msgstr "Bewaard"
 
 #: include/ac_common.php:808 include/ac_common.php:811
-#: include/lib/ac_common.php:808
+#: include/lib/ac_common.php:808 include/lib/ac_common.php:809
 msgid "Se reconnecter pour revenir ici"
 msgstr ""
 
@@ -10969,6 +11402,12 @@ msgstr "Selectionneer plannen DAT u interesseert je op VOOR Zoeken Klikken"
 #: include/ajax_preference.php:172 include/ajax/ajax_preference.php:172
 msgid "Selectionnez votre langue"
 msgstr "Selecteer uw taal"
+
+# Plage heeft verschillende vertalingen: periode, marge/verschil, programmablok
+#: html/install.php:138
+#, fuzzy
+msgid "Serveur postgresql"
+msgstr "Basisklasse"
 
 #: include/database.item.php:147 include/database.item.php:146
 msgid "Service après-vente"
@@ -11014,7 +11453,7 @@ msgstr ""
 "Als u bevestigt, wordt de pagina herladen en je zou kunnen verliezen wat je "
 "hebt gedaan"
 
-#: include/modele.inc.php:284
+#: include/modele.inc.php:284 include/modele.inc.php:298
 msgid ""
 "Si vous voulez r&eacute;cup&eacute;rer toutes les adaptations d'un dossier  "
 "dans un autre dossier, vous pouvez en faire un modèle. Seules les fiches, la "
@@ -11102,7 +11541,7 @@ msgstr "Sales"
 #: include/database.item.php:76 include/database.item.php:79
 #: include/database.item.php:84 include/database.item.php:142
 #: include/database.item.php:141 include/database.item.php:103
-#: include/database.item.php:104
+#: include/database.item.php:104 include/lib/user_menu.php:124
 msgid "Sortie"
 msgstr "Uitgang"
 
@@ -11119,14 +11558,17 @@ msgid "Stock"
 msgstr "Voorraad"
 
 #: include/user_menu.php:150 include/user_menu.php:154
+#: include/lib/user_menu.php:163
 msgid "Stock et commande"
 msgstr "Voorraad in Bestelling"
 
 #: include/company.inc.php:120 include/company.inc.php:139
+#: include/company.inc.php:143
 msgid "Suggérer la date"
 msgstr "Suggereren de datum"
 
 #: include/company.inc.php:119 include/company.inc.php:138
+#: include/company.inc.php:142
 msgid "Suggérer le numéro de pièce justificative"
 msgstr "Suggeren nummer van de akte"
 
@@ -11202,7 +11644,7 @@ msgid "Supprimez favoris sélectionnés"
 msgstr "Verwijder geselecteerde bladwijzers"
 
 #: html/ajax_misc.php:196 html/ajax_misc.php:215 html/ajax_misc.php:229
-#: html/ajax_misc.php:235 html/ajax_misc.php:313
+#: html/ajax_misc.php:235 html/ajax_misc.php:313 html/ajax_misc.php:318
 msgid "Symbole"
 msgstr "Symbool"
 
@@ -11280,6 +11722,7 @@ msgstr "BTW ND"
 #: include/class_acc_ledger_purchase.php:1782
 #: include/class_acc_ledger_purchase.php:1781
 #: include/class/class_acc_ledger_purchase.php:1782
+#: include/class/class_acc_ledger_purchase.php:1789
 #, fuzzy
 msgid "TVA NP opération"
 msgstr "BTW handeling"
@@ -11291,6 +11734,8 @@ msgstr "BTW handeling"
 #: include/class_acc_ledger_purchase.php:1770
 #: include/class/class_acc_ledger_purchase.php:1771
 #: include/class/class_acc_ledger_sold.php:1354
+#: include/class/class_acc_ledger_purchase.php:1778
+#: include/class/class_acc_ledger_sold.php:1360
 #, fuzzy
 msgid "TVA Non Payé"
 msgstr "Niet Betaald &#39;"
@@ -11307,6 +11752,8 @@ msgstr "Niet Betaald &#39;"
 #: include/class_acc_ledger_purchase.php:1780
 #: include/class/class_acc_ledger_purchase.php:1781
 #: include/class/class_acc_ledger_sold.php:1361
+#: include/class/class_acc_ledger_purchase.php:1788
+#: include/class/class_acc_ledger_sold.php:1367
 msgid "TVA Opération"
 msgstr "BTW handeling"
 
@@ -11322,6 +11769,8 @@ msgstr "BTW handeling"
 #: include/class_acc_ledger_purchase.php:1769
 #: include/class/class_acc_ledger_purchase.php:1770
 #: include/class/class_acc_ledger_sold.php:1353
+#: include/class/class_acc_ledger_purchase.php:1777
+#: include/class/class_acc_ledger_sold.php:1359
 msgid "TVA annulée"
 msgstr "Geannuleerd BTW"
 
@@ -11346,6 +11795,7 @@ msgstr "Niet-aftrekbare BTW terugvorderbaar door de Belastingdienst"
 #: include/class_acc_ledger_purchase.php:1779
 #: include/class_acc_ledger_purchase.php:1778
 #: include/class/class_acc_ledger_purchase.php:1779
+#: include/class/class_acc_ledger_purchase.php:1786
 msgid "TVA récup."
 msgstr "BTW ingevorderd"
 
@@ -11416,7 +11866,7 @@ msgid "Taille des pages"
 msgstr "Paginaformaat"
 
 #: html/ajax_misc.php:195 html/ajax_misc.php:214 html/ajax_misc.php:228
-#: html/ajax_misc.php:234 html/ajax_misc.php:312
+#: html/ajax_misc.php:234 html/ajax_misc.php:312 html/ajax_misc.php:317
 msgid "Taux"
 msgstr "Tarief"
 
@@ -11585,6 +12035,8 @@ msgstr "Totaal Debet"
 #: include/template/form_ledger_detail.php:125
 #: include/class/class_acc_ledger_purchase.php:1774
 #: include/class/class_acc_ledger_sold.php:1357
+#: include/class/class_acc_ledger_purchase.php:1781
+#: include/class/class_acc_ledger_sold.php:1363
 msgid "Total HTVA"
 msgstr "Totaal Zonder BTW"
 
@@ -11601,6 +12053,8 @@ msgstr "Totaal Zonder BTW"
 #: include/template/form_ledger_detail.php:126
 #: include/class/class_acc_ledger_purchase.php:1573
 #: include/class/class_acc_ledger_sold.php:845
+#: include/class/class_acc_ledger_purchase.php:1580
+#: include/class/class_acc_ledger_sold.php:851
 msgid "Total TVA"
 msgstr "Totaal BTW"
 
@@ -11617,6 +12071,8 @@ msgstr "Totaal BTW"
 #: include/template/form_ledger_detail.php:127
 #: include/class/class_acc_ledger_purchase.php:1574
 #: include/class/class_acc_ledger_sold.php:846
+#: include/class/class_acc_ledger_purchase.php:1581
+#: include/class/class_acc_ledger_sold.php:852
 msgid "Total TVAC"
 msgstr "Totaal zet BTW"
 
@@ -11696,6 +12152,8 @@ msgstr "Total Credit"
 #: include/class/class_acc_ledger_purchase.php:1535
 #: include/class/class_acc_ledger_sold.php:807
 #: include/class/class_balance_age.php:225
+#: include/class/class_acc_ledger_purchase.php:1542
+#: include/class/class_acc_ledger_sold.php:813
 msgid "Totaux"
 msgstr "Totalen"
 
@@ -11711,6 +12169,7 @@ msgstr ""
 #: include/class_follow_up.php:1191 include/class_follow_up.php:1202
 #: include/class_follow_up.php:1209 include/class_follow_up.php:1214
 #: include/class/class_follow_up.php:1218
+#: include/class/class_follow_up.php:1219
 msgid "Tous les Etats"
 msgstr "Alle staten"
 
@@ -11724,10 +12183,15 @@ msgstr "Alle woningen inclusief die volledig afgeschreven"
 msgid "Tous les journaux financiers"
 msgstr "Financiele Alle grootboeken"
 
+#: include/impress_poste.inc.php:91
+msgid "Tous les postes qui en dépendent"
+msgstr ""
+
 #: include/class_follow_up.php:1218 include/class_follow_up.php:1221
 #: include/class_follow_up.php:1222 include/class_follow_up.php:1233
 #: include/class_follow_up.php:1240 include/class_follow_up.php:1245
 #: include/class/class_follow_up.php:1249
+#: include/class/class_follow_up.php:1250
 msgid "Tous les profiles"
 msgstr "Alle profielen"
 
@@ -11735,6 +12199,7 @@ msgstr "Alle profielen"
 #: include/class_follow_up.php:1184 include/class_follow_up.php:1195
 #: include/class_follow_up.php:1202 include/class_follow_up.php:1207
 #: include/class/class_follow_up.php:1211
+#: include/class/class_follow_up.php:1212
 msgid "Tous les types"
 msgstr "Alle soorten"
 
@@ -11747,9 +12212,15 @@ msgstr "Alles"
 msgid "Tout Désélectionner"
 msgstr "Vinkje bij alle"
 
-#: html/admin/setup.php:547 html/admin/setup.php:632
+#: html/admin/setup.php:547 html/admin/setup.php:632 html/install.php:611
+#: html/install.php:644
 msgid "Tout est install&eacute;"
 msgstr ""
+
+#: include/upgrade.inc.php:35
+#, fuzzy
+msgid "Tout mettre à jour"
+msgstr "Up-to-date brengen"
 
 #: include/anc_great_ledger.inc.php:31
 #: include/ext/tools/include/export_document_anc.inc.php:46
@@ -11761,7 +12232,7 @@ msgid "Toutes les fiches en PDF"
 msgstr "Alle bladen in PDF"
 
 #: include/category_card.inc.php:67 include/category_card.inc.php:68
-#: include/category_card.inc.php:71
+#: include/category_card.inc.php:71 include/impress_poste.inc.php:103
 msgid "Toutes les opérations"
 msgstr "Alle Operaties"
 
@@ -11847,6 +12318,7 @@ msgstr "Type"
 #: include/class_follow_up.php:1639 include/class_follow_up.php:1644
 #: include/class_follow_up.php:1684 include/class_follow_up.php:1691
 #: include/class_follow_up.php:1696 include/class/class_follow_up.php:1700
+#: include/class/class_follow_up.php:1701
 #, fuzzy
 msgid "Type action invalide"
 msgstr "Ongeldige opties"
@@ -11913,7 +12385,7 @@ msgstr "Alle facturen downloaden"
 #: include/ajax_mod_stock_repo.php:71
 #: include/template/stock_summary_list.php:42 include/company.inc.php:118
 #: include/ext/sav/include/template/sas_display_detail.php:115
-#: include/ajax/ajax_mod_stock_repo.php:71
+#: include/ajax/ajax_mod_stock_repo.php:71 include/company.inc.php:122
 msgid "Téléphone"
 msgstr "Telefoon"
 
@@ -11951,12 +12423,14 @@ msgstr "ALLEEN cijffers"
 #: include/class_document_modele.php:259
 #: include/template/modele_document.php:48
 #: include/class/class_document_modele.php:259
+#: include/class/class_document_modele.php:260
 msgid "Uniquement journaux achat"
 msgstr "Alleen kopen kranten"
 
 #: include/class_document_modele.php:260
 #: include/template/modele_document.php:49
 #: include/class/class_document_modele.php:260
+#: include/class/class_document_modele.php:261
 msgid "Uniquement journaux vente"
 msgstr "Alleen de verkoop van kranten"
 
@@ -11988,7 +12462,8 @@ msgstr "Ongeldige waarden"
 
 #: html/user_login.php:96 include/audit_log.php:36 html/user_login.php:98
 #: include/stock_inv_histo.inc.php:82 include/user.inc.php:170
-#: include/user.inc.php:171 html/user_login.php:102
+#: include/user.inc.php:171 html/user_login.php:102 html/user_login.php:103
+#: include/admin_repo.inc.php:133
 msgid "Utilisateur"
 msgstr "Gebruiker"
 
@@ -11998,6 +12473,7 @@ msgid "Utilisateur Normal"
 msgstr "Gebruiker"
 
 #: html/admin/template_config_form.php:47
+#: include/template/template_config_form.php:47
 #, fuzzy
 msgid "Utilisateur Postgresql"
 msgstr "Gebruiker"
@@ -12008,6 +12484,7 @@ msgid "Utilisateur de la base de donnée"
 msgstr "Database"
 
 #: html/admin/setup.php:77 html/admin/setup.php:80 html/admin/setup.php:131
+#: html/install.php:133
 #, fuzzy
 msgid "Utilisateur de la base de donnée postgresql"
 msgstr "Database"
@@ -12019,6 +12496,7 @@ msgstr "Database"
 
 #: include/ac_common.php:918 include/ac_common.php:950
 #: include/ac_common.php:953 include/lib/ac_common.php:950
+#: include/lib/ac_common.php:951
 #, fuzzy
 msgid ""
 "Utilisateur n'a pas de profil, votre administrateur doit en configurer un "
@@ -12045,26 +12523,32 @@ msgid "Utilisateur ou mot de passe incorrect"
 msgstr "Verkeerd login van wachword"
 
 #: include/user_menu.php:110 include/user_menu.php:120
+#: include/lib/user_menu.php:116 include/lib/user_menu.php:129
 msgid "Utilisateurs"
 msgstr "Users"
 
 #: include/user_menu.php:114 include/user_menu.php:121
+#: include/lib/user_menu.php:121 include/lib/user_menu.php:130
 msgid "Utilisateurs qui se sont connectés"
 msgstr "Gebruikers die zijn aangesloten"
 
 #: include/company.inc.php:114 include/company.inc.php:133
+#: include/company.inc.php:137
 msgid "Utilisation de la compta. analytique"
 msgstr "Use of van analytisch Boekhouding"
 
 #: include/company.inc.php:115 include/company.inc.php:134
+#: include/company.inc.php:138
 msgid "Utilisation des stocks"
 msgstr "Gebruik van de voorraden"
 
 #: include/company.inc.php:117 include/company.inc.php:136
+#: include/company.inc.php:140
 msgid "Utilisation du mode strict "
 msgstr "Use of van Strikt Wijze"
 
 #: include/company.inc.php:122 include/company.inc.php:141
+#: include/company.inc.php:145
 msgid "Utilisez des postes comptables alphanumérique"
 msgstr "Gebruik alfanumerieke boekhoudkundige posten"
 
@@ -12126,6 +12610,10 @@ msgstr "Speciale waarden"
 msgid "Valider"
 msgstr "Bevestigen"
 
+#: include/admin_repo.inc.php:106
+msgid "Variables"
+msgstr ""
+
 #: include/class_calendar.php:168 include/class_calendar.php:256
 #: include/class_calendar.php:260 include/class/class_calendar.php:168
 #: include/class/class_calendar.php:260
@@ -12155,7 +12643,7 @@ msgstr "Verkoop"
 msgid "Verification comptabilite"
 msgstr "Verificatie vand van Boekhouding"
 
-#: html/admin/setup.php:395
+#: html/admin/setup.php:395 html/install.php:459
 #, fuzzy
 msgid "Version base de données :"
 msgstr "Database"
@@ -12172,7 +12660,7 @@ msgid "Veuillez vous reconnecter"
 msgstr "Gelieve opnieuw"
 
 #: include/ac_common.php:804 include/ac_common.php:807
-#: include/lib/ac_common.php:804
+#: include/lib/ac_common.php:804 include/lib/ac_common.php:805
 msgid ""
 "Veuillez vous reconnecter soit dans une autre fenêtre soit  en cliquant sur "
 "le lien"
@@ -12209,7 +12697,7 @@ msgstr "Zichtbare Y of N"
 
 #: include/impress_rec.inc.php:79 include/balance.inc.php:175
 #: include/balance.inc.php:177 include/impress_rapport.inc.php:261
-#: include/impress_gl_comptes.inc.php:100
+#: include/impress_gl_comptes.inc.php:100 include/impress_poste.inc.php:114
 msgid "Visualisation"
 msgstr "Visualisatie"
 
@@ -12221,6 +12709,7 @@ msgstr "Zie documenten controle"
 
 #: html/do.php:108 html/user_login.php:75 html/do.php:107 html/do.php:102
 #: html/do.php:104 html/user_login.php:76 html/do.php:132 html/do.php:145
+#: html/do.php:147
 msgid "Votre base de données n'est pas à jour"
 msgstr "UW datagegevens is niet van de laatste versie"
 
@@ -12265,7 +12754,7 @@ msgstr "Wilt u deze transactie verwijderen"
 
 #: include/class_html_input.php:878 include/class_html_input.php:879
 #: include/class_html_input.php:904 include/class_html_input.php:908
-#: include/lib/class_html_input.php:908
+#: include/lib/class_html_input.php:908 include/lib/class_html_input.php:919
 #, fuzzy, php-format
 msgid "Voulez-vous effacer cette relation "
 msgstr "Wilt u deze actie wilt verwijderen"
@@ -12334,7 +12823,7 @@ msgid "Vous confirmez l\\' effacement"
 msgstr "U bevestigt het \\ wissen"
 
 #: include/action.common.inc.php:187 include/action.common.inc.php:207
-#: include/action.common.inc.php:208
+#: include/action.common.inc.php:208 include/action.common.inc.php:213
 msgid "Vous confirmez l\\'effacement"
 msgstr "U bevestigt het wissen"
 
@@ -12357,6 +12846,7 @@ msgid "Vous devez choisir par fichier ou par calcul"
 msgstr "U moet een bestand of berekening kiezen"
 
 #: html/admin/setup.php:81 html/admin/setup.php:84 html/admin/setup.php:135
+#: html/install.php:137
 msgid ""
 "Vous devez choisir si NOALYSS est installé sur l'un de vos servers ou sur un "
 "server mutualisé qui ne donne qu'une seule base de données"
@@ -12386,13 +12876,14 @@ msgstr "U moet de periode geven"
 msgid "Vous devez donner un fichier"
 msgstr "U moet de periode geven"
 
-#: html/admin/setup.php:419
+#: html/admin/setup.php:419 html/install.php:483
 msgid ""
 "Vous devez installer le langage plpgsql pour permettre aux fonctions SQL de "
 "fonctionner."
 msgstr ""
 
 #: html/admin/setup.php:261 html/admin/setup.php:279 html/admin/setup.php:281
+#: html/install.php:345
 msgid "Vous devez installer ou activer l'extension"
 msgstr ""
 
@@ -12413,6 +12904,7 @@ msgstr "U hebt Geen bank opgegeven"
 
 #: include/class_acc_ledger_sold.php:75 include/class_acc_ledger_sold.php:86
 #: include/class/class_acc_ledger_sold.php:86
+#: include/class/class_acc_ledger_sold.php:88
 msgid "Vous n'avez pas donné de client"
 msgstr "U has Geen Klant gegeven"
 
@@ -12425,6 +12917,11 @@ msgstr "U hebt Geen Leverancier gegeven"
 #: include/stock_cfg.inc.php:37
 msgid "Vous n'utilisez pas de gestion de stock"
 msgstr "U niet gebruikt voorraadbeheer"
+
+#: include/admin_repo.inc.php:43
+#, fuzzy
+msgid "Vous n'êtes pas administateur"
+msgstr "U bent geen beheerder"
 
 #: include/tva.inc.php:93
 #, fuzzy
@@ -12483,13 +12980,14 @@ msgstr ""
 "uitmaken van \n"
 "          meerdere dossiers of meerdere labels hebben."
 
-#: html/admin/setup.php:259
+#: html/admin/setup.php:259 html/install.php:323
 #, fuzzy
 msgid "Vous utilisez le domaine"
 msgstr "U niet gebruikt voorraadbeheer"
 
 #: include/class_acc_ledger_sold.php:108 include/class_acc_ledger_sold.php:119
 #: include/class/class_acc_ledger_sold.php:119
+#: include/class/class_acc_ledger_sold.php:121
 msgid "Vous utilisez le mode strict la dernière operation est date du "
 msgstr "U van Gebruikt Strikt-modus, datum van de laatste is Operatie"
 
@@ -12554,6 +13052,7 @@ msgstr ""
 #: include/class_acc_ledger_sold.php:794 include/class_acc_ledger_sold.php:828
 #: include/class_acc_ledger_sold.php:829
 #: include/class/class_acc_ledger_sold.php:829
+#: include/class/class_acc_ledger_sold.php:835
 msgid "Vérifiez Imputation Analytique"
 msgstr "Controleer Imputatie Analytische"
 
@@ -12563,6 +13062,7 @@ msgstr "Controleer Imputatie Analytische"
 #: include/class_acc_ledger_purchase.php:1557
 #: include/class_acc_ledger_purchase.php:1556
 #: include/class/class_acc_ledger_purchase.php:1557
+#: include/class/class_acc_ledger_purchase.php:1564
 msgid "Vérifiez imputation analytique"
 msgstr "Controleer analytische toerekening"
 
@@ -12576,6 +13076,7 @@ msgstr "Tekstzone "
 
 #: include/class_acc_ledger_sold.php:132 include/class_acc_ledger_sold.php:143
 #: include/class/class_acc_ledger_sold.php:143
+#: include/class/class_acc_ledger_sold.php:145
 msgid "] n'existe pas"
 msgstr "] Doorsturingslijst is leeg niet"
 
@@ -12589,6 +13090,8 @@ msgstr "] Doorsturingslijst is leeg niet"
 #: include/class/class_acc_ledger_purchase.php:185
 #: include/class/class_acc_ledger_sold.php:174
 #: include/class/class_acc_ledger_sold.php:178
+#: include/class/class_acc_ledger_sold.php:176
+#: include/class/class_acc_ledger_sold.php:180
 msgid "a un code tva invalide"
 msgstr "een vat code ongeldig"
 
@@ -12600,10 +13103,11 @@ msgstr "has EEN verkeerde Bedrag"
 
 #: include/class_acc_ledger_sold.php:151 include/class_acc_ledger_sold.php:162
 #: include/class/class_acc_ledger_sold.php:162
+#: include/class/class_acc_ledger_sold.php:164
 msgid "a un montant invalide ["
 msgstr "Heet EEN ongeldig Bedrag"
 
-#: html/admin/setup.php:272
+#: html/admin/setup.php:272 html/install.php:336
 #, fuzzy
 msgid "a une mauvaise valeur"
 msgstr "has EEN Verkeerd hoeveelheid"
@@ -12616,6 +13120,7 @@ msgstr "has EEN Verkeerd hoeveelheid"
 
 #: include/class_acc_ledger_sold.php:153 include/class_acc_ledger_sold.php:164
 #: include/class/class_acc_ledger_sold.php:164
+#: include/class/class_acc_ledger_sold.php:166
 msgid "a une quantité invalide ["
 msgstr "has EEN Ongeldige hoeveelheid"
 
@@ -12665,11 +13170,12 @@ msgstr "keuze van de soort dagboek"
 
 #: html/do.php:109 html/user_login.php:76 html/do.php:108 html/do.php:103
 #: html/do.php:105 html/user_login.php:77 html/do.php:133 html/do.php:146
+#: html/do.php:148
 msgid "cliquez ici pour appliquer le patch"
 msgstr "Click here for the laatste versie kunt verkrijgen"
 
 #: html/ajax_misc.php:194 html/ajax_misc.php:213 html/ajax_misc.php:227
-#: html/ajax_misc.php:233 html/ajax_misc.php:311
+#: html/ajax_misc.php:233 html/ajax_misc.php:311 html/ajax_misc.php:316
 msgid "code"
 msgstr "code"
 
@@ -12853,6 +13359,11 @@ msgstr "Dicht"
 msgid "fiches sont insérées dans la catégorie"
 msgstr "pluggen in de categorie ingevoegd"
 
+#: include/template/modele_document.php:66
+#, fuzzy
+msgid "fichier actuel"
+msgstr "Huidige menu"
+
 # C'est en anglais, donc j'ai repris l'anglais
 #: include/class_acc_ledger.php:2243 include/class_acc_ledger.php:2258
 #: include/class_acc_ledger.php:2273 include/class_acc_ledger.php:2270
@@ -12871,6 +13382,7 @@ msgstr "Geschiedenis operaties"
 #: include/card_attr.inc.php:94 include/dossier.inc.php:163
 #: include/modele.inc.php:224 include/card_attr.inc.php:93
 #: include/dossier.inc.php:183 include/dossier.inc.php:217
+#: include/modele.inc.php:238
 msgid "id"
 msgstr "id"
 
@@ -12904,6 +13416,11 @@ msgstr "tot"
 #, fuzzy
 msgid "la base de donnée"
 msgstr "Database"
+
+#: include/modele.inc.php:69
+#, fuzzy, php-format
+msgid "la base de donnée %smod%s doit être migrée en unicode"
+msgstr "moet in een unicode worden omgezet"
 
 #: include/class_acc_bilan.php:249 include/class_acc_bilan.php:250
 #: include/class/class_acc_bilan.php:250
@@ -12962,6 +13479,7 @@ msgid "login"
 msgstr "login"
 
 #: html/admin/setup.php:329 html/admin/setup.php:347 html/admin/setup.php:349
+#: html/install.php:413
 msgid "max_execution_time devrait être de 60 minimum"
 msgstr ""
 
@@ -12969,6 +13487,7 @@ msgstr ""
 #: include/ext/tools/raw.php:82 html/ajax_misc.php:316
 #: include/template/ledger_detail_fin.php:60 html/ajax_misc.php:330
 #: html/ajax_misc.php:336 html/ajax_misc.php:414
+#: include/ajax/ajax_display_letter.php:50
 msgid "montant"
 msgstr "bedrag"
 
@@ -12982,6 +13501,8 @@ msgstr "bedrag"
 #: include/class/class_acc_ledger_purchase.php:201
 #: include/class/class_acc_ledger_sold.php:127
 #: include/class/class_acc_ledger_sold.php:169
+#: include/class/class_acc_ledger_sold.php:129
+#: include/class/class_acc_ledger_sold.php:171
 msgid "n'a pas de poste comptable"
 msgstr "has Geen rekening"
 
@@ -12995,6 +13516,8 @@ msgstr "has Geen rekening"
 #: include/class/class_acc_ledger_purchase.php:226
 #: include/class/class_acc_ledger_sold.php:150
 #: include/class/class_acc_ledger_sold.php:208
+#: include/class/class_acc_ledger_sold.php:152
+#: include/class/class_acc_ledger_sold.php:210
 msgid "n'est pas accessible à ce journal"
 msgstr "Kan niet Worden deur Gebruikt zei journaal"
 
@@ -13013,6 +13536,7 @@ msgstr "wordt niet in this journaal"
 #: include/class/class_acc_ledger_purchase.php:149
 #: include/class/class_acc_ledger_purchase.php:220
 #: include/class/class_acc_ledger_sold.php:202
+#: include/class/class_acc_ledger_sold.php:204
 msgid "n'existe pas"
 msgstr "doorsturingslijst is leeg niet"
 
@@ -13022,6 +13546,7 @@ msgid "non lettrées"
 msgstr "Geletterde operaties"
 
 #: include/company.inc.php:37 include/company.inc.php:56
+#: include/company.inc.php:60
 msgid "non utilisé"
 msgstr "niet use of"
 
@@ -13071,6 +13596,7 @@ msgid "n° pièce"
 msgstr "Geen ruimte"
 
 #: include/company.inc.php:35 include/company.inc.php:54
+#: include/company.inc.php:58
 msgid "obligatoire"
 msgstr "Verplicht"
 
@@ -13080,6 +13606,7 @@ msgid "op. concernée"
 msgstr "betreft Operatie"
 
 #: include/company.inc.php:36 include/company.inc.php:55
+#: include/company.inc.php:59
 msgid "optionnel"
 msgstr "Optie"
 
@@ -13094,6 +13621,7 @@ msgstr "Handeling is niet gevonden"
 
 #: include/template/profile_menu_display_module.php:76
 #: include/template/profile_menu_display_submenu.php:61
+#: include/template/profile_menu_display_module.php:77
 #, fuzzy
 msgid "ordre apparition"
 msgstr "Volgorde van verschijning"
@@ -13109,12 +13637,14 @@ msgstr "of QuickCode"
 #: include/class_acc_ledger_purchase.php:1658
 #: include/class_acc_ledger_purchase.php:1657
 #: include/class/class_acc_ledger_purchase.php:1658
+#: include/class/class_acc_ledger_purchase.php:1665
 msgid "ou générer un document"
 msgstr "Maak van een document"
 
 #: include/class_acc_ledger_sold.php:904 include/class_acc_ledger_sold.php:925
 #: include/class_acc_ledger_sold.php:926
 #: include/class/class_acc_ledger_sold.php:926
+#: include/class/class_acc_ledger_sold.php:932
 msgid "ou générer une facture"
 msgstr "Creeren een faktuur"
 
@@ -13138,7 +13668,7 @@ msgstr "land"
 msgid "php mal configur&eacute; "
 msgstr ""
 
-#: html/admin/setup.php:375
+#: html/admin/setup.php:375 html/install.php:439
 msgid "php mal configuré "
 msgstr ""
 
@@ -13146,7 +13676,7 @@ msgstr ""
 msgid "php.ini est bien configur&eacute; "
 msgstr ""
 
-#: html/admin/setup.php:373
+#: html/admin/setup.php:373 html/install.php:437
 msgid "php.ini est bien configuré "
 msgstr ""
 
@@ -13165,6 +13695,8 @@ msgstr "post"
 #: include/class_acc_ledger_purchase.php:1388
 #: include/class/class_acc_ledger_purchase.php:1389
 #: include/class/class_acc_ledger_sold.php:683
+#: include/class/class_acc_ledger_purchase.php:1396
+#: include/class/class_acc_ledger_sold.php:689
 msgid "prix"
 msgstr "Prijs"
 
@@ -13231,6 +13763,10 @@ msgstr "Qcode"
 #: include/class/class_acc_ledger_sold.php:684
 #: include/class/class_acc_ledger_sold.php:1358
 #: include/template/detail-action.php:346
+#: include/class/class_acc_ledger_purchase.php:1397
+#: include/class/class_acc_ledger_purchase.php:1782
+#: include/class/class_acc_ledger_sold.php:690
+#: include/class/class_acc_ledger_sold.php:1364
 msgid "quantité"
 msgstr "hoeveelheid"
 
@@ -13257,7 +13793,7 @@ msgstr "Zoeken"
 msgid "ref"
 msgstr "ref"
 
-#: html/admin/setup.php:357
+#: html/admin/setup.php:357 html/install.php:421
 msgid "register_globals doit être à off"
 msgstr ""
 
@@ -13285,18 +13821,18 @@ msgstr ""
 "ZAL anders programmeren SLECHT functionneren, use of Enkele cijffers for the "
 "rekening Grondslag van niets"
 
-#: html/admin/setup.php:539
+#: html/admin/setup.php:539 html/install.php:603
 msgid ""
 "soit noalyss/contrib/mono-dossier/mono-belge.sql pour la comptabilité belge"
 msgstr ""
 
-#: html/admin/setup.php:538
+#: html/admin/setup.php:538 html/install.php:602
 msgid ""
 "soit noalyss/contrib/mono-dossier/mono-france.sql pour la comptabilité "
 "française"
 msgstr ""
 
-#: html/admin/setup.php:540
+#: html/admin/setup.php:540 html/install.php:604
 msgid "soit y restaurer un backup ou un modèle"
 msgstr ""
 
@@ -13379,13 +13915,15 @@ msgstr "toutes_les_fiches.pdf"
 #: include/template/form_ledger_detail.php:73
 #: include/class/class_acc_ledger_purchase.php:1394
 #: include/class/class_acc_ledger_sold.php:688
+#: include/class/class_acc_ledger_purchase.php:1401
+#: include/class/class_acc_ledger_sold.php:694
 msgid "tva"
 msgstr "btw"
 
 #: html/ajax_misc.php:250 html/ajax_misc.php:255 html/ajax_misc.php:269
 #: html/ajax_misc.php:274 html/ajax_misc.php:283 html/ajax_misc.php:288
 #: html/ajax_misc.php:289 html/ajax_misc.php:294 html/ajax_misc.php:367
-#: html/ajax_misc.php:372
+#: html/ajax_misc.php:372 html/ajax_misc.php:377
 msgid "tva inconnue"
 msgstr "onbekend btw"
 

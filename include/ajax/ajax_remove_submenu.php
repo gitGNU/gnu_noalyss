@@ -20,7 +20,7 @@
 // Copyright 2015 Author Dany De Bontridder danydb@aevalys.eu
 
 // require_once '.php';
-if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
+if ( ! defined ('ALLOWED') ) die(_('Non autorisé'));
 
 // Security 
 if ($g_user->check_module('CFGPRO')==0)
@@ -30,7 +30,7 @@ if ( $p_profile_menu_id == 0 ||isNumber($p_profile_menu_id)==0)    throw new Exc
 // Delete menu  + children
 $cn->exec_sql('delete from profile_menu where pm_id = $1 or pm_id_dep=$1',array($p_profile_menu_id));
 
-// remove child without parent
+// remove children  without parent
 $cn->exec_sql("delete from profile_menu "
         . " where pm_id_dep is not null "
         . "       and pm_id_dep not  in (select pm_id from profile_menu)");
