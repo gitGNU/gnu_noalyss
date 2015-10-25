@@ -146,7 +146,10 @@ case 'rmop':
             {
                 $cn->start();
                 $oLedger=new Acc_Ledger($cn,$ledger);
-                $oLedger->jr_id=$_REQUEST['jr_id'];
+                $oLedger->jr_id=HtmlInput::default_value_request($_REQUEST['jr_id'],0);
+                if ( $oLedger->jr_id == 0 || 
+                     isNumber($oLedger->jr_id) == 0)
+                    throw new Exception (_('Donnée invalide'));
                 $oLedger->delete();
                 $cn->commit();
                 echo _("Opération Effacée");
