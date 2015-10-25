@@ -206,7 +206,7 @@ if (isset($_POST['delete_profil']))
     }
 }
 //************************************
-// Modify the menu or delete it
+// Modify the menu 
 //************************************
 if (isset($_POST['mod']))
 {
@@ -345,7 +345,15 @@ if (isset($_POST['add_menu'])||isset($_POST['add_impress']))
          * if me_code_dep == -1, it means it is null
          */
         $me_code_dep=($me_code_dep==-1)?null:$me_code_dep;
-
+        
+        /*
+         * Do not insert twice the same menu 
+         */
+        $duplicate = $cn->get_value(" select count(*) from profile_menu where "
+                . " pm_id_dep = $1 and me_code = $2",array($p_dep,$me_code));
+        if ( $duplicate > 0 ) {
+            throw new Exception(_('Doublon'));
+        }
         $pm_default=(isset($pm_default))?1:0;
         $cn->exec_sql("
                         insert into profile_menu (me_code,me_code_dep,p_id,p_order,pm_default,p_type_display,pm_id_dep)

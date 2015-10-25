@@ -302,3 +302,6 @@ begin
 end;
 $BODY$
 LANGUAGE plpgsql ;
+
+
+delete from profile_menu where pm_id_dep is not null and pm_id_dep not  in (select pm_id from profile_menu);

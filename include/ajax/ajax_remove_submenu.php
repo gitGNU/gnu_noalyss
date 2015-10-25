@@ -27,5 +27,11 @@ if ($g_user->check_module('CFGPRO')==0)
     die();
 $p_profile_menu_id=HtmlInput::default_value_get('p_profile_menu_id', 0);
 if ( $p_profile_menu_id == 0 ||isNumber($p_profile_menu_id)==0)    throw new Exception(_('Donnée invalide'));
-$cn->exec_sql('delete from profile_menu where pm_id = $1 or pm_id_dep=$1',array($p_profile_menu_id))
+// Delete menu  + children
+$cn->exec_sql('delete from profile_menu where pm_id = $1 or pm_id_dep=$1',array($p_profile_menu_id));
+
+// remove child without parent
+$cn->exec_sql("delete from profile_menu "
+        . " where pm_id_dep is not null "
+        . "       and pm_id_dep not  in (select pm_id from profile_menu)");
 ?>        
