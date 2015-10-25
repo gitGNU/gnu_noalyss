@@ -22,7 +22,7 @@
 /*!\file
  * \brief Html Input , create a tag <SELECT> ... </SELECT> 
  * if readonly == true then display the label corresponding to the selected value
- * You can use also $this->size  to specify the number of lines to display
+ * You can use also $this->rowsize  to specify the number of lines to display
  * 
  * @see Database::make_array
  */
@@ -40,11 +40,10 @@ class ISelect extends HtmlInput
 
         $disabled=($this->disabled==true)?"disabled":"";
         $rowsize = (isset ($this->rowsize)) ? ' size = "'.$this->rowsize.'"':"";
-        $size=(isset($this->size))?'size="'.$this->size.'"':"";
         
         $r="";
 
-        $a="<SELECT  {$size} id=\"$this->id\" NAME=\"$this->name\" $style $this->javascript $disabled $rowsize>";
+        $a="<SELECT   id=\"$this->id\" NAME=\"$this->name\" $style $this->javascript $disabled $rowsize>";
         if (empty($this->value)) return '';
         for ( $i=0;$i<sizeof($this->value);$i++)
         {
