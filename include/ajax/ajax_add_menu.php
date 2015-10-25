@@ -127,6 +127,7 @@ select me_code,me_code||' '||coalesce(me_menu,'')||' '||coalesce(me_description,
     $p_order=new INum("p_order", "10");
 
     $me_code=new ISelect('me_code');
+    $me_code->size=15;
     $me_code->value=$ame_code;
 
 
