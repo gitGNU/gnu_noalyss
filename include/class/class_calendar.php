@@ -82,7 +82,7 @@ class Calendar
 		foreach ($this->action as $day=>$aAction)
 		{
 			if ($p_array[$day]=="")  {
-                                $p_array[$day]='<span class="input_text" onclick="display_task(\'tsk'.$day.'\');">'." ".count($aAction)." "._("Tâches").'</span>';
+                                $p_array[$day]='<span class="smallbutton" onclick="display_task(\'tsk'.$day.'\');">'." [ ".count($aAction)." ] ".'</span>';
                         }
 			$this->action_div[$day]='<div id="tsk'.$day.'" class="inner_box" style="width:200;display:none">';
 			$this->action_div[$day].=HtmlInput::title_box($day."/".$this->month."/".$this->year, "tsk".$day, "hide");
