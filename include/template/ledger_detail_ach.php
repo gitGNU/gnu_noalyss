@@ -217,12 +217,14 @@ $str_anc="";
                             $anc_op = new Anc_Operation($cn);
                             $anc_op->j_id = $q['j_id'];
                             $anc_op->in_div=$div;
+                            $side=($q['j_debit'] == 'f')?'C':'D';
+
                             echo HtmlInput::hidden('op[]', $anc_op->j_id);
                             /* compute total price */
                             bcscale(2);
                             $str_anc.='<tr>';
                             $str_anc.=td($qcode);
-                            $str_anc.=td(nbm($htva));
+                            $str_anc.=td(nbm($htva)." {$side}");
                             $str_anc.=$anc_op->display_table(1, $htva, $div);
                         } else
                         {

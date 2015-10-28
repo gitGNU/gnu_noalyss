@@ -166,11 +166,13 @@ $amount_idx=0;
 	$anc_op=new Anc_Operation($cn);
 	$anc_op->j_id=$q[$e]['j_id'];
         $anc_op->in_div=$div;
+        $side=($q[$e]['j_debit'] == 'f')?'C':'D';
+
         $str_anc.='<tr>';
 	$str_anc.=HtmlInput::hidden('op[]',$anc_op->j_id);
         $str_anc.=td($q[$e]['j_qcode']);
         $str_anc.=td($q[$e]['j_poste']);
-        $str_anc.=td($q[$e]['j_montant']);
+        $str_anc.=td(nbm($q[$e]['j_montant'])." {$side}");
 	$str_anc.=$anc_op->display_table(1,$q[$e]['j_montant'],$div);
         $str_anc.='</tr>';
 	$amount_idx++;
