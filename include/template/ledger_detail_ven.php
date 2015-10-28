@@ -146,7 +146,20 @@ echo $ipaid->input();
                     $x = count($a_anc);
                     /* set the width of the col */
                     /* add hidden variables pa[] to hold the value of pa_id */
-                   $str_anc.='<tr><th>Code</th><th>Montant</th><th colspan="' . $x . '">' . _('Compt. Analytique') .Anc_Plan::hidden($a_anc). '</th>'.'</tr>';
+                   $str_anc.='<tr>'.
+                           '<th>'.
+                           _('Code').
+                           '</th>'.
+                           '<th>'.
+                           _('Poste').
+                           '</th>'.
+                           '<th>'.
+                           _('Montant').
+                           '</th>'.
+                           '<th colspan="' . $x . '">' 
+                           . _('Compt. Analytique') .Anc_Plan::hidden($a_anc). 
+                           '</th>'.
+                           '</tr>';
 
                 }
 
@@ -221,6 +234,7 @@ echo $ipaid->input();
                             bcscale(2);
                             $str_anc.='<tr>';
                             $str_anc.=td($qcode);
+                            $str_anc.=td($poste);
                             $str_anc.=td(nbm($htva)." {$side}");
                             $str_anc.=$anc_op->display_table(1, $htva, $div).'</tr>';
                            // $row.=($div == 'popup') ? $anc_op->display_table(1, $htva, $div):"";
