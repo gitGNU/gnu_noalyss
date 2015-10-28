@@ -25,7 +25,7 @@ if (!defined('ALLOWED'))
 
 require_once NOALYSS_INCLUDE.'/class/class_lettering.php';
 $exercice=$g_user->get_exercice();
-if ($g_user->check_module("LETCARD")==0&&$g_user->check_module("LETACC")==0)
+if ($g_user->check_module("LETCARD")==0 &&  $g_user->check_module("LETACC")==0)
     exit();
 $periode=new Periode($cn);
 list($first_per, $last_per)=$periode->get_limit($exercice);
@@ -95,7 +95,7 @@ if (isset($search_start)&&isDate($search_start)==null)
 }
 $start->value=(isset($search_start))?$search_start:$first_per->first_day();
 
-$line=td('Date Debut').td($start->input());
+$line=td(_('Date Début')).td($start->input());
 // end date
 $end=new IDate('search_end');
 /*  check if date are valid */
