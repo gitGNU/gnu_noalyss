@@ -2,7 +2,7 @@
 //This file is part of NOALYSS and is under GPL 
 //see licence.txt
 ?><div class="content">
-<?php echo _("Filtre")?> :    
+<?php echo _("Cherche")?> :    
     <?php
     $col="";$sp="";
     for ($e=0;$e<count($aHeading);$e++) {$col.=$sp.$e; $sp=",";}

@@ -277,7 +277,7 @@ if ( isset($_GET['view'] ) )
     $b=$periode->get_date_limit($_GET['to_periode']);
     echo "<h2 class=\"info\"> période du ".$a['p_start']." au ".$b['p_end']."</h2>";
 	echo '<span style="display:block">';
-	echo _('Filtre').HtmlInput::infobulle(24);
+	echo _('Cherche').HtmlInput::infobulle(24);
 	echo HtmlInput::filter_table("t_balance", "0,1","1");
 	echo '</span>';
     echo '<table id="t_balance" width="100%">';

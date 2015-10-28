@@ -9,7 +9,7 @@ if ( $max == 0 ) {
     return;
 }
 ?>
-Filtrer = <?php echo HtmlInput::filter_table($p_prefix.'tag_tb_id', '0,1', 1); ?>
+<?php echo _("Cherche")." ".HtmlInput::filter_table($p_prefix.'tag_tb_id', '0,1', 1); ?>
 <table class="result" id="<?php echo $p_prefix;?>tag_tb_id">
     <tr>
         <th>

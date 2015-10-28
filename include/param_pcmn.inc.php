@@ -62,7 +62,7 @@ $MaxRow=Database::num_row($Ret);
 <span style="display:inline;margin: 15px 15px 15px 15px">
 <input type="button" id="pcmn_update_add_bt" class="smallbutton" value="<?php echo _('Ajout poste comptable'); ?>">
 </span>
-<?php echo _('Filtre')." ".HtmlInput::filter_table("account_tbl_id", "0,1,2,3,4", 1);?>
+<?php echo _('Cherche')." ".HtmlInput::filter_table("account_tbl_id", "0,1,2,3,4", 1);?>
              <?php
              echo HtmlInput::hidden('p_action','pcmn');
 //echo HtmlInput::hidden('sa','detail');

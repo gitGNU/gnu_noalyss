@@ -139,7 +139,7 @@ else
     $ac="&ac=".$_REQUEST['ac'];
     $p_action='p_action=defreport';
     echo '<div class="content">';
-   echo _('Filtre')." ".HtmlInput::filter_table("rapport_table_id", '0', 1);
+   echo _('Cherche')." ".HtmlInput::filter_table("rapport_table_id", '0', 1);
 
     echo '<TABLE id="rapport_table_id" class="vert_mtitle">';
     echo '<TR><TD class="first"><A HREF="?'.$p_action.$ac.'&action=add&'.$str_dossier.'">Ajout</A></TD></TR>';

@@ -123,7 +123,7 @@ echo 'solde Fin' . $nend_extrait->input();
 echo IButton::tooggle_checkbox('rec1');
 echo '</p>';
 echo '<p>';
-echo _('Filtre').HtmlInput::infobulle(25);
+echo _('Cherche').HtmlInput::infobulle(25);
 echo HtmlInput::filter_table("t_rec_bk", "0,1,2,3","1");
 echo '</p>';
 echo HtmlInput::submit('save', 'Mettre à jour le n° de relevé bancaire');

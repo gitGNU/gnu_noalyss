@@ -281,7 +281,7 @@ case 'st':
         $r.='<span id="error_cat" class="notice"></span>';
         $r.=dossier::hidden();
         $r.=(isset($ref))?HtmlInput::hidden('ref',1):'';
-        $r.=_('Filtrer').' '.HtmlInput::filter_table("cat_card_table", '0,1', 0);
+        $r.=_('Cherche').' '.HtmlInput::filter_table("cat_card_table", '0,1', 0);
         $r.='<table id="cat_card_table" class="result">';
         for ($i=0;$i<count($array);$i++)
         {

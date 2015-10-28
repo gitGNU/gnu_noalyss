@@ -311,7 +311,7 @@ EOF;
 		$r = HtmlInput::anchor_close('tva_select');
 		$r.=h2(_('Choisissez la TVA '),'class="title"');
 		$r.='<div >';
-                $r.=_('Filter')." ".HtmlInput::filter_table("tva_select_table",'0,1,2,3' , 1);
+                $r.=_('Cherche')." ".HtmlInput::filter_table("tva_select_table",'0,1,2,3' , 1);
 		$r.= '<TABLE style="width:100%" id="tva_select_table">';
 		$r.=th(_('code'));
 		$r.=th(_('Taux'));

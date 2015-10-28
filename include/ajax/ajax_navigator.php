@@ -37,8 +37,8 @@ $a_menu=$cn->get_array($sql,array($_SESSION['g_user']));
         <?php echo _("Vous permet d'accèder rapidement au menu qui vous intéresse, utiliser le filtre pour trouver plus rapidement")?>
     </p>
     <p style='margin-left: 5%'>
-    Filtre : <?php
-    echo HtmlInput::filter_table("navi_tb", "0,1,2", '1');
+     <?php
+    echo _("Cherche")." ".HtmlInput::filter_table("navi_tb", "0,1,2", '1');
     ?>
     </p>
     <table id="navi_tb" class="sortable" >

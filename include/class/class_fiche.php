@@ -1588,7 +1588,7 @@ class Fiche
 
         if ( $all_tiers == 0 || count($step_tiers)==0 ) return "";
         $r="";
-        $r.=_("Filtre rapide ").HtmlInput::filter_table("tiers_tb", '0,1,2', 1);
+        $r.=_("Cherche ").HtmlInput::filter_table("tiers_tb", '0,1,2', 1);
         $r.=$bar;
         
         $r.='<table  id="tiers_tb" class="sortable"  style="width:90%;margin-left:5%">
@@ -2038,7 +2038,7 @@ class Fiche
      */
 
     function filter_history($p_table_id) {
-        return _('Filtre rapide').' '.HtmlInput::filter_table($p_table_id, '0,1,2,3,5,6,7', 1);
+        return _('Cherche').' '.HtmlInput::filter_table($p_table_id, '0,1,2,3,5,6,7', 1);
     }
 }
 

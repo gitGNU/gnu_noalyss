@@ -279,7 +279,7 @@ class Pre_operation_detail
         
         $r="";
         $r.='<h2>'._("Choisissez un modèle").'</h2>';
-        $r.=_('Filtrer').' '.HtmlInput::filter_table('modele_op_tab', '0', '0');
+        $r.=_('Cherche').' '.HtmlInput::filter_table('modele_op_tab', '0', '0');
         $r.='<table style="width:100%" id="modele_op_tab">';
         for ($i=0;$i<count($value);$i++) {
             $r.='<tr class="'.(($i%2==0)?"even":"odd").'">';

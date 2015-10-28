@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-25 18:25+0100\n"
+"POT-Creation-Date: 2015-10-28 21:36+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -967,6 +967,8 @@ msgstr ""
 #: include/ajax/ajax_add_menu.php:162 include/ajax/ajax_add_menu.php:208
 #: include/ajax/ajax_admin.php:136 include/ajax/ajax_get_menu_detail.php:77
 #: include/ajax/ajax_preference.php:190
+#: include/ext/importbank/include/template/show_field.php:93
+#: include/ajax/ajax_add_menu.php:163 include/ajax/ajax_add_menu.php:209
 msgid "Valider"
 msgstr ""
 
@@ -985,7 +987,7 @@ msgstr ""
 #: include/class_follow_up.php:163
 #: include/ext/importbank/include/class_import_bank.php:137
 #: include/ajax/ajax_add_menu.php:134 include/class/class_anticipation.php:261
-#: include/class/class_follow_up.php:163
+#: include/class/class_follow_up.php:163 include/ajax/ajax_add_menu.php:135
 msgid "Nouveau"
 msgstr ""
 
@@ -1364,6 +1366,8 @@ msgstr ""
 #: include/class/class_acc_ledger_sold.php:701
 #: include/class/class_acc_ledger_purchase.php:1416
 #: include/class/class_acc_ledger_sold.php:707
+#: include/template/ledger_detail_ach.php:158
+#: include/template/ledger_detail_ven.php:160
 msgid "Compt. Analytique"
 msgstr ""
 
@@ -1649,6 +1653,8 @@ msgstr ""
 #: include/ajax/ajax_display_letter.php:45
 #: include/class/class_acc_ledger_purchase.php:1767
 #: include/class/class_acc_ledger_sold.php:1349
+#: include/template/ledger_detail_ach.php:152
+#: include/template/ledger_detail_ven.php:154
 msgid "Poste"
 msgstr ""
 
@@ -1898,6 +1904,8 @@ msgstr ""
 #: include/class/class_pre_op_advanced.php:198 include/lib/ac_common.php:1156
 #: include/class/class_acc_ledger_purchase.php:1406
 #: include/class/class_acc_ledger_sold.php:699
+#: include/template/ledger_detail_ach.php:155
+#: include/template/ledger_detail_ven.php:157
 msgid "Montant"
 msgstr ""
 
@@ -2382,6 +2390,9 @@ msgstr ""
 #: include/class/class_print_ledger_detail_item.php:59
 #: include/class/class_acc_ledger_purchase.php:1394
 #: include/class/class_acc_ledger_sold.php:687
+#: include/template/ledger_detail_ach.php:149
+#: include/template/ledger_detail_ven.php:151
+#: include/ajax/ajax_add_menu.php:148 include/ajax/ajax_add_menu.php:203
 msgid "Code"
 msgstr ""
 
@@ -3229,6 +3240,7 @@ msgstr ""
 #: include/class/class_document_modele.php:70
 #: include/class/class_document_type.php:82 include/forecast.inc.php:333
 #: include/template/detail-action.php:476 include/modele.inc.php:288
+#: include/ext/importbank/include/template/show_field.php:96
 msgid "Effacer"
 msgstr ""
 
@@ -3301,7 +3313,7 @@ msgstr ""
 #: include/ajax_add_menu.php:136 include/ajax_get_menu_detail.php:53
 #: include/ajax/ajax_add_menu.php:136 include/ajax/ajax_get_menu_detail.php:53
 #: include/ajax/ajax_plugin_detail.php:32
-#: include/class/class_document_type.php:83
+#: include/class/class_document_type.php:83 include/ajax/ajax_add_menu.php:137
 msgid "Vous confirmez"
 msgstr ""
 
@@ -3367,6 +3379,7 @@ msgstr ""
 #: include/ext/amortis/include/template/material_add.php:88
 #: include/ajax/ajax_add_menu.php:191 include/ajax/ajax_create_menu.php:9
 #: include/class/class_fiche_def.php:790 include/class/class_fiche_def.php:795
+#: include/ajax/ajax_add_menu.php:192
 msgid "Vous confirmez ?"
 msgstr ""
 
@@ -4936,7 +4949,7 @@ msgstr ""
 #: include/ajax_add_menu.php:96 include/ajax_add_menu.php:156
 #: include/ajax_get_menu_detail.php:71 include/database.item.php:131
 #: include/database.item.php:130 include/ajax/ajax_add_menu.php:156
-#: include/ajax/ajax_get_menu_detail.php:71
+#: include/ajax/ajax_get_menu_detail.php:71 include/ajax/ajax_add_menu.php:157
 msgid "Menu par défaut"
 msgstr ""
 
@@ -6509,6 +6522,10 @@ msgstr ""
 #: include/template/ledger_detail_ven.php:140
 #: include/template/ledger_detail_ven.php:239
 #: include/template/form_ledger_detail.php:129
+#: include/template/ledger_detail_ach.php:252
+#: include/template/ledger_detail_ach.php:254
+#: include/template/ledger_detail_ven.php:250
+#: include/template/ledger_detail_ven.php:252
 msgid "Total"
 msgstr ""
 
@@ -6995,19 +7012,19 @@ msgstr ""
 msgid "Paramètrage"
 msgstr ""
 
-#: include/ext/importbank/index.php:56
+#: include/ext/importbank/index.php:56 include/ext/importbank/index.php:58
 msgid "Importation"
 msgstr ""
 
-#: include/ext/importbank/index.php:56
+#: include/ext/importbank/index.php:56 include/ext/importbank/index.php:58
 msgid "Importation de nouveaux fichiers"
 msgstr ""
 
-#: include/ext/importbank/index.php:57
+#: include/ext/importbank/index.php:57 include/ext/importbank/index.php:59
 msgid "Liste Import "
 msgstr ""
 
-#: include/ext/importbank/index.php:57
+#: include/ext/importbank/index.php:57 include/ext/importbank/index.php:59
 msgid "Historique des imports effectués"
 msgstr ""
 
@@ -7626,6 +7643,7 @@ msgstr ""
 
 #: include/ext/import_account/include/class_impacc_operation.php:38
 #: include/ext/importbank/include/import_bank.php:120
+#: include/ext/importbank/include/import_bank.php:133
 msgid "Pas de fichier donné"
 msgstr ""
 
@@ -8619,11 +8637,13 @@ msgstr ""
 #: include/ajax_add_menu.php:70 include/ajax_add_menu.php:119
 #: include/ajax_add_menu.php:74 include/ajax_add_menu.php:123
 #: include/ajax_add_menu.php:183 include/ajax/ajax_add_menu.php:183
+#: include/ajax/ajax_add_menu.php:184
 msgid "Nouveau menu"
 msgstr ""
 
 #: include/ajax_add_menu.php:122 include/ajax_add_menu.php:126
 #: include/ajax_add_menu.php:186 include/ajax/ajax_add_menu.php:186
+#: include/ajax/ajax_add_menu.php:187
 msgid "Aucune impression disponible à ajouter"
 msgstr ""
 
@@ -8690,6 +8710,7 @@ msgstr ""
 #: include/ajax_get_menu_detail.php:87 include/ajax_add_menu.php:92
 #: include/ajax_add_menu.php:152 include/ajax_get_menu_detail.php:67
 #: include/ajax/ajax_add_menu.php:152 include/ajax/ajax_get_menu_detail.php:67
+#: include/ajax/ajax_add_menu.php:153
 msgid "Ordre d'apparition"
 msgstr ""
 
@@ -11735,6 +11756,7 @@ msgid "Date réception"
 msgstr ""
 
 #: include/ext/sav/include/template/sas_display_detail.php:141
+#: include/ajax/ajax_display_letter.php:98
 msgid "Date Début"
 msgstr ""
 
@@ -12237,6 +12259,7 @@ msgstr ""
 
 #: include/ext/importbank/include/class_import_bank.php:437
 #: include/ext/importbank/include/import_bank.php:220
+#: include/ext/importbank/include/import_bank.php:233
 msgid "Journal financier mal configuré"
 msgstr ""
 
@@ -12245,6 +12268,7 @@ msgid "Nombre de ligne trouvé incorrect"
 msgstr ""
 
 #: include/ext/importbank/include/import_bank.php:228
+#: include/ext/importbank/include/import_bank.php:241
 msgid "Poste comptable de la fiche banque est incorrect"
 msgstr ""
 
@@ -12265,6 +12289,7 @@ msgid "Enregistrer les opérations"
 msgstr ""
 
 #: include/ext/importbank/include/template/show_field.php:98
+#: include/ext/importbank/include/template/show_field.php:110
 msgid "Nom manquant"
 msgstr ""
 
@@ -13381,4 +13406,100 @@ msgstr ""
 
 #: include/lib/user_menu.php:122
 msgid "Information système"
+msgstr ""
+
+#: html/ajax_misc.php:314 html/user_login.php:170 include/balance.inc.php:280
+#: include/compta_fin_rec.inc.php:126 include/compta_fin_saldo.inc.php:38
+#: include/contact.inc.php:77 include/dossier.inc.php:230
+#: include/param_pcmn.inc.php:65 include/report.inc.php:142
+#: include/user.inc.php:136 include/template/anc_key_display_list.php:28
+#: include/template/fiche_def_list.php:32
+#: include/template/result_cat_card_summary.php:5
+#: include/template/tag_search_select.php:12
+#: include/template/tag_select.php:12
+#: include/template/todo_list_list_user.php:31
+#: include/ext/rapport_avance/ajax_listing_search_code.php:34
+#: include/ext/rapport_avance/ajax_rapav_search_code.php:32
+#: include/ext/rapport_avance/include/class_rapav_listing_compute.php:213
+#: include/ext/rapport_avance/include/historique.inc.php:54
+#: include/ext/amortis/include/template/listing_histo.php:30
+#: include/ajax/ajax_boxcard_search.php:46 include/ajax/ajax_card.php:284
+#: include/ajax/ajax_navigator.php:41 include/class/class_acc_ledger.php:3425
+#: include/class/class_fiche.php:2041
+#: include/class/class_pre_operation.php:282
+#, php-format
+msgid "Cherche"
+msgstr ""
+
+#: include/ext/importbank/include/import_bank.php:106
+msgid "Format inconnu"
+msgstr ""
+
+#: include/ext/importbank/include/template/show_field.php:5
+msgid "Etape 2 / 4: introduire le fichier"
+msgstr ""
+
+#: include/ext/importbank/include/template/show_field.php:11
+#: include/ext/importbank/include/template/show_transfer.php:152
+msgid "Nom du format"
+msgstr ""
+
+#: include/ext/importbank/include/template/show_field.php:19
+#: include/ext/importbank/include/template/show_transfer.php:160
+msgid "A importer dans le journal de banque"
+msgstr ""
+
+#: include/ext/importbank/include/template/show_field.php:27
+#: include/ext/importbank/include/template/show_transfer.php:168
+msgid "Format de date"
+msgstr ""
+
+#: include/ext/importbank/include/template/show_field.php:36
+#: include/ext/importbank/include/template/show_transfer.php:177
+msgid "Séparateur de champs"
+msgstr ""
+
+#: include/ext/importbank/include/template/show_field.php:45
+#: include/ext/importbank/include/template/show_transfer.php:186
+msgid "Séparateur de millier"
+msgstr ""
+
+#: include/ext/importbank/include/template/show_field.php:54
+#: include/ext/importbank/include/template/show_transfer.php:195
+msgid "Séparateur décimal"
+msgstr ""
+
+#: include/ext/importbank/include/template/show_field.php:62
+#: include/ext/importbank/include/template/show_transfer.php:203
+msgid "Ligne d'en-tête à ne pas prendre en considération"
+msgstr ""
+
+#: include/ext/importbank/include/template/show_field.php:71
+msgid ""
+"Les lignes ayant ce nombre de colonnes sont valides, laissez à vide si vous "
+"ne savez pas"
+msgstr ""
+
+#: include/ext/importbank/include/template/show_field.php:82
+msgid "Fichier à importer"
+msgstr ""
+
+#: include/ext/importbank/include/template/show_transfer.php:147
+msgid "Etape 4/4 : les données sont sauvegardées"
+msgstr ""
+
+#: include/ext/importbank/include/template/show_transfer.php:212
+msgid "Les lignes ayant ce nombre de colonnes sont valides"
+msgstr ""
+
+#: include/ext/importbank/include/template/show_transfer.php:231
+msgid "Ligne n°"
+msgstr ""
+
+#: include/ext/importbank/include/template/show_transfer.php:232
+msgid "Nbre de colonnes"
+msgstr ""
+
+#: include/class/class_fiche.php:1591
+msgid "Cherche "
 msgstr ""

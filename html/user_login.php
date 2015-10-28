@@ -167,7 +167,7 @@ echo '</div>';
 <div class="foldercontent">
 	<span style="display:block;margin:2%">
  <?php
-                        echo _('Filtre').HtmlInput::infobulle(23);
+                        echo _('Cherche').HtmlInput::infobulle(23);
 ?>
 <?php
 	echo HtmlInput::filter_table("folder", '1,2',1);
