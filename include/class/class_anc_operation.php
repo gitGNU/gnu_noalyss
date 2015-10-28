@@ -799,27 +799,27 @@ class Anc_Operation
     function save_update_form($p_array)
     {
         extract($p_array);
-        for ($i = 0; $i < count($op); $i++)
+        for ($i = 0; $i < count($opanc); $i++)
         {
             /* clean operation_analytique */
-            $this->db->exec_sql('delete from operation_analytique where j_id=$1', array($op[$i]));
+            $this->db->exec_sql('delete from operation_analytique where j_id=$1', array($opanc[$i]));
 
             /* get missing data for adding */
             $a_missing = $this->db->get_array("select to_char(jr_date,'DD.MM.YYYY') 
                     as mdate,j_montant,j_debit,jr_comment ,j_poste
-                    from jrnx join jrn on (j_grpt=jr_grpt_id) where j_id=$1", array($op[$i]));
+                    from jrnx join jrn on (j_grpt=jr_grpt_id) where j_id=$1", array($opanc[$i]));
             $missing = $a_missing[0];
            
             $this->oa_description = $missing['jr_comment'];
-            $this->j_id = $op[$i];
+            $this->j_id = $opanc[$i];
             $group = $this->db->get_next_seq("s_oa_group"); /* for analytic */
             $this->oa_group = $group;
             $this->oa_date = $missing['mdate'];
-            $this->save_form_plan($p_array, $i, $op[$i]);
+            $this->save_form_plan($p_array, $i, $opanc[$i]);
             
             // There is ND VAT amount
             $a_nd = $this->db->get_array('select j_id from operation_analytique
-                where oa_jrnx_id_source=$1', array($op[$i]));
+                where oa_jrnx_id_source=$1', array($opanc[$i]));
             if (count($a_nd) > 0)
             {
                 // for each ND VAT amount
@@ -831,11 +831,11 @@ class Anc_Operation
                     $missing_vat = $a_missing_vat[0];
                     $this->oa_debit = 't';
                     $this->oa_description = $missing_vat['jr_comment'];
-                    $this->j_id = $op[$i];
+                    $this->j_id = $opanc[$i];
                     $group = $this->db->get_next_seq("s_oa_group"); /* for analytic */
                     $this->oa_group = $group;
                     $this->oa_date = $missing_vat['mdate'];
-                    $this->oa_jrnx_id_source=$op[$i];
+                    $this->oa_jrnx_id_source=$opanc[$i];
                     $p_array['amount_t'.$i]=$missing['j_montant'];
                     $this->save_form_plan_vat_nd($p_array, $i, $a_nd[$e]['j_id'],$missing_vat['j_montant']);
                 }

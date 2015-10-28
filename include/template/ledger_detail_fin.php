@@ -129,7 +129,7 @@ echo td(_('Pièce')).td($itext->input());
             $str_anc.=td($qcode);
             $str_anc.=td(nbm($q[$e]['j_montant']));
             $str_anc.='<td>';
-	    $str_anc.= HtmlInput::hidden('op[]',$anc_op->j_id);
+	    $str_anc.= HtmlInput::hidden('opanc[]',$anc_op->j_id);
             $montant=($q[$e]['j_debit'] == "t")?$q[$e]['j_montant']:bcmul($q[$e]['j_montant'], -1);
 	    $str_anc.=$anc_op->display_table(1,$montant,$div);
             $str_anc.='</td>';

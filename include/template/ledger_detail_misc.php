@@ -169,7 +169,7 @@ $amount_idx=0;
         $side=($q[$e]['j_debit'] == 'f')?'C':'D';
 
         $str_anc.='<tr>';
-	$str_anc.=HtmlInput::hidden('op[]',$anc_op->j_id);
+	$str_anc.=HtmlInput::hidden('opanc[]',$anc_op->j_id);
         $str_anc.=td($q[$e]['j_qcode']);
         $str_anc.=td($q[$e]['j_poste']);
         $str_anc.=td(nbm($q[$e]['j_montant'])." {$side}");

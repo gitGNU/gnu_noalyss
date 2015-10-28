@@ -232,7 +232,7 @@ $str_anc="";
                             $anc_op->in_div=$div;
                             $side=($q['j_debit'] == 'f')?'C':'D';
 
-                            echo HtmlInput::hidden('op[]', $anc_op->j_id);
+                            echo HtmlInput::hidden('opanc[]', $anc_op->j_id);
                             /* compute total price */
                             bcscale(2);
                             $str_anc.='<tr>';

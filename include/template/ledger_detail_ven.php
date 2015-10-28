@@ -229,7 +229,7 @@ echo $ipaid->input();
                             $anc_op->in_div=$div;
                             $anc_op->j_id = $q['j_id'];
                             $side=($q['j_debit'] == 'f')?'C':'D';
-                            echo HtmlInput::hidden('op[]', $anc_op->j_id);
+                            echo HtmlInput::hidden('opanc[]', $anc_op->j_id);
                             /* compute total price */
                             bcscale(2);
                             $str_anc.='<tr>';
