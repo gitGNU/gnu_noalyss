@@ -24,8 +24,8 @@ if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 header('Pragma: public');
 header('Content-type: application/csv');
 header('Content-Disposition: attachment;filename="fiche.csv"',FALSE);
-include_once ("lib/ac_common.php");
-include_once('class/class_fiche.php');
+include_once NOALYSS_INCLUDE."/lib/ac_common.php";
+include_once NOALYSS_INCLUDE.'/class/class_fiche.php';
 require_once NOALYSS_INCLUDE.'/lib/class_database.php';
 require_once NOALYSS_INCLUDE.'/class/class_dossier.php';
 $gDossier=dossier::id();
@@ -68,14 +68,16 @@ if  ( isset ($_GET['fd_id']))
 
         foreach ( $detail->attribut as $dattribut )
         {
+            $export=str_replace("\n"," ", $dattribut->av_text);
+            $export=str_replace("\r"," ", $export);
             if ( $o == 0 )
             {
-                printf("%s",$dattribut->av_text);
+                printf("\"%s\"",$export);
                 $o=1;
             }
             else
             {
-                printf (";%s",$dattribut->av_text);
+                printf (";\"%s\"",$export);
 
             }
         }
