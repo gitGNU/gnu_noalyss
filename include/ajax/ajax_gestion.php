@@ -118,8 +118,8 @@ if ($op=='action_save')
     }
     header('Content-type: text/xml; charset=UTF-8');
     $dom=new DOMDocument('1.0', 'UTF-8');
-    $xml_content=$dom->createElement('content', _("Sauvé"));
-    $xml_status=$dom->createElement('status', "OK");
+    $xml_content=$dom->createElement('content', $content);
+    $xml_status=$dom->createElement('status', $status);
     $root=$dom->createElement("root");
     $root->appendChild($xml_content);
     $root->appendChild($xml_status);
