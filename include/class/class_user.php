@@ -1112,8 +1112,8 @@ class User
         {
             $r=$this->db->get_value (' select count(*) 
                 from user_sec_action_profile
-                where p_granted=$1
-                and p_id=$2',
+                where p_granted=$2
+                and p_id=$1',
                     array($this->get_profile(),$p_profile));
             if ($r == 0 ) 
             {
