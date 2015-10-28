@@ -335,7 +335,7 @@ class User
                  where
                  uj_login='" . $this->login . "'" .
 					$sql_type . $sql_access .
-					" order by jrn_Def_id";
+					" order by jrn_Def_name";
 		}
 		else
 		{
