@@ -402,6 +402,7 @@ function action_save_short()
                         else if (code == 'NOK') {
                             // issue while saving
                             $('action_add_frm_info').innerHTML=message;
+                            alert_box(message);
                         }
                         
                         
