@@ -48,12 +48,12 @@ if  ( isset ($_GET['fd_id']))
     {
         if ( $o == 0 )
         {
-            printf("%s",$attribut->ad_text);
+            printf("\"%s\"",$attribut->ad_text);
             $o=1;
         }
         else
         {
-            printf(";%s",$attribut->ad_text);
+            printf(";\"%s\"",$attribut->ad_text);
         }
     }
     printf("\n");
