@@ -48,6 +48,45 @@ if ( ! isset ($_SESSION['g_theme']))
     exit();
 
   }
+$cn = Dossier::connect();
+
+global $g_user, $cn,$g_parameter;
+$g_user = new User($cn);
+
+/*
+ * check that the database is not empty
+ */
+if ( ! $cn->exist_table('version')) {
+    echo '<h2 class="notice">'._('Désolé').'</h2>';
+    echo _('Ce dossier est vide');
+    echo '<p>';
+    echo '<a class="button" href="do.php">'._("Retour à l'accueil").'</a>';
+    echo '</p>';
+    return;
+}
+
+/*
+ * Set the user preference
+ */
+if ( isset ($_POST['set_preference'])) {
+    //// Save value
+    extract($_POST);
+
+    if (strlen(trim($pass_1)) != 0 && strlen(trim($pass_2)) != 0)
+    {
+	$g_user->save_password($pass_1,$pass_2);
+        
+    }
+    $g_user->set_periode($period);
+    $g_user->save_global_preference('THEME', $style_user);
+    $g_user->save_global_preference('LANG', $lang);
+    $g_user->save_global_preference('PAGESIZE', $p_size);
+    $g_user->set_mini_report($minirap);
+    $_SESSION['g_theme']=$style_user;
+    $_SESSION['g_pagesize']=$p_size;
+    $_SESSION['g_lang']=$lang;
+    $g_user->save_email($p_email);
+}
 $style_user=HtmlInput::default_value_post("style_user",$_SESSION['g_theme']);
 
 html_page_start($style_user);
@@ -80,26 +119,6 @@ if ( DEBUG ) {
 
 <?php
 }
-global $g_user, $cn,$g_parameter;
-
-
-
-$cn = Dossier::connect();
-
-/*
- * check that the database is not empty
- */
-if ( ! $cn->exist_table('version')) {
-    echo '<h2 class="notice">'._('Désolé').'</h2>';
-    echo _('Ce dossier est vide');
-    echo '<p>';
-    echo '<a class="button" href="do.php">'._("Retour à l'accueil").'</a>';
-    echo '</p>';
-    return;
-}
-
-$g_user = new User($cn);
-
 $g_parameter=new Own($cn);
 
 $g_user->Check();
@@ -166,28 +185,7 @@ if ($oPeriode->load() == -1)
 
 $module_selected = -1;
 
-/*
- * Set the user preference
- */
-if ( isset ($_POST['set_preference'])) {
-    //// Save value
-    extract($_POST);
 
-    if (strlen(trim($pass_1)) != 0 && strlen(trim($pass_2)) != 0)
-    {
-	$g_user->save_password($pass_1,$pass_2);
-        
-    }
-    $g_user->set_periode($period);
-    $g_user->save_global_preference('THEME', $style_user);
-    $g_user->save_global_preference('LANG', $lang);
-    $g_user->save_global_preference('PAGESIZE', $p_size);
-    $g_user->set_mini_report($minirap);
-    $_SESSION['g_theme']=$style_user;
-    $_SESSION['g_pagesize']=$p_size;
-    $_SESSION['g_lang']=$lang;
-    $g_user->save_email($p_email);
-}
 
 /*
  * if an action is requested
@@ -252,6 +250,9 @@ if (isset($_REQUEST['ac']))
     } catch (Exception $e) {
         if ( $e->getCode() == 10 ) {
             alert(_('Accès menu impossible'));
+            echo '<a class="button" href="do.php?'.Dossier::get().'">';
+            echo _('Retour');
+            echo '</a>';
         }
         else {
             alert($e->getMessage());
