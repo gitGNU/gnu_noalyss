@@ -105,7 +105,6 @@ if ( DEBUG ) {
 <script>
     function show_debug_request() {
         var visible=document.getElementById('debug_div').style.display;
-        console.log(visible);
         var new_state="";
         if ( visible == 'block') { new_state='none';}
         else
