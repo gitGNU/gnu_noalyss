@@ -120,7 +120,7 @@ class Anc_Table extends Anc_Acc_Link
     bcscale(2);
     if ( $this->check()  != 0)
       {
-	alert('Désolé mais une des dates données n\'est pas valide');
+	alert(_("Date invalide"));
 	return;
       }
 
@@ -159,10 +159,12 @@ class Anc_Table extends Anc_Acc_Link
 		  {
 		    $tot_col[$x]=$amount;
 		  }
-		echo td(nbm($amount),' class="num" ');
+                $side=($amount < 0 ) ? 'D' : 'C';
+		echo td(nbm(abs($amount))." ".$side,' class="num" ');
 		$tot_row=bcadd($tot_row,$amount);
 	      }
-	    echo td(nbm($tot_row),' class="num"');
+            $side=($tot_row < 0 ) ? 'D' : 'C';
+	    echo td(nbm(abs($tot_row))." ".$side,' class="num"');
 	    $tot_global=bcadd($tot_global,$tot_row);
 	    echo '</tr>';
 		    
@@ -172,7 +174,8 @@ class Anc_Table extends Anc_Acc_Link
 	echo td('Totaux');
 	for ($i=0;$i<count($this->aheader);$i++)
 	  {
-	    echo td(nbm($tot_col[$i]),' class="num"');
+            $side=($tot_col[$i]<0)?"D":"C";
+	    echo td(nbm(abs($tot_col[$i]))." ".$side,' class="num"');
 	  }
 	echo td(nbm($tot_global),' class="num input_text notice" ');
 	echo '</tr>';
