@@ -56,8 +56,8 @@ class Anc_Table extends Anc_Acc_Link
    */
   function load_poste()
   {
-    $sql_from_poste=($this->from_poste!='')?" and  po.po_name >= upper('".Database::escape_string($this->from_poste)."')":'';
-    $sql_to_poste=($this->to_poste!='')?" and  po.po_name <= upper('".Database::escape_string($this->to_poste)."')":'';
+    $sql_from_poste=($this->from_poste!='')?" and  po_name >= upper('".Database::escape_string($this->from_poste)."')":'';
+    $sql_to_poste=($this->to_poste!='')?" and  po_name <= upper('".Database::escape_string($this->to_poste)."')":'';
     $this->db->exec_sql('create temporary table table_analytic as select * from comptaproc.table_analytic_account(\''.$this->from.'\',\''.$this->to.'\')');
 
     $header="select distinct po_id,po_name  from table_analytic
@@ -79,8 +79,8 @@ class Anc_Table extends Anc_Acc_Link
    */
   function load_card()
   {
-    $sql_from_poste=($this->from_poste!='')?" and  po.po_name >= upper('".Database::escape_string($this->from_poste)."')":'';
-    $sql_to_poste=($this->to_poste!='')?" and  po.po_name <= upper('".Database::escape_string($this->to_poste)."')":'';
+    $sql_from_poste=($this->from_poste!='')?" and  po_name >= upper('".Database::escape_string($this->from_poste)."')":'';
+    $sql_to_poste=($this->to_poste!='')?" and  po_name <= upper('".Database::escape_string($this->to_poste)."')":'';
     $this->db->exec_sql('create temporary table table_analytic as select * from comptaproc.table_analytic_card(\''.$this->from.'\',\''.$this->to.'\')');
 
     $header="select distinct po_id,po_name from table_analytic
@@ -170,7 +170,7 @@ class Anc_Table extends Anc_Acc_Link
 		    
 
 	  }
-	echo '<tr>';
+	echo '<tr class="highlight">';
 	echo td('Totaux');
 	for ($i=0;$i<count($this->aheader);$i++)
 	  {
@@ -216,23 +216,27 @@ class Anc_Table extends Anc_Acc_Link
 		  {
 		    $tot_col[$x]=$amount;
 		  }
-		echo td(nbm($amount),' class="num" ');
+                $side=($amount < 0 ) ? 'D' : 'C';
+		echo td(nbm(abs($amount))." ".$side,' class="num" ');
 		$tot_row=bcadd($tot_row,$amount);
 	      }
-	    echo td(nbm($tot_row),' class="num"');
+            $side=($tot_row < 0 ) ? 'D' : 'C';
+	    echo td(nbm(abs($tot_row))." ".$side,' class="num"');
 	    $tot_global=bcadd($tot_global,$tot_row);
 	    echo '</tr>';
 		    
 
 	  }
-	echo '<tr>';
+        echo '<tr class="highlight">';
+
 
 	echo td('Totaux');
 	for ($i=0;$i<count($this->aheader);$i++)
 	  {
-	    echo td(nbm($tot_col[$i]),' class="num"');
+            $side=($tot_col[$i]<0)?"D":"C";
+	    echo td(nbm(abs($tot_col[$i]))." ".$side,' class="num"');
 	  }
-	echo td(nbm($tot_global),' class="num input_text notice" ');
+	echo td(nbm($tot_global),' class="num input_text" ');
 	echo '</tr>';
 	echo '</table>';
 
