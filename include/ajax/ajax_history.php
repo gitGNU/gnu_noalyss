@@ -188,7 +188,9 @@ if ( isset($_REQUEST['pcm_val']))
         ob_end_clean();
         
         ob_start();
+
         require_once NOALYSS_INCLUDE.'/template/history_top.php';
+        echo h2( $poste->id." ".h($poste->label),' class="title" ');
              
         
         if ( $result == -1)
