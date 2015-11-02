@@ -139,6 +139,8 @@ class Anc_Balance_Simple extends Anc_Print
             return $array;
 
         }
+        bcscale(2);
+        $deb_side=0;$cred_side=0;
         foreach ( $array as $row)
         {
             $odd++;
@@ -154,7 +156,19 @@ class Anc_Balance_Simple extends Anc_Print
             $deb=($row['solde'] == 0 )?'':$deb;
             $r.=sprintf("<td>%s</td>",$deb);
             $r.="</tr>";
+            $deb_side=bcadd($deb_side,$row['sum_deb']);
+            $cred_side=bcadd($cred_side,$row['sum_cred']);
+            
         }
+        $r.='<tr class="highlight">';
+        $r.=td(_("Total"));
+        $r.=td(nbm($deb_side));
+        $r.=td(nbm($cred_side));
+        $solde_side=abs(bcsub($deb_side,$cred_side));
+        $r.=td(nbm($solde_side));
+        if ( $deb_side == $cred_side ) $r.=td("=");
+        else if ( $deb_side > $cred_side ) $r.=td("D");
+        else $r.=td("C");
         $r.="</table>";
         return $r;
     }

@@ -70,6 +70,8 @@ class Anc_Listing extends Anc_Print
         {
             return 0;
         }
+        $cred=0;$deb=0;
+        bcscale(2);
         $r.= '<table class="result" style="width=100%">';
         $r.= '<tr>'.
              '<th>'._('Date').'</th>'.
@@ -100,11 +102,29 @@ class Anc_Listing extends Anc_Print
 	      td($row['jr_comment']).
 	      '<td>'.$detail.'</td>'.
 	      '<td class="num">'.nbm($row['oa_amount']).'</td>'.
-                '<td>'.(($row['oa_debit']=='f')?'CREDIT':'DEBIT').'</td>';
+                '<td>'.(($row['oa_debit']=='f')?'C':'D').'</td>';
             $r.= '</tr>';
+            if ( $row['oa_debit'] == 'f') {$cred=bcadd($cred,$row['oa_amount']);}
+            if ( $row['oa_debit'] == 't') {$deb=bcadd($deb,$row['oa_amount']);}
         }
+        
         $r.= '</table>';
-        return $r;
+        ob_start();
+        echo _("Total");
+        echo '<ol style="list-style:none">';
+        echo '<li>'.nbm($deb).' D '.'</li>';
+        echo '<li>'.nbm($cred).' C '.'</li>';
+        echo '<li>';
+        echo _('Solde');
+        $solde=abs(bcsub($deb,$cred));
+        echo $solde;
+        if ( $cred == $deb ) echo " = ";
+        else if ( $cred > $deb ) echo " C ";
+        else echo ' D ';
+
+        $r_solde=ob_get_clean();
+        
+        return $r.$r_solde;
     }
     /*!
      * \brief load the data from the database
