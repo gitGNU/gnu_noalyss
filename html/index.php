@@ -323,7 +323,7 @@ echo '
     </script>
 <?php endif; ?>
         
-<div style="position:absolute;bottom: 0px;width:80%;right:10%">
+<div style="position:absolute;bottom: 0px;left:0px;z-index: -1">
     <p>Nous conseillons d'utiliser Firefox ou chrome.</p>
     <p>We recommend to use Firefox or Chrome.</p>
 <ul style="list-style:none;display:block">
