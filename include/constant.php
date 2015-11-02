@@ -117,7 +117,7 @@ define ('COMPTA_MIN_YEAR',1900);
 define ('MAX_RECONCILE',25);
 define ('MAX_QCODE',4);
 define ('MAX_SEARCH_CARD',20);
-define ('MAX_FOLDER_TO_SHOW',20);
+define ('MAX_FOLDER_TO_SHOW',80);
 define ('MAX_ACTION_SHOW',20);
 
 if ( DEBUG ) {

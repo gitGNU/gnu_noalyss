@@ -132,7 +132,11 @@ if ($op=='folder_display') // operation
         <form method="get" onsubmit="folder_display('<?php echo $user_id ?>');
                         return false">
             <p style="text-align: center">
-                <?php echo _('Recherche'); ?><input type="text" id="database_filter_input" class="input_text" autofocus="true" nohistory autocomplete="false" value="<?php echo $p_filter ?>">
+                <?php echo _('Recherche'); ?>
+                
+                <input type="text" id="database_filter_input" class="input_text" autofocus="true" autocomplete="off" nohistory autocomplete="false" value="<?php echo $p_filter ?>" 
+                       onkeyup="filter_table(this, 'folder_display_tb','1,2,3',0)"  >
+                <input type="button" class="smallbutton" onclick="$('database_filter_input').value='';filter_table($('database_filter_input'), 'folder_display_tb','1,2,3',0);" value="X">
                 <input type="submit" class="smallbutton" value="<?php echo _('Valider') ?>">
             </p>
         </form>    

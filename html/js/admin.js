@@ -63,7 +63,7 @@ function folder_display(p_user)
             var content = getNodeText(html[0]);
             // fill up the div
             folder.innerHTML = unescape_xml(content);
-
+            folder.innerHTML.evalScripts();
             // show it
             folder.show();
             $('database_filter_input').focus();
