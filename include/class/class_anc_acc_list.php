@@ -41,10 +41,10 @@ class Anc_Acc_List extends Anc_Acc_Link
     $r=parent::display_form($p_hidden);
     $icard=new ISelect('card_poste');
     $icard->value=array(
-			array('value'=>1,'label'=>'Par fiche /Activité'),
-			array('value'=>2,'label'=>'Par poste comptable/Activité'),
-			array('value'=>3,'label'=>'Par activité/Fiche'),
-			array('value'=>4,'label'=>'Par activité/Poste Comptable')
+			array('value'=>1,'label'=>_('Fiche /Activité')),
+			array('value'=>2,'label'=>_('Poste comptable/Activité')),
+			array('value'=>3,'label'=>_('Activité/Fiche')),
+			array('value'=>4,'label'=>_('Activité/Poste Comptable'))
 
 			);
 
@@ -208,7 +208,7 @@ END) <> 0::numeric order by name,po_name",array($this->pa_id));
     bcscale(2);
     if ( $this->check()  != 0)
       {
-	alert('Désolé mais une des dates données n\'est pas valide');
+	alert(_('Date invalide'));
 	return;
       }
     //---------------------------------------------------------------------------
@@ -261,7 +261,7 @@ END) <> 0::numeric order by name,po_name",array($this->pa_id));
 	echo '</tr>';
 
 	echo '</table>';
-	echo '<h2> Résultat global '.nbm($tot_glob).'</h2>';
+	echo '<h2>'._("Résultat global").nbm($tot_glob).'</h2>';
       }
     //---------------------------------------------------------------------------
     // Accountancy - Analytic

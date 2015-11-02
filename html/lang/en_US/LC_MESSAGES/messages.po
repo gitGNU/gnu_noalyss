@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: NOALYSS 672\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-02 12:54+0100\n"
-"PO-Revision-Date: 2015-11-02 14:50+0100\n"
+"POT-Creation-Date: 2015-11-02 19:12+0100\n"
+"PO-Revision-Date: 2015-11-02 19:12+0100\n"
 "Last-Translator: Dany De Bontridder <danydb@noalyss.eu>\n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
 "Language: en_US\n"
@@ -68,6 +68,7 @@ msgstr "These files were not deleted"
 #: include/ac_common.php:424 include/ac_common.php:425
 #: include/ac_common.php:434 include/ac_common.php:437
 #: include/lib/ac_common.php:434 include/lib/ac_common.php:435
+#: include/lib/ac_common.php:436
 msgid " Cette action ne vous est pas autorisée Contactez votre responsable"
 msgstr "This work is not authorized Contact your administrator"
 
@@ -413,16 +414,35 @@ msgid ""
 "ACH en mode 'liste opérations' donne pour chaque opération, le total de la "
 "TVA, ND, ...</li>    </ul>"
 msgstr ""
-"<h3>        Notice  : possible choices </h3>    <ul style=\"padding-"
-"left:15px\">        <li> The detail of operations does not display the same "
-"information , it depends of the ledger type</li>        "
-"<li> List of operations does not display the same information , it depends of "
-"the ledger type</li>        "
-"<li> For ACH or VEN ledger type in \"detail operation\" give all the details "
-"including the VAT amount , VAT Code ...</li>        "
-"<li> For ACH or VEN ledger type in \"list operation\" Journaux give total for "
-"each operation (amount ,VAT amount...)</li>    "
-"</ul>"
+"<h3>        Notice  : possible choices </h3>    <ul style=\"padding-left:15px"
+"\">        <li> The detail of operations does not display the same "
+"information , it depends of the ledger type</li>        <li> List of "
+"operations does not display the same information , it depends of the ledger "
+"type</li>        <li> For ACH or VEN ledger type in \"detail operation\" "
+"give all the details including the VAT amount , VAT Code ...</li>        "
+"<li> For ACH or VEN ledger type in \"list operation\" Journaux give total "
+"for each operation (amount ,VAT amount...)</li>    </ul>"
+
+#: include/lib/message_javascript.php:63
+msgid ""
+"<h3>        Remarque  : choix possibles    </h3>    <ul style='padding-"
+"left:15px'>        <li> Détail opérations ne donne pas le même résultat si "
+"on regarde tous les journaux ou un journal de type ACH ou VEN</li>        "
+"<li> Liste opérations ne donne pas le même résultat si on regarde tous les "
+"journaux ou un journal de type ACH ou VEN</li>        <li> Journaux VEN ou "
+"ACH en mode détail opérations donne les détails des factures, y compris les "
+"montants, TVA et quantité par article</li>        <li> Journaux VEN ou ACH "
+"en mode liste opérations donne pour chaque opération, le total de la TVA, "
+"ND, ...</li>    </ul>"
+msgstr ""
+"<h3>        Notice  : possible choices </h3>    <ul style=\"padding-left:15px"
+"\">        <li> The detail of operations does not display the same "
+"information , it depends of the ledger type</li>        <li> List of "
+"operations does not display the same information , it depends of the ledger "
+"type</li>        <li> For ACH or VEN ledger type in \"detail operation\" "
+"give all the details including the VAT amount , VAT Code ...</li>        "
+"<li> For ACH or VEN ledger type in \"list operation\" Journaux give total "
+"for each operation (amount ,VAT amount...)</li>    </ul>"
 
 #: include/impress_bilan.inc.php:89
 msgid ""
@@ -472,8 +492,8 @@ msgid ""
 "ATTENTION changer le poste comptable d'une fiche <b>ne modifiera pas toutes "
 "les opérations</b> où cette fiche est utilisée"
 msgstr ""
-"Warning Changing the accounting of a card<b>won't change all the operations <"
-"/b> were this card has been used"
+"Warning Changing the accounting of a card<b>won't change all the operations "
+"</b> were this card has been used"
 
 #: include/lib/message_javascript.php:42
 msgid "ATTENTION si le poste comptable est  vide, il sera créé automatiquement"
@@ -651,6 +671,14 @@ msgstr "Concerned operations"
 #: include/template/action_other_action.php:17
 msgid "Actions sur plusieurs documents"
 msgstr "Action on different documents"
+
+#: include/class/class_anc_acc_list.php:46
+msgid "Activité/Fiche"
+msgstr "Activity  / Card"
+
+#: include/class/class_anc_acc_list.php:47
+msgid "Activité/Poste Comptable"
+msgstr "Accounting / Activity"
 
 #: include/compta_ach.inc.php:221 include/compta_ven.inc.php:237
 #: include/template/detail-action.php:359
@@ -1100,6 +1128,7 @@ msgstr "Officially recorded amortization"
 
 #: include/class_anc_listing.php:85 include/class_anc_listing.php:78
 #: include/class/class_anc_listing.php:78
+#: include/class/class_anc_listing.php:80
 msgid "Analytique"
 msgstr "Analytic"
 
@@ -1343,6 +1372,7 @@ msgstr "Be careful not grade sheet cushion"
 #: include/ac_common.php:617 include/ac_common.php:618
 #: include/ac_common.php:627 include/ac_common.php:630
 #: include/lib/ac_common.php:627 include/lib/ac_common.php:628
+#: include/lib/ac_common.php:629
 #, php-format
 msgid ""
 "Attention periode \n"
@@ -1585,7 +1615,7 @@ msgstr "No distribution key available"
 msgid "Aucune colonne n'est définie"
 msgstr "No column is defined"
 
-#: html/direct.php:42
+#: html/direct.php:42 html/direct.php:43
 msgid "Aucune correspondance"
 msgstr "No matching"
 
@@ -1595,7 +1625,7 @@ msgstr "No matching"
 #: include/ac_common.php:1109 include/ac_common.php:1120
 #: include/ac_common.php:1184 include/template/ledger_detail_bottom.php:257
 #: include/ac_common.php:1187 include/lib/ac_common.php:1184
-#: include/lib/ac_common.php:1185
+#: include/lib/ac_common.php:1185 include/lib/ac_common.php:1186
 msgid "Aucune donnée"
 msgstr "no data"
 
@@ -2248,7 +2278,7 @@ msgstr "This user does not exist"
 #: include/ac_common.php:418 include/ac_common.php:419
 #: include/ac_common.php:428 include/ac_common.php:431
 #: include/lib/ac_common.php:428 include/action.common.inc.php:132
-#: include/lib/ac_common.php:429
+#: include/lib/ac_common.php:429 include/lib/ac_common.php:430
 msgid "Cette action ne vous est pas autorisée Contactez votre responsable"
 msgstr "This work is not allowed, please contact your administrator"
 
@@ -2635,6 +2665,7 @@ msgstr "Click here to update your preference"
 
 #: include/ac_common.php:814 include/ac_common.php:817
 #: include/lib/ac_common.php:814 include/lib/ac_common.php:815
+#: include/lib/ac_common.php:816
 msgid "Cliquez ici pour vous reconnecter dans une autre page"
 msgstr "Click here to reconnect in another tab"
 
@@ -2680,11 +2711,12 @@ msgstr "Check if you want to remove this menu and depending items"
 
 #: include/dossier.inc.php:332 include/ajax_admin.php:227
 #: include/ajax_admin.php:228 include/ajax/ajax_admin.php:228
+#: include/ajax/ajax_admin.php:232
 msgid "Cochez la case si vous êtes sûr de vouloir effacer ce dossier"
 msgstr "Check the box if you are about to remove this folder"
 
 #: include/ajax_admin.php:252 include/ajax_admin.php:253
-#: include/ajax/ajax_admin.php:253
+#: include/ajax/ajax_admin.php:253 include/ajax/ajax_admin.php:257
 msgid "Cochez la case si vous êtes sûr de vouloir effacer ce modèle"
 msgstr "Check the box if you are sure to remove this folder"
 
@@ -2736,7 +2768,7 @@ msgstr "Code"
 #: include/ac_common.php:1080 include/ac_common.php:1088
 #: include/ac_common.php:1087 include/ac_common.php:1151
 #: include/ac_common.php:1154 include/lib/ac_common.php:1151
-#: include/lib/ac_common.php:1152
+#: include/lib/ac_common.php:1152 include/lib/ac_common.php:1153
 msgid "Code Interne"
 msgstr "Internal code"
 
@@ -3614,6 +3646,7 @@ msgstr "D"
 #: include/class_anc_listing.php:83
 #: include/export/export_fiche_balance_csv.php:146
 #: include/class/class_anc_listing.php:83
+#: include/class/class_anc_listing.php:85
 msgid "D/C"
 msgstr "D / C"
 
@@ -3728,6 +3761,7 @@ msgstr "In the ledger"
 #: include/class/class_acc_ledger_sold.php:664
 #: include/class/class_acc_ledger_sold.php:1341
 #: include/class/class_fiche.php:1232 include/class/class_fiche.php:1307
+#: include/lib/ac_common.php:1152 include/class/class_anc_listing.php:77
 msgid "Date"
 msgstr "Date"
 
@@ -3861,6 +3895,7 @@ msgstr "Date out of bound"
 #: include/class/class_acc_ledger_sold.php:92
 #: include/class/class_follow_up.php:1704
 #: include/class/class_follow_up.php:1706
+#: include/class/class_anc_acc_list.php:211
 msgid "Date invalide"
 msgstr "Invalid Date"
 
@@ -4114,6 +4149,8 @@ msgstr "Event depends on this category"
 #: include/modele.inc.php:334 include/profile.inc.php:379
 #: include/lib/ac_common.php:1154 include/class/class_user.php:968
 #: include/class/class_fiche.php:1233 include/class/class_fiche.php:1310
+#: include/lib/ac_common.php:1155 include/ajax/ajax_admin.php:209
+#: include/class/class_anc_listing.php:81
 msgid "Description"
 msgstr "Description"
 
@@ -4388,7 +4425,7 @@ msgstr "Invalid data"
 #: include/ac_common.php:784 include/ac_common.php:792
 #: include/ac_common.php:793 include/ac_common.php:803
 #: include/ac_common.php:806 include/lib/ac_common.php:803
-#: include/lib/ac_common.php:804
+#: include/lib/ac_common.php:804 include/lib/ac_common.php:805
 msgid "Données non disponibles"
 msgstr "No data available"
 
@@ -4420,12 +4457,12 @@ msgid "Dossiers"
 msgstr "Folders"
 
 #: include/ajax_admin.php:142 include/ajax_admin.php:143
-#: include/ajax/ajax_admin.php:143
+#: include/ajax/ajax_admin.php:143 include/ajax/ajax_admin.php:147
 msgid "Dossiers affichés"
 msgstr "Displaid folders"
 
 #: include/ajax_admin.php:142 include/ajax_admin.php:143
-#: include/ajax/ajax_admin.php:143
+#: include/ajax/ajax_admin.php:143 include/ajax/ajax_admin.php:147
 msgid "Dossiers trouvés"
 msgstr "Found folders"
 
@@ -4951,7 +4988,8 @@ msgstr "Accounting"
 #: include/ajax_admin.php:217 include/ajax_admin.php:243
 #: include/ajax_admin.php:218 include/ajax_admin.php:244
 #: include/payment_middle.inc.php:54 include/ajax/ajax_admin.php:218
-#: include/ajax/ajax_admin.php:244
+#: include/ajax/ajax_admin.php:244 include/ajax/ajax_admin.php:222
+#: include/ajax/ajax_admin.php:248
 msgid "Efface"
 msgstr "Remove"
 
@@ -5022,6 +5060,7 @@ msgstr "Removal forbidden"
 #: include/ext/importbank/include/template/show_field.php:96
 #: include/ext/importbank/include/template/show_list.php:53
 #: include/ext/importbank/include/template/show_list.php:197
+#: include/ajax/ajax_admin.php:236
 msgid "Effacer"
 msgstr "Remove"
 
@@ -5135,6 +5174,14 @@ msgstr "Late"
 #: include/ext/amortis/include/class_am_generate.php:196
 msgid "En une opération"
 msgstr "In one operation"
+
+#: include/lib/message_javascript.php:67
+msgid ""
+"En utilisant les dates d échéance ou de paiement, seuls les journaux de type "
+"ACH et VEN seront utilisés ,vous excluez d office les autres journaux"
+msgstr ""
+"When using the limit date or payment , only ledgers of type ACH or VEN will "
+"be used, the other will be ignored"
 
 #: include/lib/message_javascript.php:67
 msgid ""
@@ -5330,7 +5377,7 @@ msgstr "Send copy to sender"
 #: include/ext/importbank/include/class_import_bank.php:140
 #: include/lib/ac_common.php:334 include/forecast.inc.php:345
 #: include/action.common.inc.php:145 include/action.common.inc.php:286
-#: include/lib/ac_common.php:335
+#: include/lib/ac_common.php:335 include/lib/ac_common.php:341
 msgid "Erreur"
 msgstr "Error:"
 
@@ -5388,6 +5435,7 @@ msgstr "Error menu"
 #: include/ajax_admin.php:170 include/ajax/ajax_admin.php:46
 #: include/ajax/ajax_admin.php:84 include/ajax/ajax_admin.php:122
 #: include/ajax/ajax_admin.php:170 include/class/class_dossier.php:114
+#: include/ajax/ajax_admin.php:174
 msgid "Erreur paramètre"
 msgstr "Settings error"
 
@@ -5488,12 +5536,13 @@ msgid "Etat des stock de l'exercice indiqué"
 msgstr "State of the repository for the selected exercice"
 
 #: include/ajax_admin.php:248 include/ajax_admin.php:249
-#: include/ajax/ajax_admin.php:249
+#: include/ajax/ajax_admin.php:249 include/ajax/ajax_admin.php:253
 msgid "Etes vous sure et certain de vouloir effacer "
 msgstr "Are you sure to remove this folder"
 
 #: include/dossier.inc.php:329 include/ajax_admin.php:223
 #: include/ajax_admin.php:224 include/ajax/ajax_admin.php:224
+#: include/ajax/ajax_admin.php:228
 msgid "Etes vous sûr et certain de vouloir effacer "
 msgstr "Are you sure to remove this folder"
 
@@ -5924,6 +5973,10 @@ msgstr "Card"
 #, php-format
 msgid "Fiche (limite %d)"
 msgstr "Card (limit %d)"
+
+#: include/class/class_anc_acc_list.php:44
+msgid "Fiche /Activité"
+msgstr "Card / Activity"
 
 #: include/ext/import_account/include/template/parameter.php:11
 msgid "Fiche TVA"
@@ -7449,7 +7502,7 @@ msgstr "The name can not be empty"
 msgid "Le poste"
 msgstr "The accounting item"
 
-#: include/template/param_jrn.php:94
+#: include/template/param_jrn.php:94 include/lib/message_javascript.php:70
 msgid ""
 "Le préfixe des pièces doit être différent pour chaque journal, on peut aussi "
 "utiliser l'année"
@@ -7560,6 +7613,17 @@ msgid ""
 "l'opération. Modifiez dans vos préférence pour avoir une autre période par "
 "défaut. Pour ne plus avoir à changer la période aller dans COMPANY, et "
 "mettez \"Afficher la période comptable\" à non"
+msgstr ""
+"Account period are used as a second check for the date of operation. Modify "
+"in your preference to have another default periode. To avoid this check, "
+"change in COMPANY"
+
+#: include/lib/message_javascript.php:34
+msgid ""
+"Les périodes comptables servent comme un second contrôle pour la date de "
+"l'opération. Modifiez dans vos préférence pour avoir une autre période par "
+"défaut. Pour ne plus avoir à changer la période aller dans COMPANY, et "
+"mettez 'Afficher la période comptable' à non"
 msgstr ""
 "Account period are used as a second check for the date of operation. Modify "
 "in your preference to have another default periode. To avoid this check, "
@@ -8183,7 +8247,8 @@ msgstr "Template"
 #: include/ajax_admin.php:267 include/ajax_admin.php:195
 #: include/ajax_admin.php:268 include/ajax/ajax_admin.php:195
 #: include/ajax/ajax_admin.php:268 include/ajax/ajax_plugin_detail.php:29
-#: include/class/class_anticipation.php:203
+#: include/class/class_anticipation.php:203 include/ajax/ajax_admin.php:199
+#: include/ajax/ajax_admin.php:272
 msgid "Modification"
 msgstr "Change"
 
@@ -8226,7 +8291,7 @@ msgstr "Periode modification"
 #: include/dossier.inc.php:315 include/template/list_mod_payment.php:79
 #: include/ajax_admin.php:207 include/ajax_admin.php:208
 #: include/modele.inc.php:276 include/ajax/ajax_admin.php:208
-#: include/modele.inc.php:290
+#: include/modele.inc.php:290 include/ajax/ajax_admin.php:212
 msgid "Modifie"
 msgstr "Modify"
 
@@ -8309,7 +8374,7 @@ msgstr "Module ERP"
 #: include/ac_common.php:835 include/ac_common.php:836
 #: include/ac_common.php:859 include/ac_common.php:862
 #: include/lib/ac_common.php:859 include/class/class_extension.php:121
-#: include/lib/ac_common.php:860
+#: include/lib/ac_common.php:860 include/lib/ac_common.php:861
 msgid "Module inexistant"
 msgstr "Module not found"
 
@@ -8418,6 +8483,7 @@ msgstr "Month"
 #: include/template/ledger_detail_ach.php:155
 #: include/template/ledger_detail_ven.php:157
 #: include/ext/importbank/ajax.php:90 include/class/class_fiche.php:1234
+#: include/lib/ac_common.php:1157 include/class/class_anc_listing.php:84
 msgid "Montant"
 msgstr "Amount"
 
@@ -8842,6 +8908,7 @@ msgstr "No action"
 #: include/database.item.php:146 include/modele.inc.php:239
 #: include/modele.inc.php:330 include/profile.inc.php:377
 #: include/class/class_user.php:965 include/class/class_fiche.php:1601
+#: include/ajax/ajax_admin.php:204
 msgid "Nom"
 msgstr "Name"
 
@@ -9220,6 +9287,7 @@ msgstr "New sale"
 #: include/class_anc_listing.php:81
 #: include/ext/tools/include/class_anc_grandlivre_ext.php:125
 #: include/class/class_anc_listing.php:81
+#: include/class/class_anc_listing.php:83
 msgid "Num.interne"
 msgstr "Internal number"
 
@@ -10171,7 +10239,7 @@ msgstr ""
 #: include/class/class_acc_ledger_sold.php:1340
 #: include/class/class_anc_grandlivre.php:194 include/lib/ac_common.php:1153
 #: include/class/class_acc_ledger_purchase.php:1764
-#: include/class/class_acc_ledger_sold.php:1346
+#: include/class/class_acc_ledger_sold.php:1346 include/lib/ac_common.php:1154
 msgid "Pièce"
 msgstr "Receipt"
 
@@ -10298,6 +10366,7 @@ msgstr "Possible %d"
 #: include/class/class_acc_ledger_sold.php:1349
 #: include/template/ledger_detail_ach.php:152
 #: include/template/ledger_detail_ven.php:154
+#: include/class/class_anc_listing.php:78
 msgid "Poste"
 msgstr "Account. Item"
 
@@ -10398,6 +10467,10 @@ msgstr "Accounting item used for VAT debts"
 #: include/verif_bilan.inc.php:149
 msgid "Poste comptable utilisé sans la fiche correspondante"
 msgstr "Accounting item used without the corresponding card"
+
+#: include/class/class_anc_acc_list.php:45
+msgid "Poste comptable/Activité"
+msgstr "Accounting / Activity"
 
 #: include/ext/amortis/include/class_pdf_card.php:89
 msgid "Poste contrepartie"
@@ -10830,6 +10903,7 @@ msgstr "QuickCode"
 #: include/class_anc_grandlivre.php:191
 #: include/class/class_anc_grandlivre.php:191
 #: include/class/class_anc_listing.php:77
+#: include/class/class_anc_listing.php:79
 msgid "Quick_code"
 msgstr "Quick_code"
 
@@ -10991,6 +11065,7 @@ msgstr "Search accounting"
 #: include/class/class_anc_balance_double.php:342
 #: include/class/class_anc_balance_simple.php:172
 #: include/class/class_anc_listing.php:42
+#: include/class/class_anc_balance_simple.php:186
 msgid "Rechercher"
 msgstr "Search"
 
@@ -11205,6 +11280,10 @@ msgstr "Temporary folder"
 msgid "Résultat"
 msgstr "Result"
 
+#: include/class/class_anc_acc_list.php:264
+msgid "Résultat global"
+msgstr "Result"
+
 #: include/ajax_boxcard_search.php:43 include/ajax/ajax_boxcard_search.php:43
 #, php-format
 msgid "Résultat limité à %d , %d nombre de fiches trouvées"
@@ -11379,6 +11458,7 @@ msgstr "Saved"
 
 #: include/ac_common.php:808 include/ac_common.php:811
 #: include/lib/ac_common.php:808 include/lib/ac_common.php:809
+#: include/lib/ac_common.php:810
 msgid "Se reconnecter pour revenir ici"
 msgstr "Reconnect to be back here"
 
@@ -11409,12 +11489,12 @@ msgstr "Select the ledger where the operation must be recorded"
 #: include/class/class_anc_balance_double.php:338
 msgid ""
 "Selectionnez le plan qui vous int&eacute;resse avant de cliquer sur Recherche"
-msgstr "Select the map you are interested before clicking close on Search"
+msgstr "Select the Analytic plan you are interested before clicking  on Search"
 
 #: include/class_anc_print.php:140 include/class_anc_print.php:181
 #: include/lib/message_javascript.php:73
 msgid "Selectionnez le plan qui vous intéresse avant de cliquer sur Recherche"
-msgstr "Select the map before clicking close on search"
+msgstr "Select the Analytic plan before clicking on search"
 
 #: include/ajax_preference.php:164 include/ajax_preference.php:165
 #: include/ajax_preference.php:172 include/ajax/ajax_preference.php:172
@@ -11513,6 +11593,7 @@ msgstr "Company"
 #: include/class_fiche.php:1579 include/class_fiche.php:1585
 #: include/class_fiche.php:1602 include/class/class_acc_bilan.php:158
 #: include/class/class_fiche.php:1602 include/class/class_fiche.php:1605
+#: include/class/class_anc_listing.php:118
 msgid "Solde"
 msgstr "Balance"
 
@@ -12046,6 +12127,8 @@ msgstr "Total VAT NP"
 #: include/template/ledger_detail_ach.php:254
 #: include/template/ledger_detail_ven.php:250
 #: include/template/ledger_detail_ven.php:252
+#: include/class/class_anc_balance_simple.php:164
+#: include/class/class_anc_listing.php:113
 msgid "Total"
 msgstr "Total"
 
@@ -12532,7 +12615,7 @@ msgstr "Name of Postgresql user"
 
 #: include/ac_common.php:918 include/ac_common.php:950
 #: include/ac_common.php:953 include/lib/ac_common.php:950
-#: include/lib/ac_common.php:951
+#: include/lib/ac_common.php:951 include/lib/ac_common.php:952
 msgid ""
 "Utilisateur n'a pas de profil, votre administrateur doit en configurer un "
 "dans CFGSEC"
@@ -12646,6 +12729,7 @@ msgstr "Validate ?"
 #: include/ajax/ajax_preference.php:190
 #: include/ext/importbank/include/template/show_field.php:93
 #: include/ajax/ajax_add_menu.php:163 include/ajax/ajax_add_menu.php:209
+#: include/ajax/ajax_admin.php:140
 msgid "Valider"
 msgstr "Validate"
 
@@ -12703,6 +12787,7 @@ msgstr "Please reconnect"
 
 #: include/ac_common.php:804 include/ac_common.php:807
 #: include/lib/ac_common.php:804 include/lib/ac_common.php:805
+#: include/lib/ac_common.php:806
 msgid ""
 "Veuillez vous reconnecter soit dans une autre fenêtre soit  en cliquant sur "
 "le lien"
@@ -13179,6 +13264,14 @@ msgstr "invalid act"
 msgid "action impossible"
 msgstr "Impossible action"
 
+#: include/class/class_anc_acc_list.php:46
+msgid "activité/Fiche"
+msgstr "Activity  / Card"
+
+#: include/class/class_anc_acc_list.php:47
+msgid "activité/Poste Comptable"
+msgstr "Accounting / Activity"
+
 #: include/class_acc_ledger_info.php:54
 #: include/class/class_acc_ledger_info.php:54
 msgid "appel incorrect"
@@ -13402,6 +13495,10 @@ msgstr "Export CSV"
 msgid "fermer"
 msgstr "close"
 
+#: include/class/class_anc_acc_list.php:44
+msgid "fiche /Activité"
+msgstr "Card / Activity"
+
 #: include/ext/import_account/include/class_import_card.php:242
 msgid "fiches sont insérées dans la catégorie"
 msgstr "plugs are inserted in the category"
@@ -13492,9 +13589,8 @@ msgid ""
 "li>\t<li> PL pour les plugins</li>\t<li> SP pour des valeurs spéciales</li>"
 "\t</ul>"
 msgstr ""
-"The type is  :<ul>\t<li> ME for Menu</li>\t<li> PR for printing</li>\t<li> PL "
-"plugins</li>\t<li> SP Special values</li>"
-"\t</ul>"
+"The type is  :<ul>\t<li> ME for Menu</li>\t<li> PR for printing</li>\t<li> "
+"PL plugins</li>\t<li> SP Special values</li>\t</ul>"
 
 #: include/ext/transform/include/template/listing_client_display.php:31
 msgid "les enregistrements incorrects ne seront inclus pas dans le fichier XML"
@@ -13516,6 +13612,7 @@ msgstr "all operations"
 
 #: include/class_anc_grandlivre.php:159 include/class_anc_listing.php:87
 #: include/class_anc_listing.php:80 include/class/class_anc_listing.php:80
+#: include/class/class_anc_listing.php:82
 msgid "libelle"
 msgstr "label"
 
@@ -13733,6 +13830,10 @@ msgstr "receipt"
 #: include/ext/tools/raw.php:79
 msgid "poste"
 msgstr "Accounting"
+
+#: include/class/class_anc_acc_list.php:45
+msgid "poste comptable/Activité"
+msgstr "Accounting / Activity"
 
 #: include/class_acc_ledger_purchase.php:1378
 #: include/class_acc_ledger_sold.php:672
