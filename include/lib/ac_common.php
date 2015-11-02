@@ -306,7 +306,7 @@ function html_page_start($p_theme="", $p_script="", $p_script2="")
         printf("\n");
     }
     echo "<HTML>";
-
+    
     if ($p_script2 != "")
 	$p_script2 = '<script src="' . $p_script2 . '?version='.SVNINFO.'" type="text/javascript"></script>';
     $style=trim($style);
@@ -326,6 +326,12 @@ function html_page_start($p_theme="", $p_script="", $p_script2="")
     <script language="javascript" src="js/calendar-setup.js"></script>
     <LINK REL="stylesheet" type="text/css" href="./calendar-blue.css" media="screen">
     ';
+    // language
+    if (isset($_SESSION['g_lang']))
+    {
+		set_language();
+    }
+
     echo load_all_script();
     echo '    </HEAD>    ';
 
@@ -339,11 +345,6 @@ function html_page_start($p_theme="", $p_script="", $p_script2="")
             HtmlInput::button_action('Valider','$(\'error_div\').style.visibility=\'hidden\';$(\'error_content_div\').innerHTML=\'\';').
             '</p>'.
             '</div>';
-// language
-    if (isset($_SESSION['g_lang']))
-    {
-		set_language();
-    }
 
 }
 

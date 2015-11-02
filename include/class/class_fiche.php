@@ -994,6 +994,8 @@ class Fiche
             echo '<span class="error">'.
             $e->getMessage().
             '</span>';
+            error_log($e->getMessage());
+            error_log($e->getTraceAsString());
             $this->cn->rollback();
             return;
         }
@@ -1100,16 +1102,17 @@ class Fiche
         $tot_deb=0.0;
         $Max=Database::num_row($res);
         if ( $Max == 0 ) return null;
+        bcscale(2);
         for ($i=0;$i<$Max;$i++)
         {
             $array[]=Database::fetch_array($res,$i);
             if ($array[$i]['j_debit']=='t')
             {
-                $tot_deb+=$array[$i]['deb_montant'] ;
+                $tot_deb=bcadd($tot_deb, $array[$i]['deb_montant'] );
             }
             else
             {
-                $tot_cred+=$array[$i]['cred_montant'] ;
+                $tot_cred=bcadd($tot_cred,$array[$i]['cred_montant'] );
             }
         }
         $this->row=$array;
