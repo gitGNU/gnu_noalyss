@@ -1096,13 +1096,19 @@ div#jrn_name_div
         margin-left:20%;
         width:60%;
         position: absolute;
+        z-index:1;
     }
 }
 @media only screen and (max-width: 955px) {
     div#jrn_name_div
     {
+        display:none;
     }
     #predef_form {
+        right:0px;
+        width:60%;
+        position: absolute;
+        z-index:1;
     }
 }
 #direct
