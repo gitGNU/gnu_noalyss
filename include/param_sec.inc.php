@@ -206,11 +206,11 @@ if ( $action == "view" )
     $admin=0;
     $access=$User->get_folder_access($gDossier);
 
-    $str="Aucun accès";
+    $str=_("Aucun accès");
 
 	if ($access=='R')
     {
-        $str=' Utilisateur normal';
+        $str=_(' Utilisateur normal');
     }
 
     if ( $User->admin==1 )
@@ -224,10 +224,13 @@ if ( $action == "view" )
 
     if ( $_GET['user_id'] == 1 )
     {
-        echo '<h2 class="notice"> Cet utilisateur est administrateur, il a tous les droits</h2>';
-		echo "<p> Impossible de modifier cet utilisateur dans cet écran, il faut passer par
-			l'écran administration -> utilisateur.
-			</p>";
+        echo '<h2 class="notice"> '.
+            _("Cet utilisateur est administrateur, il a tous les droits").
+                '</h2>';
+        echo "<p>".
+            _("Impossible de modifier cet utilisateur dans cet écran, il faut passer par
+		l'écran administration -> utilisateur.").
+            "</p>";
 		echo $return;
 		return;
     }
@@ -235,11 +238,13 @@ if ( $action == "view" )
     // Check if the user can access that folder
     if ( $access == 'X' )
     {
-        echo "<H2 class=\"error\">L'utilisateur n'a pas accès à ce dossier</H2>";
-			echo "<p> Impossible de modifier cet utilisateur dans cet écran, il faut passer par
-			l'écran administration -> utilisateur.
-			</p>";
-		echo $return;
+        echo "<H2 class=\"error\">"
+        ._("L'utilisateur n'a pas accès à ce dossier")."</H2>";
+	echo "<p> ".
+                _("Impossible de modifier cet utilisateur dans cet écran, il faut passer par
+			l'écran administration -> utilisateur.").
+            "</p>";
+	echo $return;
         $action="";
         return;
     }
@@ -270,6 +275,9 @@ if ( $action == "view" )
 	echo _("Profil")." ".$i_profile->input();
 	echo "</p>";
     echo '<Fieldset><legend>Journaux </legend>';
+    echo HtmlInput::button("grant_all", _("Accès à tout"), " onclick=\" grant_ledgers ('W') \"");
+    echo HtmlInput::button("grant_readonly", _("Uniquement Lecture"), " onclick=\" grant_ledgers ('R') \"");
+    echo HtmlInput::button("revoke_all", _("Aucun accès"), " onclick=\" grant_ledgers ('X') \"");
     echo '<table>';
     $MaxJrn=Database::num_row($Res);
     $jrn_priv=new ISelect();
@@ -278,7 +286,7 @@ if ( $action == "view" )
                array ('value'=>'W','label'=>'Lecture et écriture'),
                array ('value'=>'X','label'=>'Aucun accès')
            );
-
+  
     for ( $i =0 ; $i < $MaxJrn; $i++ )
     {
         /* set the widget */
@@ -309,6 +317,8 @@ if ( $action == "view" )
     // Show Priv. for actions
     //**********************************************************************
     echo '<fieldset> <legend>Actions </legend>';
+    echo HtmlInput::button("grant_all_action", _("Toutes les actions"), " onclick=\" grant_action(1) \"");
+    echo HtmlInput::button("revoke_all_action", _("Aucune action"), " onclick=\" grant_action (0) \"");
     include(NOALYSS_INCLUDE.'/template/security_list_action.php');
     echo '</fieldset>';
     echo HtmlInput::button('Imprime','imprime',"onclick=\"window.open('".$sHref."');\"");
@@ -316,6 +326,36 @@ if ( $action == "view" )
     echo HtmlInput::reset('Annule');
 	echo $return;
     echo '</form>';
+    ?>
+        <script>
+    function grant_ledgers(p_access)  {
+         var a_select=document.getElementsByTagName('select');
+         var i=0;
+        var str_id="";
+        for (i = 0;i < a_select.length;i++) {
+          str_id = new String( a_select[i].id);
+           if ( str_id.search(/jrn_act/) > -1 ) {
+             a_select[i].value=p_access;
+             }
+           }
+        }
+     function grant_action(p_value) {
+         var a_select=document.getElementsByTagName('select');
+         var i=0;
+        var str_id="";
+        for (i = 0;i < a_select.length;i++) {
+          str_id = new String( a_select[i].id);
+           if ( str_id.search(/action/) > -1 ) {
+             a_select[i].value=p_value;
+             if (p_value == 0 )  { a_select[i].parentNode.style.borderColor="red";}
+             else { a_select[i].parentNode.style.borderColor="green";}
+             a_select[i].parentNode.style.borderSize="2px";
+             }
+           }
+         
+     }
+    </script>
+<?php
 } // end of the form
 echo "</DIV>";
 html_page_stop();
