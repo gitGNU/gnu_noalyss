@@ -1856,14 +1856,16 @@ function set_action_related(p_obj)
     }
 }
 /**
- *@brief change a document_modele
+ *@brief Show a form to modify or add a new repository
+ *@param p_dossier 
+ *@param r_id : repository id
  */
 function stock_repo_change(p_dossier, r_id)
 {
     var queryString = "gDossier=" + p_dossier + "&op=mod_stock_repo" + "&r_id=" + r_id;
     var nTop = calcy(posY);
-    var nLeft = "200px";
-    var str_style = "top:" + nTop + "px;left:" + nLeft + ";height:auto";
+    var nLeft = "10.1562%";
+    var str_style = "top:" + nTop + "px;left:" + nLeft + ";height:auto;width:auto";
 
     removeDiv('change_stock_repo_div');
     waiting_box();

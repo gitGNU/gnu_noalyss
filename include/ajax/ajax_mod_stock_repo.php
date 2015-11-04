@@ -27,8 +27,8 @@
  */
 if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 require_once NOALYSS_INCLUDE.'/database/class_stock_sql.php';
-$st=new Stock_Sql($_GET['r_id']);
-
+$cn=Dossier::connect();
+$st=new Stock_Sql($cn,$_GET['r_id']);
 ?>
 <?php echo HtmlInput::title_box("Ajouter un dépôt","change_stock_repo_div","close")?>
 	<form method="post">
