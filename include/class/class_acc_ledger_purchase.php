@@ -1030,7 +1030,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
 
             $r.="<td>";
             $label=HtmlInput::infobulle(3);
-            $f_periode=_("Période comptable")." $label ".$l_form_per;
+            $f_periode=td(_("Période comptable")." $label ").td($l_form_per);
         }
         // Ledger (p_jrn)
         //--
