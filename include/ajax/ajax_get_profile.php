@@ -80,7 +80,7 @@ echo '<form method="POST" id="profile_save_name_frm" onsubmit="return confirm_bo
 echo HtmlInput::hidden('tab','profile_gen_div');
 echo HtmlInput::hidden('p_id',$profile->p_id);
 echo HtmlInput::hidden('save_name',1);
-require_once("template/profile.php");
+require_once NOALYSS_TEMPLATE."/profile.php";
 echo HtmlInput::submit("save_namebt",_("Modifier"));
 echo '</form>';
 if ($profile->p_id > 0)
