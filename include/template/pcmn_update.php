@@ -25,14 +25,15 @@ if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
  * @brief 
  * @param type $name Descriptionara
  */
-echo HtmlInput::title_box("Poste comptable", "acc_update", "hide");
+echo HtmlInput::title_box(_("Poste comptable"), "acc_update", "hide");
 ?>
 <span id="acc_update_info" class="notice"></span>
+<div class="content" style="margin:5px;padding: 5px" >
 <form method="post" id="acc_update_frm_id" onsubmit="pcmn_save();return false;">
-
-<table style="width:100%">
+    <p style="text-align: left">
+<table >
 <?php
-$r= td(_('Poste comptable'),'style="width:20em;width:15rem;text-align:right"').td($val->input());
+$r= td(_('Poste comptable'),'style="width:auto;width:9rem;text-align:right"').td($val->input());
 echo tr($r);
 $r= td(_('Description'),'style="width:auto;text-align:right"').td($lib->input());
 echo tr($r);
@@ -52,4 +53,6 @@ echo '<hr>';
 echo HtmlInput::submit('update',_('Sauve'));
 echo HtmlInput::button('hide',_('Annuler'),'onClick="$(\'acc_update\').hide();return true;"');
 ?>
+</p>
 </form>
+</div>

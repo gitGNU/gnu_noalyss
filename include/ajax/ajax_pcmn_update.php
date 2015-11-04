@@ -55,7 +55,7 @@ $action='new';
 $val=new IText('p_valu');
 $parent=new IText('p_parentu');
 $lib=new IText('p_libu');
-$lib->css_size="100%";
+$lib->size="60";
 $type=new ISelect('p_typeu');
 $type->value=Acc_Account::$type;
 
@@ -76,7 +76,7 @@ if ( $pcmn_val != "")
             
 }
 
-require NOALYSS_INCLUDE.'/template/pcmn_update.php';
+require NOALYSS_TEMPLATE.'/pcmn_update.php';
 $response = ob_get_clean();
 $html = escape_xml($response);
 if ( headers_sent() ) {
