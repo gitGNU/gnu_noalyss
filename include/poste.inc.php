@@ -64,7 +64,7 @@ echo "</div>";
 if ( isset ($_POST['mod'] ))
 {
     echo '<div style="float:left;">';
-    echo IPoste::ipopup('ipop_account');
+    
     echo '<fieldset>';
     echo "<legend>Voulez-vous vraiment modifier ?</legend>";
     echo '<FORM METHOD="POST">';
