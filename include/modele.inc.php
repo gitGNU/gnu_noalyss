@@ -399,29 +399,38 @@ if ($sa == 'list')
 			echo HtmlInput::button_anchor(_('Retour'), '?action=modele_mgt');
 			return;
 		}
-
+                $mod_id=HtmlInput::default_value_request('m', 0);
+                if ( $mod_id == 0 || isNumber($mod_id) == 0 )
+                {
+                    echo _('Donnée invalide');
+                    return;
+                }
 		$cn = new Database();
 		$msg = "dossier";
-		$name = $cn->get_value("select mod_name from modeledef where mod_id=$1", array($_REQUEST['m']));
+		$name = $cn->get_value("select mod_name from modeledef where mod_id=$1", array($mod_id));
 		if (strlen(trim($name)) == 0)
 		{
 			echo "<h2 class=\"error\"> $msg inexistant</h2>";
 			return;
 		}
-		$sql = "drop database " . domaine . "mod" . sql_string($_REQUEST['m']);
-		ob_start();
-		if ($cn->exec_sql($sql) == false)
-		{
-			ob_end_clean();
+                // Before dropping database check that database exist
+                if ( $cn->exist_database(domaine.'mod'.$mod_id) == 1) 
+                {
+                    $sql = "drop database " . domaine . "mod" . sql_string($mod_id);
+                    ob_start();
+                    if ($cn->exec_sql($sql) == false)
+                    {
+                            ob_end_clean();
 
-			echo "<h2 class=\"error\">";
-                        printf (_("Base de donnée %s mod %s est accèdée, déconnectez-vous d'abord"),domaine,$_REQUEST['m'] )
-                                . "</h2>";
-			exit;
-		}
-		ob_flush();
+                            echo "<h2 class=\"error\">";
+                            printf (_("Base de donnée %s mod %s est accèdée, déconnectez-vous d'abord"),domaine,$mod_id )
+                                    . "</h2>";
+                            exit;
+                    }
+                    ob_flush();
+                }
 		$sql = "delete from modeledef where mod_id=$1";
-		$cn->exec_sql($sql, array($_REQUEST['m']));
+		$cn->exec_sql($sql, array($mod_id));
 		print '<h2 class="error">';
 		printf (_("Le modèle %s est effacé")."</H2>",$name );
 		echo HtmlInput::button_anchor(_('Retour'), '?action=modele_mgt');
