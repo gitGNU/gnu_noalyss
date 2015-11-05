@@ -161,7 +161,7 @@ class Profile_Menu extends Profile_Menu_sql
          */
         function display_module($ap_module)
         {
-            include NOALYSS_INCLUDE.'/template/profile_menu_display_module.php';
+            include NOALYSS_TEMPLATE.'/profile_menu_display_module.php';
         }
 
         /**
@@ -192,7 +192,7 @@ class Profile_Menu extends Profile_Menu_sql
                 p_id = $1 and
                 pm_id_dep = $2 order by p_order',
                     array($this->p_id, $p_module_id));
-            require NOALYSS_INCLUDE.'/template/profile_menu_display_submenu.php';
+            require NOALYSS_TEMPLATE.'/profile_menu_display_submenu.php';
         }
 
         /**
@@ -246,7 +246,7 @@ class Profile_Menu extends Profile_Menu_sql
                 array('value'=>'W', 'label'=>_('Ecriture')),
                 array('value'=>'X', 'label'=>_('Aucun accès'))
             );
-            require_once NOALYSS_INCLUDE.'/template/user_sec_profile.php';
+            require_once NOALYSS_TEMPLATE.'/user_sec_profile.php';
         }
 
         /**
@@ -271,7 +271,7 @@ class Profile_Menu extends Profile_Menu_sql
                 array('value'=>'W', 'label'=>_('Ecriture')),
                 array('value'=>'X', 'label'=>_('Aucun accès'))
             );
-            require_once NOALYSS_INCLUDE.'/template/profile_sec_repository.php';
+            require_once NOALYSS_TEMPLATE.'/profile_sec_repository.php';
         }
 
     }

@@ -71,7 +71,7 @@ class Stock extends Stock_Sql
 
 		$this->search_box_button();
 		$this->search_box($p_array);
-		require_once NOALYSS_INCLUDE.'/template/stock_histo.php';
+		require_once NOALYSS_TEMPLATE.'/stock_histo.php';
 		$this->export_stock_histo_form();
 		echo HtmlInput::print_window();
 	}
@@ -150,7 +150,7 @@ class Stock extends Stock_Sql
 		);
 		$wdirection->selected = HtmlInput::default_value("wdirection", "-1", $p_array);
 
-		require_once NOALYSS_INCLUDE.'/template/stock_histo_search.php';
+		require_once NOALYSS_TEMPLATE.'/stock_histo_search.php';
 	}
 
 	function create_query_histo($p_array)
@@ -245,11 +245,11 @@ class Stock extends Stock_Sql
 		}
 		if ($present == 'T')
 		{
-			require_once NOALYSS_INCLUDE.'/template/stock_summary_table.php';
+			require_once NOALYSS_TEMPLATE.'/stock_summary_table.php';
 		}
 		if ($present == 'L')
 		{
-			require_once NOALYSS_INCLUDE.'/template/stock_summary_list.php';
+			require_once NOALYSS_TEMPLATE.'/stock_summary_list.php';
 			$this->export_stock_summary_list_form();
 
 		}

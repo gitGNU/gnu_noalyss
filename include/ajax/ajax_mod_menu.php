@@ -9,7 +9,7 @@ $msg="Modification ".$m->me_code.' '.h($m->me_menu);
 echo '<form method="POST" id="ajax_mod_menu_frm" onsubmit="return confirm_box(this,\'Vous confirmez ?\')">';
 echo HtmlInput::hidden('modify_menu', 1);
 
-require_once NOALYSS_INCLUDE.'/template/menu_detail.php';
+require_once NOALYSS_TEMPLATE.'/menu_detail.php';
 
 echo HtmlInput::submit('modify_menutb',_('Sauver'));
 echo HtmlInput::button_close('divmenu');

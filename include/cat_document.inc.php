@@ -54,7 +54,7 @@ $str_addCat=$addCat->input();
 $str_addPrefix=$addPrefix->input();
 $str_submit=HtmlInput::submit('add',_('Ajout'));
 echo '<div class="content">';
-require_once NOALYSS_INCLUDE.'/template/list_category_document.php';
+require_once NOALYSS_TEMPLATE.'/list_category_document.php';
 
 echo '</div>';
 ?>

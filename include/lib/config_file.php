@@ -98,7 +98,7 @@ function config_file_form($p_array=null)
 
 	$icdbname=new IText('cdbname');
 
-	require NOALYSS_INCLUDE.'/template/template_config_form.php';
+	require NOALYSS_TEMPLATE.'/template_config_form.php';
 }
 /**
  * Display the  content of the config.inc.php with variables

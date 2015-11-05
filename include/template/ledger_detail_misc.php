@@ -2,7 +2,7 @@
 //This file is part of NOALYSS and is under GPL 
 //see licence.txt
 ?><?php 
-require_once NOALYSS_INCLUDE.'/template/ledger_detail_top.php';
+require_once NOALYSS_TEMPLATE.'/ledger_detail_top.php';
 require_once NOALYSS_INCLUDE.'/class/class_anc_operation.php';
 require_once NOALYSS_INCLUDE.'/class/class_anc_plan.php';
  $str_anc="";
@@ -189,6 +189,6 @@ $amount_idx=0;
 </table>
 </div>
 <?php 
-require_once NOALYSS_INCLUDE.'/template/ledger_detail_bottom.php';
+require_once NOALYSS_TEMPLATE.'/ledger_detail_bottom.php';
 ?>
 </div>

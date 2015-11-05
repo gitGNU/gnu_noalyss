@@ -2643,7 +2643,7 @@ class Acc_Ledger extends jrn_def_sql
 		$r.=HtmlInput::hidden('ledger_type', $this->type);
 		$r.=HtmlInput::hidden('ac', $_REQUEST['ac']);
 		ob_start();
-		require_once NOALYSS_INCLUDE.'/template/ledger_search.php';
+		require_once NOALYSS_TEMPLATE.'/ledger_search.php';
 		$r.=ob_get_contents();
 		ob_end_clean();
 		return $r;
@@ -3516,7 +3516,7 @@ class Acc_Ledger extends jrn_def_sql
 		$new = 0;
 		$cn = $this->db;
 		echo $hidden;
-		require_once NOALYSS_INCLUDE.'/template/param_jrn.php';
+		require_once NOALYSS_TEMPLATE.'/param_jrn.php';
 	}
 
 	/**
@@ -3727,7 +3727,7 @@ class Acc_Ledger extends jrn_def_sql
 		$cn = $this->db;
 		$min_row = new INum("min_row",MAX_ARTICLE);
 		$min_row->prec=0;
-		require_once NOALYSS_INCLUDE.'/template/param_jrn.php';
+		require_once NOALYSS_TEMPLATE.'/param_jrn.php';
 	}
 
 	/**

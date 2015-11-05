@@ -83,7 +83,7 @@ class Anc_Key
             echo _('Aucune clef disponible');
             echo _('Allez dans ANCKEY pour en ajouter pour ce journal');
         }
-        include NOALYSS_INCLUDE.'/template/anc_key_display_choice.php';
+        include NOALYSS_TEMPLATE.'/anc_key_display_choice.php';
     }
 
     /**
@@ -100,7 +100,7 @@ class Anc_Key
         {
             echo _('Aucune clef disponible');
         }
-        include NOALYSS_INCLUDE.'/template/anc_key_display_list.php';
+        include NOALYSS_TEMPLATE.'/anc_key_display_list.php';
     }
 
     /**
@@ -125,7 +125,7 @@ class Anc_Key
          where
          kd_id=$1 order by ke_row', array($this->key->getp('id')));
 
-        require_once NOALYSS_INCLUDE.'/template/anc_key_input.php';
+        require_once NOALYSS_TEMPLATE.'/anc_key_input.php';
     }
 
     /**

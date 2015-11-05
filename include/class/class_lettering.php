@@ -258,7 +258,7 @@ class Lettering
         $this->get_all();
         $r="";
         ob_start();
-        include(NOALYSS_INCLUDE.'/template/letter_all.php');
+        include(NOALYSS_TEMPLATE.'/letter_all.php');
         $r=ob_get_contents();
         ob_end_clean();
         return $r;
@@ -286,7 +286,7 @@ class Lettering
         $this->get_letter();
         $r="";
         ob_start();
-        include(NOALYSS_INCLUDE.'/template/letter_all.php');
+        include(NOALYSS_TEMPLATE.'/letter_all.php');
         $r=ob_get_contents();
         ob_end_clean();
         return $r;
@@ -300,7 +300,7 @@ class Lettering
         $this->get_letter_diff();
         $r="";
         ob_start();
-        include(NOALYSS_INCLUDE.'/template/letter_all.php');
+        include(NOALYSS_TEMPLATE.'/letter_all.php');
         $r=ob_get_contents();
         ob_end_clean();
         return $r;
@@ -316,7 +316,7 @@ class Lettering
         $this->get_unletter();
         $r="";
         ob_start();
-        include(NOALYSS_INCLUDE.'/template/letter_all.php');
+        include(NOALYSS_TEMPLATE.'/letter_all.php');
         $r=ob_get_contents();
         ob_end_clean();
         return $r;
@@ -366,7 +366,7 @@ class Lettering
 		}
 		$this->get_linked($jnt_id);
         ob_start();
-        require_once NOALYSS_INCLUDE.'/template/letter_prop.php';
+        require_once NOALYSS_TEMPLATE.'/letter_prop.php';
         $r=ob_get_contents();
         ob_end_clean();
         $r.=HtmlInput::hidden('j_id',$p_jid);

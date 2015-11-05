@@ -106,7 +106,7 @@ if ( isset($_GET['f_id']))
         
         
         ob_start();
-        require_once NOALYSS_INCLUDE.'/template/history_top.php';
+        require_once NOALYSS_TEMPLATE.'/history_top.php';
 	$detail_card=HtmlInput::card_detail($fiche->strAttribut(ATTR_DEF_QUICKCODE),$fiche->getName());
 	echo h2(  $fiche->getName().'['.$fiche->strAttribut(ATTR_DEF_QUICKCODE).']',' class="title" ');
 	echo '<p style="text-align:center;">'.$detail_card.'</p>';
@@ -189,7 +189,7 @@ if ( isset($_REQUEST['pcm_val']))
         
         ob_start();
 
-        require_once NOALYSS_INCLUDE.'/template/history_top.php';
+        require_once NOALYSS_TEMPLATE.'/history_top.php';
         echo h2( $poste->id." ".h($poste->label),' class="title" ');
              
         

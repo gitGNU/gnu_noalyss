@@ -143,7 +143,7 @@ $array=$cn->get_array("
 if ( ! empty ($array))
 {
 
-	require_once NOALYSS_INCLUDE.'/template/list_mod_payment.php';
+	require_once NOALYSS_TEMPLATE.'/list_mod_payment.php';
 }
 echo HtmlInput::button_anchor("Ajout", $base_url."&sb=ins","","","smallbutton");
 echo '</div>';

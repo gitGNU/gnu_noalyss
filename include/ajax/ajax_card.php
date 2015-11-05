@@ -407,7 +407,7 @@ case 'fs':
     }//foreach
 
     ob_start();
-    require_once NOALYSS_INCLUDE.'/template/card_result.php';
+    require_once NOALYSS_TEMPLATE.'/card_result.php';
     $r.=ob_get_contents();
     ob_end_clean();
     $ctl=$ctl.'_content';
@@ -477,7 +477,7 @@ case 'ac':
         $str_poste=$search->input();
         $submit=HtmlInput::submit('save',_('Sauve'));
         ob_start();
-        require(NOALYSS_INCLUDE.'/template/category_of_card.php');
+        require(NOALYSS_TEMPLATE.'/category_of_card.php');
         $html.=ob_get_contents();
         ob_end_clean();
 

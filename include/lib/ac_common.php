@@ -850,7 +850,7 @@ function show_module($selected)
     {
         $selected_module=$cn->get_value('select me_code from profile_menu where'
                 . ' pm_id = $1 ', array($selected));
-	require_once NOALYSS_INCLUDE.'/template/module.php';
+	require_once NOALYSS_TEMPLATE.'/module.php';
 	$file = $cn->get_array("select me_file,me_parameter,me_javascript,me_type,me_description from v_all_menu
 	    where pm_id=$1 and p_id=$2", array($selected,$g_user->get_profile()));
 	if ( count($file ) == 0 )
@@ -1008,7 +1008,7 @@ function show_menu($module)
         else {
             $style_menu=$a_style_menu[$level];
         }
-		require NOALYSS_INCLUDE.'/template/menu.php';
+		require NOALYSS_TEMPLATE.'/menu.php';
     } // there is only one submenu so we include the code or javascript 
       // or we show the submenu
     elseif (count($amenu) == 1)

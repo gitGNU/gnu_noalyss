@@ -319,7 +319,7 @@ if ( $action == "view" )
     echo '<fieldset> <legend>Actions </legend>';
     echo HtmlInput::button("grant_all_action", _("Toutes les actions"), " onclick=\" grant_action(1) \"");
     echo HtmlInput::button("revoke_all_action", _("Aucune action"), " onclick=\" grant_action (0) \"");
-    include(NOALYSS_INCLUDE.'/template/security_list_action.php');
+    include(NOALYSS_TEMPLATE.'/security_list_action.php');
     echo '</fieldset>';
     echo HtmlInput::button('Imprime','imprime',"onclick=\"window.open('".$sHref."');\"");
     echo HtmlInput::submit('ok','Sauve');

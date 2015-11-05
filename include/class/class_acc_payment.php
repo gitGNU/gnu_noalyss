@@ -267,7 +267,7 @@ class Acc_Payment
 
 		$msg="Modification de ".$this->mp_lib;
         ob_start();
-        require_once NOALYSS_INCLUDE.'/template/new_mod_payment.php';
+        require_once NOALYSS_TEMPLATE.'/new_mod_payment.php';
         $r=ob_get_contents();
         ob_end_clean();
         return $r;
@@ -389,7 +389,7 @@ class Acc_Payment
         $f_qcode=$qcode->input();
 		$msg="Ajout d'un nouveau moyen de paiement";
         ob_start();
-        require_once NOALYSS_INCLUDE.'/template/new_mod_payment.php';
+        require_once NOALYSS_TEMPLATE.'/new_mod_payment.php';
         $r=ob_get_contents();
         ob_end_clean();
         return $r;

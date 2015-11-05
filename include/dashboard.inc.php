@@ -40,7 +40,7 @@ $customer_now=$Ledger->get_customer_now();
 $customer_late=$Ledger->get_customer_late();
 
 ob_start();
-require_once NOALYSS_INCLUDE.'/template/dashboard.php';
+require_once NOALYSS_TEMPLATE.'/dashboard.php';
 $ret=ob_get_contents();
 ob_end_clean();
 echo $ret;

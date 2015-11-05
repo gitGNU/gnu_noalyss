@@ -193,7 +193,7 @@ order by ga_description,po_name";
 
       $array=$this->get_result();
       if ( empty ($array) ) return "";
-      require_once NOALYSS_INCLUDE.'/template/anc_balance_group.php';
+      require_once NOALYSS_TEMPLATE.'/anc_balance_group.php';
 
 
     }

@@ -323,7 +323,7 @@ if (isset($_REQUEST['bt_html']))
                  * Ledger ACH or VEN
                  */
                 $own=new Own($cn);
-                require_once NOALYSS_INCLUDE.'/template/print_ledger_simple.php';
+                require_once NOALYSS_TEMPLATE.'/print_ledger_simple.php';
                 
             }
 	}
@@ -379,16 +379,16 @@ if (isset($_REQUEST['bt_html']))
 			switch ($obj->signature)
 			{
 				case 'FIN':
-					require NOALYSS_INCLUDE.'/template/operation_detail_fin.php';
+					require NOALYSS_TEMPLATE.'/operation_detail_fin.php';
 					break;
 				case 'ACH':
-					require NOALYSS_INCLUDE.'/template/operation_detail_ach.php';
+					require NOALYSS_TEMPLATE.'/operation_detail_ach.php';
 					break;
 				case 'VEN':
-					require NOALYSS_INCLUDE.'/template/operation_detail_ven.php';
+					require NOALYSS_TEMPLATE.'/operation_detail_ven.php';
 					break;
 				case 'ODS':
-					require NOALYSS_INCLUDE.'/template/operation_detail_misc.php';
+					require NOALYSS_TEMPLATE.'/operation_detail_misc.php';
 					break;
 				default:
 					die("unknown type of ledger");

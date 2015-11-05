@@ -125,7 +125,7 @@ if ( $choose=="yes" )
 			      array('value'=>13,'label'=>"13 périodes")
 			      );
 
-    require_once NOALYSS_INCLUDE.'/template/periode_add_exercice.php';
+    require_once NOALYSS_TEMPLATE.'/periode_add_exercice.php';
 }
 else
 {

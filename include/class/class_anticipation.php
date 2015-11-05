@@ -174,7 +174,7 @@ class Anticipation
 
         }
         ob_start();
-        require_once NOALYSS_INCLUDE.'/template/forecast_result.php';
+        require_once NOALYSS_TEMPLATE.'/forecast_result.php';
         $r.=ob_get_contents();
         ob_end_clean();
         return $r;
@@ -245,7 +245,7 @@ class Anticipation
         }
 
         ob_start();
-        require_once NOALYSS_INCLUDE.'/template/forecast_cat.php';
+        require_once NOALYSS_TEMPLATE.'/forecast_cat.php';
         $r.=ob_get_contents();
         ob_end_clean();
         return $r;
@@ -308,7 +308,7 @@ class Anticipation
         }
 
         ob_start();
-        require_once NOALYSS_INCLUDE.'/template/forecast_cat.php';
+        require_once NOALYSS_TEMPLATE.'/forecast_cat.php';
         $r.=ob_get_contents();
         ob_end_clean();
         return $r;
@@ -432,7 +432,7 @@ class Anticipation
         $add_row->javascript='for_add_row(\'fortable\')';
         $f_add_row=$add_row->input();
         ob_start();
-        require_once NOALYSS_INCLUDE.'/template/forecast-detail.php';
+        require_once NOALYSS_TEMPLATE.'/forecast-detail.php';
         $r.=ob_get_contents();
         ob_end_clean();
         return $r;

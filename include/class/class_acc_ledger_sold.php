@@ -1290,7 +1290,7 @@ EOF;
 
 
         ob_start();
-        require_once NOALYSS_INCLUDE.'/template/form_ledger_detail.php';
+        require_once NOALYSS_TEMPLATE.'/form_ledger_detail.php';
         $r.=ob_get_contents();
         ob_end_clean();
 

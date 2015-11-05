@@ -292,7 +292,7 @@ class Todo_List
     {
         ob_start();
         $this->load();
-        include NOALYSS_INCLUDE.'/template/todo_list_display.php';
+        include NOALYSS_TEMPLATE.'/todo_list_display.php';
         $ret=ob_get_clean();
         
         return $ret;
@@ -373,7 +373,7 @@ class Todo_List
         // Get array of user
         $p_array=User::get_list(Dossier::id());
         $dossier=Dossier::id();
-        include NOALYSS_INCLUDE.'/template/todo_list_list_user.php';
+        include NOALYSS_TEMPLATE.'/todo_list_list_user.php';
         
     }
     /**

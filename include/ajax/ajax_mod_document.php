@@ -35,7 +35,7 @@ $doc=new Document_Modele($cn,$id);
   /* 3. display it */
 $doc->load();
 ob_start();
-require(NOALYSS_INCLUDE.'/template/modele_document.php');
+require(NOALYSS_TEMPLATE.'/modele_document.php');
 
 $html=ob_get_contents();
 ob_end_clean();

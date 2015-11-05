@@ -34,7 +34,7 @@ if ($op=='action_show')
     $gestion=new Follow_Up($cn);
     $array=$gestion->get_last(25);
     $len_array=count($array);
-    require_once NOALYSS_INCLUDE.'/template/action_show.php';
+    require_once NOALYSS_TEMPLATE.'/action_show.php';
     return;
 }
 if ($op=='action_add')

@@ -99,5 +99,5 @@ $gDossier=Dossier::id();
     ?>
 </form>
 <?php
-require_once NOALYSS_INCLUDE.'/template/impress_reconciliation.php';
+require_once NOALYSS_TEMPLATE.'/impress_reconciliation.php';
 return;

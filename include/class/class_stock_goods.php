@@ -110,7 +110,7 @@ class Stock_Goods extends Stock_Goods_Sql
                 $select_exercice=new ISelect('p_exercice');
                 $select_exercice->value=$cn->make_array('select distinct p_exercice,p_exercice from parm_periode order by 1 desc');
                 
-                require_once NOALYSS_INCLUDE.'/template/stock_inv.php';
+                require_once NOALYSS_TEMPLATE.'/stock_inv.php';
 	}
 
 	function record_save($p_array)

@@ -66,7 +66,7 @@ case "sf":
 
     $r.='<form id="sp" method="get" onsubmit="'.$attr.'search_get_poste(this);return false;">';
     ob_start();
-    require_once NOALYSS_INCLUDE.'/template/account_search.php';
+    require_once NOALYSS_TEMPLATE.'/account_search.php';
     $r.=ob_get_contents();
     ob_end_clean();
     $r.=dossier::hidden();
@@ -142,7 +142,7 @@ case "sf":
     }
     ob_start();
 
-    require_once NOALYSS_INCLUDE.'/template/account_result.php';
+    require_once NOALYSS_TEMPLATE.'/account_result.php';
     $r.=ob_get_contents();
     ob_end_clean();
 

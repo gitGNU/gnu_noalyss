@@ -541,7 +541,7 @@ class Follow_Up
         $menu=new Default_Menu();
         /* get template */
         ob_start();
-        require NOALYSS_INCLUDE.'/template/detail-action.php';
+        require NOALYSS_TEMPLATE.'/detail-action.php';
         $content=ob_get_contents();
         ob_end_clean();
         $r.=$content;
@@ -1192,7 +1192,7 @@ class Follow_Up
          * Show the default button (add action, show search...)
          */
         if (!$inner)
-            require_once NOALYSS_INCLUDE.'/template/action_button.php';
+            require_once NOALYSS_TEMPLATE.'/action_button.php';
 
         $w=new ICard();
         $w->name='qcode';
@@ -1262,7 +1262,7 @@ class Follow_Up
         $otag=new Tag($cn);
 
         // show the  action in
-        require_once NOALYSS_INCLUDE.'/template/action_search.php';
+        require_once NOALYSS_TEMPLATE.'/action_search.php';
     }
 
     /**
@@ -1283,7 +1283,7 @@ class Follow_Up
 
         echo '<form method="POST" id="list_ag_frm" style="display:inline">';
         echo HtmlInput::request_to_hidden(array("gDossier", "ac", "sb", "sc", "f_id"));
-        require_once NOALYSS_INCLUDE.'/template/action_other_action.php';
+        require_once NOALYSS_TEMPLATE.'/action_other_action.php';
         echo $act->myList($p_base, "", $query);
         echo '</form>';
     }
@@ -1436,7 +1436,7 @@ class Follow_Up
         $limit=($max_line>25)?25:$max_line;
         $Res=$cn->exec_sql($sql."limit ".$limit);
         $a_row=Database::fetch_all($Res);
-        require_once NOALYSS_INCLUDE.'/template/action_search_result.php';
+        require_once NOALYSS_TEMPLATE.'/action_search_result.php';
     }
 
     /**
@@ -1772,7 +1772,7 @@ class Follow_Up
     function display_short()
     {
         $cn=$this->db;
-        include NOALYSS_INCLUDE.'/template/action_display_short.php'; 
+        include NOALYSS_TEMPLATE.'/action_display_short.php'; 
     }
     /**
      * Add an event , with the minimum of informations, 

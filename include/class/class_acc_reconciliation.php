@@ -417,7 +417,7 @@ j1.j_poste as poste
             echo '<tr class="odd">';
             echo '<td></td>';
             echo '<td colspan="5" style="border:1px solid black;width:auto">';
-            include NOALYSS_INCLUDE.'/template/impress_reconciliation_detail.php';
+            include NOALYSS_TEMPLATE.'/impress_reconciliation_detail.php';
             echo '</td>';
             echo '</tr>';
         }

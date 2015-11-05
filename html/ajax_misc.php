@@ -301,7 +301,7 @@ EOF;
 		return;
 		break;
 	case 'mod_cat_doc':
-		require_once NOALYSS_INCLUDE.'/template/document_mod_change.php';
+		require_once NOALYSS_TEMPLATE.'/document_mod_change.php';
 		break;
 	case 'dsp_tva':
 		$cn = Dossier::connect();

@@ -63,7 +63,7 @@ class Fiche_Def
 		$fd_description->width=80;
 		$fd_description->heigh=4;
 		$fd_description->style='class="itextarea" style="margin-left:0px;vertical-align:text-top"';
-        require_once  NOALYSS_INCLUDE.'/template/fiche_def_input.php';
+        require_once  NOALYSS_TEMPLATE.'/fiche_def_input.php';
         return;
     }
 
@@ -182,7 +182,7 @@ frd_text , fd_description FROM fiche_def join fiche_def_ref on (fiche_def.frd_id
 $order
 ");
 
-		require_once NOALYSS_INCLUDE.'/template/fiche_def_list.php';
+		require_once NOALYSS_TEMPLATE.'/fiche_def_list.php';
 	}
     /*!\brief Add a fiche category thanks the element from the array
      * you cannot add twice the same cat. name
