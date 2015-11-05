@@ -172,11 +172,11 @@ if (isset($_POST["FMOD_NAME"]))
 	//--
 	if (isset($_POST['DOC']))
 	{
-		$Res = $cn_mod->exec_sql("delete from action_gestion");
 		$Res = $cn_mod->exec_sql("delete from action_gestion_related");
 		$Res = $cn_mod->exec_sql("delete from action_gestion_comment");
 		$Res = $cn_mod->exec_sql("delete from action_gestion_related");
 		$Res = $cn_mod->exec_sql("delete from action_person");
+		$Res = $cn_mod->exec_sql("delete from action_gestion");
 		$Res = $cn_mod->exec_sql("delete from tags");
 		$Res = $cn_mod->exec_sql("delete from action_tags");
 		$Res = $cn_mod->exec_sql("delete from document");
