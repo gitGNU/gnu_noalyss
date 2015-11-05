@@ -707,12 +707,12 @@ class Anc_Operation
             $idx_pa_id++;
         }
         $nb_op=count($a_Anc_Operation);
-        bcscale(2);
+        bcscale(4);
         for ($i=0;$i<$nb_op;$i++)
         {
             $tot=bcadd($tot,$a_Anc_Operation[$i]->oa_amount);
         }
-        if ( $tot != $p_nd )
+        if ( $tot != $p_nd && count($a_Anc_Operation) > 0 )
         {
             $diff=  bcsub($tot, $p_nd);
             $a_Anc_Operation[0]->oa_amount=bcsub($a_Anc_Operation[0]->oa_amount,$diff);

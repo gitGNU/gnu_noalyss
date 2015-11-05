@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: NOALYSS 672\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-11-02 19:12+0100\n"
-"PO-Revision-Date: 2015-11-02 19:12+0100\n"
+"PO-Revision-Date: 2015-11-06 00:07+0100\n"
 "Last-Translator: Dany De Bontridder <danydb@noalyss.eu>\n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
 "Language: en_US\n"
@@ -3365,7 +3365,7 @@ msgstr "Consideration for VAT not Ded."
 #: include/database.item.php:173 include/database.item.php:162
 #: include/database.item.php:163
 msgid "Contrepartie pour TVA récup par impot"
-msgstr "Consideration for VAT tax by Recycling"
+msgstr "Consideration for VAT tax recoverable"
 
 #: include/database.item.php:160 include/database.item.php:163
 #: include/database.item.php:173 include/database.item.php:177

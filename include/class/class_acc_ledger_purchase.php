@@ -516,9 +516,10 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
         else
             $tperiode=$oPeriode->find_periode($e_date);
 
-        bcscale(4);
+        
         try
         {
+            bcscale(4);
             $tot_amount=0;
             $tot_tva=0;
             $tot_debit=0;
@@ -556,10 +557,9 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
                 $acc_operation->type='d';
                 $acc_operation->periode=$tperiode;
                 $acc_operation->qcode="";
-                
-                
+                $amount_4=bcmul(${'e_march'.$i.'_price'},${'e_quant'.$i});
                 /* We have to compute all the amount thanks Acc_Compute */
-                $amount=round(bcmul(${'e_march'.$i.'_price'},${'e_quant'.$i}),2);
+                $amount=round($amount_4,2);
                 
                 $acc_amount=new Acc_Compute();
                 $acc_amount->check=false;
