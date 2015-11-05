@@ -304,10 +304,25 @@ if ($sa == 'list')
 			$mod = Database::fetch_array($Res, $i);
 			$class = ($i % 2 == 0) ? "odd" : "even";
                         $str_name=domaine.'mod'.$mod['mod_id'];
+                        $valid=true;
+                        $exist=true;
+                        $mod_status="";
+                        if ( $cn->exist_database($str_name) == 0 ) {
+                            $exist=false;
+                            $mod_status=_('Inexistant');
+                        }
+                        if ( $exist ) {
+                            $mod_cn=new Database($mod['mod_id'],'mod');
+                            if ( $mod_cn->exist_table("version")==0) {
+                                $valid=false;
+                                $mod_status=_('Invalide');
+                            }
+                        }
 			printf('<TR class="' . $class . '" style="vertical-align:top">' .
 					'<TD>%d </td><td><b> %s</b> </TD>' .
 					'<TD><I> %s </I></TD>' .
                                         '<td>'.$str_name.'</td>'.
+                                        td($mod_status).
 					'<td> ' .
 					HtmlInput::anchor(_('Effacer'), '?action=modele_mgt&sa=del&m=' . $mod['mod_id']," onclick = \"modele_drop('{$mod['mod_id']}') \"") . '</td>' .
 					'</td>' .
