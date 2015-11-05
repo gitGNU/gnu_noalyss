@@ -43,7 +43,7 @@ if ( isset ($_POST['save']))
 	}catch(Exception $e)
 	{
 		 alert($e->getMessage());
-		$array=input($_POST);
+		$array=$_POST;
 	}
 } else if ( isset ($_GET['reprise_frm']) )
 {

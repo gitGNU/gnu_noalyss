@@ -146,7 +146,7 @@ class Stock_Goods extends Stock_Goods_Sql
                                         $count=$cn->get_value('select count(*) from fiche_detail where ad_id=$1 and ad_value=$2',
                                                 array(ATTR_DEF_STOCK,$stock));
                                         if ( $count==0) {
-                                            throw new Exception("Code stock inexistant");
+                                            throw new Exception(_("Code stock inutilisé").h($stock));
                                         }
 					$a->f_id=$fiche->id;
 					$a->sg_code = $stock;
