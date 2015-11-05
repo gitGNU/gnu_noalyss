@@ -1779,7 +1779,7 @@ div.content a.tinybutton{
     margin: 1px 2px 1px 2px;
     border-width: 1px;
     border-style: solid;
-    border-color: blue;
+    
     border-radius: 2px; 
     display : inline;
 }
@@ -2089,4 +2089,12 @@ div.autocomplete_fixed ul li {
     margin:0px;
     padding:0px;
     cursor:pointer;
+}
+
+/*
+ * Menu selected when configuring the profile
+ */
+
+td.selectedmenu {
+    background-color: #FDF5E6;
 }

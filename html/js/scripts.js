@@ -1502,6 +1502,7 @@ function display_sub_menu(p_dossier,p_profile,p_dep,p_level)
                 if ( $('menu_table').rows.length > p_level ) {
                     $('menu_table').rows[1].remove();
                 }
+                $('sub'+p_dep).addClassName("selectedmenu");
                 var new_row = document.createElement('TR');
                 new_row.innerHTML = req.responseText;
                 $('menu_table').appendChild(new_row);

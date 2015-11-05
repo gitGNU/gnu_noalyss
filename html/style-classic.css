@@ -2103,3 +2103,11 @@ button.cancel {
 .queue{
 	display:none;
 }
+/*
+ * Menu selected when configuring the profile
+ */
+
+td.selectedmenu {
+ background-color: beige;   
+ font-weight: bolder;
+}

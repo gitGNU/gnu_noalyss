@@ -2090,3 +2090,11 @@ button.cancel {
 .queue{
 	display:none;
 }
+
+/*
+ * Menu selected when configuring the profile
+ */
+
+td.selectedmenu {
+    
+}
