@@ -124,9 +124,15 @@ if (isset($_POST["FMOD_NAME"]))
 	$Res = $cn_mod->exec_sql("delete from del_action");
 	$Res = $cn_mod->exec_sql("delete from profile_user");
 	$Res = $cn_mod->exec_sql("delete from jnt_letter");
-
+        
 	$Res = $cn_mod->exec_sql('delete from operation_analytique');
-
+        // Delete info from USERS
+	$Res = $cn_mod->exec_sql('delete from user_sec_act');
+	$Res = $cn_mod->exec_sql('delete from user_sec_action_profile');
+	$Res = $cn_mod->exec_sql('delete from user_local_pref');
+	$Res = $cn_mod->exec_sql('delete from user_sec_jrn');
+	$Res = $cn_mod->exec_sql('delete from bookmark');
+        
 	//	Reset the closed periode
 	$Res = $cn_mod->exec_sql("update parm_periode set p_closed='f'");
 	$Res = $cn_mod->exec_sql('delete from jrn_periode');
@@ -169,23 +175,30 @@ if (isset($_POST["FMOD_NAME"]))
 	if (isset($_POST['DOC']))
 	{
 		$Res = $cn_mod->exec_sql("delete from action_gestion");
+		$Res = $cn_mod->exec_sql("delete from action_gestion_related");
+		$Res = $cn_mod->exec_sql("delete from action_gestion_comment");
+		$Res = $cn_mod->exec_sql("delete from action_gestion_related");
+		$Res = $cn_mod->exec_sql("delete from action_person");
+		$Res = $cn_mod->exec_sql("delete from tags");
+		$Res = $cn_mod->exec_sql("delete from action_tags");
 		$Res = $cn_mod->exec_sql("delete from document");
 
 		// Remove lob file
-		$Res = $cn_mod->exec_sql("select distinct loid from pg_largeobject except select md_lob from document_modele");
+		$Res = $cn_mod->exec_sql("select distinct d_lob from document");
 		if (Database::num_row($Res) != 0)
 		{
 			$a_lob = Database::fetch_all($Res);
+                        $a_lob = ($a_lob == false) ? array():$a_lob;
 			//var_dump($a_lob);
 			foreach ($a_lob as $lob)
 			{
-				$cn_mod->lo_unlink($lob['loid']);
+				$cn_mod->lo_unlink($lob['d_lob']);
 			}
 		}
                 // reset sequences for Follow-up
                 $a_seq=$cn_mod->get_array(" select sequence_name "
                         . " from information_schema.sequences "
-                        . "where sequence_name like 'seq_doc_type%"
+                        . "where sequence_name like 'seq_doc_type%'"
                         );
                 $n_seq=count($a_seq);
                 for ($i = 0;$i < $n_seq;$i++) {
@@ -194,9 +207,22 @@ if (isset($_POST["FMOD_NAME"]))
 	}
 	if (isset($_POST['CARD']))
 	{
+            // it is necessary to remove the plugin amortissement due to a 
+            // Foreign key without cascading
+             $a_schema=$cn_mod->get_array("
+                select nspname from pg_namespace 
+                where
+                nspname not like 'pg_%'
+                and nspname in ('amortissement')
+                    ");      
+            $nb_schema=count($a_schema);
+            for ($i=0;$i < $nb_schema;$i++)
+            {
+                $cn_mod->exec_sql(" drop schema ".$a_schema[$i]['nspname']." cascade");
+            }
+		$Res = $cn_mod->exec_sql("delete from action_gestion");
 		$Res = $cn_mod->exec_sql("delete from  fiche_detail");
 		$Res = $cn_mod->exec_sql("delete from   fiche");
-		$Res = $cn_mod->exec_sql("delete from action_gestion");
 		$Res = $cn_mod->exec_sql("delete from document");
 		$Res = $cn_mod->exec_sql("delete from document_modele");
 		$Res = $cn_mod->exec_sql("delete from op_predef");
@@ -338,25 +364,27 @@ if ($sa == 'list')
                         <TD> <?php echo _("Bas&eacute; sur")?> </TD>
 	<TD> <?php echo $available?></TD>
 	</TR>
-	<TR>
-		<TD><?php echo _("Nettoyage des Documents et courriers (ce qui  n'effacera pas les modèles de documents)")?></TD>
-		<TD> <input type="checkbox" name="DOC"></TD></TR>
-	<TR>
-		<TD><?php echo _("Nettoyage de toutes les fiches (ce qui effacera client,
-	op&eacute;rations pr&eacute;d&eacute;finies fournisseurs modèles de documents et documents)")?></TD>
-		<TD> <input type="checkbox" name="CARD"></TD>
-	</TR>
-
-	<TR>
-		<TD><?php echo _("Nettoyage de la comptabilit&eacute; analytique : effacement des plans et des postes, les op&eacute;rations
-	sont de toute fa&ccedil;on effac&eacute;es")?> </TD>
-		<TD> <input class="input_text" type="checkbox" name="CANAL"></TD>
-	</TR>
-	<TR>
-		<TD><?php echo _("Effacement de toutes les donn&eacute;es des plugins")?></TD>
-		<TD> <input type="checkbox" name="PLUGIN"></TD>
-	</TR>
-	</TABLE>
+        </table>
+        <ol style="list-style: none">    
+	<li>
+		<input type="checkbox" class="input_text" name="DOC">
+		<?php echo _("Nettoyage des Documents et courriers (ce qui  n'effacera pas les modèles de documents)")?>
+        </li>
+	<li>
+		<input type="checkbox" class="input_text" name="CARD">
+		<?php echo _("Nettoyage de toutes les fiches (ce qui effacera client,
+	op&eacute;rations pr&eacute;d&eacute;finies fournisseurs modèles de documents et documents)")?>
+	</li>
+	<li>
+		<input class="input_text" type="checkbox" name="CANAL">
+		<?php echo _("Nettoyage de la comptabilit&eacute; analytique : effacement des plans et des postes, les op&eacute;rations
+	sont de toute fa&ccedil;on effac&eacute;es")?> 
+	</li>
+	<li>
+		<input class="input_text" type="checkbox" name="PLUGIN">
+		<?php echo _("Effacement de toutes les donn&eacute;es des plugins")?>
+	</li>
+        </ol>
   <INPUT TYPE="SUBMIT" class="button" VALUE="<?php echo _("Ajout d'un modele")?>" >
 </form>
 </div>
