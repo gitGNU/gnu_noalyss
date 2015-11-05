@@ -30,24 +30,22 @@ if ( !defined ('ALLOWED')) die('Forbidden');
 require_once NOALYSS_INCLUDE.'/lib/class_itext.php';
 require_once NOALYSS_INCLUDE.'/lib/class_icheckbox.php';
 require_once  NOALYSS_INCLUDE.'/class/class_extension.php';
+require_once NOALYSS_INCLUDE.'/lib/class_html_input.php';
 
 $sa = (isset($_REQUEST['sa'])) ? $_REQUEST['sa'] : 'list';
 if (isset($_POST['upd']) &&
 		isset($_POST['m']))
 {
-	if (isset($_POST['name']) && isset($_POST['desc']))
+    $name=HtmlInput::default_value_post('name',"");
+    $desc =HtmlInput::default_value_post('desc',"");
+    $mod_id=HtmlInput::default_value_post("m", 0);
+    
+	if (trim($name) != "" && $mod_id != 0 && isNumber($mod_id)==1)
 	{
-		extract($_POST);
 		$cn = new Database();
-		if (strlen(trim($name)) != 0
-				&& $cn->get_value('select count(*) from modeledef where ' .
-						'mod_name=$1 and mod_id !=$2', array(trim($name), $m)) == 0
-		)
-		{
-
-			$cn->exec_sql("update modeledef set mod_name=$1, " .
-					" mod_desc=$2 where mod_id=$3 ", array(trim($name), trim($desc), $m));
-		}
+                $cn->exec_sql("update modeledef set mod_name=$1, " .
+					" mod_desc=$2 where mod_id=$3 ", 
+                        array(trim($name), trim($desc), $mod_id));
 	}
 	$sa = "list";
 }
