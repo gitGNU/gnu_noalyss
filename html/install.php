@@ -645,5 +645,5 @@ echo "</h2>";
 ?>
 </p>
 <p style="text-align: center">
-<A style="" class="button" HREF="index.php"><?php echo _('Connectez-vous à NOALYSS')?></A>
+<A style="display:inline;margin:10px;padding:10px;" class="button" HREF="index.php"><?php echo _('Connectez-vous à NOALYSS')?></A>
 </p>
