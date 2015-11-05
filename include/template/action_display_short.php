@@ -75,31 +75,44 @@ $dest->set_dblclick("fill_ipopcard(this);");
 $dest->set_attribute('ipopup', 'ipopcard');
 $dest->style=' style="vertical-align:0%"';
 
+// Hours
+$hour=new IText('hour_event');
+$hour->size=5;
+
 echo HtmlInput::title_box(_('Nouvel événement'), 'action_add_div');
 ?>
 <span class="notice" style="float:right" id="action_add_frm_info"></span>
 <form method="get" id="action_add_frm" onsubmit="action_save_short(<?php echo Dossier::id()?>);return false">
-<p>
     <span>
-    Date<?php echo $date->input()?>
+    <?php echo _('Date')." ". $date->input()?>
     </span>
     <span>
-    Type évenement
+    <?php echo _('Heure')." ". $hour->input()?>
+    </span>
+    <span>
+    <?php echo _('Type évenement')?>
 <?php echo $type->input();?>
     </span>
-    Priorité
+    <p></p>
+    <span>
+<?php echo _('Destinataire')?>    <?php echo $dest->input();?>
+    </span>
+    <span>
+    <?php echo _('Priorité')?>
 <?php echo $priority->input()?>
-    groupe
+    </span>
+    <span>
+    <?php echo _('groupe')?>
 <?php echo $profile->input()?>
-</p>
-Destinataire    <?php echo $dest->input();?>
+
+    </span>
 <p>
     <span>
         <?php echo _('Sujet')?>
         <?php echo $title->input()?>
     </span>
 </p>
-    <?php echo "Description"?>
+    <?php echo _("Description")?>
 <p>
     <?php echo $summary->input()?>
 </p>

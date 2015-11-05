@@ -58,6 +58,7 @@ if ($op=='action_save')
     $title=HtmlInput::default_value_get("title_event", NULL);
     $summary=HtmlInput::default_value_get("summary", "");
     $type_event=HtmlInput::default_value_get('type_event', -1);
+    $hour_event=HtmlInput::default_value_get('hour_event', null);
     /*
      * Check if data are valid
      */
@@ -107,6 +108,7 @@ if ($op=='action_save')
     $gestion->ag_comment=h($summary);
     $gestion->ag_timestamp=$date_event;
     $gestion->ag_remind_date=$date_event;
+    $gestion->ag_hour=$hour_event;
     $content=_('Sauvé');
     $status='OK';
     try {

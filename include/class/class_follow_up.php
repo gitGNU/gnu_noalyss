@@ -1811,11 +1811,11 @@ class Follow_Up
         $sql="insert into action_gestion".
                     "(ag_id,ag_timestamp,ag_type,ag_title,f_id_dest,ag_ref, "
                 . "ag_dest, ".
-                    "  ag_priority,ag_owner,ag_state,ag_remind_date) ".
+                    "  ag_priority,ag_owner,ag_state,ag_remind_date,ag_hour) ".
                     " values "
                 . "($1,to_date($2,'DD.MM.YYYY'),$3,$4,$5,$6,"
                 . "$7,"
-                . "$8,$9,$10,to_date($11,'DD.MM.YYYY'))";
+                . "$8,$9,$10,to_date($11,'DD.MM.YYYY'),$12)";
         
         $this->db->exec_sql($sql, array(
             $this->ag_id, /* 1 */
@@ -1828,7 +1828,8 @@ class Follow_Up
             $this->ag_priority, /* 8 */
             $_SESSION['g_user'], /* 9 */
             $this->ag_state, /* 10 */
-            $this->ag_remind_date /* 11 */
+            $this->ag_remind_date, /* 11 */
+            $this->ag_hour /* 12 */
            )
         );
 

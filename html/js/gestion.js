@@ -363,6 +363,7 @@ function action_save_short()
          $('action_add_frm')['date_event_action_short'].parentNode.className="";
          $('action_add_frm')['title_event'].parentNode.className="";
          $('action_add_frm')['type_event'].parentNode.className="";
+         $('action_add_frm')['hour_event'].parentNode.className="";
 
         if ( $('action_add_frm')['date_event_action_short'].value.trim() == '') {
             $('action_add_frm')['date_event_action_short'].parentNode.className="notice";
@@ -373,7 +374,17 @@ function action_save_short()
             $('action_add_frm')['title_event'].parentNode.className="notice";
             return false;
         }
-
+        var str_hour=new String($('action_add_frm')['hour_event'].value);
+        str_hour=str_hour.trim();
+        
+        if ( str_hour.search(/^[0-9]{2}:[0-9]{2}$/) == -1 &&
+             str_hour.search(/^[0-9]{2}.[0-9]{2}$/) == -1)
+        {
+            $('action_add_frm')['hour_event'].parentNode.className="notice";
+            alert_box('HH:MM  or HH.MM');
+            return false;
+        }
+        
         if ( $('action_add_frm')['type_event'].options[$('action_add_frm')['type_event'].selectedIndex].value == -1 )
         {
             $('action_add_frm')['type_event'].parentNode.className="notice";
