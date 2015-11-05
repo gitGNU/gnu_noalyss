@@ -1615,20 +1615,19 @@ class Acc_Ledger extends jrn_def_sql
 		$wLedger->javascript = "onChange='update_name();update_predef(\"ods\",\"t\",\"".$_REQUEST['ac']."\");$add_js'";
 		$label = " Journal " . HtmlInput::infobulle(2);
 
-		$ret.=$label . $wLedger->input();
+        $ret.="<table>";
+		$ret.=tr(td($label ).td( $wLedger->input()));
 
 
 		// Load the javascript
 		//
-        $ret.="<table>";
-		$ret.= '<tr ><td colspan="2" style="width:auto">';
+		//$ret.= '<tr ><td colspan="2" style="width:auto">';
 		$wDate = new IDate('e_date');
 		$wDate->readonly = $p_readonly;
 		$e_date = (isset($e_date) && trim($e_date) != '') ? $e_date : '';
 		$wDate->value = $e_date;
 
-		$ret.=_("Date") . ' : ' . $wDate->input();
-		$ret.= '</td>';
+		$ret.=tr(td(_("Date") ).td( $wDate->input()));
 		/* insert periode if needed */
 		// Periode
 		//--
@@ -1655,8 +1654,8 @@ class Acc_Ledger extends jrn_def_sql
 				}
 			}
 			$label = HtmlInput::infobulle(3);
-			$f_periode = _("Période comptable") . " $label " . $l_form_per;
-			$ret.=td($f_periode);
+			$f_periode = td(_("Période comptable") . " $label " ).td( $l_form_per);
+			$ret.=tr($f_periode);
 		}
 		$wPJ = new IText('e_pj');
 		$wPJ->readonly = false;

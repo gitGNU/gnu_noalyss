@@ -1145,7 +1145,7 @@ span.remain {
         position:absolute;
         z-index:2
     }
-@media only screen and (min-width: 955px) {
+@media only screen and (min-width: 1155px) {
     div#jrn_name_div
     {
         float: right;
@@ -1160,11 +1160,17 @@ span.remain {
         z-index:2
     }
 }
-@media only screen and (max-width: 955px) {
+@media only screen and (max-width: 1155px) {
     div#jrn_name_div
     {
+        display: none;
     }
     #predef_form {
+    }
+}
+@media only screen and (max-width: 900px) {
+    #predef_form {
+        display: none;
     }
 }
 #direct
