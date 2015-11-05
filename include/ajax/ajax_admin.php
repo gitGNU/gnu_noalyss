@@ -258,7 +258,7 @@ if (in_array($op, array('modele_drop', 'modele_modify', 'folder_modify', 'folder
         echo $confirm->input();
         echo '</p>';
         echo '<p style="text-align:center">';
-        echo HtmlInput::submit('remove', 'Effacer');
+        echo HtmlInput::submit('remove', _('Effacer'));
         echo '</p>';
         echo '</form>';
         $content=ob_get_clean();
@@ -287,7 +287,7 @@ if (in_array($op, array('modele_drop', 'modele_modify', 'folder_modify', 'folder
         echo HtmlInput::hidden('m', $dossier);
         echo HtmlInput::hidden('action', 'modele_mgt');
         echo '<br>';
-        echo HtmlInput::submit('upd', 'Modifie');
+        echo HtmlInput::submit('upd', _('Modifie'));
         echo '</form>';
         $content=ob_get_clean();
         $status='OK';
