@@ -345,6 +345,7 @@ class Pre_op_ven extends Pre_operation_detail
             // price
             $Price=new INum();
             $Price->setReadOnly(false);
+            $Price->prec=4;
             $Price->size=9;
             $Price->javascript="onBlur='format_number(this);clean_tva($i);compute_ledger($i)'";
             $array[$i]['pu']=$Price->input("e_march".$i."_price",$march_price);

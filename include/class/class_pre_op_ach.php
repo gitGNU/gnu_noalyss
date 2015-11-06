@@ -352,6 +352,7 @@ class Pre_op_ach extends Pre_operation_detail
             $array[$i]['denom']=$Span->input("e_march".$i."_label",$march_label);
             // price
             $Price=new INum();
+            $Price->prec=4;
             $Price->setReadOnly(false);
             $Price->size=9;
             $Price->javascript="onBlur='format_number(this);clean_tva($i);compute_ledger($i)'";
