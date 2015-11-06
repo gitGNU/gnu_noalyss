@@ -86,13 +86,13 @@ else
 
 if ( count($a_poste) == 0 )
 {
-    echo 'Rien à rapporter.';
+    echo _('Aucun résultat');
     printf("\n");
     exit;
 }
 
 // Header
-$header = array( "Date", "Référence", "Libellé", "Pièce","Lettrage", "Débit", "Crédit", "Solde" );
+$header = array( _("Date"), _("Référence"), _("Libellé"), _("Pièce"),_("Lettrage"), _("Débit"), _("Crédit"), _("Solde") );
 
 $l=(isset($_GET['letter']))?2:0;
 $s=(isset($_REQUEST['solded']))?1:0;
@@ -155,7 +155,7 @@ foreach ($a_poste as $poste)
             echo '"'.$current_exercice.'";';
             echo ";";
             echo ";";
-            echo 'Total du compte '.$Poste->id.";";
+            echo _('Total').$Poste->id.";";
             echo ($solde_d  > 0 ? nb($solde_d)  : '').";";
             echo ($solde_c  > 0 ? nb( $solde_c)  : '').";";
             echo nb(abs($solde_c-$solde_d)).";";
@@ -200,7 +200,7 @@ foreach ($a_poste as $poste)
     echo '"'.$current_exercice.'";';
     echo ";";
     echo ";";
-    echo 'Total du compte '.$Poste->id.";";
+    echo _('Total').$Poste->id.";";
     echo ($solde_d  > 0 ? nb($solde_d)  : '').";";
     echo ($solde_c  > 0 ? nb( $solde_c)  : '').";";
     echo nb(abs($solde_c-$solde_d)).";";
