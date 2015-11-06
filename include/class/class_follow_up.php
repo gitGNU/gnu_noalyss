@@ -290,7 +290,7 @@ class Follow_Up
         // select profile
         $aAg_dest=$this->db->make_array("select  p_id as value, ".
                 "p_name as label ".
-                " from profile  where p_id in (select p_granted from user_sec_action_profile where ua_right='W' and p_id=".$g_user->get_profile().") order by 2");
+                " from profile  where p_id in ".$g_user->get_writable_profile()."order by 2");
 
         $ag_dest->value=$aAg_dest;
         $ag_dest->selected=$this->ag_dest;
@@ -1172,6 +1172,7 @@ class Follow_Up
      */
     static function display_search($cn, $inner=false)
     {
+        global $g_user;
         $a=(isset($_GET['action_query']))?$_GET['action_query']:"";
         $qcode=(isset($_GET['qcode']))?$_GET['qcode']:"";
 
@@ -1246,7 +1247,9 @@ class Follow_Up
         // select profile
         $aAg_dest=$cn->make_array("select  p_id as value, ".
                 "p_name as label ".
-                " from profile order by 2");
+                " from profile where p_id in ".
+                $g_user->get_readable_profile().
+                "order by 2");
         $aAg_dest[]=array('value'=>'-2', 'label'=>_('Tous les profiles'));
         $ag_dest=new ISelect();
         $ag_dest->name="ag_dest_query";

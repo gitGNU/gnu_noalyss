@@ -48,9 +48,7 @@ $profile->value=$cn->make_array("select  p_id as value, ".
                 " from profile  "
         . "where "
         . "p_id in "
-        . " (select p_granted "
-        . "     from user_sec_action_profile "
-        . "     where ua_right='W' and p_id=".$g_user->get_profile().") "
+        . $g_user->get_writable_profile()
         . "order by 2");
 
 // priority

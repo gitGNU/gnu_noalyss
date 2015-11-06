@@ -1103,6 +1103,44 @@ class User
 		return $profile;
 	}
         /**
+        * Compute the SQL string for the writable profile, 
+         * the subselect for p_id , example
+        * p_id in $g_user->get_writable_profile.
+        * The administrator can access all the profiles
+        * @return SQL string with the subselect for p_id 
+        */
+       function get_writable_profile() 
+       {
+           if ( $this->admin != 1)
+           {
+               $sql = " (select p_granted "
+                   . "     from user_sec_action_profile "
+                   . "     where ua_right='W' and p_id=".$this->get_profile().") ";
+           } else {
+               $sql = "(select p_id from profile)";
+           }
+           return $sql;
+       }
+        /**
+        * Compute the SQL string for the readable profile, 
+         * the subselect for p_id , example
+        * p_id in $g_user->get_readable_profile.
+        * The administrator can read all the profiles
+        * @return SQL string with the subselect for p_id 
+        */
+       function get_readable_profile() 
+       {
+           if ( $this->admin != 1)
+           {
+               $sql = " (select p_granted "
+                   . "     from user_sec_action_profile "
+                   . "     where ua_right in ('W','R') and p_id=".$this->get_profile().") ";
+           } else {
+               $sql = "(select p_id from profile)";
+           }
+           return $sql;
+       }
+        /**
          * Check if the current user can add an action in the profile given
          * in parameter
          * @param type $p_profile profile.p_id = action_gestion.ag_dest
