@@ -67,7 +67,7 @@ $histo->value = array(
 	array('value' => 2, 'label' => _('Historique non Lettré')),
 	array('value' => 3, 'label' => _('Résumé')),
 	array('value' => 4, 'label' => _('Balance')),
-	array('value' => 6, 'label' => _('Balance âgée')),
+	array('value' => 8, 'label' => _('Balance âgée')),
 	array('value' => 7, 'label' => _('Balance âgée en-cours')),
 	array('value' => 5, 'label' => _('Balance non soldée'))
 );
@@ -280,7 +280,7 @@ if (isDate($_REQUEST['start']) == null || isDate($_REQUEST['end']) == null)
 /*************************************************************************************************************************
  * Balance agée tous
 /*************************************************************************************************************************/
-if ( $_GET['histo'] == 6)
+if ( $_GET['histo'] == 8)
 {
     require_once NOALYSS_INCLUDE.'/class/class_balance_age.php';
     $bal=new Balance_Age($cn);
