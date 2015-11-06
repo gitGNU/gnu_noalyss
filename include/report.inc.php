@@ -61,7 +61,7 @@ if (isset($_POST['update']))
 {
     $rap->from_array($_POST);
     $rap->save($_POST);
-    $menu=1;
+    $menu=0;
 }
 if (isset($_POST['upload']))
 {
@@ -105,7 +105,7 @@ if (isset($_REQUEST["action"]) && $menu == 0)
         echo '<span class="notice">'._("Les lignes vides seront effacées").'</span>';
         echo "</DIV>";
     }
-    if ($action=="view")
+    if ($action=="view" || $action == "record")
     {
         echo '<DIV class="content">';
         $rap->id=$_REQUEST ['fr_id'];
