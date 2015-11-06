@@ -251,6 +251,7 @@ else
 echo '<p class="notice">'.$p_msg.'</p>';
 try
 {
+    $payment=HtmlInput::default_value_request("e_mp", 0);
     echo "<FORM class=\"print\"NAME=\"form_detail\" METHOD=\"POST\" >";
     /* request for a predefined operation */
     if (isset($_REQUEST['pre_def'])&&!isset($_POST['correct']))
@@ -264,7 +265,7 @@ try
         $p_post['p_jrn']=$Ledger->id;
         echo $Ledger->input($p_post);
         echo '<div class="content">';
-        echo $Ledger->input_paid();
+        echo $Ledger->input_paid($payment);
         echo '</div>';
         echo '<script>';
         echo 'compute_all_ledger();';
@@ -276,7 +277,7 @@ try
         echo HtmlInput::hidden("p_action", "ach");
         echo HtmlInput::hidden("sa", "p");
         echo '<div class="content">';
-        echo $Ledger->input_paid();
+        echo $Ledger->input_paid($payment);
         echo '</div>';
         echo '<script>';
         echo 'compute_all_ledger();';

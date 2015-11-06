@@ -275,10 +275,10 @@ class Acc_Payment
     }
     /*!\brief show several lines with radio button to select the payment
      *method we want to use, the $_POST['e_mp'] will be set
-     *\param none
+     *\param $p_selected if the id choose
      *\return html string
      */
-    public function select()
+    public function select($p_select)
     {
         $r='';
         $array=$this->get_valide();
@@ -313,17 +313,20 @@ class Acc_Payment
                 {
                     $a=new ICard();
                     $a->jrn=$row->mp_jrn_def_id;
-					$a->set_attribute('typecard',$row->mp_fd_id);
+                    $a->set_attribute('typecard',$row->mp_fd_id);
                     $a->name='e_mp_qcode_'.$row->mp_id;
                     $a->set_dblclick("fill_ipopcard(this);");
                     $a->set_callback('filter_card');
                     $a->set_function('fill_data');
                     $a->set_attribute('ipopup','ipopcard');
                     $a->set_attribute('label',$a->name.'_label');
-
+                    if ( $p_select == $row->mp_id ) {
+                        $a->value=HtmlInput::default_value_request("e_mp_qcode_".$p_select, "");
+                    }
                     $s=new ISpan();
                     $s->name=$a->name.'_label';
                     $f=_(" paiement par ").$a->input().$s->input();
+                    
                 }
                 else
                 {
@@ -336,7 +339,8 @@ class Acc_Payment
 
                     //	  $f.=$fiche->strAttribut(ATTR_DEF_NAME);
                 }
-                $r.='<li><input type="radio" name="e_mp" value="'.$row->mp_id.'">';
+                $check=( $p_select == $row->mp_id)?" checked " : "unchecked";
+                $r.='<li><input type="radio" name="e_mp" value="'.$row->mp_id.'" '.$check.'>';
                 $r.=$row->mp_lib.'  '.$f;
 
             }

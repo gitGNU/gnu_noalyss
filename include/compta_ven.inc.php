@@ -265,6 +265,8 @@ echo '<div class="content">';
 echo '<p class="notice">'.$p_msg.'</p>';
 try
 {
+    $payment=HtmlInput::default_value_request("e_mp", 0);
+
     echo "<FORM class=\"print\" NAME=\"form_detail\" METHOD=\"POST\" >";
     /* request for a predefined operation */
     if (isset($_REQUEST['pre_def'])&&!isset($_POST['correct']))
@@ -278,7 +280,7 @@ try
 
         echo $Ledger->input($p_post);
         echo '<div class="content">';
-        echo $Ledger->input_paid();
+        echo $Ledger->input_paid($payment);
         echo '</div>';
         echo '<script>';
         echo 'compute_all_ledger();';
@@ -292,7 +294,7 @@ try
         echo HtmlInput::hidden("sa", "p");
         echo $Ledger->input($array);
         echo '<div class="content">';
-        echo $Ledger->input_paid();
+        echo $Ledger->input_paid($payment);
         echo '</div>';
         echo '<script>';
         echo 'compute_all_ledger();';
@@ -306,7 +308,7 @@ try
 
         echo $Ledger->input($array);
         echo '<div class="content">';
-        echo $Ledger->input_paid();
+        echo $Ledger->input_paid($payment);
         echo '</div>';
         echo '<script>';
         echo 'compute_all_ledger();';
