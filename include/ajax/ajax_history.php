@@ -132,6 +132,7 @@ if ( isset($_GET['f_id']))
 if ( isset($_REQUEST['pcm_val']))
   {
     $poste=new Acc_Account_Ledger($cn,$_REQUEST['pcm_val']);
+    $poste->load();
     $year=$g_user->get_exercice();
     if ( $year == 0 )
       {
@@ -195,7 +196,6 @@ if ( isset($_REQUEST['pcm_val']))
         
         if ( $result == -1)
 	  {
-	    echo h2($poste->id." ".$poste->name,' class="title"');
 	    echo h2(_("Aucune opération pour l'exercice courant"),'class="error"');
 	  } else {
                 echo $poste->filter_history('tb'.$div);
