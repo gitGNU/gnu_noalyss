@@ -1182,6 +1182,9 @@ function display_dashboard_operation($p_array,$p_title,$p_div)
 		endfor;
 		?>
 	</table>
+    <p style="text-align: center">
+        <?php echo HtmlInput::button_hide($p_div)?>
+    </p>
 	<?php else: ?>
 	<h2 class="notice"><?php echo _('Aucune donnée')?></h2>
 	<?php

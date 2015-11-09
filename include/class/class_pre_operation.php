@@ -251,6 +251,9 @@ class Pre_operation_detail
         $r.=$hid->input("action","use_opd");
         $r.=$hid->input("jrn_type",$this->get("ledger_type"));
         $r.= $this->show_button($p_url);
+        $r.=' <p style="text-align: center">'.
+        HtmlInput::button_hide('modele_op_div').
+        '</p>';
         $r.='</div>';
         return $r;
 

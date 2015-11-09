@@ -219,6 +219,9 @@ endif;
 	<?php else : ?>
 	<h2 class='notice'><?php echo _("Aucune action en retard")?></h2>
 	<?php endif; ?>
+         <p style="text-align: center">
+        <?php echo HtmlInput::button_hide("action_late_div")?>
+        </p>
 	</div>
 
 	<div id="action_now_div" class="inner_box" style="display:none;margin-left:25%;width: 50%;top:25%;min-height:50%;overflow: auto;">
@@ -247,6 +250,9 @@ endif;
 	</li>
 	<?php endfor;?>
 	</ol>
+        <p style="text-align: center">
+        <?php echo HtmlInput::button_hide("action_now_div")?>
+        </p>
 <?php endif; ?>
 	</div>
 	<?php display_dashboard_operation($supplier_now,_("Fournisseurs à payer aujourd'hui"),'supplier_now_div'); ?>

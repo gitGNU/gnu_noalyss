@@ -91,7 +91,11 @@ class Calendar
 			{
 				$this->action_div[$day].='<li>'.HtmlInput::detail_action($aAction[$i], $this->title[$day][$i]).'</li>';
 			}
-			$this->action_div[$day].='</ol></div>';
+			$this->action_div[$day].='</ol>';
+                        $this->action_div[$day].=' <p style="text-align: center">';
+                        $this->action_div[$day].=HtmlInput::button_hide('tsk'.$day);
+                        $this->action_div[$day].='</p>';
+                        $this->action_div[$day].='</div>';
 		}
         }
         else if ( $p_style == "long")

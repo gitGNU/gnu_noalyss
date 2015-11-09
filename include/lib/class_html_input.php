@@ -425,6 +425,21 @@ class HtmlInput
 
     }
     /**
+     * @brief Hide the HTML popup
+     * @param type $div_name
+     * @return type
+     */
+    static function button_hide($div_name)
+    {
+      $a=new IButton('Fermer');
+      $a->label=_("Fermer");
+      $a->javascript="$('".$div_name."').hide()";
+      $html=$a->input();
+
+      return $html;
+
+    }
+    /**
      * Return a html string with an anchor which close the inside popup. (top-right corner)
      *@param name of the DIV to close
      */

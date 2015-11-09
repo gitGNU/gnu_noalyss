@@ -29,6 +29,11 @@ if ( $in == "") {
 }
 $cal->set_periode($in);
 echo $cal->zoom($distype,$notitle);
+if ( $notitle== 0 ) {
+    echo '<p style="text-align:center">';
+    echo HtmlInput::button_close("calendar_zoom_div");
+    echo '</p>';
+}
 $response=  ob_get_clean();
 
 $html=escape_xml($response);

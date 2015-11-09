@@ -119,6 +119,15 @@ echo HtmlInput::hidden('gDossier',Dossier::id());
 echo HtmlInput::hidden('op','action_save');
 ?>
 <p style="text-align: center">
+<ol style="list-style: none">
+    <li style="display:inline">
     <?php echo HtmlInput::submit("action_add_submit", _('Valider'));?>
+    </li>
+    <li style="display:inline">
+        <?php echo HtmlInput::button_close("action_add_div")?>
+    </li>
+    
+</ol>
+    
 </p>
 </form>

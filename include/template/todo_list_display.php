@@ -100,7 +100,14 @@ echo HtmlInput::title_box("Note","todo_list_div".$this->tl_id,'close',$close_sha
     <?php echo HtmlInput::hidden('id',$this->tl_id) ?>
     <?php if ($this->use_login == $_SESSION['g_user']) : ?>
     <p style='text-align: center'>
-        <input type="submit" class="smallbutton" value="<?php echo _('Sauve');?>" onclick="todo_list_save(<?php echo $this->tl_id?>);return false">
+        <ol style="list-style: none;">
+            <li style="display:inline">
+                <input type="submit" class="smallbutton" value="<?php echo _('Sauve');?>" onclick="todo_list_save(<?php echo $this->tl_id?>);return false">
+             </li>
+             <li style="display:inline">
+                 <?php echo HtmlInput::button_close("todo_list_div".$this->tl_id);?>
+             </li>
+        </ol>
     </p>
      <?php endif; ?>   
 </form>
