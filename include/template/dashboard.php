@@ -200,10 +200,12 @@ endif;
 	for($i=0;$i<count($late_operation);$i++):
 	?>
 	<li>
-		<?php echo HtmlInput::detail_action($late_operation[$i]['ag_id'],h($late_operation[$i]['ag_ref']))?>
 	<span>
-	<?php echo smaller_date($late_operation[$i]['ag_timestamp_fmt'])?>
+	<?php echo smaller_date($late_operation[$i]['ag_timestamp_fmt']) , " ",
+                hb($late_operation[$i]['ag_hour']);
+                ?>
 	</span>
+		<?php echo HtmlInput::detail_action($late_operation[$i]['ag_id'],h($late_operation[$i]['ag_ref']))?>
 		<span  style="font-weight: bolder ">
 			<?php echo h($late_operation[$i]['vw_name'])?>
 		</span>
@@ -234,10 +236,11 @@ endif;
 	for($i=0;$i<count($last_operation);$i++):
 	?>
 	<li>
-		<?php echo HtmlInput::detail_action($last_operation[$i]['ag_id'],h($last_operation[$i]['ag_ref']))?>
 	<span>
-	<?php echo smaller_date($last_operation[$i]['ag_timestamp_fmt'])?>
+	<?php echo smaller_date($last_operation[$i]['ag_timestamp_fmt'])," ",
+                $last_operation[$i]['ag_hour']?>
 	</span>
+		<?php echo HtmlInput::detail_action($last_operation[$i]['ag_id'],h($last_operation[$i]['ag_ref']))?>
 		<span  style="font-weight: bolder ">
 			<?php echo h($last_operation[$i]['vw_name'])?>
 		</span>

@@ -89,7 +89,10 @@ class Calendar
 			 $this->action_div[$day].="<ol>";
 			for ($i=0;$i<count($aAction);$i++)
 			{
-				$this->action_div[$day].='<li>'.HtmlInput::detail_action($aAction[$i], $this->title[$day][$i]).'</li>';
+				$this->action_div[$day].='<li>'.HtmlInput::detail_action($aAction[$i],
+                                        $this->hour[$day][$i]." ".
+                                        $this->str_name[$day][$i]." ".
+                                        $this->title[$day][$i]).'</li>';
 			}
 			$this->action_div[$day].='</ol>';
                         $this->action_div[$day].=' <p style="text-align: center">';
@@ -105,7 +108,7 @@ class Calendar
                         $p_array[$day].="<ol>";
 			for ($i=0;$i<count($aAction);$i++)
 			{
-				$p_array[$day].='<li>'.hb($this->str_name[$day][$i]).'&rarr;'.HtmlInput::detail_action($aAction[$i], $this->hour[$day][$i]." ".$this->title[$day][$i]).'</li>';
+				$p_array[$day].='<li>'.$this->hour[$day][$i]." ".hb($this->str_name[$day][$i]).'&rarr;'.HtmlInput::detail_action($aAction[$i], $this->hour[$day][$i]." ".$this->title[$day][$i]).'</li>';
 			}
 			$p_array[$day].='</ol>';
 		}
