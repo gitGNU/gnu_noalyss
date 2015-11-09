@@ -37,6 +37,7 @@ echo HtmlInput::title_box(_('Suivi'), 'action_list_div');
         <tr class=" <?php echo ($i%2==0)?'even':'odd'?>">
             <td class="box">
                 <?php echo smaller_date($array[$i]['ag_timestamp_fmt']) ;?>
+                <?php echo " ".$array[$i]['ag_hour'] ;?>
             </td>
             <td class="box">
                 <?php echo HtmlInput::detail_action($array[$i]['ag_id'], $array[$i]['ag_ref'], 1)  ?>
