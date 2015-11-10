@@ -122,11 +122,12 @@ echo '<div class="welcome"> ';
 /**
  *
  * If the user is NOT admin and can access only ONE folder,
- * so it will be directly redirected to this folder or to the plugins of this
+ * OR for a One Folder Installation
+ * he will be directly redirected to his folder or to the plugins of this
  * folder if he's an "plugin user"
  */
 
-if ( $User->admin == 0 )
+if ( $User->admin == 0 || (defined("MULTI")&& MULTI == 0 ) )
 {
     // how many folder ?
     $folder=$User->get_available_folder();
