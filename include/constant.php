@@ -99,7 +99,10 @@ if ( !defined("SITE_UPDATE"))
 if ( !defined("SITE_UPDATE_PLUGIN"))
     define ("SITE_UPDATE_PLUGIN",'http://www.noalyss.eu/plugin_last_version.txt');
 
-
+// If you don't want that the system information  is accessible
+if ( ! defined ("SYSINFO_DISPLAY")) {
+    define ("SYSINFO_DISPLAY",TRUE);
+}
 define ("DBVERSION",122);
 define ("MONO_DATABASE",25);
 define ("DBVERSIONREPO",16);

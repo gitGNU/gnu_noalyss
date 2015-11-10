@@ -102,7 +102,7 @@ if ($action== 'audit_log')
 /*
  * Display information about current installation
  */
-if ( $action == "info") {
+if ( $action == "info" && SYSINFO_DISPLAY == true) {
     echo "<h2>"._('Variables').":".NOALYSS_INCLUDE.'/config.inc.php </h2>';
     echo '<ul style="list-style:square">';
     echo "<li>". "NOALYSS_HOME".": ".NOALYSS_HOME."</li>";
