@@ -23,30 +23,30 @@
 /*!\file
  * \brief user setting
  */
+<?php 
 date_default_timezone_set ('Europe/Brussels');
 $_ENV['TMP']='/tmp';
-# Complete path to pg_restore
 define("PG_PATH","/usr/bin");
 define("PG_RESTORE","/usr/bin/pg_restore ");
 define("PG_DUMP","/usr/bin/pg_dump ");
 define ("PSQL","/usr/bin/psql");
-define ("noalyss_user","dany");
+define ("noalyss_user","noalyss_sql");
 define ("noalyss_password","dany");
 define ("noalyss_psql_port","5432");
-define ("noalyss_psql_host","127.0.0.1");
+define ("noalyss_psql_host","localhost");
 define ("LOCALE",1);
 define ("domaine","");
 define ("MULTI",1);
 define ("dbname","");
-// Uncomment to DEBUG
+ // Uncomment to DEBUG
 // define ("DEBUG",TRUE);
-// Uncomment to log your input
+ // Uncomment to log your input
 // define ("LOGINPUT",TRUE);
 
 
-// Do not change below !!!
-// These variable are computed but could be changed in 
-// very special configuration
+ // Do not change below !!!
+ // These variable are computed but could be changed in 
+ // very special configuration
 // define ("NOALYSS_HOME","");
 // define ("NOALYSS_PLUGIN","");
 // define ("NOALYSS_INCLUDE","");
@@ -58,6 +58,5 @@ define ("dbname","");
 // published
 // define ("SITE_UPDATE","");
 // define ("SITE_UPDATE_PLUGIN","");
-// Uncomment to disable cache header
-// define ("ENABLE_CACHE","NO");
-?>
+// To allow to access the Info system
+// define ("SYSINFO_DISPLAY",true);

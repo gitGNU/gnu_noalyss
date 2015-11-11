@@ -75,7 +75,12 @@ session_start();
 </p>
 
 <?php
-
+error_reporting(2147483647);
+	ini_set("display_errors",1);
+	ini_set("display_startup_errors",1);
+	ini_set("html_errors",1);
+        ini_set('log_errors',1);
+        ini_set('log_errors_max_len',0);
 
 /*
  *   This file is part of NOALYSS.
@@ -137,12 +142,17 @@ content[205]="<?php echo _("Port pour postgresql")?>";
 content[206]="<?php echo _("En version mono dossier, le nom de la base de données doit être mentionné")?>";
 content[207]="<?php echo _("Vous devez choisir si NOALYSS est installé sur l'un de vos servers ou sur un server mutualisé qui ne donne qu'une seule base de données")?>";
 content[208]="<?php echo _("Serveur postgresql")?>";
+content[209]="<?php echo _("Choisir Vide si vous restaurez un modèle")?>";
 
 </script>
 
 <DIV id="bulle" class="infobulle"></DIV>
 
 <?php
+define ('MONO_TEMPLATE_EMPTY',4);
+define ('MONO_TEMPLATE_FRANCE',2);
+define ('MONO_TEMPLATE_BELGIUM',3);
+define ('MONO_TEMPLATE_UPGRADE',1);
 
 $failed="<span style=\"font-size:18px;color:red\">&#x2716;</span>";
 $succeed="<span style=\"font-size:18px;color:green\">&#x2713;</span>";
@@ -218,7 +228,7 @@ $locale=HtmlInput::default_value_request("clocale", "1");
 $ctmp=HtmlInput::default_value_request("ctmp", "/tmp");
 $cpath=HtmlInput::default_value_request("cpath", "/usr/bin");
 $db_name=HtmlInput::default_value_request("cdbname", "");
-
+$cmodelemono=HtmlInput::default_value_request('cmodelemono',MONO_TEMPLATE_UPGRADE);
 //-------------------------------------------------------------------------
 // warn only if we can not write in include 
 //-------------------------------------------------------------------------
@@ -590,24 +600,19 @@ $cn=new Database();
 
 echo "<h1>"._('Mise à jour du systeme')."</h1>";
 echo "<h2 >"._("Mise  à jour dossier")."</h2>";
+/**
+ * Update or install MONO
+ */
 if  (defined("MULTI") && MULTI == 0)
 {
 	$db = new Database();
-	if ($db->exist_table("version") == false)
+	if ($db->exist_table("repo_version") == false) 
 	{
-		echo '<p class="warning">' . $failed ;
-                printf (_('La base de donnée %s est vide, 
-                    veuillez vous y connecter et executer noalyss/contrib/mono-dossier/mono.sql
-                    avec phpPgAdmin ou pgAdmin3 ou en commande en ligne
-                    puis faites un seul de ces choix : '),dbname);
-                echo '<ul>';
-                echo '<li>'._("soit noalyss/contrib/mono-dossier/mono-france.sql pour la comptabilité française").'</li>';
-                echo '<li>'._("soit noalyss/contrib/mono-dossier/mono-belge.sql pour la comptabilité belge").'</li>';
-                echo '<li>'._("soit y restaurer un backup ou un modèle")."</li>
-                    </ul>
-				</p>";
-		exit();
+            if ( ! DEBUG) { ob_start();  }
+            $db->execute_script(NOALYSS_INCLUDE.'/sql/mono/mono.sql');
+            if ( ! DEBUG) ob_end_clean();
 	}
+        
 	echo "<h3>Patching " . dbname . '</h3>';
 	$db->apply_patch(dbname);
 	echo "<p class=\"info\">"._("Tout est install&eacute;"). $succeed;

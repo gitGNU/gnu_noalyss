@@ -66,9 +66,10 @@ function config_file_form($p_array=null)
         $cport=5432;
         $cdomain='';
         $clocale=1;
-	$multi=1;
-	$cdbname="database_noalyss";
+	$multi="N";
+	$cdbname="";
         $chost="localhost";
+        $cmodelemono=MONO_TEMPLATE_UPGRADE;
 
     }
     else extract ($p_array);
@@ -95,9 +96,21 @@ function config_file_form($p_array=null)
 	 */
 	$smulti=new ICheckBox('multi');
 	$smulti->javascript=' onchange="show_dbname(this)" ';
-        $smulti->value='Y';
+        $smulti->value = 'Y';
+        if ( $multi == 'Y') {
+            $smulti->selected=true;
+            
+        }
 	$icdbname=new IText('cdbname');
-
+        $icdbname->value=$cdbname;
+        $icmodelemono=new ISelect('cmodelemono');
+        $icmodelemono->value=array(
+            array('label'=>'***'._('Mise à jour').'***',"value"=>MONO_TEMPLATE_UPGRADE),
+            array('label'=>'Basique comptabilité France',"value"=>MONO_TEMPLATE_FRANCE),
+            array('label'=>'Basique comptabilité Belgique',"value"=>MONO_TEMPLATE_BELGIUM),
+            array('label'=>'***'._('Vide').'***',"value"=>MONO_TEMPLATE_EMPTY)
+        );
+        $icmodelemono->selected=$cmodelemono;
 	require NOALYSS_TEMPLATE.'/template_config_form.php';
 }
 /**
@@ -193,7 +206,6 @@ function display_file_config($p_array,$from_setup=1,$p_os=1)
     print ( '// define ("SITE_UPDATE_PLUGIN","");'."\r\n");
     print ( '// To allow to access the Info system'."\r\n");
     print ( '// define ("SYSINFO_DISPLAY",true);'."\r\n");
-    print ('?>');
 }
 /*!\brief create the config file
  */

@@ -95,4 +95,12 @@ function show_dbname(obj) {
 		alert_box(e.getMessage);
 	}
 }
+<?php 
+// Show the div is MONO
+if ( $smulti->selected == true) :
+?>
+    show_dbname($('multi'));
+<?php
+endif;
+?>
 </script>
