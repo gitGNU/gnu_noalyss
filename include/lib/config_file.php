@@ -100,7 +100,8 @@ function config_file_form($p_array=null)
             $smulti->selected=true;
             
         }
-	
+	$icdbname=new IText('cdbname');
+        $icdbname->value=$cdbname;
 	require NOALYSS_TEMPLATE.'/template_config_form.php';
 }
 /**
