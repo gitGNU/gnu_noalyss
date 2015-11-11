@@ -69,7 +69,6 @@ function config_file_form($p_array=null)
 	$multi="N";
 	$cdbname="";
         $chost="localhost";
-        $cmodelemono=MONO_TEMPLATE_UPGRADE;
 
     }
     else extract ($p_array);
@@ -101,16 +100,7 @@ function config_file_form($p_array=null)
             $smulti->selected=true;
             
         }
-	$icdbname=new IText('cdbname');
-        $icdbname->value=$cdbname;
-        $icmodelemono=new ISelect('cmodelemono');
-        $icmodelemono->value=array(
-            array('label'=>'***'._('Mise à jour').'***',"value"=>MONO_TEMPLATE_UPGRADE),
-            array('label'=>'Basique comptabilité France',"value"=>MONO_TEMPLATE_FRANCE),
-            array('label'=>'Basique comptabilité Belgique',"value"=>MONO_TEMPLATE_BELGIUM),
-            array('label'=>'***'._('Vide').'***',"value"=>MONO_TEMPLATE_EMPTY)
-        );
-        $icmodelemono->selected=$cmodelemono;
+	
 	require NOALYSS_TEMPLATE.'/template_config_form.php';
 }
 /**
