@@ -229,8 +229,12 @@ class Acc_Balance
         }//for i
         // Add the saldo
         $i+=1;
+        $delta=bcsub($tot_deb,$tot_cred);
+        $side_delta=($delta<0)?"C":"D";
+        $side_delta=($delta==0)?"=":$side_delta;
+        
         $a['poste']="";
-        $a['label']="Totaux ";
+        $a['label']="Totaux ".nbm(abs($delta)).$side_delta;
         $a['sum_deb']=$tot_deb;
         $a['sum_cred']=$tot_cred;
         $a['solde_deb']=$tot_deb_saldo;

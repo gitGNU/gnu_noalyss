@@ -36,7 +36,7 @@ require_once NOALYSS_INCLUDE.'/class/class_exercice.php';
 global $g_user;
 $gDossier=dossier::id();
 $exercice=(isset($_GET['exercice']))?$_GET['exercice']:$g_user->get_exercice();
-
+bcscale(2);
 
 echo '<div class="content">';
 /*
@@ -247,6 +247,7 @@ if ( isset ($_GET['view']  ) )
 //-----------------------------------------------------
 if ( isset($_GET['view'] ) )
 {
+    
     $bal=new Acc_Balance($cn);
     if ( $_GET['p_filter']==1)
     {
