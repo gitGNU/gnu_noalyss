@@ -262,7 +262,7 @@ if (! empty($array))
 
     // Totaux
     $pdf->SetFont('DejaVuCond','B',8);
-    $pdf->Cell(90,6,'Totaux');
+    $pdf->Cell(90,6,$r['label']);
      if ($previous == 1 ) {
         $pdf->Cell(22,6,nbm($tp_deb_previous),'T',0,'R',0);
         $pdf->Cell(22,6,nbm($tp_cred_previous),'T',0,'R',0);
