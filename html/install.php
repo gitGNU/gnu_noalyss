@@ -276,7 +276,7 @@ if (isset($_POST['save_config'])) {
   } else {
       echo '<h2 class="warning">';
       echo _('Impossible de se connecter à Postgresql, vérifiez les informations de connection');
-      echo '</h1>';
+      echo '</h2>';
   }
  }
 
