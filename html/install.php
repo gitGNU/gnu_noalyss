@@ -127,6 +127,7 @@ if ( $_GET['lang'] == "en_US.utf8" || $_GET['lang']=='fr_FR.utf8')
  <script type="text/javascript" charset="utf-8" language="javascript" src="js/infobulle.js">
 </script>
 <script>
+var content=new Array();    
 content[200]="<?php echo _("Indiquez ici le récuterpertoire où les documents temporaires peuvent être sauvés exemple c:/temp, /tmp")?>";
 content[201]="<?php echo _("Désactiver le changement de langue (requis pour MacOSX)")?>";
 content[202]="<?php echo _("Le chemin vers le repertoire contenant psql, pg_dump...")?>";
@@ -221,13 +222,12 @@ $db_name=HtmlInput::default_value_request("cdbname", "");
 //-------------------------------------------------------------------------
 // warn only if we can not write in include 
 //-------------------------------------------------------------------------
-if ( is_writable ('..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'include'.DIRECTORY_SEPARATOR.'constant.php') == false ) {
+if ( is_writable ('install.php') == false ) {
     echo '<h2 class="notice"> '._("Ecriture non possible").' </h2>'.
             '<p class="warning"> '.
             _("On ne peut pas écrire dans le répertoire de NOALYSS, changez-en les droits ")
             .'</p>';
   }
-  
 //----------------------------------------------------------------------------
 // We try to connect with the supplied information
 // If we succeed we continue the check
@@ -274,7 +274,7 @@ if (isset($_POST['save_config'])) {
           return;
       }
   } else {
-      echo '<h1 class="warning">';
+      echo '<h2 class="warning">';
       echo _('Impossible de se connecter à Postgresql, vérifiez les informations de connection');
       echo '</h1>';
   }
@@ -596,7 +596,9 @@ if  (defined("MULTI") && MULTI == 0)
 	if ($db->exist_table("version") == false)
 	{
 		echo '<p class="warning">' . $failed ;
-                printf (_('La base de donnée %s est vide, veuillez executer noalyss/contrib/mono-dossier/mono.sql
+                printf (_('La base de donnée %s est vide, 
+                    veuillez vous y connecter et executer noalyss/contrib/mono-dossier/mono.sql
+                    avec phpPgAdmin ou pgAdmin3 ou en commande en ligne
                     puis faites un seul de ces choix : '),dbname);
                 echo '<ul>';
                 echo '<li>'._("soit noalyss/contrib/mono-dossier/mono-france.sql pour la comptabilité française").'</li>';

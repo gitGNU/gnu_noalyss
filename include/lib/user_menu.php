@@ -139,7 +139,6 @@ function MenuAdmin()
 	{
 		$item=array (array("admin-noalyss.php?action=user_mgt",_("Utilisateurs"),_('Gestion des utilisateurs'),0),
                  array("admin-noalyss.php?action=audit_log",_("Audit"),_("Utilisateurs qui se sont connectés"),4),
-                 array("admin-noalyss.php?action=upgrade",_("Mise à jour"),_("Mise à jour du système et des bases de données"),5),
                  array("admin-noalyss.php?action=info",_("Information système"),('Information à propos de votre installation'),6),
                  array("login.php",_("Accueil")),
                  array("logout.php",_("Sortie"))

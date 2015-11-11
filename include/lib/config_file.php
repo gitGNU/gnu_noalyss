@@ -95,7 +95,7 @@ function config_file_form($p_array=null)
 	 */
 	$smulti=new ICheckBox('multi');
 	$smulti->javascript=' onchange="show_dbname(this)" ';
-
+        $smulti->value='Y';
 	$icdbname=new IText('cdbname');
 
 	require NOALYSS_TEMPLATE.'/template_config_form.php';
