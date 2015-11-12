@@ -27,7 +27,7 @@ insert into profile_menu (me_code,p_id,p_type_display) select 'RAW:document_temp
 delete from PROFILE_USER where pu_id in (select b.pu_id 
 	from profile_user as a , profile_user as b 
 	where 
-	upper(a.user_name) = b.user_name and a.pu_id <> b.pu_id );
+	upper(a.user_name) = b.user_name and b.user_name = upper(b.user_name) and a.pu_id <> b.pu_id );
 
 
 
@@ -56,7 +56,7 @@ COMMENT ON TRIGGER profile_user_ins_upd ON profile_user IS 'Force the column use
 delete from user_sec_jrn where uj_id in (select b.uj_id
 	from user_sec_jrn  as a , user_sec_jrn  as b 
 	where 
-	upper(a.uj_login) = b.uj_login and a.uj_id<> b.uj_id and a.uj_jrn_id=b.uj_jrn_id);
+	upper(a.uj_login) = b.uj_login and a.uj_id<> b.uj_id and a.uj_jrn_id=b.uj_jrn_id and b.uj_login=upper(b.uj_login);
 
 
 update user_sec_jrn set uj_login = lower(uj_login);
@@ -90,6 +90,7 @@ COMMENT ON TRIGGER user_sec_jrn_after_ins_upd  ON user_sec_jrn IS 'Force the col
 delete from user_sec_act where ua_id in (select b.ua_id
 	from user_sec_act as a , user_sec_act  as b 
 	where 
+	upper (b.ua_login) = b.ua_login and
 	upper(a.ua_login) = b.ua_login and a.ua_id<> b.ua_id and a.ua_act_id=b.ua_act_id) ;
 
 update user_sec_act set ua_login = lower(ua_login);
@@ -143,7 +144,7 @@ COMMENT ON TRIGGER todo_list_ins_upd ON todo_list IS 'Force the column use_login
 delete from todo_list_shared where id in (select b.id
 	from todo_list_shared as a , todo_list_shared as b 
 	where 
-	upper(a.use_login) = b.use_login and a.id<> b.id);
+	upper(a.use_login) = b.use_login and upper (b.use_login ) = b.use_login and a.id<> b.id);
 
 update todo_list_shared set use_login = lower(use_login);
 
