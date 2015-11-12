@@ -172,6 +172,13 @@ hr {width: 600px; background-color: #cccccc; border: 0px; height: 1px; color: #0
     
 }
 if ( $action == "upgrade" ) {
+?>    
+    <form method="get" id="frm_upg_all" onsubmit="return confirm_box('frm_upg_all','<?php echo _('Confirmez')?>')">
+    <input type="hidden" name="sb" value="upg_all">
+    <input type="hidden" name="action" value="upgrade">
+    <input type="submit" class="button" name="submit_upg_all" id="submit_upg_all" value="<?php echo _('Tout mettre à jour')?>">
+</form>
+<?php
     require_once NOALYSS_INCLUDE."/upgrade.inc.php";
 }
 ?>

@@ -29,11 +29,6 @@ if (!defined('ALLOWED'))
  * @param $rep db connection to central repository
  */
 ?>
-<form method="get" id="frm_upg_all" onsubmit="return confirm_box('frm_upg_all','<?php echo _('Confirmez')?>')">
-    <input type="hidden" name="sb" value="upg_all">
-    <input type="hidden" name="action" value="upgrade">
-    <input type="submit" class="button" name="submit_upg_all" id="submit_upg_all" value="<?php echo _('Tout mettre à jour')?>">
-</form>
 
 <?php
 $sb= HtmlInput::default_value_get("sb", "none");

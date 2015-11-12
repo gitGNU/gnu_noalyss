@@ -181,10 +181,10 @@ $BODY$
 LANGUAGE plpgsql;
 
 alter table quant_sold add column qs_unit numeric(20,4) default 0;
-update quant_sold set qs_unit = qs_price / qs_quantite;
+update quant_sold set qs_unit = qs_price / qs_quantite where qs_quantite <> 0 ;
 
 alter table quant_purchase add column qp_unit numeric(20,4) default 0;
-update quant_purchase set qp_unit = qp_price / qp_quantite;
+update quant_purchase set qp_unit = qp_price / qp_quantite where qp_quantite <> 0;
 
 CREATE OR REPLACE FUNCTION comptaproc.insert_quant_sold(p_internal text, p_jid numeric, p_fiche character varying, p_quant numeric, p_price numeric, p_vat numeric, p_vat_code integer, p_client character varying, p_tva_sided numeric, p_price_unit numeric)
   RETURNS void AS
