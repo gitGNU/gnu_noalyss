@@ -56,7 +56,7 @@ COMMENT ON TRIGGER profile_user_ins_upd ON profile_user IS 'Force the column use
 delete from user_sec_jrn where uj_id in (select b.uj_id
 	from user_sec_jrn  as a , user_sec_jrn  as b 
 	where 
-	upper(a.uj_login) = b.uj_login and a.uj_id<> b.uj_id and a.uj_jrn_id=b.uj_jrn_id and b.uj_login=upper(b.uj_login);
+	upper(a.uj_login) = b.uj_login and a.uj_id<> b.uj_id and a.uj_jrn_id=b.uj_jrn_id and b.uj_login=upper(b.uj_login));
 
 
 update user_sec_jrn set uj_login = lower(uj_login);
