@@ -44,9 +44,14 @@ if (        isNumber($key)== 0
 }
 
 $compute_key=new Anc_Key($key);
+$row=str_replace('t', "", $target);
 
 $compute_key->fill_table($target,$amount);
-
+echo <<<EOF
+<script>
+anc_refresh_remain('$target','$row');
+</script>
+EOF;
 ////
 $response = ob_get_clean();
 $html = escape_xml($response);

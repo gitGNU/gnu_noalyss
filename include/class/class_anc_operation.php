@@ -605,6 +605,7 @@ class Anc_Operation
             $value->name="val[".$p_seq."][]";
             $value->size=6;
             $value->value=(isset($val[$p_seq][$i]))?$val[$p_seq][$i]:abs($p_amount);
+            $value->value=round($value->value,2);
             $value->readOnly=($p_mode==1)?false:true;
             $remain=bcsub($remain,$value->value);
             $result.='<td>'.$value->input().'</td>';

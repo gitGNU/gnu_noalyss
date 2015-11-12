@@ -320,7 +320,8 @@ class Anc_Key
          bcscale(2);
         for ($i=0;$i< count($a_amount);$i++)
         {
-            $val[$number][$i]=bcmul($p_amount,$a_amount[$i]['ke_percent'])/100;
+            $val[$number][$i]=bcmul($p_amount,$a_amount[$i]['ke_percent']);
+            $val[$number][$i]=bcdiv($val[$number][$i],100);
         }
         $array['val']=$val;
                

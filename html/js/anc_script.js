@@ -419,6 +419,7 @@ function anc_key_compute(p_dossier, p_table, p_amount, p_key_id)
                             var code_html = getNodeText(html[0]); // Firefox ne prend que les 4096 car.
                             code_html = unescape_xml(code_html);
                             $(name_ctl).innerHTML = code_html;
+                            code_html.evalScripts();
                             removeDiv('div_anc_key_choice');
                         } catch (e)
                         {
