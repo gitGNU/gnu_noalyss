@@ -122,15 +122,22 @@ if ( $action == "info" && SYSINFO_DISPLAY == true) {
     $a_option = array ("client_encoding","lc_collate","listen_addresses",
         "server_encoding","work_mem","shared_buffers","server_version",
         "hba_file","config_file","data_directory","effective_cache_size");
+    /*
+     * For old version of noalyss config file
+     */
+    $noalyss_user=(defined("noalyss_user"))?noalyss_user:phpcompta_user;
+    $port=(defined("noalyss_psql_port"))?noalyss_psql_port:phpcompta_psql_port;
+    $host=(!defined("noalyss_psql_host") )?'127.0.0.1':noalyss_psql_host;
+    
     echo '<ul style="list-style:square">';
     echo "<li>";
-    echo _('Hôte')." = ".noalyss_psql_host;
+    echo _('Hôte')." = ".$host;
     echo "</li>";
     echo "<li>";
-    echo _('Port')." = ".noalyss_psql_port;
+    echo _('Port')." = ".$port;
     echo "</li>";
     echo "<li>";
-    echo _('Utilisateur')." = ".noalyss_user;
+    echo _('Utilisateur')." = ".$noalyss_user;
     echo "</li>";
     
     for ( $i = 0 ; $i < count($a_option); $i++) {
