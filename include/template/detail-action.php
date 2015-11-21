@@ -441,7 +441,7 @@ for ($i=0;$i<sizeof($aAttachedFile);$i++) :
 
       <tr>
           <td>
-              <A class="print" style="display:inline" id="<?php echo "doc".$aAttachedFile[$i]['d_id'];?>" href="<?php echo $aAttachedFile[$i]['link']?>">
+              <A class="print line" style="display:inline" id="<?php echo "doc".$aAttachedFile[$i]['d_id'];?>" href="<?php echo $aAttachedFile[$i]['link']?>">
           <?php echo $aAttachedFile[$i]['d_filename'];?>         </a>
           </td>
           <td>
