@@ -820,8 +820,7 @@ function removeOperation(p_jr_id, dossier, div)
  */
 function reverseOperation(obj)
 {
-    var qs = $(obj).serialize();
-    qs["op"]="ledger";
+    var qs = $(obj).serialize()+ "&op=ledger";
     g('ext' + obj.divname).style.display = 'none';
     g('bext' + obj.divname).style.display = 'none';
     waiting_box();
