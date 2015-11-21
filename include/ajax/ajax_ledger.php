@@ -157,7 +157,7 @@ case 'rmop':
             catch (Exception $e)
             {
                 $e->getMessage();
-                $cn->rollback;
+                $cn->rollback();
             }
             $html=ob_get_contents();
             ob_end_clean();
