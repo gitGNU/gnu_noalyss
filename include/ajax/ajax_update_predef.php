@@ -44,7 +44,7 @@ foreach (array('l','t','d','gDossier') as $a)
     }
 
 }
-$cn=Dossier::id();
+$cn=Dossier::connect();
 $op=new Pre_operation_detail($cn);
 $op->set('ledger',$l);
 $op->set('ledger_type',$t);

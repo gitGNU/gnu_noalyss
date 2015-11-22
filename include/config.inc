@@ -23,7 +23,6 @@
 /*!\file
  * \brief user setting
  */
-<?php 
 date_default_timezone_set ('Europe/Brussels');
 $_ENV['TMP']='/tmp';
 define("PG_PATH","/usr/bin");
@@ -60,3 +59,5 @@ define ("dbname","");
 // define ("SITE_UPDATE_PLUGIN","");
 // To allow to access the Info system
 // define ("SYSINFO_DISPLAY",true);
+// For developpement
+// define ("NOALYSS_VERSION",9999);
