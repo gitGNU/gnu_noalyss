@@ -197,6 +197,8 @@ function display_file_config($p_array,$from_setup=1,$p_os=1)
     print ( '// define ("SITE_UPDATE_PLUGIN","");'."\r\n");
     print ( '// To allow to access the Info system'."\r\n");
     print ( '// define ("SYSINFO_DISPLAY",true);'."\r\n");
+    print ( '// For developpement'."\r\n");
+    print ( '// define ("NOALYSS_VERSION",9999);'."\r\n");
 }
 /*!\brief create the config file
  */
