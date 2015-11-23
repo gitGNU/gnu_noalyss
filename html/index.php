@@ -142,6 +142,7 @@ echo '<!doctype html><HTML>
 <head>
 <TITLE> NOALYSS </TITLE>
 <link rel="shortcut icon" type="image/ico" href="favicon.ico" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
 BODY {
 background-color:white;
@@ -200,6 +201,19 @@ border-style:  solid;
 border-width:  0px;
 background-image: url("image/bg-submit3.gif");
 background-repeat: repeat-x repeat-y;
+}
+@media only screen and (max-width : 900px) {
+    #alternate_browser {
+        display : none;
+    }
+}
+@media only screen and (min-width : 901px) {
+    #alternate_browser {
+        position:absolute;
+        bottom: 0px;
+        left:0px;
+        z-index: -1
+    }
 }
 </style>
 <script src="js/scripts.js" type="text/javascript"></script>
@@ -323,7 +337,7 @@ echo '
     </script>
 <?php endif; ?>
         
-<div style="position:absolute;bottom: 0px;left:0px;z-index: -1">
+<div  id="alternate_browser">
     <p>Nous conseillons d'utiliser Firefox ou chrome.</p>
     <p>We recommend to use Firefox or Chrome.</p>
 <ul style="list-style:none;display:block">
