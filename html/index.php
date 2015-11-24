@@ -206,6 +206,13 @@ background-repeat: repeat-x repeat-y;
     #alternate_browser {
         display : none;
     }
+   #logo_id {
+    width:336px;
+    height:160px;
+    }
+    .input_text {
+        width:8em;
+    }
 }
 @media only screen and (min-width : 901px) {
     #alternate_browser {
@@ -214,6 +221,14 @@ background-repeat: repeat-x repeat-y;
         left:0px;
         z-index: -1
     }
+    #logo_id {
+    width:420px;
+    height:200px;
+    }
+    .input_text {
+        width: 24em;
+    }
+
 }
 </style>
 <script src="js/scripts.js" type="text/javascript"></script>
@@ -254,7 +269,7 @@ version  NOALYSS_VERSION - '.$my_domain.'
 
 <BR>
 <center>
-<IMG SRC="image/logo6820.png" style="width:420px;height:200px" alt="NOALYSS">
+<IMG SRC="image/logo6820.png" id="logo_id" alt="NOALYSS">
 <BR>
 <BR>
 <BR>
@@ -265,11 +280,11 @@ version  NOALYSS_VERSION - '.$my_domain.'
 <TABLE  BORDER=0 CELLSPACING=0>
 <TR>
 <TD class="cell">Utilisateur</TD>
-<TD><input type="text" class="input_text" value="" id="p_user" name="p_user" tabindex="1"></TD>
+<TD><input type="text" class="input_text" value="" id="p_user" name="p_user" autofocus tabindex="1"></TD>
 </TR>
 <TR>
 <TD class="cell"> Mot de passe </TD>
-<TD><INPUT TYPE="PASSWORD"  class="input_text" value=""  NAME="p_pass" tabindex="2"></TD>
+<TD><INPUT TYPE="PASSWORD"  class="input_text" value=""  NAME="p_pass"  tabindex="2"></TD>
 </TR>';
 
 
