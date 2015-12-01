@@ -158,7 +158,7 @@ echo '<div id="module">'.$result.'</div>';
 echo '</div>';
 ?>
 <div class="foldercontent">
-	<span style="display:block;margin:2%">
+	<span style="margin:2%" class="visible_gt800">
  <?php
                         echo _('Cherche').HtmlInput::infobulle(23);
 ?>
