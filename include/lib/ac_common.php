@@ -670,6 +670,12 @@ function set_language()
     // desactivate local check
     if ( defined("LOCALE") && LOCALE==0 ) return;
     if ( ! isset ($_SESSION['g_lang'])) return;
+    
+    /*
+     * If translation is not supported by current
+     */
+    if (! function_exists("bindtextdomain")) return;
+    
     $dir = "";
     // set differently the language depending of the operating system
     if (what_os() == 1)
