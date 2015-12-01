@@ -134,16 +134,8 @@ if ( $User->admin == 0 || (defined("MULTI")&& MULTI == 0 ) )
     if ( $folder != null  && count($folder) == 1 )
     {
 
-        if ( $User->check_dossier($folder[0]['dos_id']) == 'P')
-        {
-            redirect('extension.php?gDossier='.$folder[0]['dos_id']);
-            exit();
-        }
-        else
-        {
             redirect('do.php?gDossier='.$folder[0]['dos_id']);
             exit();
-        }
     }
 
 }
