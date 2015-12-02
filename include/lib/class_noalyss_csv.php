@@ -29,33 +29,33 @@ class Noalyss_Csv
 {
 
     private $filename;
+    private $element;
 
     function __construct($p_filename)
     {
         $this->filename=$p_filename;
-        $this->correct_name();
+        $this->element=array();
+        $this->size=0;
     }
 
     /***
      * @brief
      * Correct the name of the file , remove forbidden character and
-     * add extension
+     * add extension and date
      */
-    function correct_name()
+    private  function correct_name()
     {
         if (trim(strlen($this->filename))==0) {
             error_log('CSV->correct_name filename is empty');
             throw new Exception('CSV-CORRECT_NAME');
         }
-
-        // add extension if needed
-        if (strpos($this->filename, ".csv")==0)
-        {
-            $this->filename.".csv";
-        }
+        $this->filename.="-".date("ymd-Hi");
+        $this->filename.=".csv";
         
         $this->filename=str_replace(";", "", $this->filename);
         $this->filename=str_replace("/", "", $this->filename);
+        $this->filename=str_replace(":", "", $this->filename);
+        $this->filename=str_replace("*", "", $this->filename);
         $this->filename=str_replace(" ", "_", $this->filename);
         $this->filename=strtolower($this->filename);
     }
@@ -76,30 +76,75 @@ class Noalyss_Csv
     }
 
     /***
-     * write record , the numeric are detected are formatted properly with the
-     * function nb
+     * write header
      * @param array $p_array Array of 1 dimension with the contains of a row
-     * @see nb
      * 
      */
-    function write($p_array)
+    function write_header($p_array)
     {
         $size_array=count($p_array);
         $sep="";
         for ($i=0; $i<$size_array; $i++)
         {
-            if (isNumber($p_array[$i])==1)
-            {
-                printf($sep.'%s', nb($p_array[$i]));
-            }
-            else
-            {
                 printf($sep.'"%s"', $p_array[$i]);
-            }
             $sep=";";
         }
         printf("\r\n");
     }
-
+    /***
+     * Add column to export to csv , the string are enclosed with 
+     * double-quote,
+     * @param $p_item value to export
+     * @param $p_type must be text(default) or number
+     * @throws Exception
+     */
+    function add($p_item,$p_type="text") 
+    {
+        if ( ! in_array($p_type, array("text","number"))) {
+                throw new Exception("NOALYSS_CSV::ADD");
+        }
+        $this->element[$this->size]['value']=$p_item;
+        $this->element[$this->size]['type']=$p_type;
+        $this->size++;
+    }
+    /***
+     * the string are enclosed with  double-quote,
+     *  we remove problematic character and
+     * the number are formatted.
+     * Clean the row after exporting
+     * @return nothing
+     */
+    function write() 
+    {
+        if ($this->size == 0 ) return;
+        $sep="";
+        for ($i=0;$i < $this->size;$i++)
+        {
+            if ($this->element[$i]['type'] == 'number' )
+            {
+                printf($sep.'%s', nb($this->element[$i]['value']));
+            }
+            else
+            {
+                // remove break-line, 
+                $export=str_replace("\n"," ",$this->element[$i]['value']);
+                $export=str_replace("\r"," ", $export);
+                // remove double quote
+                $export=str_replace('"',"", $export);
+                printf($sep.'"%s"', $export);
+            }
+            $sep=";";
+        }
+        printf("\r\n");
+        $this->clean();
+    }
+    /**
+     * clean the row
+     */
+    private function clean()
+    {
+        $this->element=array();
+        $this->size=0;
+    }
 
 }

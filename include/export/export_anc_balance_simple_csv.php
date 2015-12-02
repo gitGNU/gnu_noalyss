@@ -23,11 +23,9 @@
 * \brief  export the operation in pdf
  */
 if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
-header('Pragma: public');
-header('Content-type: application/csv');
-header('Content-Disposition: attachment;filename="ca_bal_simple.csv"',FALSE);
 
 require_once  NOALYSS_INCLUDE.'/class/class_anc_balance_simple.php';
+require_once  NOALYSS_INCLUDE.'/lib/class_noalyss_csv.php';
 
 $cn=Dossier::connect();
 

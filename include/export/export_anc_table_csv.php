@@ -23,11 +23,10 @@
  * \brief export the anc tables in CSV
  */
 if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
-header('Pragma: public');
-header('Content-type: application/csv'); 
-header('Content-Disposition: attachment;filename="anc-table-export.csv"',FALSE);
 
 require_once NOALYSS_INCLUDE.'/class/class_anc_table.php';
+require_once  NOALYSS_INCLUDE.'/lib/class_noalyss_csv.php';
+
 $atable=new Anc_Table($cn);
 $atable->get_request();
 $atable->export_csv();

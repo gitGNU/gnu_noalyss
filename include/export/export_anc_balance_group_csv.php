@@ -24,10 +24,7 @@
  */
 if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 require_once NOALYSS_INCLUDE.'/class/class_anc_group.php';
-
-header('Pragma: public');
-header('Content-type: application/csv'); 
-header('Content-Disposition: attachment;filename="anc-balance-group-export.csv"',FALSE);
+require_once NOALYSS_INCLUDE.'/lib/class_noalyss_csv.php';
 
 $a=new Anc_Group($cn);
 $a->get_request();

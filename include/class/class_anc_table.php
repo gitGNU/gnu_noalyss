@@ -247,18 +247,22 @@ class Anc_Table extends Anc_Acc_Link
   {
    bcscale(2);
    if ( $this->check () != 0 ) {throw new Exception ( "DATE INVALIDE");}
-
+   $csv=new Noalyss_Csv("Anc-table");
+   $csv->send_header();
+   //---------------
+   // By Card
     if ( $this->card_poste=='1')
       {
 	$this->load_card();
 
-	echo '"Fiche"';
+	$csv->add("Fiche");
 	foreach ($this->aheader as $h)
 	  {
-	    echo ';"'.$h['po_name'].'"';
+	    $csv->add($h['po_name']);
 	  }
-	echo ';"Total"';
-	printf("\r\n");
+	$csv->add("Total");
+        $csv->write();
+        
 	/*
 	 * Show all the result
 	 */
@@ -266,7 +270,7 @@ class Anc_Table extends Anc_Acc_Link
 	for ($i=0;$i<count($this->arow);$i++)
 	  {
 
-	    printf('"%s"',$this->arow[$i]['card_account'].' '.$this->arow[$i]['name']);
+	    $csv->add($this->arow[$i]['card_account'].' '.$this->arow[$i]['name']);
 	    $tot_row=0;
 	    for ($x=0;$x<count($this->aheader);$x++)
 	      {
@@ -280,26 +284,27 @@ class Anc_Table extends Anc_Acc_Link
 		  {
 		    $tot_col[$x]=$amount;
 		  }
-		printf(";%s",nb($amount));
+		$csv->add($amount,"number");
 		$tot_row=bcadd($tot_row,$amount);
 	      }
-	    printf(";%s",nb($tot_row));
-	    printf("\r\n");
-		    
+	    $csv->add($tot_row,"number");
+            $csv->write();
 
 	  }
       }
+    //---------------
+   // By Accounting
     if ( $this->card_poste=='2')
       {
 	$this->load_poste();
 
-	echo '"Poste"';
+	$csv->add("Poste");
 	foreach ($this->aheader as $h)
 	  {
-	    echo ';"'.$h['po_name'].'"';
+	    $csv->add($h['po_name']);
 	  }
-	echo ';"Total"';
-	printf("\r\n");
+	$csv->add("Total");
+        $csv->write();
 	/*
 	 * Show all the result
 	 */
@@ -307,7 +312,7 @@ class Anc_Table extends Anc_Acc_Link
 	for ($i=0;$i<count($this->arow);$i++)
 	  {
 
-	    printf('"%s"',$this->arow[$i]['card_account'].' '.$this->arow[$i]['name']);
+	    $csv->add($this->arow[$i]['card_account'].' '.$this->arow[$i]['name']);
 	    $tot_row=0;
 	    for ($x=0;$x<count($this->aheader);$x++)
 	      {
@@ -321,12 +326,12 @@ class Anc_Table extends Anc_Acc_Link
 		  {
 		    $tot_col[$x]=$amount;
 		  }
-		printf(";%s",nb($amount));
+		$csv->add($amount,"number");
 		$tot_row=bcadd($tot_row,$amount);
 	      }
-	    printf(";%s",nb($tot_row));
-	    printf("\r\n");
-		    
+              $csv->add($tot_row,"number");
+              $csv->write();
+              
 
 	  }
       }

@@ -272,16 +272,17 @@ class Anc_Balance_Double extends Anc_Print
      */
     function display_csv()
     {
-        $r="";
+        $csv = new Noalyss_Csv("ca_bal_croise");
+        $csv->send_header();
+        
+        $csv->add("Poste comptable Analytique");
+        $csv->add("Poste comptable Analytique");
+        $csv->add("Debit");
+        $csv->add("Credit");
+        $csv->add("Solde");
+        $csv->add("D/C");
 
-        $r.='"Poste comptable Analytique";';
-        $r.='"Poste comptable Analytique";';
-        $r.='"Debit";';
-        $r.='"Credit";';
-        $r.='"Solde";';
-        $r.='"D/C"';
-
-        $r.="\r\n";
+        $csv->write();
 
         $array=$this->load();
         if ( is_array($array) == false )
@@ -292,16 +293,15 @@ class Anc_Balance_Double extends Anc_Print
         foreach ( $array as $row)
         {
 
-            $r.=sprintf('"%s";',$row['a_po_name']);
-            $r.=sprintf('"%s";',$row['b_po_name']);
-            $r.=sprintf("%s;",nb($row['a_d']));
-            $r.=sprintf("%s;",nb($row['a_c']));
-            $r.=sprintf("%s;",nb($row['a_solde']));
-            $r.=sprintf('"%s"',$row['a_debit']);
-            $r.="\r\n";
+            $csv->add($row['a_po_name']);
+            $csv->add($row['b_po_name']);
+            $csv->add($row['a_d'],'number');
+            $csv->add($row['a_c'],'number');
+            $csv->add($row['a_solde'],'number');
+            $csv->add($row['a_debit'],'text');
+            $csv->write();
         }
 
-        return $r;
 
     }
     /*!

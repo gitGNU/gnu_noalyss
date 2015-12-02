@@ -221,19 +221,18 @@ order by ga_description,po_name";
   function export_csv()
   {
     $array=$this->get_result();
-    printf('"groupe";"activité";"débit";"credit";"solde"');
-    printf("\r\n");
+    $cvs=new Noalyss_Csv ('anc-balance-group-export');
+    $cvs->send_header();
+    $cvs->write_header(array("groupe","activité","débit","credit","solde"));
     bcscale(2);
     for ($i=0;$i<count($array);$i++)
       {
-	printf('"%s";"%s";%s;%s;%s',
-	       $array[$i]['ga_id'],
-	       $array[$i]['po_name'],
-	       nb($array[$i]['sum_deb']),
-	       nb($array[$i]['sum_cred']),
-	       nb(bcsub($array[$i]['sum_cred'],$array[$i]['sum_deb']))
-	       );
-	printf("\r\n");
+        $cvs->add($array[$i]['ga_id']);
+        $cvs->add($array[$i]['po_name']);
+        $cvs->add($array[$i]['sum_deb'],"number");
+        $cvs->add($array[$i]['sum_cred'],"number");
+        $cvs->add(bcsub($array[$i]['sum_cred'],$array[$i]['sum_deb']),"number");
+        $cvs->write();
       }
   }
     static function test_me()

@@ -27,14 +27,12 @@
  *
  */
 if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
-header('Content-type: application/csv');
-header('Pragma: public');
-header('Content-Disposition: attachment;filename="ca_bal_croise.csv"',FALSE);
 
 require_once  NOALYSS_INCLUDE.'/class/class_anc_balance_double.php';
+require_once NOALYSS_INCLUDE.'/lib/class_noalyss_csv.php';
 
 $cn=Dossier::connect();
 
 $bal=new Anc_Balance_Double($cn);
 $bal->get_request();
-echo $bal->display_csv();
+$bal->display_csv();

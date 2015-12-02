@@ -159,22 +159,23 @@ class Anc_Listing extends Anc_Print
             return $array;
 
         }
-        $r="";
+        $csv=new Noalyss_Csv("anc_listing");
+        $csv->send_header();
+        $csv->write_header(array("Date","Poste","QuickCode",
+            "Activité","description","montant","d/c"));
         foreach ( $array as $row)
         {
             // the name and po_id
-            $r.=sprintf('"%s";',$row['oa_date']);
-            $r.=sprintf('"%s";',$row['j_poste']);
-            $r.=sprintf('"%s";',$row['qcode']);
-            $r.=sprintf('"%s";',$row['po_name']);
-            $r.=sprintf('"%s";',$row['oa_description']);
-            $r.=sprintf('"%s";',$row['oa_description']);
-
-            $r.=sprintf("%12.2f;",$row['oa_amount']);
-            $r.=sprintf("'%s'",(($row['oa_debit']=='f')?'CREDIT':'DEBIT'));
-            $r.="\r\n";
+            $csv->add($row['oa_date']);
+            $csv->add($row['j_poste']);
+            $csv->add($row['qcode']);
+            $csv->add($row['po_name']);
+            $csv->add($row['oa_description']);
+            $csv->add($row['oa_amount'],"number");
+            $csv->add(sprintf("'%s'",(($row['oa_debit']=='f')?'CREDIT':'DEBIT')));
+            $csv->write();
         }
-        return $r;
+        return;
 
     }
 

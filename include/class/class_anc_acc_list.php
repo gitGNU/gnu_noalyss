@@ -427,11 +427,12 @@ END) <> 0::numeric order by name,po_name",array($this->pa_id));
   function export_csv()
   {
    bcscale(2);
+   $csv=new Noalyss_CSV('export-anc-list');
+   $csv->send_header();
    if ( $this->check () != 0 ) {throw new Exception (_("date invalide"));}
       //---------------------------------------------------------------------------
     // Card  - Acc
     //---------------------------------------------------------------------------
-
     if ( $this->card_poste=='1')
       {
 	$this->load_card();
@@ -441,19 +442,22 @@ END) <> 0::numeric order by name,po_name",array($this->pa_id));
 	 */
 	$prev='';
 
-
 	for ($i=0;$i<count($this->arow);$i++)
 	  {
-	    printf('"%s";" %s"', $this->arow[$i]['j_qcode'],$this->arow[$i]['name']);
+            $idx=0;
+            $a_csv=array();
+            
+            $a_csv[$idx]=$this->arow[$i]['j_qcode']; $idx++;
+            $a_csv[$idx]=$this->arow[$i]['name'];$idx++;
+            $a_csv[$idx]=$this->arow[$i]['name'];$idx++;
+            $a_csv[$idx]=$this->arow[$i]['po_name'];$idx++;
+            $a_csv[$idx]=$this->arow[$i]['po_description'];$idx++;
 
 	    $amount=$this->arow[$i]['sum_amount'];
-	    if ($amount==null)$amount=0;
-
-	    printf(';"%s";" %s";',
-		   $this->arow[$i]['po_name'],
-		   $this->arow[$i]['po_description']);
-	    printf("%s",nb($amount));
-	    printf("\r\n");
+            if ($amount==null)$amount=0;
+            $a_csv[$idx]=$amount;$idx++;
+            
+            $csv->write_header($a_csv);
 	  }
       }
     //---------------------------------------------------------------------------
@@ -468,16 +472,16 @@ END) <> 0::numeric order by name,po_name",array($this->pa_id));
 	 */
 	for ($i=0;$i<count($this->arow);$i++)
 	  {
-	    printf('"%s";" %s"', $this->arow[$i]['j_poste'],$this->arow[$i]['name']);
-
-	    $amount=$this->arow[$i]['sum_amount'];
+            $csv->add( $this->arow[$i]['j_poste']);
+            $csv->add( $this->arow[$i]['name']);
+            $csv->add( $this->arow[$i]['po_name']);
+            $csv->add( $this->arow[$i]['po_description']);
+            
+            $amount=$this->arow[$i]['sum_amount'];
 	    if ($amount==null)$amount=0;
-
-	    printf(';"%s";" %s";',
-		   $this->arow[$i]['po_name'],
-		   $this->arow[$i]['po_description']);
-	    printf("%s",nb($amount));
-	    printf("\r\n");
+            $csv->add($amount,"number");
+            
+            $csv->write();
 
 
 	  }
@@ -494,16 +498,18 @@ END) <> 0::numeric order by name,po_name",array($this->pa_id));
 	 */
 	for ($i=0;$i<count($this->arow);$i++)
 	  {
-	    printf('"%s";" %s";', $this->arow[$i]['po_name'],$this->arow[$i]['po_description']);
+            $csv->add( $this->arow[$i]['po_name']);
+            $csv->add( $this->arow[$i]['po_description']);
+            $csv->add( $this->arow[$i]['j_qcode']);
+            $csv->add( $this->arow[$i]['name']);
 
 	    $amount=$this->arow[$i]['sum_amount'];
 	    if ($amount==null)$amount=0;
 
-	    printf('"%s";"%s";',
-		   $this->arow[$i]['j_qcode'],
-		   $this->arow[$i]['name']);
-	    printf("%s",nb($amount));
-	    printf("\r\n");
+            $csv->add($amount,"number");
+            
+            $csv->write();
+
 
 
 	  }
@@ -522,17 +528,17 @@ END) <> 0::numeric order by name,po_name",array($this->pa_id));
 	 */
 	for ($i=0;$i<count($this->arow);$i++)
 	  {
-	    printf('"%s";"%s";', $this->arow[$i]['po_name'],$this->arow[$i]['po_description']);
+            $csv->add( $this->arow[$i]['po_name']);
+            $csv->add( $this->arow[$i]['po_description']);
+            $csv->add( $this->arow[$i]['j_poste']);
+            $csv->add( $this->arow[$i]['name']);
 
 	    $amount=$this->arow[$i]['sum_amount'];
 	    if ($amount==null)$amount=0;
 
-	    printf('"%s";"%s";',
-		   $this->arow[$i]['j_poste'],
-		   $this->arow[$i]['name']);
-	    printf("%s",nb($amount));
-	    printf("\r\n");
-
+            $csv->add($amount,"number");
+            
+            $csv->write();
 
 	  }
       }

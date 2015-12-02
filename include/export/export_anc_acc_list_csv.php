@@ -24,12 +24,9 @@
  *
  */
 if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
-header('Pragma: public');
-header('Content-type: application/csv');
-header('Content-Disposition: attachment;filename="export-anc-list.csv"',FALSE);
 
 require_once  NOALYSS_INCLUDE.'/class/class_anc_acc_list.php';
-
+require_once NOALYSS_INCLUDE.'/lib/class_noalyss_csv.php';
 
 $bal=new Anc_Acc_List($cn);
 $bal->get_request();

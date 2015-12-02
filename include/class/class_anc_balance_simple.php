@@ -230,20 +230,23 @@ class Anc_Balance_Simple extends Anc_Print
             return $array;
 
         }
+        $csv=new Noalyss_Csv("ca_bal_simple");
+        $csv->send_header();
         $r="";
         foreach ( $array as $row)
         {
             // the name and po_id
             $solde=($row['sum_cred']>$row['sum_deb'])?'C':'D';
-            $solde=($row['sum_cred']==$row['sum_deb'])?'':$solde;
-            $r.=sprintf("'%s';",$row['po_id']);
-            $r.=sprintf("'%s';",$row['po_name']);
-            $r.=sprintf("%s;",nb($row['sum_deb']));
-            $r.=sprintf("%s;",nb($row['sum_cred']));
-            $r.=sprintf("%s;",nb($row['solde']));
-            $r.=sprintf("'%s'",$row['debit']);
-            $r.="\r\n";
-        }
+            $solde=($row['sum_cred']==$row['sum_deb'])?'0':$solde;
+            $csv->add($row['po_id']);
+            $csv->add($row['po_name']);
+            $csv->add($row['sum_deb'],"number");
+            $csv->add($row['sum_cred'],"number");
+            $csv->add($row['solde'],"number");
+            $csv->add($row['debit'],"text");
+            
+            $csv->write();
+        }   
         return $r;
 
     }
