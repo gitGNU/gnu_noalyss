@@ -108,7 +108,6 @@ class Document_Export
     {
         $this->check_file();
         ob_start();
-        var_dump($p_array);
         $cnt_feedback=0;
         global $cn;
 
@@ -141,11 +140,11 @@ class Document_Export
             }
 
             // Create a image with the stamp + formula
-            $img = imagecreatefromgif(__DIR__ . '/template/template.gif');
+            $img = imagecreatefromgif(NOALYSS_INCLUDE . '/template/template.gif');
             $font = imagecolorallocatealpha($img, 100, 100, 100, 110);
-            imagettftext($img, 40, 25, 500, 1000, $font, __DIR__ . '/tfpdf/font/unifont/DejaVuSans.ttf', _("Copie certifiée conforme à l'original"));
-            imagettftext($img, 40, 25, 550, 1100, $font, __DIR__ . '/tfpdf/font/unifont/DejaVuSans.ttf', $file[0]['jr_pj_number']);
-            imagettftext($img, 40, 25, 600, 1200, $font, __DIR__ . '/tfpdf/font/unifont/DejaVuSans.ttf', $file[0]['jr_pj_name']);
+            imagettftext($img, 40, 25, 500, 1000, $font, NOALYSS_INCLUDE . '/tfpdf/font/unifont/DejaVuSans.ttf', _("Copie certifiée conforme à l'original"));
+            imagettftext($img, 40, 25, 550, 1100, $font, NOALYSS_INCLUDE. '/tfpdf/font/unifont/DejaVuSans.ttf', $file[0]['jr_pj_number']);
+            imagettftext($img, 40, 25, 600, 1200, $font, NOALYSS_INCLUDE. '/tfpdf/font/unifont/DejaVuSans.ttf', $file[0]['jr_pj_name']);
             imagegif($img, $this->store_convert . '/' . 'stamp.gif');
 
             // transform gif file to pdf with convert tool
@@ -194,7 +193,7 @@ class Document_Export
 
         // remove files from "conversion folder"
         $this->clean_folder();
-        var_dump($this->feedback);
+        
         // concatenate all pdf into one
     }
    /**
