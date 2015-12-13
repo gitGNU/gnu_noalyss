@@ -824,6 +824,17 @@ class HtmlInput
 		      return $sel;
 			}
 	}
+	static function filter_table_form($p_table_id,$p_col,$start_row,$p_name,$p_old_value)
+	{
+		$r= "
+			<span>
+			<input id=\"lk_".$p_table_id."\" name=\"$p_name\" value=\"$p_old_value\"autocomplete=\"off\" class=\"input_text\" name=\"filter\" onkeyup=\"filter_table(this, '$p_table_id','$p_col',$start_row )\" type=\"text\">
+			<input type=\"button\" class=\"smallbutton\" onclick=\"$('lk_".$p_table_id."').value='';filter_table($('lk_".$p_table_id."'), '$p_table_id','$p_col',$start_row );\" value=\"X\">
+			</span>
+			";
+                $r.=' <span class="notice" id="info_'.$p_table_id.'"></span>';
+		return $r;
+	}
 	static function filter_table($p_table_id,$p_col,$start_row)
 	{
 		$r= "

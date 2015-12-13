@@ -78,8 +78,8 @@ if ( $low_action == "list" )
 	echo '<h2>' . "Exercice " . $g_user->get_exercice() . '</h2>';
 	echo dossier::hidden();
     $a=(isset($_GET['query']))?$_GET['query']:"";
-    printf (_('Recherche').' <input class="input_text" type="text" name="query" value="%s">',
-            $a);
+    echo _("Cherche ").HtmlInput::filter_table_form("tiers_tb", '0,1,2', 1,"query",$a);
+
     $choice_cat=HtmlInput::default_value_request("choice_cat", 1);
     if ( $choice_cat == 1 )
     {
