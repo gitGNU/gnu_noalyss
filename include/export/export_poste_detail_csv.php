@@ -25,10 +25,12 @@ require_once NOALYSS_INCLUDE.'/lib/ac_common.php';
 require_once NOALYSS_INCLUDE.'/lib/class_database.php';
 require_once NOALYSS_INCLUDE.'/class/class_acc_account_ledger.php';
 require_once  NOALYSS_INCLUDE.'/class/class_acc_operation.php';
-$fDate=date('dmy-Hi');
-header('Pragma: public');
-header('Content-type: application/csv');
-header('Content-Disposition: attachment;filename="poste-'.$fDate.'-'.$_REQUEST['poste_id'].'.csv"',FALSE);
+require_once NOALYSS_INCLUDE.'/lib/class_noalyss_csv.php';
+
+$r_poste=HtmlInput::default_value_request("poste_id", "error");
+
+$export=new Noalyss_Csv(_('poste').'_'.$r_poste);
+
 require_once NOALYSS_INCLUDE.'/class/class_dossier.php';
 $gDossier=dossier::id();
 
@@ -44,6 +46,7 @@ else
   $a_poste=$cn->get_array("select pcm_val from tmp_pcmn where pcm_val = $1",array($_REQUEST['poste_id']));
 }
 bcscale(2);
+$export->send_header();
 if ( ! isset ($_REQUEST['oper_detail']))
 {
     if ( count($a_poste) == 0 )
@@ -59,20 +62,21 @@ if ( ! isset ($_REQUEST['oper_detail']))
 							      );
         if ( count($Poste->row ) == 0 )
             continue;
-
-        echo '"Poste";'.
-	  '"n° pièce";'.
-	  '"Code journal";'.
-	  '"Nom journal";'.
-	  '"Lib.";'.
-        "\"Code interne\";".
-        "\"Date\";".
-        "\"Description\";".
-        "\"Débit\";".
-        "\"Crédit\";".
-        "\"Prog.\";".
-		"\"Let.\"";
-        printf("\n");
+        $title=array();
+        
+        $title[]=_("Poste");
+        $title[]=_("n° pièce");
+        $title[]=_("Code journal");
+        $title[]=_("Nom journal");
+        $title[]=_("Lib.");
+        $title[]=_("Interne");
+        $title[]=_("Date");
+        $title[]=_("Description");
+        $title[]=_("Débit");
+        $title[]=_("Crédit");
+        $title[]=_("Prog.");
+	$title[]=_("Let.");
+        $export->write_header($title);
 
         $prog=0;
         $current_exercice="";
@@ -89,14 +93,19 @@ if ( ! isset ($_REQUEST['oper_detail']))
             if ( $current_exercice != $op['p_exercice']) {
                 $solde_type=($tot_deb>$tot_cred)?"solde débiteur":"solde créditeur";
                 $diff=abs($tot_deb-$tot_cred);
-                printf(
-                     ";;;".
-                     '"'._('total').'";'.
-                     '"'.$current_exercice.'";'.
-                '"'."$solde_type".'"'.";".
-                nb($tot_deb).";".
-                nb($tot_cred).";".
-                nb($diff).";"."\n");
+                $export->add("");
+                $export->add("");
+                $export->add("");
+                $export->add(_("total"));
+                $export->add($current_exercice);
+                $export->add($solde_type);
+                $export->add("");
+                $export->add("");
+                
+                $export->add($tot_deb,"number");
+                $export->add($tot_cred,"number");
+                $export->add($diff,"number");
+                $export->write();
                 /*
                 * reset total and current_exercice
                 */
@@ -104,36 +113,42 @@ if ( ! isset ($_REQUEST['oper_detail']))
                 $current_exercice=$op['p_exercice'];
                 $tot_deb=0;$tot_cred=0;    
             }
-          $tot_deb=bcadd($tot_deb,$op['deb_montant']);
-          $tot_cred=bcadd($tot_cred,$op['cred_montant']);
-	  $diff=bcsub($op['deb_montant'],$op['cred_montant']);
-	  $prog=bcadd($prog,$diff);
-	  echo '"'.$pos['pcm_val'].'";'.
-	    '"'.$op['jr_pj_number'].'"'.";".
-	    '"'.$op['jrn_def_code'].'"'.";".
-	    '"'.$op['jrn_def_name'].'"'.";".
-            '"'.$name.'";'.
-            '"'.$op['jr_internal'].'"'.";".
-            '"'.$op['j_date_fmt'].'"'.";".
-            '"'.$op['description'].'";'.
-            nb($op['deb_montant']).";".
-            nb($op['cred_montant']).";".
-            nb(abs($prog)).";".
-			(($op['letter']!=-1)?strtoupper(base_convert($op['letter'],10,36)):"");
-            printf("\n");
+            $tot_deb=bcadd($tot_deb,$op['deb_montant']);
+            $tot_cred=bcadd($tot_cred,$op['cred_montant']);
+            $diff=bcsub($op['deb_montant'],$op['cred_montant']);
+            $prog=bcadd($prog,$diff);
+            $export->add($pos['pcm_val']);
+	    $export->add($op['jr_pj_number']);
+	    $export->add($op['jrn_def_code']);
+	    $export->add($op['jrn_def_name']);
+            $export->add($name);
+            $export->add($op['jr_internal']);
+            $export->add($op['j_date_fmt']);
+            $export->add($op['description']);
+            $export->add($op['deb_montant'],"number");
+            $export->add($op['cred_montant'],"number");
+            $export->add(abs($prog),"number");
+            $export->add((($op['letter']!=-1)?strtoupper(base_convert($op['letter'],10,36)):""));
+            
+            $export->write();
 
 
         }
         $solde_type=($tot_deb>$tot_cred)?"solde débiteur":"solde créditeur";
         $diff=abs($tot_deb-$tot_cred);
-       printf(
-                         ";;;".
-                         '"'._('total').'";'.
-                         '"'.$current_exercice.'";'.
-            '"'."$solde_type".'"'.";".
-            nb($tot_deb).";".
-            nb($tot_cred).";".
-            nb($diff).";"."\n");
+        $export->add("");
+        $export->add("");
+        $export->add("");
+        $export->add(_("total"));
+        $export->add($current_exercice);
+        $export->add($solde_type);
+        $export->add("");
+        $export->add("");
+
+        $export->add($tot_deb,"number");
+        $export->add($tot_cred,"number");
+        $export->add($diff,"number");
+        $export->write();
     }
 }
 else
@@ -152,16 +167,17 @@ else
                                                             );
         if ( count($Poste->row ) == 0 )
             continue;
+        $title=array();
+        $title[]=_("Poste");
+        $title[]=_("Lib.");
+        $title[]=_("QuickCode");
+        $title[]=_("Interne");
+        $title[]=_("Date");
+        $title[]=_("Description");
+        $title[]=_("Montant");
+        $title[]=_("D/C");
+        $export->write_header($title);
 
-        echo '"Poste";'.
-        '"Lib.";'.
-        '"QuickCode";'.
-        "\"Code interne\";".
-        "\"Date\";".
-        "\"Description\";".
-        "\"Montant\";".
-        "\"D/C\"";
-        printf("\n");
 
 
         foreach ( $Poste->row as $a )
@@ -171,17 +187,16 @@ else
             $result=$op->get_jrnx_detail();
             foreach ( $result as $r)
             {
-                printf('"%s";"%s";"%s";"%s";"%s";"%s";"%s";%12.2f;"%s"',
-                       $r['j_poste'],
-                       $r['pcm_lib'],
-                       $r['j_qcode'],
-                       $r['jr_internal'],
-                       $r['jr_date'],
-                       $a['description'],
-                       $a['jr_pj_number'],
-                       nb($r['j_montant']),
-                       $r['debit']);
-                printf("\r\n");
+                $export->add($r['j_poste']);
+                $export->add($r['pcm_lib']);
+                $export->add($r['j_qcode']);
+                $export->add($r['jr_internal']);
+                $export->add($r['jr_date']);
+                $export->add($a['description']);
+                $export->add($a['jr_pj_number']);
+                $export->add($r['j_montant'],"number");
+                $export->add($r['debit']);
+                $export->write();
 
             }
 

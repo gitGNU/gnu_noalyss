@@ -24,16 +24,17 @@
  * of card
  */
 if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
-header('Pragma: public');
-header('Content-type: application/csv');
-header('Content-Disposition: attachment;filename="bal-fiche.csv"',FALSE);
+
 
 // Security we check if user does exist and his privilege
 require_once NOALYSS_INCLUDE.'/class/class_user.php';
 require_once NOALYSS_INCLUDE.'/lib/class_database.php';
 require_once NOALYSS_INCLUDE.'/class/class_dossier.php';
 require_once NOALYSS_INCLUDE.'/lib/ac_common.php';
+require_once NOALYSS_INCLUDE.'/lib/class_noalyss_csv.php';
+
 $allcard=(isset($_GET['allcard']))?1:0;
+$export=new Noalyss_Csv(_('fiche-balance'));
 
 /* balance */
 if ( $_GET['histo'] == 4 || $_GET['histo'] == 5)
@@ -52,9 +53,12 @@ if ( $_GET['histo'] == 4 || $_GET['histo'] == 5)
 	{
 		$afiche[0]=array('fd_id'=>$_REQUEST['cat']);
 	}
-	printf('"Quick code";"Nom";"poste comptable";"debit";"credit";"solde";"D/C";');
-		printf("\n");
-	for ($e = 0; $e < count($afiche); $e++)
+        
+	$title=array("Quick code",_("Nom"),_("poste comptable"),_("debit"),_("credit"),_("solde"),"D/C");
+        $export->send_header();
+        $export->write_header($title);
+        
+        for ($e = 0; $e < count($afiche); $e++)
 	{
 		$aCard = $cn->get_array("select f_id,ad_value from fiche join fiche_Detail using (f_id)  where ad_id=1 and fd_id=$1 order by 2 ", array($afiche[$e]['fd_id']));
 
@@ -82,8 +86,14 @@ if ( $_GET['histo'] == 4 || $_GET['histo'] == 5)
 			if (bcsub($solde['credit'], $solde['debit']) > 0)
 				$side = 'Cred.';
 
-			printf('"%s";"%s";"%s";%s;%s;%s;"%s"', $oCard->strAttribut(ATTR_DEF_QUICKCODE), $oCard->strAttribut(ATTR_DEF_NAME),  $oCard->strAttribut(ATTR_DEF_ACCOUNT),nb($solde['debit']), nb($solde['credit']), nb(abs($solde['solde'])), $side);
-			printf("\n");
+                        $export->add($oCard->strAttribut(ATTR_DEF_QUICKCODE));
+                        $export->add($oCard->strAttribut(ATTR_DEF_NAME));
+                        $export->add($oCard->strAttribut(ATTR_DEF_ACCOUNT));
+                        $export->add($solde['debit'],"number"); 
+                        $export->add($solde['credit'],"number"); 
+                        $export->add(abs($solde['solde']),"number");
+                        $export->add($side);
+                        $export->write();
 		}
 	}
 }
@@ -133,20 +143,24 @@ else
 			/* skip if nothing to display */
 			if (count($letter->content) == 0)
 				continue;
-			printf('"%s";"%s";"%s"'."\n",$row->strAttribut(ATTR_DEF_QUICKCODE), $row->strAttribut(ATTR_DEF_NAME),$row->strAttribut(ATTR_DEF_ACCOUNT));
+			$export->add($row->strAttribut(ATTR_DEF_QUICKCODE));
+                        $export->add( $row->strAttribut(ATTR_DEF_NAME));
+                        $export->add($row->strAttribut(ATTR_DEF_ACCOUNT));
+                        $export->write();
 
-			printf('"%s";"%s";"%s";"%s";"%s";"%s";"%s";"%s";"%s"',
-					_('Date'),
-				_('ref'),
-				_('Interne'),
-				_('Comm'),
-				_('Débit'),
-				_('Crébit'),
-				_('Prog.'),
-				_('D/C'),
-				_('Let.'),
-					_("Diff Let."));
-			printf("\n");
+			
+			$export->add(_('Date'));
+			$export->add(_('ref'));
+			$export->add(_('Interne'));
+			$export->add(_('Comm'));
+			$export->add(_('Débit'));
+			$export->add(_('Crébit'));
+			$export->add(_('Prog.'));
+			$export->add(_('D/C'));
+			$export->add(_('Let.'));
+			$export->add(_("Diff Let."));
+			$export->write();
+                        
 			$amount_deb = 0;
 			$amount_cred = 0;
 			$prog = 0;
@@ -154,33 +168,32 @@ else
 			for ($i = 0; $i < count($letter->content); $i++)
 			{
 				$row = $letter->content[$i];
-				printf ('"%s";',$row['j_date_fmt']);
-				printf ('"%s";',$row['jr_pj_number']);
-				printf ('"%s";',$row['jr_internal']);
-				printf ('"%s";',$row['jr_comment']);
+				$export->add($row['j_date_fmt']);
+				$export->add($row['jr_pj_number']);
+				$export->add($row['jr_internal']);
+				$export->add($row['jr_comment']);
 				if ($row['j_debit'] == 't')
 				{
-					printf("%s;",nb($row['j_montant']));
+					$export->add($row['j_montant'],"number");
 					$amount_deb=bcadd($amount_deb,$row['j_montant']);
 					$prog = bcadd($prog, $row['j_montant']);
-					printf (";");
 				}
 				else
 				{
-					printf(";");
-					printf("%s;",nb($row['j_montant']));
+					$export->add($row['j_montant'],"number");
 					$amount_cred=bcadd($amount_cred,$row['j_montant']);
 					$prog = bcsub($prog, $row['j_montant']);
 				}
-				printf ("%s;\"%s\";",abs(nb($prog)),$fic->get_amount_side($prog));
+				$export->add(abs($prog),"number");
+                                $export->add($fic->get_amount_side($prog),"number");
 				if ($row['letter'] != -1)
 				{
-					printf('"%s";',  strtoupper(base_convert($row['letter'],10,36)));
-					printf("%s",nb($row['letter_diff']));
+					$export->add(strtoupper(base_convert($row['letter'],10,36)));
+					$export->add($row['letter_diff'],"number");
 				}
 				else
-					printf(";");
-				printf("\n");
+					$export->add("");
+				$export->write();
 			}
 			if ($prog < 0 )
 				$msg="Solde Debit";
@@ -188,10 +201,16 @@ else
 				$msg="Solde Credit";
 			else
 				$msg="soldé";
-
-			printf(';;;"%s";%s;%s;%s;"%s"',
-					$msg,nb($amount_deb),nb($amount_cred),nb(abs($prog)),$fic->get_amount_side($prog));
-			printf("\n");
+                        $export->add("");
+                        $export->add("");
+                        $export->add("");
+                        
+                        $export->add($msg);
+                        $export->add($amount_deb,"number");
+                        $export->add($amount_cred,"number");
+                        $export->add(abs($prog),"number");
+                        $export->add($fic->get_amount_side($prog),"number");
+			$export->write();
 		}
 	}
 }

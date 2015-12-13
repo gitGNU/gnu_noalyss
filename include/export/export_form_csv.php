@@ -26,11 +26,9 @@ require_once NOALYSS_INCLUDE.'/lib/class_database.php';
 require_once  NOALYSS_INCLUDE.'/class/class_user.php';
 require_once NOALYSS_INCLUDE.'/class/class_acc_report.php';
 require_once NOALYSS_INCLUDE.'/lib/class_impress.php';
-header('Pragma: public');
-header('Content-type: application/csv');
-header('Content-Disposition: attachment;filename="rapport.csv"',FALSE);
-
 require_once NOALYSS_INCLUDE.'/class/class_dossier.php';
+require_once NOALYSS_INCLUDE.'/lib/class_noalyss_csv.php';
+
 $gDossier=dossier::id();
 
 /* Admin. Dossier */
@@ -38,6 +36,9 @@ $cn=Dossier::connect();
 
 $Form=new Acc_Report($cn,$_GET['form_id']);
 $Form->get_name();
+
+$export=new Noalyss_Csv('report');
+$export->send_header();
 // Step ?
 //--
 $step=HtmlInput::default_value_get("p_step", 0);
@@ -52,17 +53,16 @@ if (  $step == 0 )
     if ( count($Form->row ) == 0 )
         exit;
 
-    echo       "\"Description\";".
-    "\"Montant\"\n";
+    $title=array(_("Description"),
+                _("Montant"));
 
-
+    $export->write_header($title);
 
     foreach ( $Form->row as $op )
     {
-        echo '"'.$op['desc'].'"'.";".
-        nb($op['montant']).
-        "\n";
-
+        $export->add($op['desc']);
+        $export->add($op['montant'],"number");
+        $export->write();
     }
 }
 elseif ($step == 1)
@@ -78,27 +78,27 @@ elseif ($step == 1)
     }
     // Display column heading
     //--
-    $x="";
-    printf ("Mois;");
+    $title=array();
+    $title[0]=_("Mois");
+    $i=1;
     foreach ($array[0] as $e)
     {
-        printf("%s%s",$x,$e['desc']);
-        $x=";";
-
+        $title[$i]=$e['desc'];
+        $i++;
     }
-    printf("\n");
+    $export->write_header($title);
     // Display value for each line
     //--
     $a=0;
     foreach ($array as $e )
     {
-        print $periode_name[$a];
+        $export->add( $periode_name[$a]);
         $a++;
         foreach ($e as $elt)
         {
-            printf(";%s",nb($elt['montant']));
+            $export->add($elt['montant'],"number");
         }
-        printf("\n");
+        $export->write();
     }
 }
 exit;

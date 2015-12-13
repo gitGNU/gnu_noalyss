@@ -22,9 +22,7 @@
 if (!defined('ALLOWED'))
     die('Appel direct ne sont pas permis');
 require 'class/class_balance_age.php';
-header('Pragma: public');
-header('Content-type: application/csv');
-header('Content-Disposition: attachment;filename="balance_age.csv"',FALSE);
+
 /**
  * @file
  * @brief Export an ageing balance

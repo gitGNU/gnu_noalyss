@@ -24,6 +24,8 @@ if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 include_once("lib/ac_common.php");
 require_once NOALYSS_INCLUDE.'/lib/class_database.php';
 require_once NOALYSS_INCLUDE.'/class/class_fiche.php';
+require_once NOALYSS_INCLUDE.'/lib/class_noalyss_csv.php';
+
 $f_id=HtmlInput::default_value_request("f_id", "-");
 if ( $f_id == "-") {
      throw new Exception ('Invalid parameter');
@@ -35,13 +37,13 @@ $gDossier=dossier::id();
 $cn=Dossier::connect();
 
 
+
 $Fiche=new Fiche($cn,$f_id);
 $qcode=$Fiche->get_quick_code();
 
-header('Content-type: application/csv');
+$export=new Noalyss_Csv(_('fiche_').$qcode);
+$export->send_header();
 
-header('Pragma: public');
-header('Content-Disposition: attachment;filename="fiche-'.$qcode.'.csv"',FALSE);
 $Fiche->getName();
 list($array,$tot_deb,$tot_cred)=$Fiche->get_row_date(
                                     $_GET['from_periode'],
@@ -50,25 +52,26 @@ list($array,$tot_deb,$tot_cred)=$Fiche->get_row_date(
                                 );
 if ( count($Fiche->row ) == 0 )
 {
-    echo "Aucune donnée";
+    echo _("Aucune donnée");
     return;
 }
 
 
 if ( ! isset ($_REQUEST['oper_detail']))
 {
-    echo '"Qcode";'.
-    "\"Date\";".
-      "\"n° pièce\";".
-    "\"Code interne\";".
-    '"Code journal";'.
-    '"Nom journal";'.
-    "\"Description\";".
-    "\"Débit\";".
-    "\"Crédit\";".
-    "\"Prog.\";".
-    "\"Let.\""     ;
-    printf("\n");
+    $title=array();
+    $title=array("Qcode",
+                "Date",
+                "n° pièce",
+                "Code interne",
+                "Code journal",
+                "Nom journal",
+                "Description",
+                "Débit",
+                "Crédit",
+                "Prog.",
+                "Let."   );
+    $export->write_header($title);
     $progress=0;
     $current_exercice="";
     $tot_deb=0;$tot_cred=0; 
@@ -83,14 +86,15 @@ if ( ! isset ($_REQUEST['oper_detail']))
             if ( $current_exercice != $op['p_exercice']) {
                 $solde_type=($tot_deb>$tot_cred)?"solde débiteur":"solde créditeur";
                 $diff=abs($tot_deb-$tot_cred);
-                printf(
-                     ";;;".
-                     '"'._('total').'";'.
-                     '"'.$current_exercice.'";;'.
-                '"'."$solde_type".'"'.";".
-                nb($tot_deb).";".
-                nb($tot_cred).";".
-                nb($diff).";"."\n");
+                $export->add("");
+                $export->add("");
+                $export->add("");
+                $export->add(_('total'));
+                $export->add($current_exercice);
+                $export->add($solde_type);
+                $export->add($tot_deb,"number");
+                $export->add($tot_cred,"number");
+                $export->add($diff,"number");
                 /*
                 * reset total and current_exercice
                 */
@@ -102,29 +106,32 @@ if ( ! isset ($_REQUEST['oper_detail']))
         $progress=bcadd($progress,$diff);
         $tot_deb=bcadd($tot_deb,$op['deb_montant']);
         $tot_cred=bcadd($tot_cred,$op['cred_montant']);
-        echo '"'.$op['j_qcode'].'";'.
-	  '"'.$op['j_date_fmt'].'"'.";".
-	  '"'.$op['jr_pj_number'].'"'.";".
-	  '"'.$op['jr_internal'].'"'.";".
-	  '"'.$op['jrn_def_code'].'"'.";".
-	  '"'.$op['jrn_def_name'].'"'.";".
-	  '"'.$op['description'].'"'.";".
-	  nb($op['deb_montant']).";".
-	  nb($op['cred_montant']).";".
-	  nb(abs($progress)).';'.
-	  '"'.(($op['letter']==-1)?'':strtoupper(base_convert($op['letter'],10,36))).'"';
-        printf("\n");
+        $export->add($op['j_qcode']);
+        $export->add($op['j_date_fmt']);
+        $export->add($op['jr_pj_number']);
+        $export->add($op['jr_internal']);
+        $export->add($op['jrn_def_code']);
+        $export->add($op['jrn_def_name']);
+        $export->add($op['description']);
+        $export->add($op['deb_montant'],"number");
+        $export->add($op['cred_montant'],"number");
+        $export->add(abs($progress),"number");
+        if ($op['letter'] !=-1){
+            $export->add(strtoupper(base_convert($op['letter'],10,36)));
+        } else {
+            $export->add("");
+        }
+            
+        $export->write();
 
     }
 }
 else
 {
-    echo '"Poste";"Qcode";"date";"ref";"internal";';
-    echo    "\"Description\";".
-    "\"Montant\";".
-    "\"D/C\"";
+    $title=array("Poste","Qcode","date","ref","internal",
+    "Description","Montant","D/C");
 
-    printf("\r\n");
+    $export->write_header($title);
 
     foreach ( $Fiche->row as $op )
     {
@@ -134,16 +141,15 @@ else
 
         foreach ( $result as $r)
         {
-            printf('"%s";"%s";"%s";"%s";"%s";%s;%s;"%s"',
-                   $r['j_poste'],
-                   $r['j_qcode'],
-                   $r['jr_date'],
-		   $op['jr_pj_number'],
-                   $r['jr_internal'],
-                   $r['description'],
-                   nb($r['j_montant']),
-                   $r['debit']);
-            printf("\r\n");
+            $export->add($r['j_poste']);
+            $export->add($r['j_qcode']);
+            $export->add($r['jr_date']);
+            $export->add($op['jr_pj_number']);
+            $export->add($r['jr_internal']);
+            $export->add($r['description']);
+            $export->add($r['j_montant'],"number");
+            $export->add($r['debit']);
+            $export->write();
 
         }
 
@@ -152,12 +158,16 @@ else
     }
 }
 $solde_type=($tot_deb>$tot_cred)?"solde débiteur":"solde créditeur";
+$solde_type=($tot_cred == $tot_deb)?" solde = ":$solde_type;
 $diff=abs($tot_deb-$tot_cred);
-printf(
-    '"'."$solde_type".'"'.";".
-    nb($diff).";".
-    nb($tot_deb).";".
-    nb($tot_cred)."\n");
+$export->add(_("totaux"));
+$export->add("D");
+$export->add($tot_deb,"number");
 
+$export->add("C");
+$export->add($tot_cred,"number");
+$export->add($solde_type);
+$export->add($diff,"number");
+$export->write();
 exit;
 ?>

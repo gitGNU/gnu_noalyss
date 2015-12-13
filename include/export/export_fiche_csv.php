@@ -21,18 +21,20 @@
  * \brief Send a CSV file with card
  */
 if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
-header('Pragma: public');
-header('Content-type: application/csv');
-header('Content-Disposition: attachment;filename="fiche.csv"',FALSE);
 include_once NOALYSS_INCLUDE."/lib/ac_common.php";
 include_once NOALYSS_INCLUDE.'/class/class_fiche.php';
 require_once NOALYSS_INCLUDE.'/lib/class_database.php';
 require_once NOALYSS_INCLUDE.'/class/class_dossier.php';
+require_once NOALYSS_INCLUDE.'/lib/class_noalyss_csv.php';
+
 $gDossier=dossier::id();
 
 $cn=Dossier::connect();
 
 require_once  NOALYSS_INCLUDE.'/class/class_user.php';
+
+$export=new Noalyss_Csv(_('fiche'));
+$export->send_header();
 
 
 
@@ -44,20 +46,13 @@ if  ( isset ($_GET['fd_id']))
     $o=0;
     //  Heading
     $fiche_def->GetAttribut();
+    $title=array();
     foreach ($fiche_def->attribut as $attribut)
     {
-        if ( $o == 0 )
-        {
-            printf("\"%s\"",$attribut->ad_text);
-            $o=1;
-        }
-        else
-        {
-            printf(";\"%s\"",$attribut->ad_text);
-        }
+            $title[]=$attribut->ad_text;
     }
-    printf("\n");
-    $o=0;
+    $export->write_header($title);
+    
     // Details
 
     foreach ($e as $fiche)
@@ -68,21 +63,13 @@ if  ( isset ($_GET['fd_id']))
 
         foreach ( $detail->attribut as $dattribut )
         {
-            $export=str_replace("\n"," ", $dattribut->av_text);
-            $export=str_replace("\r"," ", $export);
-            if ( $o == 0 )
-            {
-                printf("\"%s\"",$export);
-                $o=1;
-            }
+            if  ( $dattribut->ad_type=="numeric")
+                $export->add($dattribut->av_text,"number");
             else
-            {
-                printf (";\"%s\"",$export);
-
-            }
+                $export->add($dattribut->av_text);
+            
         }
-        printf("\n");
-        $o=0;
+        $export->write();
     }
 
 

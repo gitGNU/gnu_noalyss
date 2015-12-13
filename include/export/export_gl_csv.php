@@ -23,27 +23,22 @@
  * \brief create GL comptes as PDF
  */
 if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
-include_once('class/class_acc_account_ledger.php');
-include_once('lib/ac_common.php');
+include_once NOALYSS_INCLUDE.'/class/class_acc_account_ledger.php';
+include_once NOALYSS_INCLUDE.'/lib/ac_common.php';
 require_once NOALYSS_INCLUDE.'/lib/class_database.php';
-include_once('lib/class_impress.php');
+include_once NOALYSS_INCLUDE.'/lib/class_impress.php';
 require_once NOALYSS_INCLUDE.'/class/class_own.php';
 require_once NOALYSS_INCLUDE.'/class/class_dossier.php';
 require_once NOALYSS_INCLUDE.'/class/class_user.php';
-
-header('Content-type: application/csv');
-header('Content-Disposition: attachment;filename="gl_comptes.csv"',FALSE);
-header('Pragma: public');
-
-
+require_once NOALYSS_INCLUDE.'/lib/class_noalyss_csv.php';
 $gDossier=dossier::id();
 
 /* Security */
 $cn=Dossier::connect();
 
-
+$export=new Noalyss_Csv(_('grandlivre'));
 extract($_GET);
-
+$export->send_header();
 if ( isset($poste_id) && strlen(trim($poste_id)) != 0 && isNumber($poste_id) )
 {
     if ( isset ($poste_fille) )
@@ -119,16 +114,14 @@ foreach ($a_poste as $poste)
         continue;
     }
 
-    echo sprintf("%s - %s ",$Poste->id,$Poste->get_name());
-    printf("\n");
-
-    for($i=0;$i<count($header);$i++)
-        echo $header[$i].";";
-    printf("\n");
+    $export->add(sprintf("%s - %s ",$Poste->id,$Poste->get_name()));
+    $export->write();
+    $export->write_header($header);
 
     $solde = 0.0;
     $solde_d = 0.0;
     $solde_c = 0.0;
+    bcscale(2);
     $current_exercice="";
     foreach ($Poste->row as $detail)
     {
@@ -151,17 +144,25 @@ foreach ($a_poste as $poste)
         if ( $current_exercice == "") $current_exercice=$detail['p_exercice'];
 
         if ( $current_exercice != $detail['p_exercice']) {
-            echo ";";
-            echo '"'.$current_exercice.'";';
-            echo ";";
-            echo ";";
-            echo _('Total').$Poste->id.";";
-            echo ($solde_d  > 0 ? nb($solde_d)  : '').";";
-            echo ($solde_c  > 0 ? nb( $solde_c)  : '').";";
-            echo nb(abs($solde_c-$solde_d)).";";
-            echo ($solde_c > $solde_d ? 'C' : 'D').";";
-            printf("\n");
-            printf("\n");
+            $export->add("");
+            $export->add($current_exercice);
+            $export->add("");
+            $export->add("");
+            $export->add(_('Total')." ".$Poste->id);
+            if ( $solde_d > 0 ) {
+                $export->add($solde_d,"number");
+            } else {
+                $export->add("");
+            }
+            if ( $solde_c > 0 ) {
+                $export->add($solde_c,"number");
+            } else {
+                $export->add("");
+            }
+
+            $export->add(abs($solde_c-$solde_d),"number");
+            $export->add(($solde_c > $solde_d ? 'C' : 'D'));
+            $export->write();
             /*
             * reset total and current_exercice
             */
@@ -173,40 +174,47 @@ foreach ($a_poste as $poste)
         }
         if ($detail['cred_montant'] > 0)
         {
-            $solde   -= $detail['cred_montant'];
-            $solde_c += $detail['cred_montant'];
+            $solde   =bcsub($solde,$detail['cred_montant']);
+            $solde_c =bcadd($solde_c, $detail['cred_montant']);
         }
         if ($detail['deb_montant'] > 0)
         {
-            $solde   += $detail['deb_montant'];
-            $solde_d += $detail['deb_montant'];
+            $solde    =bcadd($solde, $detail['deb_montant']);
+            $solde_d = bcadd($solde_d,$detail['deb_montant']);
         }
 
-        echo $detail['j_date_fmt'].";";
-        echo $detail['jr_internal'].";";
-        echo $detail['description'].";";
-        echo $detail['jr_pj_number'].";";
-        if ($detail['letter'] == -1) { echo ';'; } else { echo $detail['letter'].";";}
-        echo ($detail['deb_montant']  > 0 ? nb($detail['deb_montant'])  : '').";";
-        echo ($detail['cred_montant'] > 0 ? nb($detail['cred_montant']) : '').";";
-        echo nb(abs($solde)).";";
-		echo $Poste->get_amount_side($solde);
-        printf("\n");
+        $export->add($detail['j_date_fmt']);
+        $export->add($detail['jr_internal']);
+        $export->add($detail['description']);
+        $export->add($detail['jr_pj_number']);
+        if ($detail['letter'] == -1) { $export->add(""); } 
+        else { $export->add($detail['letter']);}
+        if ($detail['deb_montant']  > 0 ) 
+            $export->add($detail['deb_montant'],"number");
+        else
+            $export->add("");
+        
+        if ($detail['cred_montant'] > 0 )
+            $export->add($detail['cred_montant'],"number");
+        else
+            $export->add("");
+        $export->add(abs($solde),"number");
+	$export->add($Poste->get_amount_side($solde),"text");
+        $export->write();
 
     }
 
 
-    echo ";";
-    echo '"'.$current_exercice.'";';
-    echo ";";
-    echo ";";
-    echo _('Total').$Poste->id.";";
-    echo ($solde_d  > 0 ? nb($solde_d)  : '').";";
-    echo ($solde_c  > 0 ? nb( $solde_c)  : '').";";
-    echo nb(abs($solde_c-$solde_d)).";";
-    echo ($solde_c > $solde_d ? 'C' : 'D').";";
-    printf("\n");
-    printf("\n");
+    $export->add("");
+    $export->add($current_exercice);
+    $export->add("");
+    $export->add("");
+    $export->add(_('Total').$Poste->id);
+    if ($solde_d  > 0 ) $export->add($solde_d,"number"); else $export->add("");
+    if ($solde_c  > 0 ) $export->add($solde_c,"number"); else $export->add("");
+    $export->add(abs($solde_c-$solde_d),"number");
+    $export->add(($solde_c > $solde_d ? 'C' : 'D'));
+    $export->write();
 }
 
 exit;

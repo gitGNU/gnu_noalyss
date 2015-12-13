@@ -204,8 +204,8 @@ class Document_Export
     {
         try 
         {
-            if (CONVERT_GIF_PDF == 'NO')    throw new Exception(_("CONVERT_GIF_PDF n'est pas installé"));
-            if (PDFTK          == 'NO')     throw new Exception(_("TKPDF n'est pas installé"));
+            if (CONVERT_GIF_PDF == 'NOT')    throw new Exception(_("CONVERT_GIF_PDF n'est pas installé"));
+            if (PDFTK          == 'NOT')     throw new Exception(_("TKPDF n'est pas installé"));
         } catch (Exception $ex) 
         {
             throw ($ex);

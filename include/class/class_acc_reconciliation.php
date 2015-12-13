@@ -434,6 +434,10 @@ j1.j_poste as poste
      */
     function export_csv($p_choice)
     {
+        require_once NOALYSS_INCLUDE.'/lib/class_noalyss_csv.php';
+        $export=new Noalyss_Csv(_('rapprochement'));
+        $export->send_header();
+
         $array = $this->get_data($p_choice);
         for ($i = 0; $i < count($array); $i++)
         {
@@ -443,14 +447,30 @@ j1.j_poste as poste
 
             $first = $array[$i]['first'];
             $a_depend = array();
+            $title=array();
             if (isset($array[$i]['depend']))
             {
                 $a_depend = $array[$i]['depend'];
                 //----- HEADER ----
                 if ($i == 0)
                 {
-                    printf('"n°";"Date";"internal";"libellé";"n° pièce";"nom journal";"type journal";"montant"');
-                    printf(';"<->";"Date";"internal";"libellé";"n° pièce";"nom journal";"type journal";"montant"' . "\n\r");
+                    $title[]=_('n°');
+                    $title[]=_('Date');
+                    $title[]=_('internal');
+                    $title[]=_('libellé');
+                    $title[]=_('pièce');
+                    $title[]=_('journal');
+                    $title[]=_('type journal');
+                    $title[]=_('montant');
+                    $title[]=_('<->');
+                    $title[]=_('Date');
+                    $title[]=_('Interne');
+                    $title[]=_('libell');
+                    $title[]=_('pièce');
+                    $title[]=_('nom journal');
+                    $title[]=_('type journal');
+                    $title[]=_('montant');
+
                 }
             }
             else
@@ -458,34 +478,73 @@ j1.j_poste as poste
                 //----- HEADER ----
                 if ($i == 0)
                 {
-                    printf('"n°";"Date";"internal";"libellé";"n° pièce";"nom journal";"type journal";"montant"' . "\n\r");
+                    $title[]=_('n°');
+                    $title[]=_('Date');
+                    $title[]=_('interne');
+                    $title[]=_('libellé');
+                    $title[]=_('pièce');
+                    $title[]=_('journal');
+                    $title[]=_('type journal');
+                    $title[]=_('montant');
+
                 }
             }
+            $export->write_header($title);
             // --------------------------
             // Print First
             // --------------------------
-            printf('%d;"%s";"%s";"%s";"%s";"%s";"%s";%f',$i, $first['jr_date'], $first['jr_internal'], $first['jr_comment'], $first['jr_pj_number'], $first['jrn_def_name'], $first['jrn_def_type'], $first['jr_montant']);
+            $export->add($i,"number");
+            $export->add($first['jr_date']);
+            $export->add($first['jr_internal']);
+            $export->add($first['jr_comment']);
+            $export->add($first['jr_pj_number']);
+            $export->add($first['jrn_def_name']);
+            $export->add($first['jrn_def_type']);
+            $export->add($first['jr_montant'],"number");
             if (count($a_depend) > 0)
             {
                 // --------------------------------------
                 // Print first depending operation
                 // --------------------------------------
                 $depend = $a_depend[0];
-                printf(';"<->";"%s";"%s";"%s";"%s";"%s";"%s";%f' . "\n\r", $depend['jr_date'], $depend['jr_internal'], $depend['jr_comment'], $depend['jr_pj_number'], $depend['jrn_def_name'], $depend['jrn_def_type'], $depend['jr_montant']);
-
+                $export->add("<->");
+                
+                $export->add($depend['jr_date']);
+                $export->add($depend['jr_internal']);
+                $export->add($depend['jr_comment']);
+                $export->add($depend['jr_pj_number']);
+                $export->add($depend['jrn_def_name']);
+                $export->add($depend['jrn_def_type']);
+                $export->add($depend['jr_montant'],"number");
+                $export->write();
                 // --------------------------------------
                 // print other depending operation if any
                 // --------------------------------------
                 for ($e = 1; $e < count($a_depend); $e++)
                 {
                     $depend = $a_depend[$e];
-                    printf(';;;;;;;"<->";');
-                    printf('"%s";"%s";"%s";"%s";"%s";"%s";%f' . "\n\r", $depend['jr_date'], $depend['jr_internal'], $depend['jr_comment'], $depend['jr_pj_number'], $depend['jrn_def_name'], $depend['jrn_def_type'], $depend['jr_montant']);
+                    $export->add("");
+                    $export->add("");
+                    $export->add("");
+                    $export->add("");
+                    $export->add("");
+                    $export->add("");
+                    $export->add("");
+                    $export->add("");
+                    $export->add("<->");
+                    $export->add($depend['jr_date']);
+                    $export->add($depend['jr_internal']);
+                    $export->add($depend['jr_comment']);
+                    $export->add($depend['jr_pj_number']);
+                    $export->add($depend['jrn_def_name']);
+                    $export->add($depend['jrn_def_type']);
+                    $export->add($depend['jr_montant'],"number");
+                    $export->write();
                 }
             }
             else
             {
-                printf("\n\r");
+                $export->write();
             }
         }
     }

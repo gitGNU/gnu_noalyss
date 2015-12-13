@@ -21,11 +21,7 @@
  * \brief Send a ledger in CSV format
  */
 if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
-$fDate = date('dmy-Hi');
-header('Pragma: public');
-header('Content-type: application/csv');
-header('Content-Disposition: attachment;filename="jrn-'.$fDate.'.csv"',FALSE);
-include_once ("lib/ac_common.php");
+include_once NOALYSS_INCLUDE."/lib/ac_common.php";
 require_once NOALYSS_INCLUDE.'/class/class_own.php';
 require_once NOALYSS_INCLUDE.'/class/class_acc_ledger_sold.php';
 require_once NOALYSS_INCLUDE.'/class/class_acc_ledger_purchase.php';
@@ -34,6 +30,11 @@ $gDossier=dossier::id();
 
 require_once NOALYSS_INCLUDE.'/lib/class_database.php';
 require_once NOALYSS_INCLUDE.'/class/class_acc_ledger.php';
+require_once NOALYSS_INCLUDE.'/lib/class_noalyss_csv.php';
+$export=new Noalyss_Csv(_('journal'));
+
+$export->send_header();
+
 
 /*
  * Variable from $_GET
@@ -100,19 +101,23 @@ if ($get_option == 2)
         if ($ret_detail == null)
             return;
         $nb = Database::num_row($ret_detail);
-        $output=fopen("php://output","w");
-        
+        $title=array();
+        foreach ($a_heading as $key=> $value)
+        {
+            $title[]=$value;
+        }
         for ($i = 0;$i < $nb ; $i++) {
             $row=Database::fetch_array($ret_detail, $i);
             if ( $i == 0 ) {
-              fputcsv($output,$a_heading,';');
+                $export->write_header($title);
             }
             $a_row=array();
+            $type="text";
             for ($j=0;$j < count($row) / 2;$j++) {
-                $a_row[]=$row[$j];
+                if ( $j > 18 ) $type="number";
+                $export->add($row[$j],$type);
             }
-            fputcsv($output,$a_row,';');
-            unset($a_row);
+            $export->write();
         }
     }
 }
@@ -123,9 +128,22 @@ if ($get_option == 2)
 if  ( $get_option == 0 )
 {
     $Jrn->get_row( $get_from_periode, $get_to_periode );
-
+    $title=array();
+    $title[]=_("operation");
+    $title[]=_("N° Pièce");
+    $title[]=_("Interne");
+    $title[]=_("Date");
+    $title[]=_("Poste");
+    $title[]=_("Libellé");
+    $title[]=_("Débit");
+    $title[]=_("Crédit");
+    $export->write_header($title);
     if ( count($Jrn->row) == 0)
         exit;
+    $old_id="";
+    /**
+     * @todo add table headers
+     */
     foreach ( $Jrn->row as $op )
     {
         // should clean description : remove <b><i> tag and '; char
@@ -134,20 +152,17 @@ if  ( $get_option == 0 )
         $desc=str_replace("</b>","",$desc);
         $desc=str_replace("<i>","",$desc);
         $desc=str_replace("</i>","",$desc);
-        $desc=str_replace('"',"'",$desc);
-        $desc=str_replace(";",",",$desc);
-
-        printf("\"%s\";\"%s\";\"%s\";\"%s\";\"%s\";\"%s\";%s;%s\n",
-               $op['j_id'],
-               $op['jr_pj_number'],
-               $op['internal'],
-               $op['j_date'],
-               $op['poste'],
-               $desc,
-               nb($op['deb_montant']),
-               nb($op['cred_montant'])
-              );
-
+        if ( $op['j_id'] != "") $old_id=$op['j_id'];
+      
+        $export->add($old_id,"text");
+        $export->add($op['jr_pj_number']);
+        $export->add($op['internal']);
+        $export->add($op['j_date']);
+        $export->add($op['poste']);
+        $export->add($desc);
+        $export->add($op['deb_montant'],"number");
+        $export->add($op['cred_montant'],"number");
+        $export->write();
     }
     exit;
 }
@@ -165,23 +180,24 @@ if  ($get_option == 1)
           $Row=$Jrn->get_rowSimple($get_from_periode,
                              $get_to_periode,
                              0);
-	 printf ('" operation";'.
-		 '"Date";'.
-		 '"N° Pièce";'.
-		 '"Tiers";'.
-		 '"commentaire";'.
-		 '"internal";'.
-		 '"montant";'.
-		 "\r\n");
+        $title=array();
+        $title[]=_("operation");
+        $title[]=_("Date");
+        $title[]=_("N° Pièce");
+        $title[]=_("Tiers");
+        $title[]=_("commentaire");
+        $title[]=_("internal");
+        $title[]=_("montant");
+        $export->write_header($title);
 	 foreach ($Row as $line)
 	   {
 
-	     echo $line['num'].";";
-	     echo $line['date'].";";
-	     echo $line['jr_pj_number'].";";
-	     echo $Jrn->get_tiers($line['jrn_def_type'],$line['jr_id']).";";
-	     echo $line['comment'].";";
-	     echo $line['jr_internal'].";";
+	     $export->add( $line['num']);
+	     $export->add($line['date']);
+	     $export->add($line['jr_pj_number']);
+	     $export->add($Jrn->get_tiers($line['jrn_def_type'],$line['jr_id']));
+	     $export->add($line['comment']);
+	     $export->add($line['jr_internal']);
 	     //	  echo "<TD>".$line['pj'].";";
 	     // If the ledger is financial :
 	     // the credit must be negative and written in red
@@ -190,15 +206,15 @@ if  ($get_option == 1)
 	       $positive = $cn->get_value("select qf_amount from quant_fin  ".
 					  " where jr_id=".$line['jr_id']);
 
-	       echo nb($positive);
-	       echo ";";
+	       $export->add($positive,"number");
+               $export->add("");
 	     }
 	     else
 	       {
-		 echo nb($line['montant']).";";
+		 $export->add($line['montant'],"number");
 	       }
 
-	     printf("\r\n");
+	     $export->write();
 	   }
        }
 
@@ -217,33 +233,46 @@ if  ($get_option == 1)
                 . "jr_id in (select jra_concerned from jrn_rapt where jr_id = $1 union all select jr_id from jrn_rapt where jra_concerned=$1)");
 
         $own=new Own($cn);
-        $col_tva="";
+        $title=array();
+        $title[]=_('Date');
+        $title[]=_("Paiement");
+        $title[]=_("operation");
+        $title[]=_("Pièce");
+        $title[]=_("Client/Fourn.");
+        $title[]=_("Note");
+        $title[]=_("interne");
+        $title[]=_("HTVA");
+        $title[]=_("privé");
+        $title[]=_("DNA");
+        $title[]=_("tva non ded.");
+        $title[]=_("TVA NP");
 
         if ( $own->MY_TVA_USE=='Y')
         {
             $a_Tva=$cn->get_array("select tva_id,tva_label from tva_rate order by tva_rate,tva_label,tva_id");
             foreach($a_Tva as $line_tva)
             {
-                $col_tva.='"Tva '.$line_tva['tva_label'].'";';
+                $title[]="Tva ".$line_tva['tva_label'];
             }
         }
-        echo '"Date";"Paiement";"operation";"Pièce";"Client/Fourn.";"Commentaire";"inter.";"HTVA";"privé";"DNA";"tva non ded.";"TVA NP";'.$col_tva.'"TVAC";"opérations liées"'."\n\r";
+        $title[]=_("TVAC");
+        $title[]=_("opérations liées");
+        $export->write_header($title);
+        
         foreach ($Row as $line)
         {
-            printf('"%s";"%s";"%s";"%s";"%s";%s;%s;%s;%s;%s;%s;%s;',
-                   $line['date'],
-                   $line['date_paid'],
-                   $line['num'],
-                   $line['jr_pj_number'],
-                   $Jrn->get_tiers($line['jrn_def_type'],$line['jr_id']),
-                   $line['comment'],
-                   $line['jr_internal'],
-                   nb($line['HTVA']),
-                   nb($line['dep_priv']),
-                   nb($line['dna']),
-                   nb($line['tva_dna']),
-                    nb($line['tva_np'])
-                   );
+            $export->add($line['date']);
+            $export->add($line['date_paid']);
+            $export->add($line['num']);
+            $export->add($line['jr_pj_number']);
+            $export->add($Jrn->get_tiers($line['jrn_def_type'],$line['jr_id']));
+            $export->add($line['comment']);
+            $export->add($line['jr_internal']);
+            $export->add($line['HTVA'],"number");
+            $export->add($line['dep_priv'],"number");
+            $export->add($line['dna'],"number");
+            $export->add($line['tva_dna'],"number");
+            $export->add($line['tva_np'],"number");
             $a_tva_amount=array();
             //- set all TVA to 0
             foreach ($a_Tva as $l) {
@@ -260,23 +289,23 @@ if  ($get_option == 1)
                 foreach ($a_Tva as $line_tva)
                 {
                     $a=$line_tva['tva_id'];
-                    echo nb($a_tva_amount[$a]).';';
+                    $export->add($a_tva_amount[$a],"number");
                 }
             }
-            echo nb ($line['TVAC']);
+            $export->add($line['TVAC'],"number");
             /**
              * Retrieve payment if any
              */
              $ret_reconcile=$cn->execute('reconcile_date',array($line['jr_id']));
              $max=Database::num_row($ret_reconcile);
             if ($max > 0) {
-                $sep=";";
                 for ($e=0;$e<$max;$e++) {
                     $row=Database::fetch_array($ret_reconcile, $e);
-                    echo $sep.$row['str_date'].'; '. $row['jr_internal'];
+                    $export->add($row['str_date']);
+                    $export->add($row['jr_internal']);
                 }
             }
-	    printf("\r\n");
+	    $export->write();
 
         }
     }

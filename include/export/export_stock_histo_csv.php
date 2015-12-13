@@ -27,36 +27,36 @@
  */
 if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 require_once NOALYSS_INCLUDE.'/class/class_stock.php';
-
+require_once NOALYSS_INCLUDE.'/lib/class_noalyss_csv.php';
+$export=new Noalyss_Csv(_('historique-stock'));
 $stock=new Stock($cn);
 $sql = $stock->create_query_histo($_GET);
 $sql .= " order by  real_date asc";
 
 $res=$cn->exec_sql($sql);
 $max_row=Database::num_row($res);
-header('Pragma: public');
-header('Content-type: application/csv');
-header('Content-Disposition: attachment;filename="histo-stock.csv"',FALSE);
-printf('"Date";');
-	printf('"%s";','Code Stock');
-	printf('"%s";','Depot');
-	printf('"%s";','Fiche');
-	printf('"%s";','Commentaire');
-	printf('%s;','Quantité');
-	printf('"%s";','IN/OUT');
-		printf("\n\r");
+$export->send_header();
+
+$export->write_header(array(_("Date"),
+                            _('Code Stock'),
+                            _('Depot'),
+                            _('Fiche'),
+                            _('Commentaire'),
+                            _('Quantité'),
+                            _('IN/OUT')));
+		
 for ($i=0;$i<$max_row;$i++)
 {
 	$row=Database::fetch_array($res,$i);
-	printf('"%s";',$row['cdate']);
-	printf('"%s";',$row['sg_code']);
-	printf('"%s";',$row['r_name']);
-	printf('"%s";',$row['qcode']);
+	$export->add($row['cdate']);
+	$export->add($row['sg_code']);
+	$export->add($row['r_name']);
+	$export->add($row['qcode']);
 	$row['ccomment']=str_replace('"','',$row['ccomment']);
-	printf('"%s";',$row['ccomment']);
-	printf('%s;',nbm($row['sg_quantity']));
-	printf('"%s";',$row['direction']);
-	printf("\n\r");
+	$export->add($row['ccomment']);
+	$export->add($row['sg_quantity'],"number");
+	$export->add($row['direction']);
+	$export->write();
 
 }
 

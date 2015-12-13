@@ -131,23 +131,33 @@ class Balance_Age
         $nb_fiche=count($a_fiche);
         require NOALYSS_TEMPLATE.'/balance_aged_result.php';
     }
-
+    /**
+     * Export Aged Balance to CSV
+     * @param $p_date_start date DD.MM.YYYY 
+     * @param type $p_let unlet for unlettered operations
+     */
     function export_csv($p_date_start, $p_let)
     {
+        require_once NOALYSS_INCLUDE.'/lib/class_noalyss_csv.php';
+        bcscale(2);
+        $export=new Noalyss_Csv('aged_balance');
+        $header = array(_('QuickCode') ,
+                        _('Nom'),
+                        _('Prénom'),
+                        _('Date'),
+                        _('N° pièce'),
+                        _('Interne'),
+                        _('Fin'),
+                        _('<30 jours'),
+                        _('entre 30 et 60 jours'),
+                        _('entre 60 et 90 jours'),
+                        _('> 90 jours') );
+        $export->send_header();
+        $export->write_header($header);
+        
+        
         $nb_fiche=count($this->afiche);
-        $title=sprintf('"%s";', _('QuickCode'));
-        $title.=sprintf('"%s";', _('Nom'));
-        $title.=sprintf('"%s";', _('Prénom'));
-        $title.=sprintf('"%s";', _('Date'));
-        $title.=sprintf('"%s";', _('N° pièce'));
-        $title.=sprintf('"%s";', _('Interne'));
-        $title.=sprintf('"%s";', _('Fin'));
-        $title.=sprintf('"%s";', _('<30 jours'));
-        $title.=sprintf('"%s";', _('entre 30 et 60 jours'));
-        $title.=sprintf('"%s";', _('entre 60 et 90 jours'));
-        $title.=sprintf('"%s";', _('> 90 jours'));
-        $title.=sprintf("\n\r");
-        $flag_title=false;
+       
         for ($i=0; $i<$nb_fiche; $i++)
         {
             $card=new Lettering_Card($this->cn, $this->afiche[$i]['quick_code']);
@@ -155,7 +165,6 @@ class Balance_Age
             $card->get_balance_ageing($p_let);
             if (empty($card->content))
                 continue;
-            if ( ! $flag_title ) { echo $title;$flag_title=true;}
             $nb_row=count($card->content);
             $sum_lt_30=0;
             $sum_gt_30_lt_60=0;
@@ -165,75 +174,77 @@ class Balance_Age
             for ($j=0; $j<$nb_row; $j++)
             {
                 $show=true;
-                printf('"%s";', str_replace('"', '', $this->afiche[$i]['quick_code']));
-                printf('"%s";', str_replace('"', '', $this->afiche[$i]['name']));
-                printf('"%s";', str_replace('"', '', $this->afiche[$i]['first_name']));
-                printf('"%s";', $card->content[$j]['j_date_fmt']);
-                printf('"%s";', $card->content[$j]['jr_pj_number']);
-                printf('"%s";', $card->content[$j]['jr_internal']);
+                $export->add($this->afiche[$i]['quick_code']);
+                $export->add($this->afiche[$i]['name']);
+                $export->add($this->afiche[$i]['first_name']);
+                $export->add($card->content[$j]['j_date_fmt']);
+                $export->add($card->content[$j]['jr_pj_number']);
+                $export->add($card->content[$j]['jr_internal']);
                 if ($card->content[$j]['jrn_def_type']=='FIN'||$card->content[$j]['jrn_def_type']=='ODS')
                 {
-                    printf("%s;", nb($card->content[$j]['j_montant']));
+                    $export->add($card->content[$j]['j_montant'],"number");
                     $sum_fin=bcadd($sum_fin, $card->content[$j]['j_montant']);
                     $show=false;
                 }
                 else
                 {
-                    printf('0;');
+                    $export->add(0,'number');
                 }
                 if ($show&&$card->content[$j]['day_paid']<=30)
                 {
-                    printf("%s;", nb($card->content[$j]['j_montant']));
+                    $export->add($card->content[$j]['j_montant'],"number");
                     $sum_lt_30=bcadd($sum_lt_30, $card->content[$j]['j_montant']);
                     $show=false;
                 }
                 else
                 {
-                    printf('0;');
+                    $export->add(0,'number');
                 }
 
                 if ($show&&$card->content[$j]['day_paid']>30&&$card->content[$j]['day_paid']<=60)
                 {
-                    printf("%s;", nb($card->content[$j]['j_montant']));
+                    $export->add($card->content[$j]['j_montant'],"number");
                     $sum_gt_30_lt_60=bcadd($sum_gt_30_lt_60, $card->content[$j]['j_montant']);
                 }
                 else
                 {
-                    printf('0;');
+                    $export->add(0,'number');
                 }
 
                 if ($show&&$card->content[$j]['day_paid']>60&&$card->content[$j]['day_paid']<=90)
                 {
-                    printf("%s;", nb($card->content[$j]['j_montant']));
+                    $export->add($card->content[$j]['j_montant'],"number");
                     $sum_gt_60_lt_90=bcadd($sum_gt_60_lt_90, $card->content[$j]['j_montant']);
                 }
                 else
                 {
-                    printf('0;');
+                    $export->add(0,'number');
                 }
                 if ($show&&$card->content[$j]['day_paid']>90)
                 {
-                    printf("%s", nb($card->content[$j]['j_montant']));
+                   $export->add($card->content[$j]['j_montant'],"number");
                     $sum_gt_90=bcadd($sum_gt_90, $card->content[$j]['j_montant']);
                 }
                 else
                 {
-                    printf('0;');
+                    $export->add(0,'number');
                 }
-                printf("\n\r");
+                $export->write();
             }
-            printf('"%s";', _('Totaux'));
-            printf('"";');
-            printf('"";');
-            printf('"";');
-            printf('"";');
-            printf('"";');
-            printf('%s;', nb($sum_fin));
-            printf('%s;', nb($sum_lt_30));
-            printf('%s;', nb($sum_gt_30_lt_60));
-            printf('%s;', nb($sum_gt_60_lt_90));
-            printf('%s', nb($sum_gt_90));
-            printf("\n\r");
+            $export->add(_('Totaux'));
+            $export->add("");
+            $export->add("");
+            $export->add("");
+            $export->add("");
+            $export->add("");
+            $export->add($sum_fin,"number");
+            $export->add($sum_lt_30,"number");
+            $export->add($sum_gt_30_lt_60,"number");
+            $export->add($sum_gt_60_lt_90,"number");
+            $export->add($sum_gt_90,"number");
+            $export->write();
+        
+        
         }
     }
 

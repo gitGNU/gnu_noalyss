@@ -98,10 +98,10 @@ class Acc_Account_Ledger
     /*!
      * \brief  Get data for accounting entry between 2 date
      *
-     * \param  $p_from date from
-     * \param  $p_to   end date
+     *\param  $p_from date from
+     *\param  $p_to   end date
      *\param $let 0 means all rows, 1 only lettered, 2 only unlettered
-	 * \param $solded 0 means all account, 1 means only accounts with a saldo <> 0
+     *\param $solded 0 means all account, 1 means only accounts with a saldo <> 0
      *\note the data are filtered by the access of the current user
      * \return double array (j_date,deb_montant,cred_montant,description,jrn_name,j_debit,jr_internal)
      *         (tot_deb,tot_credit

@@ -21,9 +21,8 @@
  * \brief Return the balance in CSV format
  */
 if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
-header('Pragma: public');
-header('Content-type: application/csv');
-header('Content-Disposition: attachment;filename="balance.csv"',FALSE);
+require_once NOALYSS_INCLUDE.'/lib/class_noalyss_csv.php';
+
 include_once ("lib/ac_common.php");
 include_once("class/class_acc_balance.php");
 require_once NOALYSS_INCLUDE.'/lib/class_database.php';
@@ -35,7 +34,7 @@ $cn=Dossier::connect();
 bcscale(2);
 
 require_once  NOALYSS_INCLUDE.'/class/class_user.php';
-
+$export=new Noalyss_Csv('balance');
 $bal=new Acc_Balance($cn);
 $bal->jrn=null;
 switch( $_GET['p_filter'])
@@ -70,33 +69,36 @@ $row=$bal->get_row($_GET['from_periode'],
                    $_GET['to_periode'],
         $prev);
 $prev =  ( isset ($row[0]['sum_cred_previous'])) ?1:0;
-echo 'poste;libelle;';
-if ($prev  == 1 ) echo 'deb n-1;cred n-1;solde n-1;d/c;';
-echo 'deb;cred;solde;d/c';
-printf("\n");
+$title=array('poste','libelle');
+if ($prev  == 1 ) $title=array_merge($title,array('deb n-1','cred n-1','solde n-1','d/c;'));
+$title=array_merge($title,array('deb','cred','solde','d/c'));
+
+$export->send_header();
+$export->write_header($title);
 foreach ($row as $r)
 {
-    echo $r['poste'].';'.
-    $r['label'].';';
+    $export->add($r['poste']);
+    $export->add($r['label']);
+    
     if ( $prev == 1 )
     {
         $delta=bcsub($r['solde_deb_previous'],$r['solde_cred_previous']);
         $sign=($delta<0)?'C':'D';
         $sign=($delta == 0)?'=':$sign;
-        echo  nb($r['sum_deb_previous']).';'.
-        nb($r['sum_cred_previous']).';'.
-        nb(abs($delta)).';'.
-        "$sign".';';
+        $export->add($r['sum_deb_previous'],"number");
+        $export->add($r['sum_cred_previous'],"number");
+        $export->add(abs($delta),"number");
+        $export->add($sign);
        
     }
     $delta=bcsub($r['solde_deb'],$r['solde_cred']);
     $sign=($delta<0)?'C':'D';
     $sign=($delta == 0)?'=':$sign;
-    echo nb($r['sum_deb']).';'.
-    nb($r['sum_cred']).';'.
-    nb(abs($delta)).';'.
-    "$sign";
-    printf("\n");
+    $export->add($r['sum_deb'],"number");
+    $export->add($r['sum_cred'],"number");
+    $export->add(abs($delta),"number");
+    $export->add($sign);
+    $export->write();
 }
 
 

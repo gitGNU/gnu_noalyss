@@ -8,17 +8,13 @@
  * @see impress_rec.inc.php
  */
 if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
-$Date=date('Ymd');
-$filename="reconcialed_operation-".$Date;
-
-header('Pragma: public');
-header('Content-type: application/csv');
-header('Content-Disposition: attachment;filename="'.$filename.'.csv"',FALSE);
 
 require_once NOALYSS_INCLUDE.'/class/class_acc_reconciliation.php';
 require_once NOALYSS_INCLUDE.'/lib/ac_common.php';
 require_once NOALYSS_INCLUDE.'/lib/class_database.php';
 require_once NOALYSS_INCLUDE.'/class/class_dossier.php';
+require_once NOALYSS_INCLUDE.'/lib/class_noalyss_csv.php';
+
 // --------------------------
 // Check if all mandatory arg are passed
 foreach (array('choice','p_end','p_start') as $arg)
