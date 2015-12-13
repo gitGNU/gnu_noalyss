@@ -43,6 +43,8 @@ echo td($detail);
                 if ($attr->ad_type=="date") :
                     // format YYYYMMDD
                     $sort='sorttable_customkey="'.format_date($attr->av_text, "DD.MM.YYYY", "YYYYMMDD").'"'; 
+                elseif ($attr->ad_type=="poste"):
+                    $sort='sorttable_customkey="TEXT'.$attr->av_text.'"'; 
                 endif;
         	echo td($attr->av_text,'style="padding: 0 10 1 10;white-space:nowrap;" '.$sort);
 	 else:
