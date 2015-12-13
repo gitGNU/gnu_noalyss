@@ -1591,7 +1591,6 @@ class Fiche
 
         if ( $all_tiers == 0 || count($step_tiers)==0 ) return "";
         $r="";
-        $r.=_("Cherche ").HtmlInput::filter_table("tiers_tb", '0,1,2', 1);
         $r.=$bar;
         
         $r.='<table  id="tiers_tb" class="sortable"  style="width:90%;margin-left:5%">
@@ -1637,7 +1636,7 @@ class Fiche
                        $url_detail);
 
             $r.="<TD> $e".$tiers->strAttribut(ATTR_DEF_QUICKCODE)."</A></TD>";
-            $r.="<TD> $e".$accounting."</TD>";
+            $r.="<TD sorttable_customkey=\"text{$accounting}\"> $e".$accounting."</TD>";
             $r.="<TD>".h($tiers->strAttribut(ATTR_DEF_NAME))."</TD>";
             $r.="<TD>".h($tiers->strAttribut(ATTR_DEF_ADRESS).
                          " ".$tiers->strAttribut(ATTR_DEF_CP).
