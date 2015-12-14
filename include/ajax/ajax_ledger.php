@@ -301,7 +301,7 @@ case 'loadfile':
         $cn->start();
         // remove the file
         $grpt=$cn->get_value('select jr_grpt_id from jrn where jr_id=$1',array($jr_id));
-        $cn->save_upload_document($grpt);
+        $cn->save_receipt($grpt);
         $cn->commit();
         // Show a link to the new file
         $op->get();

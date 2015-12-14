@@ -808,66 +808,84 @@ class Database
 
         return $r;
     }
-
-    /**
-     * \brief Save a "piece justificative"
+    /***
+     * \brief Save a "piece justificative" , the name must be pj
      *
      * \param $seq jr_grpt_id
      * \return $oid of the lob file if success
      *         null if a error occurs
      *
      */
-
-    function save_upload_document($seq)
+    function save_receipt($seq)
     {
-        /* there is
-          no file to
-          upload */
-        if ($_FILES["pj"]["error"]==UPLOAD_ERR_NO_FILE)
+        $oid=$this->upload('pj');
+        if ($oid==false)
         {
-            return;
+                    return false;
+        }
+        // Remove old document
+        $ret=$this->exec_sql("select jr_pj from jrn where jr_grpt_id=$seq");
+        if (pg_num_rows($ret)!=0)
+        {
+            $r=pg_fetch_array($ret, 0);
+            $old_oid=$r['jr_pj'];
+            if (strlen($old_oid)!=0)
+                pg_lo_unlink($cn, $old_oid);
+        }
+        // Load new document
+       $this->exec_sql("update jrn set jr_pj=$1 , jr_pj_name=$2,
+                                jr_pj_type=$3  where jr_grpt_id=$4",
+                                array($oid,$_FILES['pj']['name'] ,$_FILES['pj']['type'],$seq));
+        return $oid;
+    }
+    /***
+     * \brief Save a document into the database , it just puts the file in the database
+     * and returns the corresponding OID , the mimetype , size ... of the document
+     * must be set in the calling function.
+     *
+     * \param name of the variable in $_FILES
+     * \return $oid of the lob file if success
+     *         false if a error occurs or if there is no file to upload
+     *
+     */
+
+    function upload($p_name)
+    {
+        /* there is          no file to          upload */
+        if ($_FILES[$p_name]["error"]==UPLOAD_ERR_NO_FILE)
+        {
+            return false;
         }
 
-        $new_name=tempnam($_ENV['TMP'], 'pj');
-        if ($_FILES["pj"]["error"]>0)
+        $new_name=tempnam($_ENV['TMP'], $p_name);
+        if ($_FILES[$p_name]["error"]>0)
         {
             print_r($_FILES);
-            echo_error(__FILE__.":".__LINE__."Error: ".$_FILES["pj"]["error"]);
+            echo_error(__FILE__.":".__LINE__."Error: ".$_FILES[$p_name]["error"]);
+            return false;
         }
-        if (strlen($_FILES['pj']['tmp_name'])!=0)
+        if (strlen($_FILES[$p_name]['tmp_name'])!=0)
         {
-            if (move_uploaded_file($_FILES['pj']['tmp_name'], $new_name))
+            if (move_uploaded_file($_FILES[$p_name]['tmp_name'], $new_name))
             {
                 // echo "Image saved";
                 $oid=pg_lo_import($this->db, $new_name);
                 if ($oid==false)
                 {
-                    echo_error('postgres.php', __LINE__, "cannot upload document");
+                    echo_error(__FILE__, __LINE__, "cannot upload document");
                     $this->rollback();
-                    return;
+                    return false;
                 }
-                // Remove old document
-                $ret=$this->exec_sql("select jr_pj from jrn where jr_grpt_id=$seq");
-                if (pg_num_rows($ret)!=0)
-                {
-                    $r=pg_fetch_array($ret, 0);
-                    $old_oid=$r['jr_pj'];
-                    if (strlen($old_oid)!=0)
-                        pg_lo_unlink($cn, $old_oid);
-                }
-                // Load new document
-               $this->exec_sql("update jrn set jr_pj=$1 , jr_pj_name=$2,
-                                        jr_pj_type=$3  where jr_grpt_id=$4",
-                                        array($oid,$_FILES['pj']['name'] ,$_FILES['pj']['type'],$seq));
                 return $oid;
             }
             else
             {
                 echo "<H1>Error</H1>";
                 $this->rollback();
+                return false;
             }
         }
-        return 0;
+        return false;
     }
 
     /**\brief wrapper for the function pg_NumRows

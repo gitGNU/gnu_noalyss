@@ -941,7 +941,7 @@ class Acc_Ledger_Fin extends Acc_Ledger
 					// first record we upload the files and
 					// keep variable to update other row of jrn
 					if (isset($_FILES))
-						$oid = $this->db->save_upload_document($seq);
+						$oid = $this->db->save_receipt($seq);
 				}
 				else
 				{

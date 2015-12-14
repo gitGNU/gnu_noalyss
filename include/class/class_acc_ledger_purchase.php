@@ -795,7 +795,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
             if ( isset ($_FILES))
             {
                 if ( sizeof($_FILES) != 0 )
-                    $this->db->save_upload_document($seq);
+                    $this->db->save_receipt($seq);
             }
             $str_file="";
             /* Generate an document  and save it into the database (Note de frais only)

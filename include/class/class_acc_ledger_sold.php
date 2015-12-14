@@ -479,7 +479,7 @@ class Acc_Ledger_Sold extends Acc_Ledger {
             /* Save the attachment or generate doc */
             if (isset($_FILES['pj'])) {
                 if (strlen(trim($_FILES['pj']['name'])) != 0)
-                    $this->db->save_upload_document($seq);
+                    $this->db->save_receipt($seq);
                 else
                 /* Generate an invoice and save it into the database */
                 if (isset($_POST['gen_invoice'])) {

@@ -378,10 +378,10 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Database::save_upload_document
-     * @todo   Implement testSave_upload_document().
+     * @covers Database::save_receipt
+     * @todo   Implement testsave_receipt().
      */
-    public function testSave_upload_document()
+    public function testsave_receipt()
     {
         // Remove the following lines when you implement this test.
         $this->markTestIncomplete(
