@@ -62,9 +62,9 @@ if ($sb === "upg_all" && (!defined('MULTI')||(defined('MULTI')&&MULTI==1)))
     for ($e=0; $e<$MaxDossier; $e++)
     {
         $db_row=Database::fetch_array($Resdossier, $e);
-        echo "<h3>Patching ".$db_row['dos_name'].'</h3>';
-
         $name=$rep->format_name($db_row['dos_id'], 'dos');
+        echo "<h3>Patching ".$name.':'.$db_row['dos_name'].'</h3>';
+
 
         if ($rep->exist_database($name)>0)
         {
@@ -88,8 +88,8 @@ if ($sb === "upg_all" && (!defined('MULTI')||(defined('MULTI')&&MULTI==1)))
     for ($e=0; $e<$MaxDossier; $e++)
     {
         $db_row=Database::fetch_array($Resdossier, $e);
-        echo "<h3>Patching ".$db_row['mod_name']."</h3>";
         $name=$rep->format_name($db_row['mod_id'], 'mod');
+        echo "<h3>Patching ".$name.":".$db_row['mod_name']."</h3>";
 
         if ($rep->exist_database($name)>0)
         {

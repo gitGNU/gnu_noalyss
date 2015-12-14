@@ -163,7 +163,7 @@ echo '</div>';
                         echo _('Cherche').HtmlInput::infobulle(23);
 ?>
 <?php
-	echo HtmlInput::filter_table("folder", '1,2',1);
+	echo HtmlInput::filter_table("folder", '0,1,2',1);
 ?>
 </span>
 <?php
