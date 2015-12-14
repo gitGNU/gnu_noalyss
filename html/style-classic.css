@@ -291,8 +291,8 @@ td.mtitle {
        -moz-border-radius: 5px;
        -webkit-border-radius: 5px;
 
-  background: -moz-linear-gradient(top, rgba(53,106,160,0.79) 0%, rgba(53,106,160,0.79) 19%, rgba(53,106,160,1) 100%); /* FF3.6+ */
-background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(53,106,160,0.79)), color-stop(19%,rgba(53,106,160,0.79)), color-stop(100%,rgba(53,106,160,1))); /* Chrome,Safari4+ */
+  background: -moz-linear-gradient(top, rgba(53,106,160,0.79) 0%, rgba(53,106,160,1) 19%, rgba(53,106,160,1) 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(53,106,160,0.79)), color-stop(19%,rgba(53,106,160,1)), color-stop(100%,rgba(53,106,160,1))); /* Chrome,Safari4+ */
 background: -webkit-linear-gradient(top, rgba(53,106,160,0.79) 0%,rgba(53,106,160,0.79) 19%,rgba(53,106,160,1) 100%); /* Chrome10+,Safari5.1+ */
 background: -o-linear-gradient(top, rgba(53,106,160,0.79) 0%,rgba(53,106,160,0.79) 19%,rgba(53,106,160,1) 100%); /* Opera 11.10+ */
 background: -ms-linear-gradient(top, rgba(53,106,160,0.79) 0%,rgba(53,106,160,0.79) 19%,rgba(53,106,160,1) 100%); /* IE10+ */
@@ -1356,6 +1356,7 @@ h2.title {
     background: -o-linear-gradient(top, #606c88 0%,#3f4c6b 100%); /* Opera 11.10+ */
     background: -ms-linear-gradient(top, #606c88 0%,#3f4c6b 100%); /* IE10+ */
     background: linear-gradient(to bottom, #606c88 0%,#3f4c6b 100%); /* W3C */
+    border-radius: 3px;
 }
 h3.title {
     color: #0000FF;
@@ -1542,7 +1543,7 @@ div.bxbutton
     float:right;
     height:10px;
     display:block;
-    margin-top:0.48%;
+    margin-top:0.30%;
     margin-right:0.48%;
 }
 div.inner_box tr.odd {

@@ -446,7 +446,7 @@ class HtmlInput
     static function anchor_close($div,$p_js="")
     {
 	$r='';
-	$r.='<div style="position:absolute;right:2px;margin:2px;padding:0px;">';
+	$r.='<div class="bxbutton">';
 	$r.= '<A id="close_div" class="input_text" onclick="removeDiv(\''.$div.'\');'.$p_js.'">&#10761;</A>';
 	$r.='</div>';
 	return $r;
@@ -734,7 +734,7 @@ class HtmlInput
 	{
 		if ($mod=='close')	{$r=HtmlInput::anchor_close($div,$p_js); }else
 		if ($mod=='hide')	{$r=HtmlInput::anchor_hide("&#10761;","$('$div').hide();$p_js");} else
-		if ($mod=='zoom')	{$r='<span  id="span_'.$div.'" style="float:right;margin-right:5px">'.HtmlInput::anchor("&#11036;","",$p_js,' name="small'.$div.'" id="close_div" class="input_text"  ').'</span>'; } else
+		if ($mod=='zoom')	{$r='<span  id="span_'.$div.'" style="float:right;margin-right:5px;padding-top:3px">'.HtmlInput::anchor("&#11036;","",$p_js,' name="small'.$div.'" id="close_div" class="input_text"  ').'</span>'; } else
                 if ( $mod == 'custom')  {$r='<span  id="span_'.$div.'" style="float:right;margin-right:5px">'.$p_js."</span>";} else
                 if ( $mod == 'none')    {$r="" ; }
                     else 
