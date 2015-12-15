@@ -1317,6 +1317,14 @@ a.nav:hover,div.content a.nav:hover,div.redcontent a.nav:hover {
     font-variant:small-caps;
     font-weight: bolder;
     }
+    
+}
+div.foldercontent {
+    font-size:14px;
+    font-size:0.95rem;
+    width: 95%;
+    margin-left: 2.5%;
+    margin-top:30px;
 }
 @media only screen and (max-width: 955px) {
 #dossier {
@@ -1335,6 +1343,7 @@ div.foldercontent {
     font-size:0.95rem;
     width: 95%;
     margin-left: 2.5%;
+    margin-top:7%;
 }
 
 h1.title {
