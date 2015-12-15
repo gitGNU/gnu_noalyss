@@ -18,8 +18,7 @@ end;
 $function$
  language plpgsql;
 
--- bug 
-alter table action_gestion alter ag_title type text;
+
 
 INSERT INTO menu_ref(me_code, me_menu, me_file,   me_type,me_description_etendue)VALUES ('ANCKEY', 'Clef de répartition',  'anc_key.inc.php','ME','Permet de gèrer les clefs de répartition en comptabilité analytique');
 
@@ -216,7 +215,8 @@ CREATE TRIGGER trg_category_card_before_delete
   ON fiche_def
   FOR EACH ROW
   EXECUTE PROCEDURE comptaproc.category_card_before_delete();
-
+-- bug 
+alter table action_gestion alter ag_title type text;
 alter table action_gestion add constraint fk_action_gestion_document_type foreign key (ag_type) references document_type(dt_id);
 
 
