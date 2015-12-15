@@ -107,7 +107,7 @@ function j($p_string)
 function nb($p_number)
 {
     $r=trim($p_number);
-    $r = sprintf('%.2f', $p_number);
+    $r = sprintf('%.4f', $p_number);
     $r = str_replace('.', ',', $r);
 
     return $r;
