@@ -2488,35 +2488,35 @@ function action_tag_add(p_dossier, ag_id, t_id)
  */
 function action_tag_remove(p_dossier, ag_id, t_id)
 {
-    if (confirm('Enlevez ce tags ?') === false)
-        return;
-    try {
-        waiting_box();
-        var queryString = "t_id=" + t_id + "&ag_id=" + ag_id + "&op=tag_remove&gDossier=" + p_dossier;
-        var action = new Ajax.Request(
-                "ajax_misc.php",
-                {
-                    method: 'get', parameters: queryString,
-                    onFailure: ajax_misc_failure,
-                    onSuccess: function (req, j) {
-                        var answer = req.responseXML;
-                        var html = answer.getElementsByTagName('code');
-                        if (html.length === 0)
-                        {
-                            var rec = unescape_xml(req.responseText);
-                            error_message('erreur :' + rec);
-                        }
-                        var code_html = getNodeText(html[0]);
-                        code_html = unescape_xml(code_html);
-                        remove_waiting_box();
-                        $('action_tag_td').innerHTML = code_html;
+    confirm_box(null,'Enlevez ce tags ?',function () {
+        try {
+            waiting_box();
+            var queryString = "t_id=" + t_id + "&ag_id=" + ag_id + "&op=tag_remove&gDossier=" + p_dossier;
+            var action = new Ajax.Request(
+                    "ajax_misc.php",
+                    {
+                        method: 'get', parameters: queryString,
+                        onFailure: ajax_misc_failure,
+                        onSuccess: function (req, j) {
+                            var answer = req.responseXML;
+                            var html = answer.getElementsByTagName('code');
+                            if (html.length === 0)
+                            {
+                                var rec = unescape_xml(req.responseText);
+                                error_message('erreur :' + rec);
+                            }
+                            var code_html = getNodeText(html[0]);
+                            code_html = unescape_xml(code_html);
+                            remove_waiting_box();
+                            $('action_tag_td').innerHTML = code_html;
 
+                        }
                     }
-                }
-        );
-    } catch (e) {
-        error_message(e.getMessage);
-    }
+                );
+        } catch (e) {
+            error_message(e.getMessage);
+        }
+    });
 }
 
 
