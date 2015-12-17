@@ -60,8 +60,11 @@ echo '</form>';
 if ( $request_sa == 'del')
 {
     $op=new Pre_operation($cn);
-    $op->od_id=$_REQUEST['od_id'];
-    $op->delete();
+    $op->od_id=HtmlInput::default_value_request('od_id',-1);
+    if (isNumber($op->od_id)==1 && $op->od_id != -1 )
+    {
+        $op->delete();
+    }
     $request_sa='jrn';
 }
 
@@ -82,7 +85,7 @@ if ( $request_sa== 'jrn' )
         echo _("Aucun enregistrement");
         return;
     }
-
+    
     echo '<table>';
     $count=0;
     foreach ($array as $row )
@@ -97,16 +100,16 @@ if ( $request_sa== 'jrn' )
         echo '<td>'.h($row['od_name']).'</td>';
         echo '<td>'.h($row['od_description']).'</td>';
         echo '<td>';
-	echo '<form method="POST" id="preod_frm" class="print" style="margin:0px;padding:0px;">';
+	echo '<form method="POST" id="preod_frm'.$row['od_id'].'" class="print" style="margin:0px;padding:0px;">';
         echo dossier::hidden();
-        echo $hid->input("sa","del");
-        echo $hid->input("ac",$request_ac);
-        echo $hid->input("del","");
-        echo $hid->input("od_id",$row['od_id']);
-        echo $hid->input("jrn",$get_jrn);
+        echo HtmlInput::hidden("sa","del");
+        echo HtmlInput::hidden("ac",$request_ac);
+        echo HtmlInput::hidden("del","");
+        echo HtmlInput::hidden("od_id",$row['od_id']);
+        echo HtmlInput::hidden("jrn",$get_jrn);
 
 	$b='<input type="submit" class="smallbutton" value="'._("Effacer").'"'.
-	  ' onClick="return confirm_box(\'preod_frm\',\''._("Voulez-vous vraiment effacer cette operation ?").'\');" >';
+	  ' onClick="return confirm_box(\'preod_frm'.$row['od_id'].'\',\''._("Voulez-vous vraiment effacer cette operation ?").'\');" >';
 	   echo $b;
 	   echo '</form>';
 
