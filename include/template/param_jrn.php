@@ -133,10 +133,10 @@ echo $str_add_button;
     <TABLE class="result" style="width:80%;margin-left:10%;">
         <tr>
             <th>
-                Services, fournitures ou biens  achetés (D)
+                <?php echo _("Services, fournitures ou biens  achetés (D)");?>
             </th>
             <th>
-                Fournisseurs (C)
+                <?php echo _("Fournisseurs (C)"); ?>
             </th>
         </tr>
     
@@ -162,7 +162,7 @@ echo $str_add_button;
         }
       }
             echo '<tr>';
-      printf ('<TD> <INPUT TYPE="CHECKBOX" VALUE="%s" NAME="FICHEDEB[]" %s>%s</TD>',
+      printf ('<TD> <INPUT TYPE="CHECKBOX" VALUE="%s" NAME="ACH_FICHEDEB[]" %s>%s</TD>',
               $res['fd_id'],$CHECKED,$res['fd_label']);
       $CHECKED=" unchecked";
       foreach ( $rcred as $element) {
@@ -171,7 +171,7 @@ echo $str_add_button;
           break;
         }
       }
-      printf ('<TD> <INPUT TYPE="CHECKBOX" VALUE="%s" NAME="FICHECRED[]" %s>%s</TD>',
+      printf ('<TD> <INPUT TYPE="CHECKBOX" VALUE="%s" NAME="ACH_FICHECRED[]" %s>%s</TD>',
               $res['fd_id'],$CHECKED,$res['fd_label']);
       echo '</TR>';
     }
@@ -191,10 +191,10 @@ echo $str_add_button;
         
         <tr>
             <th>
-                Clients (C)
+                <?php echo _("Clients (C)");?>
             </th>
             <th>
-                Services, fournitures ou biens  vendus (D)
+                <?php echo _("Services, fournitures ou biens  vendus (D)");?>
             </th>
         </tr>
     
@@ -220,7 +220,7 @@ echo $str_add_button;
         }
       }
             echo '<tr>';
-      printf ('<TD> <INPUT TYPE="CHECKBOX" VALUE="%s" NAME="FICHEDEB[]" %s>%s</TD>',
+      printf ('<TD> <INPUT TYPE="CHECKBOX" VALUE="%s" NAME="VEN_FICHEDEB[]" %s>%s</TD>',
               $res['fd_id'],$CHECKED,$res['fd_label']);
       $CHECKED=" unchecked";
       foreach ( $rcred as $element) {
@@ -229,7 +229,7 @@ echo $str_add_button;
           break;
         }
       }
-      printf ('<TD> <INPUT TYPE="CHECKBOX" VALUE="%s" NAME="FICHECRED[]" %s>%s</TD>',
+      printf ('<TD> <INPUT TYPE="CHECKBOX" VALUE="%s" NAME="VEN_FICHECRED[]" %s>%s</TD>',
               $res['fd_id'],$CHECKED,$res['fd_label']);
       echo '</TR>';
     }
@@ -248,7 +248,7 @@ echo $str_add_button;
    <TABLE class="result" style="width:60%;margin-left:20%;">
         <tr>
             <th>
-                Fiches utilisables (D/C)
+                <?php echo _("Fiches utilisables (D/C)"); ?>
             </th>
            
         </tr>
@@ -273,7 +273,7 @@ echo $str_add_button;
         }
       }
             echo '<tr>';
-      printf ('<TD> <INPUT TYPE="CHECKBOX" VALUE="%s" NAME="FICHEDEB[]" %s>%s</TD>',
+      printf ('<TD> <INPUT TYPE="CHECKBOX" VALUE="%s" NAME="ODS_FICHEDEB[]" %s>%s</TD>',
               $res['fd_id'],$CHECKED,$res['fd_label']);
       $CHECKED=" unchecked";
       foreach ( $rcred as $element) {
@@ -324,7 +324,7 @@ echo $str_add_button;
         }
       }
             echo '<tr>';
-      printf ('<TD> <INPUT TYPE="CHECKBOX" VALUE="%s" NAME="FICHEDEB[]" %s>%s</TD>',
+      printf ('<TD> <INPUT TYPE="CHECKBOX" VALUE="%s" NAME="FIN_FICHEDEB[]" %s>%s</TD>',
               $res['fd_id'],$CHECKED,$res['fd_label']);
       $CHECKED=" unchecked";
       foreach ( $rcred as $element) {
