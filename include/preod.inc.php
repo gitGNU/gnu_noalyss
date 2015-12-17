@@ -85,8 +85,8 @@ if ( $request_sa== 'jrn' )
         echo _("Aucun enregistrement");
         return;
     }
-    
-    echo '<table>';
+    echo HtmlInput::filter_table('preod_table', '0', 0);
+    echo '<table id="preod_table">';
     $count=0;
     foreach ($array as $row )
     {
