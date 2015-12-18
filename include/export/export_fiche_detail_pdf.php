@@ -128,8 +128,8 @@ for ($e=0;$e<count($array);$e++)
             $pdf->SetFont('DejaVuCond','',8);
     }
     $l=0;
-    $progress=bcsub($row['deb_montant'],$row['cred_montant']);
-
+    $delta=bcsub($row['deb_montant'],$row['cred_montant']);
+    $progress=bcadd($progress,$delta);
 
     $date=shrink_date($row['j_date_fmt']);
     $pdf->LongLine($size[$l],6,$date,0,$align[$l]);
