@@ -117,7 +117,7 @@ class Pre_op_ach extends Pre_operation_detail
         $a_op=$this->operation->load();
         $array=$this->operation->compute_array($a_op);
         $p_array=$this->load();
-		if ( empty ($p_array)) return array();
+	if ( empty ($p_array)) return array();
         foreach ($p_array as $row)
         {
             if ( $row['opd_debit']=='f')
