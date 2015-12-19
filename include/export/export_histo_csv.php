@@ -38,6 +38,7 @@ $title[]=_("Date");
 $title[]=_("Echeance");
 $title[]=_("Paiement");
 $title[]=_("Piece");
+$title[]=_("qcode");
 $title[]=_("Tiers");
 $title[]=_("Description");
 $title[]=_("Note");
