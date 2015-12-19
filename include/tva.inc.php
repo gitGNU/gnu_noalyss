@@ -82,7 +82,7 @@ if (isset($_POST['confirm_mod'])
 	    4 => "Poste invalide",
 	    5 => "Tva id doit être unique");
 	$str_err = $err_code[$err];
-	echo "<script>alert ('$str_err'); </script>";
+	alert($str_err);
 	;
     }
 }
