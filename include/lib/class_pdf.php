@@ -24,7 +24,30 @@
  */
 
 require_once NOALYSS_INCLUDE.'/tfpdf/tfpdf.php';
-
+class Cellule {
+    var $width;
+    var $height;
+    var $text;
+    var $new_line;
+    var $border;
+    var $align;
+    var $fill;
+    var $link;
+    var $type;
+    function __construct($w,$h,$txt,$border,$ln,$align,$fill,$link,$type)
+    {
+        $this->width=$w ;
+        $this->height=$h ;
+        $this->text=$txt;
+        $this->border=$border;
+        $this->new_line=$ln;
+        $this->align=$align;
+        $this->fill=$fill;
+        $this->link=$link;
+        $this->type=$type;
+        return $this;
+    }
+}
 class PDF extends TFPDF
 {
 
@@ -33,6 +56,7 @@ class PDF extends TFPDF
     var $soc = "";
     var $dossier =  "n/a";
     var $date = "";
+    private $cells=array();
 
     public function __construct ($p_cn = null, $orientation = 'P', $unit = 'mm', $format = 'A4')
     {
@@ -52,6 +76,7 @@ class PDF extends TFPDF
         $this->own = new own($this->cn);
         $this->soc = $this->own->MY_NAME;
         $this->date = date('d.m.Y');
+        $this->cells=array();
     }
 
     function setDossierInfo($dossier = "n/a")
@@ -64,9 +89,9 @@ class PDF extends TFPDF
         //Arial bold 12
         $this->SetFont('DejaVu', 'B', 12);
         //Title
-        $this->Cell(0,10,$this->dossier, 'B', 0, 'C');
+        parent::Cell(0,10,$this->dossier, 'B', 0, 'C');
         //Line break
-        $this->Ln(20);
+        parent::Ln(20);
     }
     function Footer()
     {
@@ -75,37 +100,100 @@ class PDF extends TFPDF
         //Arial italic 8
         $this->SetFont('Arial', '', 8);
         //Page number
-        $this->Cell(0,8,'Date '.$this->date." - Page ".$this->PageNo().'/{nb}',0,0,'C');
-        $this->Ln(3);
+        parent::Cell(0,8,'Date '.$this->date." - Page ".$this->PageNo().'/{nb}',0,0,'C');
+        parent::Ln(3);
         // Created by NOALYSS
-        $this->Cell(0,8,'Created by NOALYSS, online on http://www.noalyss.eu',0,0,'C',false,'http://www.noalyss.eu');
+        parent::Cell(0,8,'Created by NOALYSS, online on http://www.noalyss.eu',0,0,'C',false,'http://www.noalyss.eu');
     }
-    function Cell ($w, $h=0, $txt='', $border=0, $ln=0, $align='', $fill=false, $link='')
+    private function check_page_add()
     {
-        $txt = str_replace("\\", "", $txt);
-        return parent::Cell($w, $h, $txt, $border, $ln, $align, $fill, $link);
-		}
-	function LongLine($w,$h,$txt,$border=0,$align='',$fill=false)
-	{
-		$x_m=$this->GetX();
+        // break on page
+        $size=count($this->cells);
+        for ($i=0;$i < $size ; $i++)
+        {
+            if ($this->cells[$i]->type == 'M' )
+            {
+                $y=$this->GetY();
+                if ( $y > ($this->h - $this->bMargin-20))
+                    return true;
+            }
+        }
+        return false;
+    }
+    private function print_row()
+    {
+        static $e=0;
+        $e++;
+        if ( $e == 73 ) xdebug_break ();
+        //if ( $this->check_page_add() == true ) $this->AddPage ();
+        $this->bigger=0;
+        $size=count($this->cells);
+        if ($size == 0 )return;
+        for ($i=0;$i < $size ; $i++)
+        {
+            $this->cells[$i]->text= str_replace("\\", "", $this->cells[$i]->text);
+            
+            switch ($this->cells[$i]->type)
+            {
+                case "M":
+                $x_m=$this->GetX();
 		$y_m=$this->GetY();
-		$txt = str_replace("\\", "", $txt);
-		if ( $y_m > ($this->h-$this->bMargin-10 ))		{
-			$this->AddPage ();
-			$y_m=$this->GetY();
-
-		}
-		$this->MultiCell($w,$h,$txt,$border,$align,$fill);
-		$x_m=$x_m+$w;
+		parent::MultiCell(
+                                    $this->cells[$i]->width, 
+                                    $this->cells[$i]->height, 
+                                    $this->cells[$i]->text, 
+                                    $this->cells[$i]->border, 
+                                    $this->cells[$i]->align, 
+                                    $this->cells[$i]->fill
+                        );
+		$x_m=$x_m+$this->cells[$i]->width;
 		$tmp=$this->GetY()-$y_m;
 		if ( $tmp > $this->bigger) $this->bigger=$tmp;
 		$this->SetXY($x_m,$y_m);
-	}
-	function Ln($p_step=null){
-		if ( $this->bigger==0) parent::Ln($p_step);
-		parent::Ln($this->bigger);
-		$this->bigger=0;
-	}
+                break;
+                
+                case "C":
+                    
+                     $this->Cell(  $this->cells[$i]->width, 
+                                    $this->cells[$i]->height, 
+                                    $this->cells[$i]->text, 
+                                    $this->cells[$i]->border, 
+                                    $this->cells[$i]->new_line, 
+                                    $this->cells[$i]->align, 
+                                    $this->cells[$i]->fill, 
+                                    $this->cells[$i]->link);
+                    break;
+
+                default:
+                    break;
+            }
+        }
+        $this->cells=array();
+    }
+    function add_cell(Cellule $Ce)
+    {
+        $size=count($this->cells);
+        $this->cells[$size]=$Ce;
+        
+    }
+    function write_cell ($w, $h=0, $txt='', $border=0, $ln=0, $align='', $fill=false, $link='')
+    {
+        $this->add_cell(new Cellule($w,$h,$txt,$border,$ln,$align,$fill,$link,'C'));
+        
+    }
+    function LongLine($w,$h,$txt,$border=0,$align='',$fill=false)
+    {
+        $this->add_cell(new Cellule($w,$h,$txt,$border,0,$align,$fill,'','M'));
+
+    }
+    function Ln($p_step=null){
+            $this->print_row();
+            if ( $this->bigger==0) 
+                parent::Ln($p_step);
+            else 
+                parent::Ln($this->bigger);
+            $this->bigger=0;
+    }
     /**
      *@brief retrieve the client name and quick_code
      *@param $p_jr_id jrn.jr_id

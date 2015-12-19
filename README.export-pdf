@@ -1,0 +1,3 @@
+Remplacer PDF::Cell par PDF::write_cell
+Remplacer PDF::ln par PDF::line_new
+

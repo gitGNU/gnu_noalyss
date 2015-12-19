@@ -100,15 +100,15 @@ class Print_Ledger_Financial extends PDF
         for ( $i=0;$i<count($a_jrn);$i++)
         {
             $row=$a_jrn[$i];
-            $this->LongLine(15,5,$row['pj']);
+            $this->Cell(15,5,$row['pj']); 
             $this->Cell(10,5,$row['date_fmt']);
             $this->Cell(15,5,$row['internal']);
 
             $name=$this->ledger->get_tiers($this->jrn_type,$row['id']);
-            $this->LongLine(40,5,$name,0,'L');
+            $this->Cell(40,5,$name,0,'L');
 
 
-            $this->LongLine(80,5,$row['comment'],0,'L');
+            $this->Cell(80,5,$row['comment'],0,'L');
             $amount=$this->cn->get_value('select qf_amount from quant_fin where jr_id=$1',array( $row['id']));
             $this->Cell(20,5,sprintf('%s',nbm($amount)),0,0,'R');
             $this->Ln(5);

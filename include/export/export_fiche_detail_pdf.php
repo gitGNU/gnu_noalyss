@@ -132,7 +132,7 @@ for ($e=0;$e<count($array);$e++)
     $progress=bcadd($progress,$delta);
 
     $date=shrink_date($row['j_date_fmt']);
-    $pdf->LongLine($size[$l],6,$date,0,$align[$l]);
+    $pdf->Cell($size[$l],6,$date,0,0,$align[$l]);
     $l++;
     if ( $row['jr_pj_number'] == '')
       $pdf->Cell($size[$l],6,"",0,0,$align[$l]);
@@ -140,7 +140,7 @@ for ($e=0;$e<count($array);$e++)
       $pdf->Cell($size[$l],6,$row['jr_pj_number'],0,0,$align[$l]);
 
     $l++;
-    $pdf->LongLine($size[$l],6,mb_substr($row['jrn_def_code'],0,14),0,$align[$l]);
+    $pdf->Cell($size[$l],6,mb_substr($row['jrn_def_code'],0,14),0,0,$align[$l]);
     $l++;
     $pdf->LongLine($size[$l],6,($row['description'].'('.$row['jr_internal'].")"),0,$align[$l]);
 
