@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: NOALYSS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-13 17:28+0100\n"
+"POT-Creation-Date: 2015-12-14 17:45+0100\n"
 "PO-Revision-Date: 2015-08-28 17:38+0200\n"
 "Last-Translator: Dany De Bontridder <danydb@noalyss.eu>\n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
@@ -760,6 +760,7 @@ msgstr "Globale Administratie"
 #: include/class_fiche.php:1599 include/ajax/ajax_mod_stock_repo.php:47
 #: include/class/class_fiche.php:1599 include/class/class_fiche.php:1602
 #: include/export/export_stock_resume_list.php:38
+#: include/class/class_fiche.php:1601
 msgid "Adresse"
 msgstr "Adres"
 
@@ -883,7 +884,7 @@ msgstr "Artikel toevoegen"
 #: include/class_html_input.php:890 include/class_html_input.php:891
 #: include/class_html_input.php:916 include/class_html_input.php:920
 #: include/lib/class_html_input.php:920 include/lib/class_html_input.php:931
-#: include/lib/class_html_input.php:946
+#: include/lib/class_html_input.php:946 include/lib/class_html_input.php:957
 #, fuzzy
 msgid "Ajout autres"
 msgstr "Factuur toevoegen"
@@ -957,7 +958,8 @@ msgstr "Het toevoegen van een BTW-tarief"
 #: include/manager.inc.php:137 include/supplier.inc.php:137
 #: include/adm.inc.php:138 include/contact.inc.php:137
 #: include/customer.inc.php:137 include/manager.inc.php:140
-#: include/supplier.inc.php:139
+#: include/supplier.inc.php:139 include/contact.inc.php:138
+#: include/manager.inc.php:141
 msgid "Ajout d'une catégorie"
 msgstr "Een categorie toevoegen"
 
@@ -1204,6 +1206,10 @@ msgstr "Analytisch"
 msgid "Anglais"
 msgstr "Engels"
 
+#: include/ext/syndicat_tools/index.php:36
+msgid "Annonce"
+msgstr ""
+
 #: include/ext/amortis/include/template/material_detail.php:53
 #: include/ext/amortis/include/template/material_display.php:39
 msgid "Annuités"
@@ -1316,6 +1322,11 @@ msgstr "Actie"
 #, php-format
 msgid "Attention %s ne contient pas 11 colonnes"
 msgstr "Opgelet % s bevat geen  11 kolommen"
+
+#: include/compta_fin_rec.inc.php:151
+#, fuzzy
+msgid "Attention : Fichier non chargé"
+msgstr "Record niet gevonden"
 
 #: include/card_attr.inc.php:124 include/card_attr.inc.php:125
 msgid "Attention : effacera les données qui y sont liées"
@@ -2137,7 +2148,7 @@ msgid "Base de donnée vide"
 msgstr "Ongeldige database"
 
 #: html/admin/setup.php:388 html/install.php:452 html/install.php:451
-#: html/install.php:449
+#: html/install.php:449 include/upgrade.inc.php:67 include/upgrade.inc.php:93
 #, fuzzy
 msgid "Base de données"
 msgstr "Database"
@@ -2259,6 +2270,7 @@ msgstr "Rekenmachine"
 #: include/class_html_input.php:832 include/template/calendar-list.php:33
 #: include/class_html_input.php:836 include/lib/class_html_input.php:836
 #: include/ajax/ajax_calendar_zoom.php:23 include/lib/class_html_input.php:851
+#: include/lib/class_html_input.php:862
 msgid "Calendrier"
 msgstr "Kalender"
 
@@ -2298,7 +2310,8 @@ msgstr "Categorie"
 #: include/manager.inc.php:89 include/supplier.inc.php:90
 #: include/adm.inc.php:93 include/contact.inc.php:85
 #: include/customer.inc.php:89 include/manager.inc.php:92
-#: include/supplier.inc.php:92
+#: include/supplier.inc.php:92 include/contact.inc.php:86
+#: include/manager.inc.php:93
 msgid "Catégorie :"
 msgstr "Categorie :"
 
@@ -2601,12 +2614,16 @@ msgstr ""
 #: include/class/class_fiche.php:2044 html/user_login.php:171
 #: include/class/class_acc_ledger.php:3424
 #: include/class/class_pre_operation.php:285 html/user_login.php:163
-#: include/balance.inc.php:281
+#: include/balance.inc.php:281 include/compta_fin_rec.inc.php:226
+#: include/class/class_fiche.php:2043
 #, fuzzy, php-format
 msgid "Cherche"
 msgstr "Vinden"
 
 #: include/class/class_fiche.php:1591 include/class/class_fiche.php:1594
+#: include/adm.inc.php:81 include/bank.inc.php:74 include/contact.inc.php:77
+#: include/customer.inc.php:77 include/manager.inc.php:81
+#: include/supplier.inc.php:81
 #, fuzzy
 msgid "Cherche "
 msgstr "Vinden"
@@ -3487,6 +3504,11 @@ msgid ""
 "cette fonctionnalité. Vous pouvez en ajouter, en supprimer ou les modifier"
 msgstr ""
 
+#: include/ext/syndicat_tools/index.php:37
+#, fuzzy
+msgid "Configuration du plugin syndicat"
+msgstr "Configuratie van de menu's en de plug-ins"
+
 #: include/database.item.php:106 include/database.item.php:109
 #: include/database.item.php:115 include/database.item.php:112
 #: include/database.item.php:111
@@ -3713,6 +3735,10 @@ msgstr ""
 "Automatisch aanmaken van de boekhoudkunidge post enkel en alleen als er "
 "\\maar één post is"
 
+#: include/ext/syndicat_tools/index.php:36
+msgid "Création d'avis et annonces pour les trésoriers"
+msgstr ""
+
 #: include/ext/tva/class_ext_tva.php:340
 msgid "Création de l'écriture comptable"
 msgstr "Boekhoudkundig schrijven aanmaken"
@@ -3886,7 +3912,8 @@ msgstr "Een nieuwe fiche aanmaken"
 #: include/class/class_pre_op_ach.php:177
 #: include/class/class_pre_op_ven.php:166
 #: include/class/class_pre_op_ven.php:173
-#: include/class/class_acc_ledger.php:3651
+#: include/class/class_acc_ledger.php:3651 include/contact.inc.php:129
+#: include/manager.inc.php:131
 msgid "Créer une nouvelle fiche"
 msgstr "Een nieuwe fiche aanmaken"
 
@@ -4570,6 +4597,11 @@ msgstr ""
 "Verschil tussen het bedrag dat moet worden afgeschreven en het afgeschreven "
 "bedrag =%d'</h2>"
 
+#: include/compta_fin_rec.inc.php:299
+#, fuzzy
+msgid "Différence relevé"
+msgstr "Verschil"
+
 #: include/class_calendar.php:168 include/class_calendar.php:256
 #: include/class_calendar.php:260 include/class/class_calendar.php:168
 #: include/class/class_calendar.php:260 include/class/class_calendar.php:175
@@ -4732,7 +4764,8 @@ msgstr ""
 #: include/ext/importbank/index.php:146
 #: include/ext/importbank/include/class_import_bank.php:473
 #: include/ext/importbank/include/class_import_bank.php:495
-#: include/modele.inc.php:420
+#: include/modele.inc.php:420 include/compta_fin_rec.inc.php:115
+#: include/compta_fin_rec.inc.php:122
 #, fuzzy
 msgid "Donnée invalide"
 msgstr "Ongeldig jaar"
@@ -5998,7 +6031,7 @@ msgstr "Balans export"
 #: include/class_fiche.php:1436 include/class/class_fiche.php:1436
 #: include/class/class_acc_account_ledger.php:668
 #: include/class/class_fiche.php:2009 include/class/class_fiche.php:1439
-#: include/class/class_fiche.php:2012
+#: include/class/class_fiche.php:2012 include/class/class_fiche.php:2011
 msgid "Export CSV"
 msgstr "Export CSV"
 
@@ -6076,7 +6109,7 @@ msgstr "Export Kranten"
 #: include/class_fiche.php:1421 include/class/class_fiche.php:1421
 #: include/class/class_acc_account_ledger.php:690
 #: include/class/class_fiche.php:2031 include/class/class_fiche.php:1424
-#: include/class/class_fiche.php:2034
+#: include/class/class_fiche.php:2034 include/class/class_fiche.php:2033
 msgid "Export PDF"
 msgstr "PDF exporteren"
 
@@ -6214,6 +6247,16 @@ msgstr ""
 #, fuzzy
 msgid "Extourné au "
 msgstr "Export Kranten"
+
+#: include/ext/syndicat_tools/index.php:35
+#, fuzzy
+msgid "Extraction Opérations"
+msgstr "Operaties invoegen"
+
+#: include/ext/syndicat_tools/index.php:35
+#, fuzzy
+msgid "Extraction des opérations comptables"
+msgstr "Boekhoudkundig schrijven aanmaken"
 
 #: include/template/form_ledger_fin.php:31
 #: include/ext/modop/template_ledger_fin.php:10
@@ -6924,8 +6967,18 @@ msgstr "Vorming"
 msgid "Génération Déclaration / listing"
 msgstr "Generatie Statement / bedrijf"
 
+#: include/ext/syndicat_tools/index.php:34
+#, fuzzy
+msgid "Génération d'écritures comptables"
+msgstr "Vorming van het boekhoudkundig schrijven"
+
 #: include/ext/amortis/index.php:54 include/ext/amortis/include/am_util.php:30
 msgid "Génération écriture comptable"
+msgstr "Vorming van het boekhoudkundig schrijven"
+
+#: include/ext/syndicat_tools/index.php:34
+#, fuzzy
+msgid "Génération écritures "
 msgstr "Vorming van het boekhoudkundig schrijven"
 
 #: include/class_follow_up.php:407 include/class_follow_up.php:410
@@ -7507,7 +7560,7 @@ msgid "Inclure les clients sans opération :"
 msgstr "Onder andere clients zonder operatie:"
 
 #: include/manager.inc.php:88 include/manager.inc.php:99
-#: include/manager.inc.php:102
+#: include/manager.inc.php:102 include/manager.inc.php:103
 msgid "Inclure les employés sans opération :"
 msgstr "Behoren medewerkers zonder operatie:"
 
@@ -7642,7 +7695,7 @@ msgstr "Ongeldig jaar"
 
 #: include/class_ibutton.php:61 include/class_ibutton.php:63
 #: include/class_html_input.php:332 include/lib/class_html_input.php:332
-#: include/lib/class_ibutton.php:63
+#: include/lib/class_ibutton.php:63 include/compta_fin_rec.inc.php:221
 msgid "Inverser la sélection"
 msgstr "Omgekeerde selectie"
 
@@ -8190,6 +8243,14 @@ msgstr "Belettering voor de boekhoudkundige positie"
 #: include/database.item.php:176 include/database.item.php:177
 msgid "Lettre de rappel"
 msgstr "Herinnering"
+
+#: include/ext/syndicat_tools/index.php:31
+msgid "Liaison entre journaux et section"
+msgstr ""
+
+#: include/ext/syndicat_tools/index.php:33
+msgid "Liaison entre section et trésorier"
+msgstr ""
 
 #: include/export/export_poste_detail_csv.php:71
 #: include/export/export_poste_detail_csv.php:172
@@ -9224,6 +9285,11 @@ msgstr "Datum van de verrichting"
 msgid "Montant supérieur ou égal à"
 msgstr "Bedrag groter dan of gelijk aan"
 
+#: include/compta_fin_rec.inc.php:303
+#, fuzzy
+msgid "Montant sélectionné"
+msgstr "Verwijder geselecteerde bladwijzers"
+
 #: include/ext/import_account/include/class_impacc_operation.php:149
 msgid "Montant total"
 msgstr "Totaal bedrag"
@@ -9500,7 +9566,7 @@ msgstr "Geen handeling"
 #: include/class/class_user.php:965 include/class/class_fiche.php:1601
 #: include/ajax/ajax_admin.php:204 include/modele.inc.php:263
 #: include/modele.inc.php:369 include/export/export_fiche_balance_csv.php:57
-#: include/class/class_balance_age.php:145
+#: include/class/class_balance_age.php:145 include/class/class_fiche.php:1600
 msgid "Nom"
 msgstr "Naam"
 
@@ -9851,7 +9917,7 @@ msgstr "Nieuwe bankafschrift"
 #: include/template/action_display_short.php:78
 #: include/lib/class_html_input.php:926 include/lib/class_html_input.php:937
 #: include/template/action_display_short.php:80
-#: include/lib/class_html_input.php:952
+#: include/lib/class_html_input.php:952 include/lib/class_html_input.php:963
 #, fuzzy
 msgid "Nouvel événement"
 msgstr "Voeg dit element toe"
@@ -10590,6 +10656,7 @@ msgstr "Parameter"
 #: include/database.item.php:63 include/card_attr.inc.php:97
 #: include/template/menu_detail.php:75 include/menu.inc.php:114
 #: include/database.item.php:59 include/database.item.php:62
+#: include/ext/syndicat_tools/index.php:37
 msgid "Paramètre"
 msgstr "Parameter"
 
@@ -11122,7 +11189,7 @@ msgstr "Kostenpost"
 #: include/class_fiche.php:1580 include/class_fiche.php:1597
 #: include/ajax/ajax_boxcard_search.php:66 include/class/class_fiche.php:1597
 #: include/class/class_fiche.php:1600 include/template/pcmn_update.php:28
-#: include/template/pcmn_update.php:36
+#: include/template/pcmn_update.php:36 include/class/class_fiche.php:1599
 msgid "Poste comptable"
 msgstr "Accountant Vacature"
 
@@ -11593,7 +11660,7 @@ msgstr "Hoeveelheid"
 #: include/database.item.php:163 include/database.item.php:162
 #: include/database.item.php:155 include/ajax/ajax_boxcard_search.php:50
 #: include/class/class_fiche.php:1596 include/database.item.php:156
-#: include/class/class_fiche.php:1599
+#: include/class/class_fiche.php:1599 include/class/class_fiche.php:1598
 msgid "Quick Code"
 msgstr "Quick Code"
 
@@ -11884,6 +11951,11 @@ msgstr "Rest"
 msgid "Reste à amortir"
 msgstr "Rest kussen"
 
+#: include/compta_fin_rec.inc.php:306
+#, fuzzy
+msgid "Reste à selectionner"
+msgstr "Vinkje bij alle"
+
 #: include/template/calendar-list.php:38 include/template/calendar-list.php:40
 #, fuzzy
 msgid "Retard"
@@ -11910,7 +11982,7 @@ msgstr "Is te laat"
 #: include/modele.inc.php:401 include/report.inc.php:129
 #: include/ajax/ajax_display_letter.php:34 html/do.php:253
 #: include/modele.inc.php:71 include/modele.inc.php:414
-#: include/modele.inc.php:451
+#: include/modele.inc.php:451 include/ext/syndicat_tools/ajax.php:15
 msgid "Retour"
 msgstr "Terug"
 
@@ -12209,6 +12281,21 @@ msgstr ""
 msgid "Seconde route"
 msgstr ""
 
+#: include/ext/syndicat_tools/index.php:32
+#, fuzzy
+msgid "Section"
+msgstr "Selectie"
+
+#: include/ext/syndicat_tools/index.php:31
+#, fuzzy
+msgid "Section-Journal"
+msgstr "Journaal"
+
+#: include/ext/syndicat_tools/index.php:33
+#, fuzzy
+msgid "Section-Trésorier "
+msgstr "Schatkist"
+
 #: include/class_follow_up.php:127 include/class_follow_up.php:128
 #: include/class_follow_up.php:129 include/class/class_follow_up.php:128
 #: include/class/class_follow_up.php:129
@@ -12326,6 +12413,7 @@ msgid "Société"
 msgstr "Vennootschap"
 
 #: include/contact.inc.php:90 include/contact.inc.php:94
+#: include/contact.inc.php:95
 msgid "Société :"
 msgstr "Bedrijf:"
 
@@ -12342,7 +12430,7 @@ msgstr "Bedrijven"
 #: include/class_fiche.php:1602 include/class/class_acc_bilan.php:158
 #: include/class/class_fiche.php:1602 include/class/class_fiche.php:1605
 #: include/class/class_anc_listing.php:118 include/export/export_gl_csv.php:95
-#: include/export/export_gl_csv.php:90
+#: include/export/export_gl_csv.php:90 include/class/class_fiche.php:1604
 msgid "Solde"
 msgstr "evenwicht"
 
@@ -12990,14 +13078,14 @@ msgstr "Totale last"
 #: include/class_fiche.php:1572 include/class_fiche.php:1577
 #: include/class_fiche.php:1578 include/class_fiche.php:1584
 #: include/class_fiche.php:1601 include/class/class_fiche.php:1601
-#: include/class/class_fiche.php:1604
+#: include/class/class_fiche.php:1604 include/class/class_fiche.php:1603
 msgid "Total crédit"
 msgstr "Credit Totaal"
 
 #: include/class_fiche.php:1571 include/class_fiche.php:1576
 #: include/class_fiche.php:1577 include/class_fiche.php:1583
 #: include/class_fiche.php:1600 include/class/class_fiche.php:1600
-#: include/class/class_fiche.php:1603
+#: include/class/class_fiche.php:1603 include/class/class_fiche.php:1602
 msgid "Total débit"
 msgstr "Debet Totaal"
 
@@ -13709,7 +13797,7 @@ msgstr "Wilt u deze transactie verwijderen"
 #: include/class_html_input.php:878 include/class_html_input.php:879
 #: include/class_html_input.php:904 include/class_html_input.php:908
 #: include/lib/class_html_input.php:908 include/lib/class_html_input.php:919
-#: include/lib/class_html_input.php:934
+#: include/lib/class_html_input.php:934 include/lib/class_html_input.php:945
 #, fuzzy, php-format
 msgid "Voulez-vous effacer cette relation "
 msgstr "Wilt u deze actie wilt verwijderen"
@@ -14146,6 +14234,7 @@ msgstr ""
 #: include/class/class_acc_ledger.php:2542
 #: include/lib/class_html_input.php:876
 #: include/class/class_acc_ledger.php:2541
+#: include/lib/class_html_input.php:887
 msgid "choix des journaux"
 msgstr "keuze van de dagboeken"
 
@@ -14926,6 +15015,7 @@ msgstr "Verzoening"
 #: include/supplier.inc.php:102 include/adm.inc.php:103
 #: include/contact.inc.php:97 include/customer.inc.php:102
 #: include/manager.inc.php:104 include/supplier.inc.php:104
+#: include/contact.inc.php:98 include/manager.inc.php:105
 msgid "recherche"
 msgstr "Zoeken"
 
