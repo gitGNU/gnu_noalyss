@@ -131,9 +131,9 @@ $BODY$
 $BODY$
   LANGUAGE plpgsql;
 
-DROP FUNCTION comptaproc.insert_quant_purchase(text, numeric, character varying, numeric, numeric, numeric, integer, numeric, numeric, numeric, numeric, character varying, numeric);
-DROP FUNCTION comptaproc.insert_quant_purchase(text, numeric, text, numeric, numeric, numeric, integer, numeric, numeric, numeric, numeric, text, numeric);
-DROP FUNCTION comptaproc.insert_quant_sold(text, numeric, character varying, numeric, numeric, numeric, integer, character varying, numeric);
+DROP FUNCTION IF EXISTS comptaproc.insert_quant_purchase(text, numeric, character varying, numeric, numeric, numeric, integer, numeric, numeric, numeric, numeric, character varying, numeric);
+DROP FUNCTION IF EXISTS comptaproc.insert_quant_purchase(text, numeric, text, numeric, numeric, numeric, integer, numeric, numeric, numeric, numeric, text, numeric);
+DROP FUNCTION IF EXISTS comptaproc.insert_quant_sold(text, numeric, character varying, numeric, numeric, numeric, integer, character varying, numeric);
 
 CREATE OR REPLACE FUNCTION comptaproc.insert_quant_purchase(p_internal text, 
     p_j_id numeric, 
