@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-13 17:28+0100\n"
+"POT-Creation-Date: 2015-12-15 17:38+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -364,7 +364,7 @@ msgstr ""
 #: include/modele.inc.php:401 include/report.inc.php:129
 #: include/ajax/ajax_display_letter.php:34 html/do.php:253
 #: include/modele.inc.php:71 include/modele.inc.php:414
-#: include/modele.inc.php:451
+#: include/modele.inc.php:451 include/ext/syndicat_tools/ajax.php:15
 msgid "Retour"
 msgstr ""
 
@@ -705,7 +705,8 @@ msgstr ""
 #: include/manager.inc.php:89 include/supplier.inc.php:90
 #: include/adm.inc.php:93 include/contact.inc.php:85
 #: include/customer.inc.php:89 include/manager.inc.php:92
-#: include/supplier.inc.php:92
+#: include/supplier.inc.php:92 include/contact.inc.php:86
+#: include/manager.inc.php:93
 msgid "Catégorie :"
 msgstr ""
 
@@ -718,6 +719,7 @@ msgstr ""
 #: include/supplier.inc.php:102 include/adm.inc.php:103
 #: include/contact.inc.php:97 include/customer.inc.php:102
 #: include/manager.inc.php:104 include/supplier.inc.php:104
+#: include/contact.inc.php:98 include/manager.inc.php:105
 msgid "recherche"
 msgstr ""
 
@@ -777,7 +779,8 @@ msgstr ""
 #: include/class/class_pre_op_ach.php:177
 #: include/class/class_pre_op_ven.php:166
 #: include/class/class_pre_op_ven.php:173
-#: include/class/class_acc_ledger.php:3651
+#: include/class/class_acc_ledger.php:3651 include/contact.inc.php:129
+#: include/manager.inc.php:131
 msgid "Créer une nouvelle fiche"
 msgstr ""
 
@@ -789,7 +792,8 @@ msgstr ""
 #: include/manager.inc.php:137 include/supplier.inc.php:137
 #: include/adm.inc.php:138 include/contact.inc.php:137
 #: include/customer.inc.php:137 include/manager.inc.php:140
-#: include/supplier.inc.php:139
+#: include/supplier.inc.php:139 include/contact.inc.php:138
+#: include/manager.inc.php:141
 msgid "Ajout d'une catégorie"
 msgstr ""
 
@@ -838,7 +842,7 @@ msgstr ""
 #: include/class/class_user.php:965 include/class/class_fiche.php:1601
 #: include/ajax/ajax_admin.php:204 include/modele.inc.php:263
 #: include/modele.inc.php:369 include/export/export_fiche_balance_csv.php:57
-#: include/class/class_balance_age.php:145
+#: include/class/class_balance_age.php:145 include/class/class_fiche.php:1600
 msgid "Nom"
 msgstr ""
 
@@ -3580,7 +3584,7 @@ msgstr ""
 #: include/database.item.php:163 include/database.item.php:162
 #: include/database.item.php:155 include/ajax/ajax_boxcard_search.php:50
 #: include/class/class_fiche.php:1596 include/database.item.php:156
-#: include/class/class_fiche.php:1599
+#: include/class/class_fiche.php:1599 include/class/class_fiche.php:1598
 msgid "Quick Code"
 msgstr ""
 
@@ -3592,20 +3596,21 @@ msgstr ""
 #: include/class_fiche.php:1599 include/ajax/ajax_mod_stock_repo.php:47
 #: include/class/class_fiche.php:1599 include/class/class_fiche.php:1602
 #: include/export/export_stock_resume_list.php:38
+#: include/class/class_fiche.php:1601
 msgid "Adresse"
 msgstr ""
 
 #: include/class_fiche.php:1571 include/class_fiche.php:1576
 #: include/class_fiche.php:1577 include/class_fiche.php:1583
 #: include/class_fiche.php:1600 include/class/class_fiche.php:1600
-#: include/class/class_fiche.php:1603
+#: include/class/class_fiche.php:1603 include/class/class_fiche.php:1602
 msgid "Total débit"
 msgstr ""
 
 #: include/class_fiche.php:1572 include/class_fiche.php:1577
 #: include/class_fiche.php:1578 include/class_fiche.php:1584
 #: include/class_fiche.php:1601 include/class/class_fiche.php:1601
-#: include/class/class_fiche.php:1604
+#: include/class/class_fiche.php:1604 include/class/class_fiche.php:1603
 msgid "Total crédit"
 msgstr ""
 
@@ -3616,7 +3621,7 @@ msgstr ""
 #: include/class_fiche.php:1602 include/class/class_acc_bilan.php:158
 #: include/class/class_fiche.php:1602 include/class/class_fiche.php:1605
 #: include/class/class_anc_listing.php:118 include/export/export_gl_csv.php:95
-#: include/export/export_gl_csv.php:90
+#: include/export/export_gl_csv.php:90 include/class/class_fiche.php:1604
 msgid "Solde"
 msgstr ""
 
@@ -3720,7 +3725,7 @@ msgstr ""
 
 #: include/class_ibutton.php:61 include/class_ibutton.php:63
 #: include/class_html_input.php:332 include/lib/class_html_input.php:332
-#: include/lib/class_ibutton.php:63
+#: include/lib/class_ibutton.php:63 include/compta_fin_rec.inc.php:221
 msgid "Inverser la sélection"
 msgstr ""
 
@@ -4052,6 +4057,7 @@ msgid "Vous  ne pouvez pas enlever de fiche"
 msgstr ""
 
 #: include/contact.inc.php:90 include/contact.inc.php:94
+#: include/contact.inc.php:95
 msgid "Société :"
 msgstr ""
 
@@ -4420,6 +4426,7 @@ msgstr ""
 #: include/database.item.php:63 include/card_attr.inc.php:97
 #: include/template/menu_detail.php:75 include/menu.inc.php:114
 #: include/database.item.php:59 include/database.item.php:62
+#: include/ext/syndicat_tools/index.php:37
 msgid "Paramètre"
 msgstr ""
 
@@ -5971,7 +5978,7 @@ msgid "Lettrage pour la fiche "
 msgstr ""
 
 #: include/manager.inc.php:88 include/manager.inc.php:99
-#: include/manager.inc.php:102
+#: include/manager.inc.php:102 include/manager.inc.php:103
 msgid "Inclure les employés sans opération :"
 msgstr ""
 
@@ -6008,7 +6015,7 @@ msgstr ""
 #: include/class_fiche.php:1580 include/class_fiche.php:1597
 #: include/ajax/ajax_boxcard_search.php:66 include/class/class_fiche.php:1597
 #: include/class/class_fiche.php:1600 include/template/pcmn_update.php:28
-#: include/template/pcmn_update.php:36
+#: include/template/pcmn_update.php:36 include/class/class_fiche.php:1599
 msgid "Poste comptable"
 msgstr ""
 
@@ -6306,6 +6313,7 @@ msgstr ""
 #: include/class_html_input.php:832 include/template/calendar-list.php:33
 #: include/class_html_input.php:836 include/lib/class_html_input.php:836
 #: include/ajax/ajax_calendar_zoom.php:23 include/lib/class_html_input.php:851
+#: include/lib/class_html_input.php:862
 msgid "Calendrier"
 msgstr ""
 
@@ -7835,7 +7843,7 @@ msgstr ""
 #: include/class_fiche.php:1436 include/class/class_fiche.php:1436
 #: include/class/class_acc_account_ledger.php:668
 #: include/class/class_fiche.php:2009 include/class/class_fiche.php:1439
-#: include/class/class_fiche.php:2012
+#: include/class/class_fiche.php:2012 include/class/class_fiche.php:2011
 msgid "Export CSV"
 msgstr ""
 
@@ -8785,7 +8793,7 @@ msgstr ""
 #: include/class_fiche.php:1421 include/class/class_fiche.php:1421
 #: include/class/class_acc_account_ledger.php:690
 #: include/class/class_fiche.php:2031 include/class/class_fiche.php:1424
-#: include/class/class_fiche.php:2034
+#: include/class/class_fiche.php:2034 include/class/class_fiche.php:2033
 msgid "Export PDF"
 msgstr ""
 
@@ -10074,6 +10082,7 @@ msgstr ""
 #: include/class/class_acc_ledger.php:2542
 #: include/lib/class_html_input.php:876
 #: include/class/class_acc_ledger.php:2541
+#: include/lib/class_html_input.php:887
 msgid "choix des journaux"
 msgstr ""
 
@@ -10981,7 +10990,7 @@ msgstr ""
 #: include/class_html_input.php:878 include/class_html_input.php:879
 #: include/class_html_input.php:904 include/class_html_input.php:908
 #: include/lib/class_html_input.php:908 include/lib/class_html_input.php:919
-#: include/lib/class_html_input.php:934
+#: include/lib/class_html_input.php:934 include/lib/class_html_input.php:945
 #, php-format
 msgid "Voulez-vous effacer cette relation "
 msgstr ""
@@ -10989,7 +10998,7 @@ msgstr ""
 #: include/class_html_input.php:890 include/class_html_input.php:891
 #: include/class_html_input.php:916 include/class_html_input.php:920
 #: include/lib/class_html_input.php:920 include/lib/class_html_input.php:931
-#: include/lib/class_html_input.php:946
+#: include/lib/class_html_input.php:946 include/lib/class_html_input.php:957
 msgid "Ajout autres"
 msgstr ""
 
@@ -12434,7 +12443,7 @@ msgstr ""
 #: include/template/action_display_short.php:78
 #: include/lib/class_html_input.php:926 include/lib/class_html_input.php:937
 #: include/template/action_display_short.php:80
-#: include/lib/class_html_input.php:952
+#: include/lib/class_html_input.php:952 include/lib/class_html_input.php:963
 msgid "Nouvel événement"
 msgstr ""
 
@@ -13129,7 +13138,7 @@ msgid "Mise &agrave; jour mod&egrave;le"
 msgstr ""
 
 #: html/admin/setup.php:388 html/install.php:452 html/install.php:451
-#: html/install.php:449
+#: html/install.php:449 include/upgrade.inc.php:67 include/upgrade.inc.php:93
 msgid "Base de données"
 msgstr ""
 
@@ -13659,7 +13668,8 @@ msgstr ""
 #: include/ext/importbank/index.php:146
 #: include/ext/importbank/include/class_import_bank.php:473
 #: include/ext/importbank/include/class_import_bank.php:495
-#: include/modele.inc.php:420
+#: include/modele.inc.php:420 include/compta_fin_rec.inc.php:115
+#: include/compta_fin_rec.inc.php:122
 msgid "Donnée invalide"
 msgstr ""
 
@@ -13796,7 +13806,8 @@ msgstr ""
 #: include/class/class_fiche.php:2044 html/user_login.php:171
 #: include/class/class_acc_ledger.php:3424
 #: include/class/class_pre_operation.php:285 html/user_login.php:163
-#: include/balance.inc.php:281
+#: include/balance.inc.php:281 include/compta_fin_rec.inc.php:226
+#: include/class/class_fiche.php:2043
 #, php-format
 msgid "Cherche"
 msgstr ""
@@ -13871,6 +13882,9 @@ msgid "Nbre de colonnes"
 msgstr ""
 
 #: include/class/class_fiche.php:1591 include/class/class_fiche.php:1594
+#: include/adm.inc.php:81 include/bank.inc.php:74 include/contact.inc.php:77
+#: include/customer.inc.php:77 include/manager.inc.php:81
+#: include/supplier.inc.php:81
 msgid "Cherche "
 msgstr ""
 
@@ -14481,4 +14495,68 @@ msgstr ""
 
 #: include/class/class_acc_reconciliation.php:470
 msgid "nom journal"
+msgstr ""
+
+#: include/compta_fin_rec.inc.php:151
+msgid "Attention : Fichier non chargé"
+msgstr ""
+
+#: include/compta_fin_rec.inc.php:299
+msgid "Différence relevé"
+msgstr ""
+
+#: include/compta_fin_rec.inc.php:303
+msgid "Montant sélectionné"
+msgstr ""
+
+#: include/compta_fin_rec.inc.php:306
+msgid "Reste à selectionner"
+msgstr ""
+
+#: include/ext/syndicat_tools/index.php:31
+msgid "Section-Journal"
+msgstr ""
+
+#: include/ext/syndicat_tools/index.php:31
+msgid "Liaison entre journaux et section"
+msgstr ""
+
+#: include/ext/syndicat_tools/index.php:32
+msgid "Section"
+msgstr ""
+
+#: include/ext/syndicat_tools/index.php:33
+msgid "Section-Trésorier "
+msgstr ""
+
+#: include/ext/syndicat_tools/index.php:33
+msgid "Liaison entre section et trésorier"
+msgstr ""
+
+#: include/ext/syndicat_tools/index.php:34
+msgid "Génération écritures "
+msgstr ""
+
+#: include/ext/syndicat_tools/index.php:34
+msgid "Génération d'écritures comptables"
+msgstr ""
+
+#: include/ext/syndicat_tools/index.php:35
+msgid "Extraction Opérations"
+msgstr ""
+
+#: include/ext/syndicat_tools/index.php:35
+msgid "Extraction des opérations comptables"
+msgstr ""
+
+#: include/ext/syndicat_tools/index.php:36
+msgid "Annonce"
+msgstr ""
+
+#: include/ext/syndicat_tools/index.php:36
+msgid "Création d'avis et annonces pour les trésoriers"
+msgstr ""
+
+#: include/ext/syndicat_tools/index.php:37
+msgid "Configuration du plugin syndicat"
 msgstr ""
