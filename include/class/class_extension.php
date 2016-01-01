@@ -93,8 +93,8 @@ class Extension extends Menu_Ref_sql
         global $version_noalyss;
         if ( ! isset ($version_noalyss) || $version_noalyss < $i )
         {
-            alert('Cette extension ne fonctionne pas sur cette version de NOALYSS'.
-                  ' Veuillez mettre votre programme a jour. Version minimum '.$i);
+            alert(_('Cette extension ne fonctionne pas sur cette version de NOALYSS'.
+                  ' Veuillez mettre votre programme a jour. Version minimum ').$i);
             return;
         }
         Extension::check_plugin_version();
