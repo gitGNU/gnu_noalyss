@@ -547,6 +547,7 @@ class Document
      *  - [ACOMPTE]
      *  - [TITLE]
      *  - [DESCRIPTION]
+     *  - [COMM_PAYMENT]
      *
      * \param $p_tag TAG
      * \param $p_array data from $_POST
@@ -1173,8 +1174,11 @@ class Document
         case 'TITLE':
             $title=HtmlInput::default_value_request("ag_title", "");
             return $title;
-
-		}
+        case 'COMM_PAYMENT':
+            if ( isset($p_array["e_comm_paiement"])) {
+            return $p_array["e_comm_paiement"];
+             } else return "";
+	}
         /*
          * retrieve the value of ATTR for e_march
          */
