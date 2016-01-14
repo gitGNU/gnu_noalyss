@@ -1180,6 +1180,7 @@ class Document
          */
         if (preg_match('/^ATTR/', $p_tag) == 1)
         {
+            $r="";
             // Retrieve f_id
             if ( isset ($p_array['e_march'.$this->counter]))
             {
@@ -1192,12 +1193,14 @@ class Document
          */
         if (preg_match('/^BENEFATTR/', $p_tag) == 1)
         {
+            $r="";
             $qcode=isset($p_array['qcode_benef'])?$p_array['qcode_benef']:'';
             // Retrieve f_id
              $r=$this->replace_special_tag($qcode,$p_tag);
         }
         if (preg_match('/^CUSTATTR/', $p_tag) == 1)
         {
+            $r="";
             if ( isset($p_array['qcode_dest']) || isset($p_array['e_client']) )
             {
                 $qcode=(isset($p_array['qcode_dest']))?$p_array['qcode_dest']:$p_array['e_client'];
