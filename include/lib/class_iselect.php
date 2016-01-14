@@ -71,8 +71,28 @@ class ISelect extends HtmlInput
 		if ( $this->table == 1 )		  $a='<td>'.$r.'</td>';
         return $r;
     }
-
-
+   /**
+    * @brief set the value of an ISelect with the array , this array
+    * is bidimensional , the first dimension is the code to store and the second
+    * is the label to display.
+    * Example
+    * @code
+    * array(array('M'=>'Mister'),array('Ms'=>'Miss'));
+    * // will be turned into 
+    * array( array("value"=>'M,"label"=>"Mister")...)
+    * @endcode
+    * @param type $p_array
+    * @return type
+    */
+   public function transform($p_array) {
+        if (count($p_array)==0) return array();
+        $a_ret=array();
+        foreach ($p_array as $key=>$value) {
+            $a_ret['value']=$key;
+            $a_ret['label']=$value;
+            $this->value[]=$a_ret;
+        }
+    }
     static public function test_me()
     {
     }
