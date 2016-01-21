@@ -229,8 +229,14 @@ class Todo_List
     {
         global $g_user;
         if ( $this->use_login != $_SESSION['g_user'] && $g_user->check_action(SHARENOTEREMOVE)==0) return;
+        
+        $sql="delete from todo_list_shared where todo_list_id=$1 ";
+        $res=$this->cn->exec_sql($sql,array($this->tl_id));
+        
         $sql="delete from todo_list where tl_id=$1 ";
         $res=$this->cn->exec_sql($sql,array($this->tl_id));
+        
+       
 
     }
     /**
