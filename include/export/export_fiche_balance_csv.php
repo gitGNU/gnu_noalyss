@@ -108,6 +108,7 @@ else
 	{
 		$afiche[0] = array('fd_id' => $_REQUEST['cat']);
 	}
+        $export->send_header();
 	$fic=new Fiche($cn);
 	for ($e = 0; $e < count($afiche); $e++)
 	{
