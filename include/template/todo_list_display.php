@@ -63,7 +63,7 @@ echo HtmlInput::title_box("Note","todo_list_div".$this->tl_id,'close',$close_sha
         <?php
         // Section about Public note
         // display only if priv granted
-        if ($g_user->check_action(SHARENOTEPUBLIC)):
+        if ($g_user->check_action(SHARENOTEPUBLIC) == 1):
         ?>
         <tr>
             <td>
