@@ -64,11 +64,7 @@ class Print_Ledger_Detail extends PDF
         $this->Cell(0,8,'Created by NOALYSS, online on http://www.noalyss.eu',0,0,'R',false,'http://www.noalyss.eu');
 
     }
-    function Cell ($w, $h=0, $txt='', $border=0, $ln=0, $align='', $fill=false, $link='')
-    {
-        $txt = str_replace("\\", "", $txt);
-        return parent::Cell($w, $h, $txt, $border, $ln, $align, $fill, $link);
-    }
+   
 
     function export()
     {
@@ -80,12 +76,12 @@ class Print_Ledger_Detail extends PDF
         $array=$this->ledger->get_operation($_GET['from_periode'],$_GET['to_periode']);
 
         $this->SetFont('DejaVu','BI',7);
-        $this->Cell(215,7,'report Débit',0,0,'R');
-        $this->Cell(30,7,nbm($rap_deb),0,0,'R');
-        $this->Ln(4);
-        $this->Cell(215,7,'report Crédit',0,0,'R');
-        $this->Cell(30,7,nbm($rap_cred),0,0,'R');
-        $this->Ln(4);
+        $this->write_cell(215,7,'report Débit',0,0,'R');
+        $this->write_cell(30,7,nbm($rap_deb),0,0,'R');
+        $this->line_new(4);
+        $this->write_cell(215,7,'report Crédit',0,0,'R');
+        $this->write_cell(30,7,nbm($rap_cred),0,0,'R');
+        $this->line_new(4);
 
         // print all operation
         for ($i=0;$i< count($array);$i++)
@@ -94,12 +90,12 @@ class Print_Ledger_Detail extends PDF
             $row=$array[$i];
 
             $this->LongLine(20,7,$row['pj']);
-            $this->Cell(15,7,$row['date_fmt']);
-            $this->Cell(20,7,$row['internal']);
+            $this->write_cell(15,7,$row['date_fmt']);
+            $this->write_cell(20,7,$row['internal']);
             $this->LongLine(170,7,$row['comment']);
-            $this->Cell(20,7,nbm($row['montant']),0,0,'R');
+            $this->write_cell(20,7,nbm($row['montant']),0,0,'R');
 
-            $this->Ln();
+            $this->line_new();
             // get the entries
             $aEntry=$this->cn->get_array("select j_id,j_poste,j_qcode,j_montant,j_debit, j_text,".
 										 " case when j_text='' or j_text is null then pcm_lib else j_text end as desc,".
@@ -111,9 +107,9 @@ class Print_Ledger_Detail extends PDF
             {
                 $this->SetFont('DejaVuCond','',7);
                 $entry=$aEntry[$j];
-                // $this->Cell(15,6,$entry['j_id'],0,0,'R');
-                $this->Cell(32,6,$entry['j_qcode'],0,0,'R');
-                $this->Cell(23,6,$entry['j_poste'],0,0,'R');
+                // $this->write_cell(15,6,$entry['j_id'],0,0,'R');
+                $this->write_cell(32,6,$entry['j_qcode'],0,0,'R');
+                $this->write_cell(23,6,$entry['j_poste'],0,0,'R');
 
                 // if j_qcode is not empty retrieve name
                 if ( $entry['j_text'] =='' && $entry['j_qcode'] != '')
@@ -127,21 +123,21 @@ class Print_Ledger_Detail extends PDF
                 }
                 else
                     $name=$entry['desc'];
-                $this->Cell(150,6,$name,0,0,'L');
+                $this->write_cell(150,6,$name,0,0,'L');
 
                 // print amount
                 $str_amount=nbm($entry['j_montant']);
                 if ( $entry['j_debit']=='t')
                 {
-                    $this->Cell(20,6,$str_amount,0,0,'R');
-                    $this->Cell(20,6,'',0,0,'R');
+                    $this->write_cell(20,6,$str_amount,0,0,'R');
+                    $this->write_cell(20,6,'',0,0,'R');
                 }
                 else
                 {
-                    $this->Cell(20,6,'',0,0,'R');
-                    $this->Cell(20,6,$str_amount,0,0,'R');
+                    $this->write_cell(20,6,'',0,0,'R');
+                    $this->write_cell(20,6,$str_amount,0,0,'R');
                 }
-                $this->Ln(4);
+                $this->line_new(4);
             }
         }
     }

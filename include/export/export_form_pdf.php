@@ -98,13 +98,13 @@ if ( $step == 0 )
     {
         $periode=sprintf("Date %s jusque %s",$_GET['from_date'],$_GET['to_date']);
     }
-    $pdf->Cell(0,7,$periode,'B');
-    $pdf->Ln();
+    $pdf->write_cell(0,7,$periode,'B');
+    $pdf->line_new();
     for ($i=0;$i<count($array);$i++)
     {
-        $pdf->Cell(160,6,$array[$i]['desc']);
-        $pdf->Cell(30,6,sprintf('% 12.2f',$array[$i]['montant']),0,0,'R');
-        $pdf->Ln();
+        $pdf->write_cell(160,6,$array[$i]['desc']);
+        $pdf->write_cell(30,6,sprintf('% 12.2f',$array[$i]['montant']),0,0,'R');
+        $pdf->line_new();
     }
 }
 else
@@ -112,14 +112,14 @@ else
     $a=0;
     foreach ($array as $e)
     {
-        $pdf->Cell(0,7,$periode_name[$a],'B');
-        $pdf->Ln();
+        $pdf->write_cell(0,7,$periode_name[$a],'B');
+        $pdf->line_new();
         $a++;
         for ($i=0;$i<count($e);$i++)
         {
-            $pdf->Cell(160,6,$e[$i]['desc']);
-            $pdf->Cell(30,6,sprintf('% 12.2f',$e[$i]['montant']),0,0,'R');
-            $pdf->Ln();
+            $pdf->write_cell(160,6,$e[$i]['desc']);
+            $pdf->write_cell(30,6,sprintf('% 12.2f',$e[$i]['montant']),0,0,'R');
+            $pdf->line_new();
         }
     }
 }

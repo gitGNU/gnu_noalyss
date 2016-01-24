@@ -186,7 +186,7 @@ class Anc_Balance_Double extends Anc_Print
         $pb=new Anc_Plan($this->db,$this->pa_id2);
         $pb->get();
         $pdf->SetFont('DejaVu','B',9);
-        $pdf->Cell(0,7,sprintf("Balance croise plan %s %s ",
+        $pdf->write_cell(0,7,sprintf("Balance croise plan %s %s ",
                                $pa->name,
                                $pb->name),1,0,'C');
         $filtre_date="";
@@ -208,58 +208,58 @@ class Anc_Balance_Double extends Anc_Print
                                ($this->to_poste2!="")?"jusque ".$this->to_poste2:"");
 
         $pdf->SetFont('DejaVu','',8);
-        $pdf->Cell(50,7,$filtre_date);
-        $pdf->Cell(50,7,$filtre_pa);
-        $pdf->Cell(50,7,$filtre_pb);
-        $pdf->Ln();
+        $pdf->write_cell(50,7,$filtre_date);
+        $pdf->write_cell(50,7,$filtre_pa);
+        $pdf->write_cell(50,7,$filtre_pb);
+        $pdf->line_new();
 
         $pdf->SetFont('DejaVu','',6);
-        $pdf->Cell(20,7,'id','B');
-        $pdf->Cell(100,7,'Poste Comptable','B');
-        $pdf->Cell(20,7,'Débit','B',0,'L');
-        $pdf->Cell(20,7,'Crédit','B',0,'L');
-        $pdf->Cell(20,7,'Solde','B',0,'L');
-        $pdf->Cell(20,7,'D/C','B',0,'L');
-        $pdf->Ln();
+        $pdf->write_cell(20,7,'id','B');
+        $pdf->write_cell(100,7,'Poste Comptable','B');
+        $pdf->write_cell(20,7,'Débit','B',0,'L');
+        $pdf->write_cell(20,7,'Crédit','B',0,'L');
+        $pdf->write_cell(20,7,'Solde','B',0,'L');
+        $pdf->write_cell(20,7,'D/C','B',0,'L');
+        $pdf->line_new();
 
         for ($i=0;$i<count($array);$i++)
         {
             $row=$array[$i];
-            $pdf->Cell(20,6,$row['a_po_name'],0,0,'L');
-            $pdf->Cell(40,6,mb_substr($row['a_po_description'],0,31),0,0,'L');
-            $pdf->Cell(20,6,$row['b_po_name'],0,0,'L');
-            $pdf->Cell(40,6,mb_substr($row['b_po_description'],0,31),0,0,'L');
-            $pdf->Cell(20,6,$row['a_d'],0,0,'R');
-            $pdf->Cell(20,6,$row['a_c'],0,0,'R');
-            $pdf->Cell(20,6,$row['a_solde'],0,0,'R');
-            $pdf->Cell(20,6,$row['a_debit'],0,0,'C');
-            $pdf->Ln();
+            $pdf->write_cell(20,6,$row['a_po_name'],0,0,'L');
+            $pdf->write_cell(40,6,mb_substr($row['a_po_description'],0,31),0,0,'L');
+            $pdf->write_cell(20,6,$row['b_po_name'],0,0,'L');
+            $pdf->write_cell(40,6,mb_substr($row['b_po_description'],0,31),0,0,'L');
+            $pdf->write_cell(20,6,$row['a_d'],0,0,'R');
+            $pdf->write_cell(20,6,$row['a_c'],0,0,'R');
+            $pdf->write_cell(20,6,$row['a_solde'],0,0,'R');
+            $pdf->write_cell(20,6,$row['a_debit'],0,0,'C');
+            $pdf->line_new();
         }
 
         $sum=$this->show_sum($array);
         $pdf->SetFont('DejaVu','B',8);
-        $pdf->Cell(70,6,'Somme',1,0,'C');
-        $pdf->Ln(5);
+        $pdf->write_cell(70,6,'Somme',1,0,'C');
+        $pdf->line_new(5);
         $pdf->SetFont('DejaVu','',6);
 
-        $pdf->Cell(20,7,'Poste');
-        $pdf->Cell(60,7,'Description','B');
-        $pdf->Cell(20,7,'Débit','B',0,'L');
-        $pdf->Cell(20,7,'Crédit','B',0,'L');
-        $pdf->Cell(20,7,'Solde','B',0,'L');
-        $pdf->Cell(20,7,'D/C','B',0,'L');
-        $pdf->Ln();
+        $pdf->write_cell(20,7,'Poste');
+        $pdf->write_cell(60,7,'Description','B');
+        $pdf->write_cell(20,7,'Débit','B',0,'L');
+        $pdf->write_cell(20,7,'Crédit','B',0,'L');
+        $pdf->write_cell(20,7,'Solde','B',0,'L');
+        $pdf->write_cell(20,7,'D/C','B',0,'L');
+        $pdf->line_new();
 
         for ($i=0;$i<count($sum);$i++)
         {
             $row=$sum[$i];
-            $pdf->Cell(20,6,$row['poste'],0,0,'L');
-            $pdf->Cell(60,6,$row['desc'],0,0,'L');
-            $pdf->Cell(20,6,sprintf('%.2f',$row['debit']),0,0,'R');
-            $pdf->Cell(20,6,sprintf('%.2f',$row['credit']),0,0,'R');
-            $pdf->Cell(20,6,sprintf('%.2f',$row['solde']),0,0,'R');
-            $pdf->Cell(20,6,$row['dc'],0,0,'R');
-            $pdf->Ln();
+            $pdf->write_cell(20,6,$row['poste'],0,0,'L');
+            $pdf->write_cell(60,6,$row['desc'],0,0,'L');
+            $pdf->write_cell(20,6,sprintf('%.2f',$row['debit']),0,0,'R');
+            $pdf->write_cell(20,6,sprintf('%.2f',$row['credit']),0,0,'R');
+            $pdf->write_cell(20,6,sprintf('%.2f',$row['solde']),0,0,'R');
+            $pdf->write_cell(20,6,$row['dc'],0,0,'R');
+            $pdf->line_new();
         }
         $fDate=date('dmy-Hi');
         $pdf->output('crossbalance-'.$fDate.'.pdf','D');

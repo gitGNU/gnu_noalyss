@@ -101,19 +101,19 @@ $pdf->AddPage();
 $pdf->SetAuthor('NOALYSS');
 $pdf->SetFont('DejaVuCond','',7);
 $pdf->setTitle("Balance comptable",true);
-$pdf->Cell(30,6,'poste');
+$pdf->write_cell(30,6,'poste');
 $pdf->LongLine(60,6,'Libellé');
 if ($previous == 1 ){ 
-    $pdf->Cell(20,6,'Débit N-1',0,0,'R');
-    $pdf->Cell(20,6,'Crédit N-1',0,0,'R');
-    $pdf->Cell(20,6,'Débiteur N-1',0,0,'R');
-    $pdf->Cell(20,6,'Créditeur N-1',0,0,'R');
+    $pdf->write_cell(20,6,'Débit N-1',0,0,'R');
+    $pdf->write_cell(20,6,'Crédit N-1',0,0,'R');
+    $pdf->write_cell(20,6,'Débiteur N-1',0,0,'R');
+    $pdf->write_cell(20,6,'Créditeur N-1',0,0,'R');
 }
-$pdf->Cell(25,6,'Total Débit',0,0,'R');
-$pdf->Cell(25,6,'Total Crédit',0,0,'R');
-$pdf->Cell(25,6,'Solde Débiteur',0,0,'R');
-$pdf->Cell(25,6,'Solde Créditeur',0,0,'R');
-$pdf->Ln();
+$pdf->write_cell(25,6,'Total Débit',0,0,'R');
+$pdf->write_cell(25,6,'Total Crédit',0,0,'R');
+$pdf->write_cell(25,6,'Solde Débiteur',0,0,'R');
+$pdf->write_cell(25,6,'Solde Créditeur',0,0,'R');
+$pdf->line_new();
 
 $pdf->SetFont('DejaVuCond','',8);
 $tp_deb=0;
@@ -166,20 +166,20 @@ if (! empty($array))
                 if ($previous == 1 ) {
                     $delta_previous=bcsub(${'nlvl'.$ind}['solde_cred_previous'],${'nlvl'.$ind}['solde_deb_previous']);
                     $side_previous=($delta_previous < 0) ? "D":"C";
-                    $pdf->Cell(30,6,"n-1 : " .nbm($delta_previous)." $side_previous",0,0,'R');
-                     $pdf->Cell(30,6," n : ".nbm($delta)." $side",0,0,'R');
-                    $pdf->Cell(22,6,nbm(${'nlvl'.$ind}['sum_deb_previous']),0,0,'R');
-                    $pdf->Cell(22,6,nbm(${'nlvl'.$ind}['sum_cred_previous']),0,0,'R');
-                    $pdf->Cell(22,6,nbm(${'nlvl'.$ind}['solde_deb_previous']),0,0,'R');
-                    $pdf->Cell(22,6,nbm(${'nlvl'.$ind}['solde_cred_previous']),0,0,'R');
+                    $pdf->write_cell(30,6,"n-1 : " .nbm($delta_previous)." $side_previous",0,0,'R');
+                     $pdf->write_cell(30,6," n : ".nbm($delta)." $side",0,0,'R');
+                    $pdf->write_cell(22,6,nbm(${'nlvl'.$ind}['sum_deb_previous']),0,0,'R');
+                    $pdf->write_cell(22,6,nbm(${'nlvl'.$ind}['sum_cred_previous']),0,0,'R');
+                    $pdf->write_cell(22,6,nbm(${'nlvl'.$ind}['solde_deb_previous']),0,0,'R');
+                    $pdf->write_cell(22,6,nbm(${'nlvl'.$ind}['solde_cred_previous']),0,0,'R');
                 } else {
-                     $pdf->Cell(60,6,nbm($delta)." $side",0,0,'R');
+                     $pdf->write_cell(60,6,nbm($delta)." $side",0,0,'R');
                 }
-		$pdf->Cell(25,6,nbm(${'nlvl'.$ind}['sum_deb']),0,0,'R');
-		$pdf->Cell(25,6,nbm(${'nlvl'.$ind}['sum_cred']),0,0,'R');
-		$pdf->Cell(25,6,nbm(${'nlvl'.$ind}['solde_deb']),0,0,'R');
-		$pdf->Cell(25,6,nbm(${'nlvl'.$ind}['solde_cred']),0,0,'R');
-		$pdf->Ln();
+		$pdf->write_cell(25,6,nbm(${'nlvl'.$ind}['sum_deb']),0,0,'R');
+		$pdf->write_cell(25,6,nbm(${'nlvl'.$ind}['sum_cred']),0,0,'R');
+		$pdf->write_cell(25,6,nbm(${'nlvl'.$ind}['solde_deb']),0,0,'R');
+		$pdf->write_cell(25,6,nbm(${'nlvl'.$ind}['solde_cred']),0,0,'R');
+		$pdf->line_new();
 		$pdf->SetFont('DejaVuCond','',7);
 		${'lvl'.$ind.'_old'}=substr($r['poste'],0,$ind);
 		foreach($a_sum as $a)
@@ -209,20 +209,20 @@ if (! empty($array))
 	$pdf->LongLine(30,6,$value['poste'],0,'L',$fill);
 	$pdf->LongLine(60,6,$value['label'],0,'L',$fill);
         if ($previous == 1 ) {
-            $pdf->Cell(22,6,nbm($value['sum_deb_previous']),0,0,'R',$fill);
-            $pdf->Cell(22,6,nbm($value['sum_cred_previous']),0,0,'R',$fill);
-            $pdf->Cell(22,6,nbm($value['solde_deb_previous']),0,0,'R',$fill);
-            $pdf->Cell(22,6,nbm($value['solde_cred_previous']),0,0,'R',$fill);
+            $pdf->write_cell(22,6,nbm($value['sum_deb_previous']),0,0,'R',$fill);
+            $pdf->write_cell(22,6,nbm($value['sum_cred_previous']),0,0,'R',$fill);
+            $pdf->write_cell(22,6,nbm($value['solde_deb_previous']),0,0,'R',$fill);
+            $pdf->write_cell(22,6,nbm($value['solde_cred_previous']),0,0,'R',$fill);
             $tp_deb_previous=bcadd($tp_deb_previous,$value['sum_deb_previous']);
             $tp_cred_previous=bcadd($tp_cred_previous,$value['sum_cred_previous']);
             $tp_sold_previous=bcadd($tp_sold_previous,$value['solde_deb_previous']);
             $tp_solc_previous=bcadd($tp_solc_previous,$value['solde_cred_previous']);
         }
-	$pdf->Cell(25,6,nbm($value['sum_deb']),0,0,'R',$fill);
-	$pdf->Cell(25,6,nbm($value['sum_cred']),0,0,'R',$fill);
-	$pdf->Cell(25,6,nbm($value['solde_deb']),0,0,'R',$fill);
-	$pdf->Cell(25,6,nbm($value['solde_cred']),0,0,'R',$fill);
-	$pdf->Ln();
+	$pdf->write_cell(25,6,nbm($value['sum_deb']),0,0,'R',$fill);
+	$pdf->write_cell(25,6,nbm($value['sum_cred']),0,0,'R',$fill);
+	$pdf->write_cell(25,6,nbm($value['solde_deb']),0,0,'R',$fill);
+	$pdf->write_cell(25,6,nbm($value['solde_cred']),0,0,'R',$fill);
+	$pdf->line_new();
 	$tp_deb=bcadd($tp_deb,$value['sum_deb']);
 	$tp_cred=bcadd($tp_cred,$value['sum_cred']);
 	$tp_sold=bcadd($tp_sold,$value['solde_deb']);
@@ -238,19 +238,19 @@ if (! empty($array))
 	if ( ${'lvl'.$ind.'_old'} != substr($r['poste'],0,$ind))
 	  {
 	    $pdf->SetFont('DejaVu','B',7);
-	    $pdf->Cell(30,6,"Totaux ".$ind);
-	    $pdf->Cell(60,6,${'lvl'.$ind.'_old'});
+	    $pdf->write_cell(30,6,"Totaux ".$ind);
+	    $pdf->write_cell(60,6,${'lvl'.$ind.'_old'});
              if ($previous == 1 ) {
-                $pdf->Cell(22,6,nbm(${'nlvl'.$ind}['sum_deb_previous']),0,0,'R');
-                $pdf->Cell(22,6,nbm(${'nlvl'.$ind}['sum_cred_previous']),0,0,'R');
-                $pdf->Cell(22,6,nbm(${'nlvl'.$ind}['solde_deb_previous']),0,0,'R');
-                $pdf->Cell(22,6,nbm(${'nlvl'.$ind}['solde_cred_previous']),0,0,'R');
+                $pdf->write_cell(22,6,nbm(${'nlvl'.$ind}['sum_deb_previous']),0,0,'R');
+                $pdf->write_cell(22,6,nbm(${'nlvl'.$ind}['sum_cred_previous']),0,0,'R');
+                $pdf->write_cell(22,6,nbm(${'nlvl'.$ind}['solde_deb_previous']),0,0,'R');
+                $pdf->write_cell(22,6,nbm(${'nlvl'.$ind}['solde_cred_previous']),0,0,'R');
              }
-	    $pdf->Cell(25,6,nbm(${'nlvl'.$ind}['sum_deb']),0,0,'R');
-	    $pdf->Cell(25,6,nbm(${'nlvl'.$ind}['sum_cred']),0,0,'R');
-	    $pdf->Cell(25,6,nbm(${'nlvl'.$ind}['solde_deb']),0,0,'R');
-	    $pdf->Cell(25,6,nbm(${'nlvl'.$ind}['solde_cred']),0,0,'R');
-	    $pdf->Ln();
+	    $pdf->write_cell(25,6,nbm(${'nlvl'.$ind}['sum_deb']),0,0,'R');
+	    $pdf->write_cell(25,6,nbm(${'nlvl'.$ind}['sum_cred']),0,0,'R');
+	    $pdf->write_cell(25,6,nbm(${'nlvl'.$ind}['solde_deb']),0,0,'R');
+	    $pdf->write_cell(25,6,nbm(${'nlvl'.$ind}['solde_cred']),0,0,'R');
+	    $pdf->line_new();
 	    $pdf->SetFont('DejaVuCond','',7);
 	    ${'lvl'.$ind.'_old'}=substr($r['poste'],0,$ind);
 	    foreach($a_sum as $a)
@@ -262,18 +262,18 @@ if (! empty($array))
 
     // Totaux
     $pdf->SetFont('DejaVuCond','B',8);
-    $pdf->Cell(90,6,$r['label']);
+    $pdf->write_cell(90,6,$r['label']);
      if ($previous == 1 ) {
-        $pdf->Cell(22,6,nbm($tp_deb_previous),'T',0,'R',0);
-        $pdf->Cell(22,6,nbm($tp_cred_previous),'T',0,'R',0);
-        $pdf->Cell(22,6,nbm($tp_sold_previous),'T',0,'R',0);
-        $pdf->Cell(22,6,nbm($tp_solc_previous),'T',0,'R',0);
+        $pdf->write_cell(22,6,nbm($tp_deb_previous),'T',0,'R',0);
+        $pdf->write_cell(22,6,nbm($tp_cred_previous),'T',0,'R',0);
+        $pdf->write_cell(22,6,nbm($tp_sold_previous),'T',0,'R',0);
+        $pdf->write_cell(22,6,nbm($tp_solc_previous),'T',0,'R',0);
     }
-    $pdf->Cell(25,6,nbm($tp_deb),'T',0,'R',0);
-    $pdf->Cell(25,6,nbm($tp_cred),'T',0,'R',0);
-    $pdf->Cell(25,6,nbm($tp_sold),'T',0,'R',0);
-    $pdf->Cell(25,6,nbm($tp_solc),'T',0,'R',0);
-    $pdf->Ln();
+    $pdf->write_cell(25,6,nbm($tp_deb),'T',0,'R',0);
+    $pdf->write_cell(25,6,nbm($tp_cred),'T',0,'R',0);
+    $pdf->write_cell(25,6,nbm($tp_sold),'T',0,'R',0);
+    $pdf->write_cell(25,6,nbm($tp_solc),'T',0,'R',0);
+    $pdf->line_new();
   } /** empty */
 
 $fDate=date('dmy-Hi');

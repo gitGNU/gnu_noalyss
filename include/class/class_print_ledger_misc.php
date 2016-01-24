@@ -36,17 +36,17 @@ class Print_Ledger_Misc extends PDF
         //Arial bold 12
         $this->SetFont('DejaVu', 'B', 12);
         //Title
-        $this->Cell(0,10,$this->dossier, 'B', 0, 'C');
+        $this->write_cell(0,10,$this->dossier, 'B', 0, 'C');
         //Line break
-        $this->Ln(20);
+        $this->line_new(20);
         $this->SetFont('DejaVu', 'B', 7);
-        $this->Cell(30,6,'Piece');
-        $this->Cell(10,6,'Date');
-        $this->Cell(20,6,'Interne');
-        $this->Cell(25,6,'Tiers');
-        $this->Cell(80,6,'Commentaire');
-        $this->Cell(15,6,'Montant');
-        $this->Ln(6);
+        $this->write_cell(30,6,'Piece');
+        $this->write_cell(10,6,'Date');
+        $this->write_cell(20,6,'Interne');
+        $this->write_cell(25,6,'Tiers');
+        $this->write_cell(80,6,'Commentaire');
+        $this->write_cell(15,6,'Montant');
+        $this->line_new(6);
 
     }
     function Footer()
@@ -56,10 +56,10 @@ class Print_Ledger_Misc extends PDF
         //Arial italic 8
         $this->SetFont('Arial', 'I', 8);
         //Page number
-        $this->Cell(0,8,'Date '.$this->date." - Page ".$this->PageNo().'/{nb}',0,0,'C');
-        $this->Ln(3);
+        $this->write_cell(0,8,'Date '.$this->date." - Page ".$this->PageNo().'/{nb}',0,0,'C');
+        $this->line_new(3);
         // Created by NOALYSS
-        $this->Cell(0,8,'Created by NOALYSS, online on http://www.noalyss.eu',0,0,'C',false,'http://www.noalyss.eu');
+        $this->write_cell(0,8,'Created by NOALYSS, online on http://www.noalyss.eu',0,0,'C',false,'http://www.noalyss.eu');
     }
     /**
      *@brief print the pdf
@@ -78,8 +78,8 @@ class Print_Ledger_Misc extends PDF
         {
             $row=$a_jrn[$i];
             $this->LongLine(30,5,$row['jr_pj_number']);
-            $this->Cell(10,5,  smaller_date($row['date']));
-            $this->Cell(20,5,$row['jr_internal']);
+            $this->write_cell(10,5,  smaller_date($row['date']));
+            $this->write_cell(20,5,$row['jr_internal']);
 	    $type=$this->cn->get_value("select jrn_def_type from jrn_def where jrn_def_id=$1",array($a_jrn[$i]['jr_def_id']));
 	    $other=mb_substr($this->ledger->get_tiers($type,$a_jrn[$i]['jr_id']),0,25);
 	    $this->LongLine(25,5,$other,0,'L');
@@ -89,8 +89,8 @@ class Print_Ledger_Misc extends PDF
 	       $positive = $this->cn->get_value("select qf_amount from quant_fin  ".
 					  " where jr_id=".$row['jr_id']);
              }
-            $this->Cell(15,5,nbm($positive),0,0,'R');
-            $this->Ln(5);
+            $this->write_cell(15,5,nbm($positive),0,0,'R');
+            $this->line_new(5);
 
         }
     }

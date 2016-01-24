@@ -49,21 +49,21 @@ class Print_Ledger_Detail_Item extends PDFLand
         //Arial bold 12
         $this->SetFont('DejaVu', 'B', 12);
         //Title
-        $this->Cell(0,10,$this->dossier, 'B', 0, 'C');
+        $this->write_cell(0,10,$this->dossier, 'B', 0, 'C');
         //Line break
-        $this->Ln(20);
+        $this->line_new(20);
         $high=6;
         $this->SetFont('DejaVu', '', 6);
         $this->LongLine(20, $high, _('Date'),0,  'L', false);
-        $this->Cell(20, $high, _('Numéro interne'), 0, 0, 'L', false);
+        $this->write_cell(20, $high, _('Numéro interne'), 0, 0, 'L', false);
         $this->LongLine(50, $high, _('Code'),0,'L',false);
         $this->LongLine(80, $high, _('Libellé'),0,'L',false);
-        $this->Cell(20, $high, _('Tot HTVA'), 0, 0, 'R', false);
-        $this->Cell(20, $high, _('Tot TVA NP'), 0, 0, 'R', false);
-        $this->Cell(20, $high, "", 0, 0, 'R', false);
-        $this->Cell(20, $high, _('Tot TVA'), 0, 0, 'R', false);
-        $this->Cell(20, $high, _('TVAC'), 0, 0, 'R', false);
-        $this->Ln(6);
+        $this->write_cell(20, $high, _('Tot HTVA'), 0, 0, 'R', false);
+        $this->write_cell(20, $high, _('Tot TVA NP'), 0, 0, 'R', false);
+        $this->write_cell(20, $high, "", 0, 0, 'R', false);
+        $this->write_cell(20, $high, _('Tot TVA'), 0, 0, 'R', false);
+        $this->write_cell(20, $high, _('TVAC'), 0, 0, 'R', false);
+        $this->line_new(6);
         $this->show_col=true;
         
     }
@@ -72,21 +72,17 @@ class Print_Ledger_Detail_Item extends PDFLand
      */
     function Footer()
     {
-        $this->Ln(2);
+        $this->line_new(2);
         $this->SetFont('Arial', 'I', 8);
-        $this->Cell(50,8,' Journal '.$this->ledger->get_name(),0,0,'C');
+        $this->write_cell(50,8,' Journal '.$this->ledger->get_name(),0,0,'C');
         //Arial italic 8
         //Page number
-        $this->Cell(30,8,'Date '.$this->date." - Page ".$this->PageNo().'/{nb}',0,0,'L');
+        $this->write_cell(30,8,'Date '.$this->date." - Page ".$this->PageNo().'/{nb}',0,0,'L');
         // Created by NOALYSS
-        $this->Cell(0,8,'Created by NOALYSS, online on http://www.noalyss.eu',0,0,'R',false,'http://www.noalyss.eu');
+        $this->write_cell(0,8,'Created by NOALYSS, online on http://www.noalyss.eu',0,0,'R',false,'http://www.noalyss.eu');
     }
 
-    function Cell ($w, $h=0, $txt='', $border=0, $ln=0, $align='', $fill=false, $link='')
-    {
-        $txt = str_replace("\\", "", $txt);
-        return parent::Cell($w, $h, $txt, $border, $ln, $align, $fill, $link);
-    }
+
     /**
      *@brief export the ledger in  PDF
      */
@@ -122,50 +118,50 @@ class Print_Ledger_Detail_Item extends PDFLand
             {
                 // Print the general info line width=270mm
                 $this->LongLine(20, $high, $row['jr_date'],1,  'L', true);
-                $this->Cell(20, $high, $row['jr_internal'], 1, 0, 'L', true);
+                $this->write_cell(20, $high, $row['jr_internal'], 1, 0, 'L', true);
                 $this->LongLine(50, $high, $row['quick_code']." ".$row['tiers_name'],1,'L',true);
                 $this->LongLine(80, $high, $row['jr_comment'],1,'L',true);
-                $this->Cell(20, $high, nbm($row['htva']), 1, 0, 'R', true);
-                $this->Cell(20, $high, nbm($row['tot_tva_np']), 1, 0, 'R', true);
-                $this->Cell(20, $high, "", 1, 0, 'R', true);
-                $this->Cell(20, $high, nbm($row['tot_vat']), 1, 0, 'R', true);
+                $this->write_cell(20, $high, nbm($row['htva']), 1, 0, 'R', true);
+                $this->write_cell(20, $high, nbm($row['tot_tva_np']), 1, 0, 'R', true);
+                $this->write_cell(20, $high, "", 1, 0, 'R', true);
+                $this->write_cell(20, $high, nbm($row['tot_vat']), 1, 0, 'R', true);
                 $sum=bcadd($row['htva'],$row['tot_vat']);
                 $sum=bcsub($sum,$row['tot_tva_np']);
-                $this->Cell(20, $high, nbm($sum), 1, 0, 'R', true);
+                $this->write_cell(20, $high, nbm($sum), 1, 0, 'R', true);
                 $internal=$row['jr_internal'];
-                $this->Ln(6);
+                $this->line_new(6);
                // on the first line, the code for each column is displaid
                 if ( $this->show_col == true ) {
                     //
                     // Header detail
                     $this->LongLine(30,$high,'QuickCode');
-                    $this->Cell(30,$high,'Poste');
+                    $this->write_cell(30,$high,'Poste');
                     $this->LongLine(70,$high,'Libellé');
-                    $this->Cell(20,$high,'Prix/Unit',0,0,'R');
-                    $this->Cell(20,$high,'Quant.',0,0,'R');
-                    $this->Cell(20,$high,'HTVA',0,0,'R');
-                    $this->Cell(20,$high,'TVA NP',0,0,'R');
-                    $this->Cell(20,$high,'Code TVA');
-                    $this->Cell(20,$high,'TVA',0,0,'R');
-                    $this->Cell(20,$high,'TVAC',0,0,'R');
-                    $this->Ln(6);
+                    $this->write_cell(20,$high,'Prix/Unit',0,0,'R');
+                    $this->write_cell(20,$high,'Quant.',0,0,'R');
+                    $this->write_cell(20,$high,'HTVA',0,0,'R');
+                    $this->write_cell(20,$high,'TVA NP',0,0,'R');
+                    $this->write_cell(20,$high,'Code TVA');
+                    $this->write_cell(20,$high,'TVA',0,0,'R');
+                    $this->write_cell(20,$high,'TVAC',0,0,'R');
+                    $this->line_new(6);
                     $this->show_col=false;
                  } 
             }
             // Print detail sale / purchase
             $this->LongLine(30,$high,$row['j_qcode']);
-            $this->Cell(30,$high,$row['j_poste']);
+            $this->write_cell(30,$high,$row['j_poste']);
             $comment=($row['j_text']=="")?$row['item_name']:$row['j_text'];
             $this->LongLine(70,$high,$comment);
-            $this->Cell(20,$high,nbm($row['price_per_unit']),0,0,'R');
-            $this->Cell(20,$high,nbm($row['quantity']),0,0,'R');
-            $this->Cell(20,$high,nbm($row['price']),0,0,'R');
-            $this->Cell(20,$high,nbm($row['vat_sided']),0,0,'R');
-            $this->Cell(20,$high,$row['vat_code']." ".$row['tva_label']);
-            $this->Cell(20,$high,nbm($row['vat']),0,0,'R');
+            $this->write_cell(20,$high,nbm($row['price_per_unit']),0,0,'R');
+            $this->write_cell(20,$high,nbm($row['quantity']),0,0,'R');
+            $this->write_cell(20,$high,nbm($row['price']),0,0,'R');
+            $this->write_cell(20,$high,nbm($row['vat_sided']),0,0,'R');
+            $this->write_cell(20,$high,$row['vat_code']." ".$row['tva_label']);
+            $this->write_cell(20,$high,nbm($row['vat']),0,0,'R');
             $sum=bcadd($row['price'],$row['vat']);
-            $this->Cell(20,$high,nbm($sum),0,0,'R');
-            $this->Ln(6);
+            $this->write_cell(20,$high,nbm($sum),0,0,'R');
+            $this->line_new(6);
             
         }
     }

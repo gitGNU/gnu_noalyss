@@ -206,13 +206,13 @@ class Anc_Balance_Simple extends Anc_Print
         for ($i=0;$i<count($array);$i++)
         {
             $row=$array[$i];
-            $pdf->Cell(20,6,$row['po_id'],0,0,'L');
-            $pdf->Cell(90,6,$row['po_name'],0,0,'L');
-            $pdf->Cell(20,6,sprintf('%s',nbm($row['sum_deb'])),0,0,'R');
-            $pdf->Cell(20,6,sprintf('%s',nbm($row['sum_cred'])),0,0,'R');
-            $pdf->Cell(20,6,sprintf('%s',nbm($row['solde'])),0,0,'R');
-            $pdf->Cell(20,6,$row['debit'],0,0,'R');
-            $pdf->Ln();
+            $pdf->write_cell(20,6,$row['po_id'],0,0,'L');
+            $pdf->write_cell(90,6,$row['po_name'],0,0,'L');
+            $pdf->write_cell(20,6,sprintf('%s',nbm($row['sum_deb'])),0,0,'R');
+            $pdf->write_cell(20,6,sprintf('%s',nbm($row['sum_cred'])),0,0,'R');
+            $pdf->write_cell(20,6,sprintf('%s',nbm($row['solde'])),0,0,'R');
+            $pdf->write_cell(20,6,$row['debit'],0,0,'R');
+            $pdf->line_new();
         }
         $fDate=date('dmy-Hi');
         $pdf->output('simple-balance-'.$fDate.'.pdf','D');

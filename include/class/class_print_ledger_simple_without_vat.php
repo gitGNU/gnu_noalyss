@@ -63,40 +63,40 @@ class Print_Ledger_Simple_Without_Vat extends PDF
         //Arial bold 12
         $this->SetFont('DejaVu', 'B', 12);
         //Title
-        $this->Cell(0,10,$this->dossier, 'B', 0, 'C');
+        $this->write_cell(0,10,$this->dossier, 'B', 0, 'C');
         //Line break
-        $this->Ln(20);
+        $this->line_new(20);
         $this->SetFont('DejaVu', 'B', 8);
         /* column header */
-        $this->Cell(15,6,'Pièce');
-        $this->Cell(15,6,'Date');
-        $this->Cell(20,6,'ref');
+        $this->write_cell(15,6,'Pièce');
+        $this->write_cell(15,6,'Date');
+        $this->write_cell(20,6,'ref');
         if ( $this->jrn_type=='ACH')
-            $this->Cell(60,6,'Client');
+            $this->write_cell(60,6,'Client');
         else
-            $this->Cell(60,6,'Fournisseur');
-        $this->Cell(105,6,'Commentaire');
+            $this->write_cell(60,6,'Fournisseur');
+        $this->write_cell(105,6,'Commentaire');
         if ( $this->jrn_type=='ACH')
         {
-            $this->Cell(15,6,'Privé',0,0,'R');
+            $this->write_cell(15,6,'Privé',0,0,'R');
         }
-        $this->Cell(15,6,'Prix',0,0,'R');
+        $this->write_cell(15,6,'Prix',0,0,'R');
 
-        $this->Ln(5);
+        $this->line_new(5);
 
         $this->SetFont('DejaVu','',6);
         // page Header
-        $this->Cell(215,6,'report',0,0,'R'); /* HTVA */
+        $this->write_cell(215,6,'report',0,0,'R'); /* HTVA */
         if ( $this->jrn_type != 'VEN')
         {
-            $this->Cell(15,6,sprintf('%.2f',$this->rap_priv),0,0,'R');  /* prive */
+            $this->write_cell(15,6,sprintf('%.2f',$this->rap_priv),0,0,'R');  /* prive */
         }
-        $this->Cell(15,6,sprintf('%.2f',$this->rap_htva),0,0,'R'); /* HTVA */
+        $this->write_cell(15,6,sprintf('%.2f',$this->rap_htva),0,0,'R'); /* HTVA */
 
 
 
 
-        $this->Ln(6);
+        $this->line_new(6);
         //total page
         $this->tp_htva=0.0;
         $this->tp_tvac=0.0;
@@ -111,36 +111,31 @@ class Print_Ledger_Simple_Without_Vat extends PDF
         //Position at 3 cm from bottom
         $this->SetY(-20);
         /* write reporting  */
-        $this->Cell(215,6,'Total page ','T',0,'R'); /* HTVA */
+        $this->write_cell(215,6,'Total page ','T',0,'R'); /* HTVA */
         if ( $this->jrn_type !='VEN')
         {
-            $this->Cell(15,6,sprintf('%.2f',$this->tp_priv),'T',0,'R');  /* prive */
+            $this->write_cell(15,6,sprintf('%.2f',$this->tp_priv),'T',0,'R');  /* prive */
         }
-        $this->Cell(15,6,sprintf('%.2f',$this->tp_htva),'T',0,'R'); /* HTVA */
-        $this->Cell(0,6,'','T',0,'R'); /* line */
-        $this->Ln(2);
+        $this->write_cell(15,6,sprintf('%.2f',$this->tp_htva),'T',0,'R'); /* HTVA */
+        $this->write_cell(0,6,'','T',0,'R'); /* line */
+        $this->line_new(2);
 
-        $this->Cell(215,6,'report',0,0,'R'); /* HTVA */
+        $this->write_cell(215,6,'report',0,0,'R'); /* HTVA */
         if ( $this->jrn_type !='VEN')
         {
-            $this->Cell(15,6,sprintf('%.2f',$this->rap_priv),0,0,'R');  /* prive */
+            $this->write_cell(15,6,sprintf('%.2f',$this->rap_priv),0,0,'R');  /* prive */
         }
-        $this->Cell(15,6,sprintf('%.2f',$this->rap_htva),0,0,'R'); /* HTVA */
-        $this->Ln(2);
+        $this->write_cell(15,6,sprintf('%.2f',$this->rap_htva),0,0,'R'); /* HTVA */
+        $this->line_new(2);
 
         //Arial italic 8
         $this->SetFont('Arial', 'I', 8);
         //Page number
-        $this->Cell(0,8,'Date '.$this->date." - Page ".$this->PageNo().'/{nb}',0,0,'L');
+        $this->write_cell(0,8,'Date '.$this->date." - Page ".$this->PageNo().'/{nb}',0,0,'L');
         // Created by NOALYSS
-        $this->Cell(0,8,'Created by NOALYSS, online on http://www.noalyss.eu',0,0,'R',false,'http://www.noalyss.eu');
+        $this->write_cell(0,8,'Created by NOALYSS, online on http://www.noalyss.eu',0,0,'R',false,'http://www.noalyss.eu');
     }
 
-    function Cell ($w, $h=0, $txt='', $border=0, $ln=0, $align='', $fill=false, $link='')
-    {
-        $txt = str_replace("\\", "", $txt);
-        return parent::Cell($w, $h, $txt, $border, $ln, $align, $fill, $link);
-    }
     /**
      *@brief export the ledger in  PDF
      */
@@ -156,10 +151,10 @@ class Print_Ledger_Simple_Without_Vat extends PDF
 
             $row=$a_jrn[$i];
             $this->LongLine(15,5,($row['pj']),0);
-            $this->Cell(15,5,$row['date_fmt'],0,0);
-            $this->Cell(20,5,$row['internal'],0,0);
+            $this->write_cell(15,5,$row['date_fmt'],0,0);
+            $this->write_cell(20,5,$row['internal'],0,0);
             list($qc,$name)=$this->get_tiers($row['id'],$this->jrn_type);
-            $this->Cell(20,5,$qc,0,0);
+            $this->write_cell(20,5,$qc,0,0);
             $this->LongLine(40,5,$name,0,'L');
 
             $this->LongLine(105,5,$row['comment'],0,'L');
@@ -174,11 +169,11 @@ class Print_Ledger_Simple_Without_Vat extends PDF
 
             if ( $this->jrn_type !='VEN')
             {
-                $this->Cell(15,6,sprintf("%.2f",$other['priv']),0,0,'R');
+                $this->write_cell(15,6,sprintf("%.2f",$other['priv']),0,0,'R');
             }
 
-            $this->Cell(15,6,sprintf("%.2f",$other['price']),0,0,'R');
-            $this->Ln(5);
+            $this->write_cell(15,6,sprintf("%.2f",$other['price']),0,0,'R');
+            $this->line_new(5);
         }
     }
 

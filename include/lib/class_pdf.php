@@ -113,6 +113,11 @@ class PDF extends TFPDF
         {
             if ($this->cells[$i]->type == 'M' )
             {
+                /**
+                 * On doit calculer si le texte dépasse la texte et compter le
+                 * nombre de lignes que le texte prendrait. Ensuite il faut
+                 * faire un saut de page (renvoit true) si dépasse
+                 */
                 $y=$this->GetY();
                 if ( $y > ($this->h - $this->bMargin-20))
                     return true;
@@ -124,27 +129,28 @@ class PDF extends TFPDF
     {
         static $e=0;
         $e++;
-        if ( $e == 73 ) xdebug_break ();
-        //if ( $this->check_page_add() == true ) $this->AddPage ();
+        if ( $e == 40 ) xdebug_break ();
+        if ( $this->check_page_add() == true ) $this->AddPage ();
         $this->bigger=0;
         $size=count($this->cells);
+        $cell=$this->cells;
         if ($size == 0 )return;
         for ($i=0;$i < $size ; $i++)
         {
-            $this->cells[$i]->text= str_replace("\\", "", $this->cells[$i]->text);
-            
-            switch ($this->cells[$i]->type)
+            $a=$cell[$i];
+            $a->text= str_replace("\\", "", $a->text);
+            switch ($a->type)
             {
                 case "M":
                 $x_m=$this->GetX();
 		$y_m=$this->GetY();
 		parent::MultiCell(
-                                    $this->cells[$i]->width, 
-                                    $this->cells[$i]->height, 
-                                    $this->cells[$i]->text, 
-                                    $this->cells[$i]->border, 
-                                    $this->cells[$i]->align, 
-                                    $this->cells[$i]->fill
+                                    $a->width, 
+                                    $a->height, 
+                                    $a->text, 
+                                    $a->border, 
+                                    $a->align, 
+                                    $a->fill
                         );
 		$x_m=$x_m+$this->cells[$i]->width;
 		$tmp=$this->GetY()-$y_m;
@@ -154,14 +160,14 @@ class PDF extends TFPDF
                 
                 case "C":
                     
-                     $this->Cell(  $this->cells[$i]->width, 
-                                    $this->cells[$i]->height, 
-                                    $this->cells[$i]->text, 
-                                    $this->cells[$i]->border, 
-                                    $this->cells[$i]->new_line, 
-                                    $this->cells[$i]->align, 
-                                    $this->cells[$i]->fill, 
-                                    $this->cells[$i]->link);
+                     parent::Cell(   $a->width, 
+                                    $a->height, 
+                                    $a->text, 
+                                    $a->border, 
+                                    $a->new_line, 
+                                    $a->align, 
+                                    $a->fill, 
+                                    $a->link);
                     break;
 
                 default:
@@ -170,7 +176,7 @@ class PDF extends TFPDF
         }
         $this->cells=array();
     }
-    function add_cell(Cellule $Ce)
+    private function add_cell(Cellule $Ce)
     {
         $size=count($this->cells);
         $this->cells[$size]=$Ce;
@@ -186,7 +192,7 @@ class PDF extends TFPDF
         $this->add_cell(new Cellule($w,$h,$txt,$border,0,$align,$fill,'','M'));
 
     }
-    function Ln($p_step=null){
+    function line_new($p_step=null){
             $this->print_row();
             if ( $this->bigger==0) 
                 parent::Ln($p_step);
@@ -298,7 +304,7 @@ class PDFLand extends PDF
         //Title
         $this->Cell(0,10,$this->dossier, 'B', 0, 'C');
         //Line break
-        $this->Ln(20);
+        $this->line_new(20);
     }
     function Footer()
     {
@@ -308,7 +314,7 @@ class PDFLand extends PDF
         $this->SetFont('DejaVuCond', 'I', 8);
         //Page number
         $this->Cell(0,8,'Date '.$this->date." - Page ".$this->PageNo().'/{nb}',0,0,'C');
-        $this->Ln(3);
+        $this->line_new(3);
         // Created by NOALYSS
         $this->Cell(0,8,'Created by NOALYSS, online on http://www.noalyss.eu',0,0,'C',false,'http://www.noalyss.eu');
 
@@ -343,7 +349,7 @@ class PDFBalance_simple extends PDF
                        $this->to);
         $this->Cell(0,7,$titre,1,0,'C');
 
-        $this->Ln();
+        $this->line_new();
         $this->SetFont('DejaVu','',6);
         $this->Cell(20,7,'id','B');
         $this->Cell(90,7,'Poste Comptable','B');
@@ -351,7 +357,7 @@ class PDFBalance_simple extends PDF
         $this->Cell(20,7,'Crédit','B',0,'L');
         $this->Cell(20,7,'Solde','B',0,'L');
         $this->Cell(20,7,'D/C','B',0,'L');
-        $this->Ln();
+        $this->line_new();
 
     }
 }
