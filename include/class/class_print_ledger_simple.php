@@ -151,46 +151,46 @@ class Print_Ledger_Simple extends PDF
         //Position at 3 cm from bottom
         $this->SetY(-20);
         /* write reporting  */
-        $this->write_cell(143,6,'Total page ','T',0,'R'); /* HTVA */
-        $this->write_cell(15,6,nbm($this->tp_htva),'T',0,'R'); /* HTVA */
+        $this->Cell(143,6,'Total page ','T',0,'R'); /* HTVA */
+        $this->Cell(15,6,nbm($this->tp_htva),'T',0,'R'); /* HTVA */
         if ( $this->jrn_type !='VEN')
         {
-            $this->write_cell(15,6,nbm($this->tp_priv),'T',0,'R');  /* prive */
-            $this->write_cell(15,6,nbm($this->tp_nd),'T',0,'R');  /* Tva ND */
+            $this->Cell(15,6,nbm($this->tp_priv),'T',0,'R');  /* prive */
+            $this->Cell(15,6,nbm($this->tp_nd),'T',0,'R');  /* Tva ND */
         }
-        $this->write_cell(15,6,nbm($this->tp_tva_np),'T',0,'R');  /* Tva Unpaid */
+        $this->Cell(15,6,nbm($this->tp_tva_np),'T',0,'R');  /* Tva Unpaid */
         foreach($this->a_Tva as $line_tva)
         {
             $l=$line_tva['tva_id'];
-            $this->write_cell(15,6,nbm($this->tp_tva[$l]),'T',0,'R');
+            $this->Cell(15,6,nbm($this->tp_tva[$l]),'T',0,'R');
         }
         
-        $this->write_cell(15,6,nbm($this->tp_tvac),'T',0,'R'); /* Tvac */
-        $this->line_new(2);
+        $this->Cell(15,6,nbm($this->tp_tvac),'T',0,'R'); /* Tvac */
+        $this->Ln(2);
 
-        $this->write_cell(143,6,'report',0,0,'R'); /* HTVA */
-        $this->write_cell(15,6,nbm($this->rap_htva),0,0,'R'); /* HTVA */
+        $this->Cell(143,6,'report',0,0,'R'); /* HTVA */
+        $this->Cell(15,6,nbm($this->rap_htva),0,0,'R'); /* HTVA */
         if ( $this->jrn_type !='VEN')
         {
-            $this->write_cell(15,6,nbm($this->rap_priv),0,0,'R');  /* prive */
-            $this->write_cell(15,6,nbm($this->rap_nd),0,0,'R');  /* Tva ND */
+            $this->Cell(15,6,nbm($this->rap_priv),0,0,'R');  /* prive */
+            $this->Cell(15,6,nbm($this->rap_nd),0,0,'R');  /* Tva ND */
         }
-        $this->write_cell(15,6,nbm($this->rap_tva_np),0,0,'R');  /* Tva ND */
+        $this->Cell(15,6,nbm($this->rap_tva_np),0,0,'R');  /* Tva ND */
         
         foreach($this->a_Tva as $line_tva)
         {
             $l=$line_tva['tva_id'];
-            $this->write_cell(15,6,nbm($this->rap_tva[$l]),0,0,'R');
+            $this->Cell(15,6,nbm($this->rap_tva[$l]),0,0,'R');
         }
-        $this->write_cell(15,6,nbm($this->rap_tvac),0,0,'R'); /* Tvac */
-        $this->line_new(2);
+        $this->Cell(15,6,nbm($this->rap_tvac),0,0,'R'); /* Tvac */
+        $this->Ln(2);
 
         //Arial italic 8
         $this->SetFont('Arial', 'I', 8);
         //Page number
-        $this->write_cell(0,8,'Date '.$this->date." - Page ".$this->PageNo().'/{nb}',0,0,'L');
+        $this->Cell(0,8,'Date '.$this->date." - Page ".$this->PageNo().'/{nb}',0,0,'L');
         // Created by NOALYSS
-        $this->write_cell(0,8,'Created by NOALYSS, online on http://www.noalyss.eu',0,0,'R',false,'http://www.noalyss.eu');
+        $this->Cell(0,8,'Created by NOALYSS, online on http://www.noalyss.eu',0,0,'R',false,'http://www.noalyss.eu');
     }
 
 

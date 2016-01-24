@@ -49,21 +49,21 @@ class Print_Ledger_Detail_Item extends PDFLand
         //Arial bold 12
         $this->SetFont('DejaVu', 'B', 12);
         //Title
-        $this->write_cell(0,10,$this->dossier, 'B', 0, 'C');
+        $this->Cell(0,10,$this->dossier, 'B', 0, 'C');
         //Line break
-        $this->line_new(20);
+        $this->Ln(20);
         $high=6;
         $this->SetFont('DejaVu', '', 6);
         $this->LongLine(20, $high, _('Date'),0,  'L', false);
-        $this->write_cell(20, $high, _('Numéro interne'), 0, 0, 'L', false);
+        $this->Cell(20, $high, _('Numéro interne'), 0, 0, 'L', false);
         $this->LongLine(50, $high, _('Code'),0,'L',false);
         $this->LongLine(80, $high, _('Libellé'),0,'L',false);
-        $this->write_cell(20, $high, _('Tot HTVA'), 0, 0, 'R', false);
-        $this->write_cell(20, $high, _('Tot TVA NP'), 0, 0, 'R', false);
-        $this->write_cell(20, $high, "", 0, 0, 'R', false);
-        $this->write_cell(20, $high, _('Tot TVA'), 0, 0, 'R', false);
-        $this->write_cell(20, $high, _('TVAC'), 0, 0, 'R', false);
-        $this->line_new(6);
+        $this->Cell(20, $high, _('Tot HTVA'), 0, 0, 'R', false);
+        $this->Cell(20, $high, _('Tot TVA NP'), 0, 0, 'R', false);
+        $this->Cell(20, $high, "", 0, 0, 'R', false);
+        $this->Cell(20, $high, _('Tot TVA'), 0, 0, 'R', false);
+        $this->Cell(20, $high, _('TVAC'), 0, 0, 'R', false);
+        $this->Ln(6);
         $this->show_col=true;
         
     }
@@ -72,14 +72,14 @@ class Print_Ledger_Detail_Item extends PDFLand
      */
     function Footer()
     {
-        $this->line_new(2);
+        $this->Ln(2);
         $this->SetFont('Arial', 'I', 8);
-        $this->write_cell(50,8,' Journal '.$this->ledger->get_name(),0,0,'C');
+        $this->Cell(50,8,' Journal '.$this->ledger->get_name(),0,0,'C');
         //Arial italic 8
         //Page number
-        $this->write_cell(30,8,'Date '.$this->date." - Page ".$this->PageNo().'/{nb}',0,0,'L');
+        $this->Cell(30,8,'Date '.$this->date." - Page ".$this->PageNo().'/{nb}',0,0,'L');
         // Created by NOALYSS
-        $this->write_cell(0,8,'Created by NOALYSS, online on http://www.noalyss.eu',0,0,'R',false,'http://www.noalyss.eu');
+        $this->Cell(0,8,'Created by NOALYSS, online on http://www.noalyss.eu',0,0,'R',false,'http://www.noalyss.eu');
     }
 
 
@@ -144,7 +144,7 @@ class Print_Ledger_Detail_Item extends PDFLand
                     $this->write_cell(20,$high,'Code TVA');
                     $this->write_cell(20,$high,'TVA',0,0,'R');
                     $this->write_cell(20,$high,'TVAC',0,0,'R');
-                    $this->line_new(6);
+                    $this->Ln(6);
                     $this->show_col=false;
                  } 
             }
@@ -161,7 +161,7 @@ class Print_Ledger_Detail_Item extends PDFLand
             $this->write_cell(20,$high,nbm($row['vat']),0,0,'R');
             $sum=bcadd($row['price'],$row['vat']);
             $this->write_cell(20,$high,nbm($sum),0,0,'R');
-            $this->line_new(6);
+            $this->Ln(6);
             
         }
     }
