@@ -48,43 +48,43 @@ class Print_Ledger_Financial extends PDF
         //Arial bold 12
         $this->SetFont('DejaVu', 'B', 12);
         //Title
-        $this->write_cell(0,10,$this->dossier, 'B', 0, 'C');
+        $this->Cell(0,10,$this->dossier, 'B', 0, 'C');
         //Line break
         $this->SetFont('DejaVu', 'B', 7);
-        $this->line_new(10);
-        $this->write_cell(40,6,_('report'),0,0,'R');
-        $this->write_cell(40,6,nbm($this->rap_amount),0,0,'R');
-        $this->line_new(6);
+        $this->Ln(10);
+        $this->Cell(40,6,_('report'),0,0,'R');
+        $this->Cell(40,6,nbm($this->rap_amount),0,0,'R');
+        $this->Ln(6);
         $this->SetFont('DejaVu', 'B', 7);
-        $this->write_cell(15,6,'Piece');
-        $this->write_cell(10,6,'Date');
-        $this->write_cell(15,6,'Interne');
-        $this->write_cell(40,6,'Dest/Orig');
-        $this->write_cell(80,6,'Commentaire');
-        $this->write_cell(20,6,'Montant');
-        $this->line_new(6);
+        $this->Cell(15,6,'Piece');
+        $this->Cell(10,6,'Date');
+        $this->Cell(15,6,'Interne');
+        $this->Cell(40,6,'Dest/Orig');
+        $this->Cell(80,6,'Commentaire');
+        $this->Cell(20,6,'Montant');
+        $this->Ln(6);
         
     }
     function Footer()
     {
         $this->SetFont('DejaVu', 'B', 7);
 
-        $this->write_cell(40,6,_('Total page'),0,0,'R');
-        $this->write_cell(40,6,nbm($this->tp_amount),0,0,'R');
+        $this->Cell(40,6,_('Total page'),0,0,'R');
+        $this->Cell(40,6,nbm($this->tp_amount),0,0,'R');
         bcscale(2);
         $this->rap_amount=bcadd($this->rap_amount,$this->tp_amount);
-        $this->write_cell(40,6,_('Total à reporter'),0,0,'R');
-        $this->write_cell(40,6,nbm($this->rap_amount),0,0,'R');
+        $this->Cell(40,6,_('Total à reporter'),0,0,'R');
+        $this->Cell(40,6,nbm($this->rap_amount),0,0,'R');
         $this->tp_amount=0;
         //Position at 2 cm from bottom
         $this->SetY(-20);
         //Arial italic 8
         $this->SetFont('Arial', 'I', 8);
         //Page number
-        $this->write_cell(0,8,'Date '.$this->date." - Page ".$this->PageNo().'/{nb}',0,0,'C');
-        $this->line_new(3);
+        $this->Cell(0,8,'Date '.$this->date." - Page ".$this->PageNo().'/{nb}',0,0,'C');
+        $this->Ln(3);
         // Created by NOALYSS
-        $this->write_cell(0,8,'Created by NOALYSS, online on http://www.noalyss.eu',0,0,'C',false,'http://www.noalyss.eu');
+        $this->Cell(0,8,'Created by NOALYSS, online on http://www.noalyss.eu',0,0,'C',false,'http://www.noalyss.eu');
 
     }
     /**
@@ -108,7 +108,7 @@ class Print_Ledger_Financial extends PDF
             $this->write_cell(40,5,$name,0,'L');
 
 
-            $this->write_cell(80,5,$row['comment'],0,'L');
+            $this->LongLine(80,5,$row['comment'],0,'L');
             $amount=$this->cn->get_value('select qf_amount from quant_fin where jr_id=$1',array( $row['id']));
             $this->write_cell(20,5,sprintf('%s',nbm($amount)),0,0,'R');
             $this->line_new(5);

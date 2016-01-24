@@ -36,17 +36,17 @@ class Print_Ledger_Misc extends PDF
         //Arial bold 12
         $this->SetFont('DejaVu', 'B', 12);
         //Title
-        $this->write_cell(0,10,$this->dossier, 'B', 0, 'C');
+        $this->Cell(0,10,$this->dossier, 'B', 0, 'C');
         //Line break
         $this->line_new(20);
         $this->SetFont('DejaVu', 'B', 7);
-        $this->write_cell(30,6,'Piece');
-        $this->write_cell(10,6,'Date');
-        $this->write_cell(20,6,'Interne');
-        $this->write_cell(25,6,'Tiers');
-        $this->write_cell(80,6,'Commentaire');
-        $this->write_cell(15,6,'Montant');
-        $this->line_new(6);
+        $this->Cell(30,6,'Piece');
+        $this->Cell(10,6,'Date');
+        $this->Cell(20,6,'Interne');
+        $this->Cell(25,6,'Tiers');
+        $this->Cell(80,6,'Commentaire');
+        $this->Cell(15,6,'Montant');
+        $this->Ln(6);
 
     }
     function Footer()
@@ -56,10 +56,10 @@ class Print_Ledger_Misc extends PDF
         //Arial italic 8
         $this->SetFont('Arial', 'I', 8);
         //Page number
-        $this->write_cell(0,8,'Date '.$this->date." - Page ".$this->PageNo().'/{nb}',0,0,'C');
-        $this->line_new(3);
+        $this->Cell(0,8,'Date '.$this->date." - Page ".$this->PageNo().'/{nb}',0,0,'C');
+        $this->Ln(3);
         // Created by NOALYSS
-        $this->write_cell(0,8,'Created by NOALYSS, online on http://www.noalyss.eu',0,0,'C',false,'http://www.noalyss.eu');
+        $this->Cell(0,8,'Created by NOALYSS, online on http://www.noalyss.eu',0,0,'C',false,'http://www.noalyss.eu');
     }
     /**
      *@brief print the pdf
