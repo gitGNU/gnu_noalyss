@@ -119,6 +119,12 @@ class PDF extends TFPDF
                  * faire un saut de page (renvoit true) si dépasse
                  */
                 $y=$this->GetY();
+                
+                $sizetext=$this->GetStringWidth($this->cells[$i]->text);
+                $this->cells[$i]->text .= sprintf("size : %d",$sizetext);
+                $this->cells[$i]->text .= sprintf("cellwidth: %d",$this->cells[$i]->width);
+                $this->cells[$i]->text .= sprintf("cellheigth: %d",$this->cells[$i]->height);
+                
                 if ( $y > ($this->h - $this->bMargin-20))
                     return true;
             }
@@ -129,7 +135,6 @@ class PDF extends TFPDF
     {
         static $e=0;
         $e++;
-        if ( $e == 40 ) xdebug_break ();
         if ( $this->check_page_add() == true ) $this->AddPage ();
         $this->bigger=0;
         $size=count($this->cells);
@@ -194,7 +199,7 @@ class PDF extends TFPDF
     }
     function line_new($p_step=null){
             $this->print_row();
-            if ( $this->bigger==0) 
+           if ( $this->bigger==0) 
                 parent::Ln($p_step);
             else 
                 parent::Ln($this->bigger);
