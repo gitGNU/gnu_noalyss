@@ -105,6 +105,45 @@ class PDF extends TFPDF
         // Created by NOALYSS
         parent::Cell(0,8,'Created by NOALYSS, online on http://www.noalyss.eu',0,0,'C',false,'http://www.noalyss.eu');
     }
+    /**
+     * Count the number of rows a p_text will take for a multicell
+     * @param $p_text String
+     * @param $p_colSize size of the column in User Unit
+     */
+    private function count_nb_row($p_text,$p_colSize) 
+    {
+        // If colSize is bigger than the size of the string then it takes 1 line
+        if ( $this->GetStringWidth($p_text) <= $p_colSize) return 1;
+        $nRow=0;
+        $aWords=explode(' ',$p_text);
+        $nb_words=count($aWords);
+        $string="";
+        
+        for ($i=0;$i < $nb_words;$i++){
+            // Concatenate String with current word + a space 
+            $string.=$aWords[$i];
+            
+            // if there is a word after add a space
+            if ( $i+1 < $nb_words) $string.=" ";
+            
+            // Compute new size and compare to the colSize
+            if ( $this->GetStringWidth($string) >= $p_colSize) {
+            // If the size of the string if bigger than we add a row, the current
+            // word is the first word of the next line
+                $nRow++;
+                $string=$aWords[$i];
+            }
+        }
+        $nRow++;
+        return $nRow;
+        
+        
+        
+    }
+    /**
+     * Check if a page must be added due a MultiCell 
+     * @return boolean
+     */
     private function check_page_add()
     {
         // break on page
@@ -119,13 +158,14 @@ class PDF extends TFPDF
                  * faire un saut de page (renvoit true) si dépasse
                  */
                 $y=$this->GetY();
-                
+                $nb_row=$this->count_nb_row($this->cells[$i]->text, $this->cells[$i]->width);
+                $height=$this->cells[$i]->height*$nb_row;
                 $sizetext=$this->GetStringWidth($this->cells[$i]->text);
-                $this->cells[$i]->text .= sprintf("size : %d",$sizetext);
-                $this->cells[$i]->text .= sprintf("cellwidth: %d",$this->cells[$i]->width);
-                $this->cells[$i]->text .= sprintf("cellheigth: %d",$this->cells[$i]->height);
+                                
+                // If the text is bigger than a sheet of paper then return false
+                if ($height >= $this->h) return false;
                 
-                if ( $y > ($this->h - $this->bMargin-20))
+                if ( $y + $height > ($this->h - $this->bMargin-20))
                     return true;
             }
         }
