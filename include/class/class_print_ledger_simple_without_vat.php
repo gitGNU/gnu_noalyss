@@ -136,11 +136,6 @@ class Print_Ledger_Simple_Without_Vat extends PDF
         $this->Cell(0,8,'Created by NOALYSS, online on http://www.noalyss.eu',0,0,'R',false,'http://www.noalyss.eu');
     }
 
-    function Cell ($w, $h=0, $txt='', $border=0, $ln=0, $align='', $fill=false, $link='')
-    {
-        $txt = str_replace("\\", "", $txt);
-        return parent::Cell($w, $h, $txt, $border, $ln, $align, $fill, $link);
-    }
     /**
      *@brief export the ledger in  PDF
      */
@@ -156,10 +151,10 @@ class Print_Ledger_Simple_Without_Vat extends PDF
 
             $row=$a_jrn[$i];
             $this->LongLine(15,5,($row['pj']),0);
-            $this->Cell(15,5,$row['date_fmt'],0,0);
-            $this->Cell(20,5,$row['internal'],0,0);
+            $this->write_cell(15,5,$row['date_fmt'],0,0);
+            $this->write_cell(20,5,$row['internal'],0,0);
             list($qc,$name)=$this->get_tiers($row['id'],$this->jrn_type);
-            $this->Cell(20,5,$qc,0,0);
+            $this->write_cell(20,5,$qc,0,0);
             $this->LongLine(40,5,$name,0,'L');
 
             $this->LongLine(105,5,$row['comment'],0,'L');
@@ -174,11 +169,11 @@ class Print_Ledger_Simple_Without_Vat extends PDF
 
             if ( $this->jrn_type !='VEN')
             {
-                $this->Cell(15,6,sprintf("%.2f",$other['priv']),0,0,'R');
+                $this->write_cell(15,6,sprintf("%.2f",$other['priv']),0,0,'R');
             }
 
-            $this->Cell(15,6,sprintf("%.2f",$other['price']),0,0,'R');
-            $this->Ln(5);
+            $this->write_cell(15,6,sprintf("%.2f",$other['price']),0,0,'R');
+            $this->line_new(5);
         }
     }
 

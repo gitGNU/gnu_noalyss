@@ -193,11 +193,7 @@ class Print_Ledger_Simple extends PDF
         $this->Cell(0,8,'Created by NOALYSS, online on http://www.noalyss.eu',0,0,'R',false,'http://www.noalyss.eu');
     }
 
-    function Cell ($w, $h=0, $txt='', $border=0, $ln=0, $align='', $fill=false, $link='')
-    {
-        $txt = str_replace("\\", "", $txt);
-        return parent::Cell($w, $h, $txt, $border, $ln, $align, $fill, $link);
-    }
+
     /**
      *@brief export the ledger in  PDF
      */
@@ -232,8 +228,8 @@ class Print_Ledger_Simple extends PDF
 
             $row=$a_jrn[$i];
             $this->LongLine(15,5,($row['pj']),0);
-            $this->Cell(10,5,$row['date_fmt'],0,0);
-            $this->Cell(13,5,$row['internal'],0,0);
+            $this->write_cell(10,5,$row['date_fmt'],0,0);
+            $this->write_cell(13,5,$row['internal'],0,0);
             list($qc,$name)=$this->get_tiers($row['id'],$this->jrn_type);
             $this->LongLine(40,5,"[".$qc."]".$name,0,'L');
 
@@ -253,24 +249,24 @@ class Print_Ledger_Simple extends PDF
             $this->rap_tva_np=bcadd($this->rap_tva_np,$other['tva_np']);
 
 
-            $this->Cell(15,5,nbm($other['price']),0,0,'R');
+            $this->write_cell(15,5,nbm($other['price']),0,0,'R');
             if ( $this->jrn_type !='VEN')
             {
-	      $this->Cell(15,5,nbm($other['priv']),0,0,'R');
-	      $this->Cell(15,5,nbm($other['tva_nd']),0,0,'R');
+	      $this->write_cell(15,5,nbm($other['priv']),0,0,'R');
+	      $this->write_cell(15,5,nbm($other['tva_nd']),0,0,'R');
             }
             
-	    $this->Cell(15,5,nbm($other['tva_np']),0,0,'R');
+	    $this->write_cell(15,5,nbm($other['tva_np']),0,0,'R');
             
             foreach ($atva_amount as $row_atva_amount)
             {
-                    $this->Cell(15, 5, nbm($row_atva_amount), 0, 0, 'R');
+                    $this->write_cell(15, 5, nbm($row_atva_amount), 0, 0, 'R');
             }
 
 	    $l_tvac=bcadd($other['price'], bcsub($other['vat'],$other['tva_np']));
 	    $l_tvac=bcadd($l_tvac,$other['tva_nd']);
-            $this->Cell(15,5,nbm($l_tvac),0,0,'R');
-            $this->Ln(5);
+            $this->write_cell(15,5,nbm($l_tvac),0,0,'R');
+            $this->line_new(5);
         }
     }
 

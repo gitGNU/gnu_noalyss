@@ -24,7 +24,30 @@
  */
 
 require_once NOALYSS_INCLUDE.'/tfpdf/tfpdf.php';
-
+class Cellule {
+    var $width;
+    var $height;
+    var $text;
+    var $new_line;
+    var $border;
+    var $align;
+    var $fill;
+    var $link;
+    var $type;
+    function __construct($w,$h,$txt,$border,$ln,$align,$fill,$link,$type)
+    {
+        $this->width=$w ;
+        $this->height=$h ;
+        $this->text=$txt;
+        $this->border=$border;
+        $this->new_line=$ln;
+        $this->align=$align;
+        $this->fill=$fill;
+        $this->link=$link;
+        $this->type=$type;
+        return $this;
+    }
+}
 class PDF extends TFPDF
 {
 
@@ -33,6 +56,7 @@ class PDF extends TFPDF
     var $soc = "";
     var $dossier =  "n/a";
     var $date = "";
+    private $cells=array();
 
     public function __construct ($p_cn = null, $orientation = 'P', $unit = 'mm', $format = 'A4')
     {
@@ -52,6 +76,7 @@ class PDF extends TFPDF
         $this->own = new own($this->cn);
         $this->soc = $this->own->MY_NAME;
         $this->date = date('d.m.Y');
+        $this->cells=array();
     }
 
     function setDossierInfo($dossier = "n/a")
@@ -64,9 +89,9 @@ class PDF extends TFPDF
         //Arial bold 12
         $this->SetFont('DejaVu', 'B', 12);
         //Title
-        $this->Cell(0,10,$this->dossier, 'B', 0, 'C');
+        parent::Cell(0,10,$this->dossier, 'B', 0, 'C');
         //Line break
-        $this->Ln(20);
+        parent::Ln(20);
     }
     function Footer()
     {
@@ -75,37 +100,156 @@ class PDF extends TFPDF
         //Arial italic 8
         $this->SetFont('Arial', '', 8);
         //Page number
-        $this->Cell(0,8,'Date '.$this->date." - Page ".$this->PageNo().'/{nb}',0,0,'C');
-        $this->Ln(3);
+        parent::Cell(0,8,'Date '.$this->date." - Page ".$this->PageNo().'/{nb}',0,0,'C');
+        parent::Ln(3);
         // Created by NOALYSS
-        $this->Cell(0,8,'Created by NOALYSS, online on http://www.noalyss.eu',0,0,'C',false,'http://www.noalyss.eu');
+        parent::Cell(0,8,'Created by NOALYSS, online on http://www.noalyss.eu',0,0,'C',false,'http://www.noalyss.eu');
     }
-    function Cell ($w, $h=0, $txt='', $border=0, $ln=0, $align='', $fill=false, $link='')
+    /**
+     * Count the number of rows a p_text will take for a multicell
+     * @param $p_text String
+     * @param $p_colSize size of the column in User Unit
+     */
+    private function count_nb_row($p_text,$p_colSize) 
     {
-        $txt = str_replace("\\", "", $txt);
-        return parent::Cell($w, $h, $txt, $border, $ln, $align, $fill, $link);
-		}
-	function LongLine($w,$h,$txt,$border=0,$align='',$fill=false)
-	{
-		$x_m=$this->GetX();
-		$y_m=$this->GetY();
-		$txt = str_replace("\\", "", $txt);
-		if ( $y_m > ($this->h-$this->bMargin-10 ))		{
-			$this->AddPage ();
-			$y_m=$this->GetY();
+        // If colSize is bigger than the size of the string then it takes 1 line
+        if ( $this->GetStringWidth($p_text) <= $p_colSize) return 1;
+        $nRow=0;
+        $aWords=explode(' ',$p_text);
+        $nb_words=count($aWords);
+        $string="";
+        
+        for ($i=0;$i < $nb_words;$i++){
+            // Concatenate String with current word + a space 
+            $string.=$aWords[$i];
+            
+            // if there is a word after add a space
+            if ( $i+1 < $nb_words) $string.=" ";
+            
+            // Compute new size and compare to the colSize
+            if ( $this->GetStringWidth($string) >= $p_colSize) {
+            // If the size of the string if bigger than we add a row, the current
+            // word is the first word of the next line
+                $nRow++;
+                $string=$aWords[$i];
+            }
+        }
+        $nRow++;
+        return $nRow;
+        
+        
+        
+    }
+    /**
+     * Check if a page must be added due a MultiCell 
+     * @return boolean
+     */
+    private function check_page_add()
+    {
+        // break on page
+        $size=count($this->cells);
+        for ($i=0;$i < $size ; $i++)
+        {
+            if ($this->cells[$i]->type == 'M' )
+            {
+                /**
+                 * On doit calculer si le texte dépasse la texte et compter le
+                 * nombre de lignes que le texte prendrait. Ensuite il faut
+                 * faire un saut de page (renvoit true) si dépasse
+                 */
+                
+                $sizetext=$this->GetStringWidth($this->cells[$i]->text);
+                
+                // if text bigger than column width then check
 
-		}
-		$this->MultiCell($w,$h,$txt,$border,$align,$fill);
-		$x_m=$x_m+$w;
+                $y=$this->GetY();
+                $nb_row=$this->count_nb_row($this->cells[$i]->text, $this->cells[$i]->width);
+                $height=$this->cells[$i]->height*$nb_row;
+
+                // If the text is bigger than a sheet of paper then return false
+                if ($height >= $this->h) return false;
+
+                if ( $y + $height > ($this->h - $this->bMargin ))
+                    return true;
+
+            }
+        }
+        return false;
+    }
+    private function print_row()
+    {
+        static $e=0;
+        $e++;
+        if ( $this->check_page_add() == true ) $this->AddPage ();
+        $this->bigger=0;
+        $size=count($this->cells);
+        $cell=$this->cells;
+        if ($size == 0 )return;
+        for ($i=0;$i < $size ; $i++)
+        {
+            $a=$cell[$i];
+            $a->text= str_replace("\\", "", $a->text);
+            switch ($a->type)
+            {
+                case "M":
+                $x_m=$this->GetX();
+		$y_m=$this->GetY();
+		parent::MultiCell(
+                                    $a->width, 
+                                    $a->height, 
+                                    $a->text, 
+                                    $a->border, 
+                                    $a->align, 
+                                    $a->fill
+                        );
+		$x_m=$x_m+$a->width;
 		$tmp=$this->GetY()-$y_m;
 		if ( $tmp > $this->bigger) $this->bigger=$tmp;
 		$this->SetXY($x_m,$y_m);
-	}
-	function Ln($p_step=null){
-		if ( $this->bigger==0) parent::Ln($p_step);
-		parent::Ln($this->bigger);
-		$this->bigger=0;
-	}
+                break;
+                
+                case "C":
+                    
+                     parent::Cell(   $a->width, 
+                                    $a->height, 
+                                    $a->text, 
+                                    $a->border, 
+                                    $a->new_line, 
+                                    $a->align, 
+                                    $a->fill, 
+                                    $a->link);
+                    break;
+
+                default:
+                    break;
+            }
+        }
+        $this->cells=array();
+    }
+    private function add_cell(Cellule $Ce)
+    {
+        $size=count($this->cells);
+        $this->cells[$size]=$Ce;
+        
+    }
+    function write_cell ($w, $h=0, $txt='', $border=0, $ln=0, $align='', $fill=false, $link='')
+    {
+        $this->add_cell(new Cellule($w,$h,$txt,$border,$ln,$align,$fill,$link,'C'));
+        
+    }
+    function LongLine($w,$h,$txt,$border=0,$align='',$fill=false)
+    {
+        $this->add_cell(new Cellule($w,$h,$txt,$border,0,$align,$fill,'','M'));
+
+    }
+    function line_new($p_step=null){
+            $this->print_row();
+           if ( $this->bigger==0) 
+                parent::Ln($p_step);
+            else 
+                parent::Ln($this->bigger);
+            $this->bigger=0;
+    }
     /**
      *@brief retrieve the client name and quick_code
      *@param $p_jr_id jrn.jr_id

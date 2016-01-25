@@ -56,10 +56,10 @@ class Print_Ledger_Misc extends PDF
         //Arial italic 8
         $this->SetFont('Arial', 'I', 8);
         //Page number
-        $this->Cell(0,8,'Date '.$this->date." - Page ".$this->PageNo().'/{nb}',0,0,'C');
+        $this->Cell(0,6,'Date '.$this->date." - Page ".$this->PageNo().'/{nb}',0,0,'C');
         $this->Ln(3);
         // Created by NOALYSS
-        $this->Cell(0,8,'Created by NOALYSS, online on http://www.noalyss.eu',0,0,'C',false,'http://www.noalyss.eu');
+        $this->Cell(0,6,'Created by NOALYSS, online on http://www.noalyss.eu',0,0,'C',false,'http://www.noalyss.eu');
     }
     /**
      *@brief print the pdf
@@ -77,9 +77,10 @@ class Print_Ledger_Misc extends PDF
         for ( $i=0;$i<count($a_jrn);$i++)
         {
             $row=$a_jrn[$i];
+            
             $this->LongLine(30,5,$row['jr_pj_number']);
-            $this->Cell(10,5,  smaller_date($row['date']));
-            $this->Cell(20,5,$row['jr_internal']);
+            $this->write_cell(10,5,  smaller_date($row['date']));
+            $this->write_cell(20,5,$row['jr_internal']);
 	    $type=$this->cn->get_value("select jrn_def_type from jrn_def where jrn_def_id=$1",array($a_jrn[$i]['jr_def_id']));
 	    $other=mb_substr($this->ledger->get_tiers($type,$a_jrn[$i]['jr_id']),0,25);
 	    $this->LongLine(25,5,$other,0,'L');
@@ -89,8 +90,8 @@ class Print_Ledger_Misc extends PDF
 	       $positive = $this->cn->get_value("select qf_amount from quant_fin  ".
 					  " where jr_id=".$row['jr_id']);
              }
-            $this->Cell(15,5,nbm($positive),0,0,'R');
-            $this->Ln(5);
+            $this->write_cell(15,5,nbm($positive),0,0,'R');
+            $this->line_new(5);
 
         }
     }

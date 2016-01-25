@@ -56,7 +56,7 @@ if ( $_GET['histo'] == 4 || $_GET['histo']==5)
     $fd=new Fiche_Def($cn,$_REQUEST['cat']);
     if ($allcard==1 &&  $fd->hasAttribute(ATTR_DEF_ACCOUNT) == false )
     {
-        $pdf->Cell(0,10, "Cette catégorie n'ayant pas de poste comptable n'a pas de balance");
+        $pdf->write_cell(0,10, "Cette catégorie n'ayant pas de poste comptable n'a pas de balance");
         //Save PDF to file
         $fDate=date('dmy-Hi');
         $pdf->Output("category-$fDate.pdf", 'D');
@@ -74,7 +74,7 @@ if ( $_GET['histo'] == 4 || $_GET['histo']==5)
 
 	if ( $allcard==0 && empty($afiche))
     {
-        $pdf->Cell(0,10, "Aucune fiche trouvée");//Save PDF to file
+        $pdf->write_cell(0,10, "Aucune fiche trouvée");//Save PDF to file
         $fDate=date('dmy-Hi');
         $pdf->Output("category-$fDate.pdf", 'D');
         exit;
@@ -84,16 +84,16 @@ if ( $_GET['histo'] == 4 || $_GET['histo']==5)
     $aCard=$cn->get_array("select f_id,ad_value from fiche join fiche_Detail using (f_id)  where ad_id=1 and fd_id=$1 order by 2 ",array($afiche[$e]['fd_id']));
 	$name=$cn->get_value('select fd_label from fiche_def where fd_id=$1',array($afiche[$e]['fd_id']));
 	$pdf->SetFont('DejaVu','BI',14);
-	$pdf->Cell(0,8,$name,0,1,'C');
+	$pdf->write_cell(0,8,$name,0,1,'C');
 
 	$pdf->SetFont('DejaVuCond','',7);
     $pdf->LongLine(30,7,'Quick Code',0,'L',0);
     $pdf->LongLine(80,7,'Libellé',0,'L',0);
-    $pdf->Cell(20,7,'Débit',0,0,'R',0);
-    $pdf->Cell(20,7,'Crédit',0,0,'R',0);
-    $pdf->Cell(20,7,'Solde',0,0,'R',0);
-    $pdf->Cell(20,7,'D/C',0,0,'C',0);
-    $pdf->Ln();
+    $pdf->write_cell(20,7,'Débit',0,0,'R',0);
+    $pdf->write_cell(20,7,'Crédit',0,0,'R',0);
+    $pdf->write_cell(20,7,'Solde',0,0,'R',0);
+    $pdf->write_cell(20,7,'D/C',0,0,'C',0);
+    $pdf->line_new();
 
 	if (empty($aCard)) continue;
 
@@ -129,13 +129,13 @@ if ( $_GET['histo'] == 4 || $_GET['histo']==5)
         $sum_deb=bcadd($sum_deb,$solde['debit']);
         $sum_solde=bcsub($sum_deb,$sum_cred);
 
-        $pdf->Cell(30,7,$oCard->strAttribut(ATTR_DEF_QUICKCODE),0,0,'L',$fill);
+        $pdf->write_cell(30,7,$oCard->strAttribut(ATTR_DEF_QUICKCODE),0,0,'L',$fill);
         $pdf->LongLine(80,7,$oCard->strAttribut(ATTR_DEF_NAME)." (".$oCard->strAttribut(ATTR_DEF_ACCOUNT).")",0,'L',$fill);
-        $pdf->Cell(20,7,nbm($solde['debit']),0,0,'R',$fill);
-        $pdf->Cell(20,7,nbm($solde['credit']),0,0,'R',$fill);
-        $pdf->Cell(20,7,nbm(abs($solde['solde'])),0,0,'R',$fill);
-        $pdf->Cell(20,7,$side,0,0,'C',$fill);
-        $pdf->Ln();
+        $pdf->write_cell(20,7,nbm($solde['debit']),0,0,'R',$fill);
+        $pdf->write_cell(20,7,nbm($solde['credit']),0,0,'R',$fill);
+        $pdf->write_cell(20,7,nbm(abs($solde['solde'])),0,0,'R',$fill);
+        $pdf->write_cell(20,7,$side,0,0,'C',$fill);
+        $pdf->line_new();
         }
 		if ( $idx % 2 == 0 )
         {
@@ -149,11 +149,11 @@ if ( $_GET['histo'] == 4 || $_GET['histo']==5)
         }
 		$idx++;
         // Sum by category
-        $pdf->Cell(30,7,"",0,0,'L',$fill);
-        $pdf->Cell(80,7,_("Totaux"),0,0,'L',$fill);
-        $pdf->Cell(20,7,nbm($sum_deb),0,0,'R',$fill);
-        $pdf->Cell(20,7,nbm($sum_cred),0,0,'R',$fill);
-        $pdf->Cell(20,7,nbm(abs($sum_solde)),0,0,'R',$fill);
+        $pdf->write_cell(30,7,"",0,0,'L',$fill);
+        $pdf->write_cell(80,7,_("Totaux"),0,0,'L',$fill);
+        $pdf->write_cell(20,7,nbm($sum_deb),0,0,'R',$fill);
+        $pdf->write_cell(20,7,nbm($sum_cred),0,0,'R',$fill);
+        $pdf->write_cell(20,7,nbm(abs($sum_solde)),0,0,'R',$fill);
         $side=" = ";
         if ( $sum_solde > 0 )
         {
@@ -164,8 +164,8 @@ if ( $_GET['histo'] == 4 || $_GET['histo']==5)
             $side='Cred.';
         }
 
-        $pdf->Cell(20,7,$side,0,0,'C',$fill);
-        $pdf->Ln();
+        $pdf->write_cell(20,7,$side,0,0,'C',$fill);
+        $pdf->line_new();
 	}
 }
 else
@@ -226,19 +226,19 @@ else
 				continue;
 			$pdf->SetFont('DejaVuCond', '', 10);
 			$fiche = new Fiche($cn, $row_fiche['f_id']);
-			$pdf->Cell(0, 7, $fiche->strAttribut(ATTR_DEF_NAME)." [".$fiche->strAttribut(ATTR_DEF_QUICKCODE).":".$fiche->strAttribut(ATTR_DEF_ACCOUNT)."]", 1, 'C');
+			$pdf->write_cell(0, 7, $fiche->strAttribut(ATTR_DEF_NAME)." [".$fiche->strAttribut(ATTR_DEF_QUICKCODE).":".$fiche->strAttribut(ATTR_DEF_ACCOUNT)."]", 1, 'C');
 
 			$pdf->SetFont('DejaVuCond', '', 7);
-			$pdf->Ln();
-			$pdf->Cell($tab[0], 7, 'Date');
-			$pdf->Cell($tab[1], 7, 'ref');
-			$pdf->Cell($tab[2], 7, 'Internal');
-			$pdf->Cell($tab[3], 7, 'Comm');
-			$pdf->Cell($tab[4], 7, 'Montant', 0, 0, 'C');
-			$pdf->Cell($tab[5], 7, 'Prog.', 0, 0, 'R');
-			$pdf->Cell($tab[6], 7, 'Let.', 0, 0, 'R');
-			$pdf->Cell($tab[7], 7, 'Diff. Let.', 0, 0, 'R');
-			$pdf->ln();
+			$pdf->line_new();
+			$pdf->write_cell($tab[0], 7, 'Date');
+			$pdf->write_cell($tab[1], 7, 'ref');
+			$pdf->write_cell($tab[2], 7, 'Internal');
+			$pdf->write_cell($tab[3], 7, 'Comm');
+			$pdf->write_cell($tab[4], 7, 'Montant', 0, 0, 'C');
+			$pdf->write_cell($tab[5], 7, 'Prog.', 0, 0, 'R');
+			$pdf->write_cell($tab[6], 7, 'Let.', 0, 0, 'R');
+			$pdf->write_cell($tab[7], 7, 'Diff. Let.', 0, 0, 'R');
+			$pdf->line_new();
 
 			$amount_deb = 0;
 			$amount_cred = 0;
@@ -260,35 +260,35 @@ else
 				$str_date = shrink_date($row['j_date_fmt']);
 
 				$pdf->LongLine($tab[0], 4, $str_date, 0, $align[0], $fill);
-				$pdf->Cell($tab[1], 4, $row['jr_pj_number'], 0, 0, $align[1], $fill);
+				$pdf->write_cell($tab[1], 4, $row['jr_pj_number'], 0, 0, $align[1], $fill);
 				$pdf->LongLine($tab[2], 4, $row['jr_internal'], 0, $align[1], $fill);
 				$pdf->LongLine($tab[3], 4, $row['jr_comment'], 0,  $align[2], $fill);
 				if ($row['j_debit'] == 't')
 				{
 					$prog=bcadd($prog,$row['j_montant']);
-					$pdf->Cell($tab[4], 4, sprintf('%s D', nbm($row['j_montant'])), 0, 0, $align[4], $fill);
+					$pdf->write_cell($tab[4], 4, sprintf('%s D', nbm($row['j_montant'])), 0, 0, $align[4], $fill);
 					$amount_deb+=$row['j_montant'];
 					$str_prog=sprintf("%s %s",nbm(abs($prog)),$fic->get_amount_side($prog));
-					$pdf->Cell($tab[5], 4, $str_prog, 0, 0, $align[5], $fill);
+					$pdf->write_cell($tab[5], 4, $str_prog, 0, 0, $align[5], $fill);
 				}
 				else
 				{
 					$prog=bcsub($prog,$row['j_montant']);
-					$pdf->Cell($tab[4], 4, sprintf('%s C', nbm($row['j_montant'])), 0, 0, $align[4], $fill);
+					$pdf->write_cell($tab[4], 4, sprintf('%s C', nbm($row['j_montant'])), 0, 0, $align[4], $fill);
 					$amount_cred+=$row['j_montant'];
 					$str_prog=sprintf("%s %s",nbm(abs($prog)),$fic->get_amount_side($prog));
-					$pdf->Cell($tab[5], 4, $str_prog, 0, 0, $align[5], $fill);
+					$pdf->write_cell($tab[5], 4, $str_prog, 0, 0, $align[5], $fill);
 				}
 				if ($row['letter'] != -1)
 				{
-					$pdf->Cell($tab[6], 4, strtoupper(base_convert($row['letter'],10,36)), 0, 0, $align[6], $fill);
+					$pdf->write_cell($tab[6], 4, strtoupper(base_convert($row['letter'],10,36)), 0, 0, $align[6], $fill);
 					// get sum for this lettering
 
-					$pdf->Cell($tab[7], 4, sprintf('%s', nbm($row['letter_diff'])), '0', '0', $align[7], $fill);
+					$pdf->write_cell($tab[7], 4, sprintf('%s', nbm($row['letter_diff'])), '0', '0', $align[7], $fill);
 				}
 				else
-					$pdf->Cell($tab[6], 4, "", 0, 0, 'R', $fill);
-				$pdf->Ln();
+					$pdf->write_cell($tab[6], 4, "", 0, 0, 'R', $fill);
+				$pdf->line_new();
 			}
 			$pdf->SetFillColor(0, 0, 0);
 			$pdf->SetFont('DejaVuCond', 'B', 8);
@@ -300,14 +300,14 @@ else
 				$s = 'solde crediteur';
 			$solde = sprintf('%s  : %s', $s, nbm(abs(round($amount_cred - $amount_deb, 2))));
 
-			$pdf->Cell(0, 6, $debit, 0, 0, 'R');
-			$pdf->ln(4);
-			$pdf->Cell(0, 6, $credit, 0, 0, 'R');
-			$pdf->ln(4);
-			$pdf->Cell(0, 6, $solde, 0, 0, 'R');
-			$pdf->ln(4);
+			$pdf->write_cell(0, 6, $debit, 0, 0, 'R');
+			$pdf->line_new(4);
+			$pdf->write_cell(0, 6, $credit, 0, 0, 'R');
+			$pdf->line_new(4);
+			$pdf->write_cell(0, 6, $solde, 0, 0, 'R');
+			$pdf->line_new(4);
 
-			$pdf->Ln();
+			$pdf->line_new();
 		}
 	}
 }

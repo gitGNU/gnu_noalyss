@@ -105,12 +105,12 @@ foreach ($a_poste as $poste)
 
     $pdf->SetFont('DejaVuCond','',10);
     $Libelle=sprintf("%s - %s ",$Poste->id,$Poste->get_name());
-    $pdf->Cell(0, 7, $Libelle, 1, 1, 'C');
+    $pdf->write_cell(0, 7, $Libelle, 1, 1, 'C');
 
     $pdf->SetFont('DejaVuCond','',6);
     for($i=0;$i<count($header);$i++)
-        $pdf->Cell($width[$i], 4, $header[$i], 0, 0, $lor[$i]);
-    $pdf->Ln();
+        $pdf->write_cell($width[$i], 4, $header[$i], 0, 0, $lor[$i]);
+    $pdf->line_new();
 
     $pdf->SetFont('DejaVuCond','',7);
 
@@ -143,23 +143,23 @@ foreach ($a_poste as $poste)
                 
                 $pdf->SetFont('DejaVuCond','B',8);
                 $i=0;
-                $pdf->Cell($width[$i], 6, $current_exercice, 0, 0, $lor[$i]);
+                $pdf->write_cell($width[$i], 6, $current_exercice, 0, 0, $lor[$i]);
                 $i++;
-                $pdf->Cell($width[$i], 6, '', 0, 0, $lor[$i]);
+                $pdf->write_cell($width[$i], 6, '', 0, 0, $lor[$i]);
                 $i++;
-                $pdf->Cell($width[$i], 6, '', 0, 0, $lor[$i]);
+                $pdf->write_cell($width[$i], 6, '', 0, 0, $lor[$i]);
                 $i++;
-                $pdf->Cell($width[$i], 6, '', 0, 0, $lor[$i]);
+                $pdf->write_cell($width[$i], 6, '', 0, 0, $lor[$i]);
                 $i++;
-                $pdf->Cell($width[$i], 6, 'Total du compte '.$Poste->id, 0, 0, 'R');
+                $pdf->write_cell($width[$i], 6, 'Total du compte '.$Poste->id, 0, 0, 'R');
                 $i++;
-                $pdf->Cell($width[$i], 6, ($solde_d  > 0 ? nbm($solde_d)  : ''), 0, 0, $lor[$i]);
+                $pdf->write_cell($width[$i], 6, ($solde_d  > 0 ? nbm($solde_d)  : ''), 0, 0, $lor[$i]);
                 $i++;
-                $pdf->Cell($width[$i], 6, ($solde_c  > 0 ? nbm( $solde_c)  : ''), 0, 0, $lor[$i]);
+                $pdf->write_cell($width[$i], 6, ($solde_c  > 0 ? nbm( $solde_c)  : ''), 0, 0, $lor[$i]);
                 $i++;
-                $pdf->Cell($width[$i], 6, nbm(abs($solde_c-$solde_d)), 0, 0, $lor[$i]);
+                $pdf->write_cell($width[$i], 6, nbm(abs($solde_c-$solde_d)), 0, 0, $lor[$i]);
                 $i++;
-                $pdf->Cell(5, 6, ($solde_c > $solde_d ? 'C' : 'D'), 0, 0, 'L');
+                $pdf->write_cell(5, 6, ($solde_c > $solde_d ? 'C' : 'D'), 0, 0, 'L');
                 /*
                 * reset total and current_exercice
                 */
@@ -167,7 +167,7 @@ foreach ($a_poste as $poste)
                 $solde = 0.0;
                 $solde_d = 0.0;
                 $solde_c = 0.0;
-                $pdf->Ln();
+                $pdf->line_new();
                 $pdf->SetFont('DejaVuCond','',7);
 
             }
@@ -191,19 +191,20 @@ foreach ($a_poste as $poste)
         $i++;
         /* limit set to 40 for the substring */
         $triple_point = (mb_strlen($detail['description']) > 40 ) ? '...':'';
-        $pdf->LongLine($width[$i], 6, mb_substr($detail['description'],0,40).$triple_point, 0,$lor[$i]);
+        // $pdf->LongLine($width[$i], 6, mb_substr($detail['description'],0,40).$triple_point, 0,$lor[$i]);
+        $pdf->LongLine($width[$i], 6,$detail['description'], 0,$lor[$i]);
         $i++;
-        $pdf->Cell($width[$i], 6, $detail['jr_pj_number'], 0, 0, $lor[$i]);
+        $pdf->write_cell($width[$i], 6, $detail['jr_pj_number'], 0, 0, $lor[$i]);
         $i++;
-        $pdf->Cell($width[$i], 6, ($detail['letter']!=-1)?$detail['letter']:'', 0, 0, $lor[$i]);
+        $pdf->write_cell($width[$i], 6, ($detail['letter']!=-1)?$detail['letter']:'', 0, 0, $lor[$i]);
         $i++;
-        $pdf->Cell($width[$i], 6, ($detail['deb_montant']  > 0 ? nbm( $detail['deb_montant'])  : ''), 0, 0, $lor[$i]);
+        $pdf->write_cell($width[$i], 6, ($detail['deb_montant']  > 0 ? nbm( $detail['deb_montant'])  : ''), 0, 0, $lor[$i]);
         $i++;
-        $pdf->Cell($width[$i], 6, ($detail['cred_montant'] > 0 ? nbm( $detail['cred_montant']) : ''), 0, 0, $lor[$i]);
+        $pdf->write_cell($width[$i], 6, ($detail['cred_montant'] > 0 ? nbm( $detail['cred_montant']) : ''), 0, 0, $lor[$i]);
         $i++;
-        $pdf->Cell($width[$i], 6, nbm(abs( $solde)).$side, 0, 0, $lor[$i]);
+        $pdf->write_cell($width[$i], 6, nbm(abs( $solde)).$side, 0, 0, $lor[$i]);
         $i++;
-        $pdf->Ln();
+        $pdf->line_new();
 
     }
 
@@ -211,26 +212,25 @@ foreach ($a_poste as $poste)
     $pdf->SetFont('DejaVuCond','B',8);
 
     $i = 0;
-    $pdf->Cell($width[$i], 6, $current_exercice, 0, 0, $lor[$i]);
+    $pdf->write_cell($width[$i], 6, $current_exercice, 0, 0, $lor[$i]);
     $i++;
-    $pdf->Cell($width[$i], 6, '', 0, 0, $lor[$i]);
+    $pdf->write_cell($width[$i], 6, '', 0, 0, $lor[$i]);
     $i++;
-    $pdf->Cell($width[$i], 6, '', 0, 0, $lor[$i]);
+    $pdf->write_cell($width[$i], 6, '', 0, 0, $lor[$i]);
     $i++;
-    $pdf->Cell($width[$i], 6, '', 0, 0, $lor[$i]);
+    $pdf->write_cell($width[$i], 6, '', 0, 0, $lor[$i]);
     $i++;
-    $pdf->Cell($width[$i], 6, 'Total du compte '.$Poste->id, 0, 0, 'R');
+    $pdf->write_cell($width[$i], 6, 'Total du compte '.$Poste->id, 0, 0, 'R');
     $i++;
-    $pdf->Cell($width[$i], 6, ($solde_d  > 0 ? nbm($solde_d)  : ''), 0, 0, $lor[$i]);
+    $pdf->write_cell($width[$i], 6, ($solde_d  > 0 ? nbm($solde_d)  : ''), 0, 0, $lor[$i]);
     $i++;
-    $pdf->Cell($width[$i], 6, ($solde_c  > 0 ? nbm( $solde_c)  : ''), 0, 0, $lor[$i]);
+    $pdf->write_cell($width[$i], 6, ($solde_c  > 0 ? nbm( $solde_c)  : ''), 0, 0, $lor[$i]);
     $i++;
-    $pdf->Cell($width[$i], 6, nbm(abs($solde_c-$solde_d)), 0, 0, $lor[$i]);
+    $pdf->write_cell($width[$i], 6, nbm(abs($solde_c-$solde_d)), 0, 0, $lor[$i]);
     $i++;
-    $pdf->Cell(5, 6, ($solde_c > $solde_d ? 'C' : 'D'), 0, 0, 'L');
+    $pdf->write_cell(5, 6, ($solde_c > $solde_d ? 'C' : 'D'), 0, 0, 'L');
 
-    $pdf->Ln();
-    $pdf->Ln();
+    $pdf->line_new();
 
 }
 //Save PDF to file
