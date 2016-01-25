@@ -54,10 +54,10 @@ class Print_Ledger_Detail_Item extends PDFLand
         $this->Ln(20);
         $high=6;
         $this->SetFont('DejaVu', '', 6);
-        $this->LongLine(20, $high, _('Date'),0,  'L', false);
+        $this->Cell(20, $high, _('Date'),0,  'L', false);
         $this->Cell(20, $high, _('Numéro interne'), 0, 0, 'L', false);
-        $this->LongLine(50, $high, _('Code'),0,'L',false);
-        $this->LongLine(80, $high, _('Libellé'),0,'L',false);
+        $this->Cell(50, $high, _('Code'),0,'L',false);
+        $this->Cell(80, $high, _('Libellé'),0,'L',false);
         $this->Cell(20, $high, _('Tot HTVA'), 0, 0, 'R', false);
         $this->Cell(20, $high, _('Tot TVA NP'), 0, 0, 'R', false);
         $this->Cell(20, $high, "", 0, 0, 'R', false);
@@ -144,7 +144,7 @@ class Print_Ledger_Detail_Item extends PDFLand
                     $this->write_cell(20,$high,'Code TVA');
                     $this->write_cell(20,$high,'TVA',0,0,'R');
                     $this->write_cell(20,$high,'TVAC',0,0,'R');
-                    $this->Ln(6);
+                    $this->line_new(6);
                     $this->show_col=false;
                  } 
             }
@@ -161,7 +161,7 @@ class Print_Ledger_Detail_Item extends PDFLand
             $this->write_cell(20,$high,nbm($row['vat']),0,0,'R');
             $sum=bcadd($row['price'],$row['vat']);
             $this->write_cell(20,$high,nbm($sum),0,0,'R');
-            $this->Ln(6);
+            $this->line_new(6);
             
         }
     }

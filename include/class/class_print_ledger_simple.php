@@ -77,9 +77,9 @@ class Print_Ledger_Simple extends PDF
         //Arial bold 12
         $this->SetFont('DejaVu', 'B', 12);
         //Title
-        $this->write_cell(0,10,$this->dossier, 'B', 0, 'C');
+        $this->Cell(0,10,$this->dossier, 'B', 0, 'C');
         //Line break
-        $this->line_new(20);
+        $this->Ln(20);
         $this->SetFont('DejaVu', 'B', 8);
         /* column header */
         //----------------------------------------------------------------------
@@ -90,46 +90,46 @@ class Print_Ledger_Simple extends PDF
             $tmp1=$line_tva['tva_id'];
             $this->rap_tva[$tmp1]=(isset($this->rap_tva[$tmp1]))?$this->rap_tva[$tmp1]:0;
         }
-        $this->write_cell(15,6,'Pièce');
-        $this->write_cell(10,6,'Date');
-        $this->write_cell(13,6,'ref');
+        $this->Cell(15,6,'Pièce');
+        $this->Cell(10,6,'Date');
+        $this->Cell(13,6,'ref');
         if ( $this->jrn_type=='ACH')
-            $this->write_cell(40,6,'Client');
+            $this->Cell(40,6,'Client');
         else
-            $this->write_cell(40,6,'Fournisseur');
+            $this->Cell(40,6,'Fournisseur');
 
         $flag_tva=(count($this->a_Tva) > 4)?true:false;
-        if ( !$flag_tva )      $this->write_cell(65,6,'Description');
+        if ( !$flag_tva )      $this->Cell(65,6,'Description');
 
-        $this->write_cell(15,6,'HTVA',0,0,'R');
+        $this->Cell(15,6,'HTVA',0,0,'R');
         if ( $this->jrn_type=='ACH')
         {
-            $this->write_cell(15,6,'Priv/DNA',0,0,'R');
-            $this->write_cell(15,6,'TVA ND',0,0,'R');
+            $this->Cell(15,6,'Priv/DNA',0,0,'R');
+            $this->Cell(15,6,'TVA ND',0,0,'R');
         }
-        $this->write_cell(15,6,'TVA NP',0,0,'R'); // Unpaid TVA --> autoliquidation, NPR
+        $this->Cell(15,6,'TVA NP',0,0,'R'); // Unpaid TVA --> autoliquidation, NPR
         foreach($this->a_Tva as $line_tva)
         {
-            $this->write_cell(15,6,$line_tva['tva_label'],0,0,'R');
+            $this->Cell(15,6,$line_tva['tva_label'],0,0,'R');
         }
-        $this->write_cell(15,6,'TVAC',0,0,'R');
-        $this->line_new(5);
+        $this->Cell(15,6,'TVAC',0,0,'R');
+        $this->Ln(5);
 
         $this->SetFont('DejaVu','',6);
         // page Header
-        $this->write_cell(143,6,'report',0,0,'R');
-        $this->write_cell(15,6,nbm($this->rap_htva),0,0,'R'); /* HTVA */
+        $this->Cell(143,6,'report',0,0,'R');
+        $this->Cell(15,6,nbm($this->rap_htva),0,0,'R'); /* HTVA */
         if ( $this->jrn_type != 'VEN')
         {
-            $this->write_cell(15,6,nbm($this->rap_priv),0,0,'R');  /* prive */
-            $this->write_cell(15,6,nbm($this->rap_nd),0,0,'R');  /* Tva ND */
+            $this->Cell(15,6,nbm($this->rap_priv),0,0,'R');  /* prive */
+            $this->Cell(15,6,nbm($this->rap_nd),0,0,'R');  /* Tva ND */
         }
-        $this->write_cell(15,6,nbm($this->rap_tva_np),0,0,'R');  /* Tva ND */
+        $this->Cell(15,6,nbm($this->rap_tva_np),0,0,'R');  /* Tva ND */
         foreach($this->rap_tva as $line_tva)
-        $this->write_cell(15,6,nbm($line_tva),0,0,'R');
-        $this->write_cell(15,6,nbm($this->rap_tvac),0,0,'R'); /* Tvac */
+        $this->Cell(15,6,nbm($line_tva),0,0,'R');
+        $this->Cell(15,6,nbm($this->rap_tvac),0,0,'R'); /* Tvac */
 
-        $this->line_new(6);
+        $this->Ln(6);
         //total page
         $this->tp_htva=0.0;
         $this->tp_tvac=0.0;

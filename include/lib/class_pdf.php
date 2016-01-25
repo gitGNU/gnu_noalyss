@@ -157,16 +157,21 @@ class PDF extends TFPDF
                  * nombre de lignes que le texte prendrait. Ensuite il faut
                  * faire un saut de page (renvoit true) si dépasse
                  */
+                
+                $sizetext=$this->GetStringWidth($this->cells[$i]->text);
+                
+                // if text bigger than column width then check
+
                 $y=$this->GetY();
                 $nb_row=$this->count_nb_row($this->cells[$i]->text, $this->cells[$i]->width);
                 $height=$this->cells[$i]->height*$nb_row;
-                $sizetext=$this->GetStringWidth($this->cells[$i]->text);
-                                
+
                 // If the text is bigger than a sheet of paper then return false
                 if ($height >= $this->h) return false;
-                
-                if ( $y + $height > ($this->h - $this->bMargin-20))
+
+                if ( $y + $height > ($this->h - $this->bMargin ))
                     return true;
+
             }
         }
         return false;
@@ -197,7 +202,7 @@ class PDF extends TFPDF
                                     $a->align, 
                                     $a->fill
                         );
-		$x_m=$x_m+$this->cells[$i]->width;
+		$x_m=$x_m+$a->width;
 		$tmp=$this->GetY()-$y_m;
 		if ( $tmp > $this->bigger) $this->bigger=$tmp;
 		$this->SetXY($x_m,$y_m);
@@ -349,7 +354,7 @@ class PDFLand extends PDF
         //Title
         $this->Cell(0,10,$this->dossier, 'B', 0, 'C');
         //Line break
-        $this->line_new(20);
+        $this->Ln(20);
     }
     function Footer()
     {
@@ -359,7 +364,7 @@ class PDFLand extends PDF
         $this->SetFont('DejaVuCond', 'I', 8);
         //Page number
         $this->Cell(0,8,'Date '.$this->date." - Page ".$this->PageNo().'/{nb}',0,0,'C');
-        $this->line_new(3);
+        $this->Ln(3);
         // Created by NOALYSS
         $this->Cell(0,8,'Created by NOALYSS, online on http://www.noalyss.eu',0,0,'C',false,'http://www.noalyss.eu');
 
@@ -394,7 +399,7 @@ class PDFBalance_simple extends PDF
                        $this->to);
         $this->Cell(0,7,$titre,1,0,'C');
 
-        $this->line_new();
+        $this->Ln();
         $this->SetFont('DejaVu','',6);
         $this->Cell(20,7,'id','B');
         $this->Cell(90,7,'Poste Comptable','B');
@@ -402,7 +407,7 @@ class PDFBalance_simple extends PDF
         $this->Cell(20,7,'Crédit','B',0,'L');
         $this->Cell(20,7,'Solde','B',0,'L');
         $this->Cell(20,7,'D/C','B',0,'L');
-        $this->line_new();
+        $this->Ln();
 
     }
 }

@@ -38,7 +38,7 @@ class Print_Ledger_Misc extends PDF
         //Title
         $this->Cell(0,10,$this->dossier, 'B', 0, 'C');
         //Line break
-        $this->line_new(20);
+        $this->Ln(20);
         $this->SetFont('DejaVu', 'B', 7);
         $this->Cell(30,6,'Piece');
         $this->Cell(10,6,'Date');
@@ -56,10 +56,10 @@ class Print_Ledger_Misc extends PDF
         //Arial italic 8
         $this->SetFont('Arial', 'I', 8);
         //Page number
-        $this->Cell(0,8,'Date '.$this->date." - Page ".$this->PageNo().'/{nb}',0,0,'C');
+        $this->Cell(0,6,'Date '.$this->date." - Page ".$this->PageNo().'/{nb}',0,0,'C');
         $this->Ln(3);
         // Created by NOALYSS
-        $this->Cell(0,8,'Created by NOALYSS, online on http://www.noalyss.eu',0,0,'C',false,'http://www.noalyss.eu');
+        $this->Cell(0,6,'Created by NOALYSS, online on http://www.noalyss.eu',0,0,'C',false,'http://www.noalyss.eu');
     }
     /**
      *@brief print the pdf
@@ -77,6 +77,7 @@ class Print_Ledger_Misc extends PDF
         for ( $i=0;$i<count($a_jrn);$i++)
         {
             $row=$a_jrn[$i];
+            
             $this->LongLine(30,5,$row['jr_pj_number']);
             $this->write_cell(10,5,  smaller_date($row['date']));
             $this->write_cell(20,5,$row['jr_internal']);
