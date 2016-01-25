@@ -546,7 +546,7 @@ class Acc_Account_Ledger
 
     }
     /*!
-     * \brief verify that the poste belong to a ledger
+     * \brief verify that the accounting belong to a ledger
      *
      * \return 0 ok,  -1 no
      */
