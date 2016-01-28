@@ -1831,7 +1831,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#feccb1', end
 /******************************************************************************
  * Hightlight row in a table 
  ******************************************************************************/
-tr.highlight{
+li.highlight a,tr.highlight{
     font-weight: bolder;
     font-size:14px;
     background-color: lightgrey ! important;
@@ -1841,12 +1841,12 @@ tr.highlight{
     border-color: inherit;
     
 }
-tr.highlight a{
+li.highlight a,tr.highlight a{
     color:white !important;
     background-color:grey !important;
     
 }
-//--- Top menu and menu2
+/*--- Top menu and menu2-*/
 div.topmenu a.mtitle , div.menu2 a.mtitle{
     font-size:13.6px;
     font-size:0.85rem;

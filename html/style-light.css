@@ -1803,7 +1803,7 @@ hr {
 /******************************************************************************
  * Hightlight row in a table 
  ******************************************************************************/
-tr.highlight{
+li.highlight , tr.highlight{
     font-weight: bolder;
     font-size:14px;
     background-color: #334975 !important;
@@ -1812,7 +1812,7 @@ tr.highlight{
     border-style: solid;
     border-color: blue;
 }
-tr.highlight a{
+li.highlight a, tr.highlight a{
     color:white !important;
     
 }

@@ -1,9 +1,9 @@
 <?php
 //This file is part of NOALYSS and is under GPL 
 //see licence.txt
+$uniq=HtmlInput::generate_id("tab");
 ?><div>
-<h2 class="gest_name"><?php echo $sp->input();   ?></h2>
-<div style="width:47%;float:left;">
+<div style="float:left;">
 
 
     <table>
@@ -87,7 +87,7 @@
  <?php if ($p_view != 'READ') echo $str_add_button;?>
 
 </div>
-<div style="width:47%;float:left">
+<div style="float:left">
         <table>
 
          
@@ -161,9 +161,13 @@
         </table>
 
 </div>
-<div style="clear: both"></div>
-	<div style="float:left;width: 47%">
-		<h4 style="display:inline;">Opérations concernées</h4>
+<div id="choice_other_info_div" style="float:left;">
+    <ul class="tabs">
+        <li id="related_action_tab<?php echo $uniq?>" class="tabs_selected"><?php echo _("Actions concernées")?></li>
+        <li id="related_operation_tab<?php echo $uniq?>" class="tabs"><?php echo _('Opérations concernées')?></li>
+    </ul>
+	<div id="related_operation_div<?php echo $uniq?>" style="display:none">
+
 		<ol>
 
 		<?php
@@ -181,64 +185,31 @@
 						.'</li>';
 				}
 		}
+               
+		
 
 		?>
 		</ol>
 		<?php if ($p_view != 'READ')   echo '<span class="noprint">'.$iconcerned->input().'</span>';?>
 	</div>
 
-        <div style="float:left;width: 47%">
-		<h4 style="display:inline"><?php echo _("Actions concernées")?></h4>
-		<ol>
+        <div id="related_action_div<?php echo $uniq?>">
+		
+		
 
 		<?php
-		$base=HtmlInput::request_to_string(array("gDossier","ac","sa","sb","sc","f_id"));
-		for ($o=0;$o<count($action);$o++)
-		{
-			if ( $p_view != 'READ' && $p_base != 'ajax')
-			{
-                            $rmAction=sprintf("return confirm_box(null,'"._('Voulez-vous effacer cette action ')."', function () {remove_action('%s','%s','%s');});",
-					dossier::id(),
-					$action[$o]['ag_id'],$_REQUEST['ag_id']);
-                            $showAction='<a class="line" href="'.$base."&ag_id=".$action[$o]['ag_id'].'">';
-                            $js= '<a class="tinybutton" id="acact'.$action[$o]['ag_id'].'" href="javascript:void(0)" onclick="'.$rmAction.'">'.SMALLX.'</a>';
-                            echo '<li id="act'.$action[$o]['ag_id'].'">'.$showAction.$action[$o]['str_date']." ".$action[$o]['ag_ref']." ".
-					h($action[$o]['sub_title']).'('.h($action[$o]['dt_value']).')</a>'." "
-				.$js.'</li>';
-			} else 
-                        /*
-                         * Display detail requested from Ajax Div
-                         */
-                         if ( $p_base == 'ajax' )
-                         {
-                            $xaction = sprintf('view_action(%d,%d,%d)',$action[$o]['ag_id'],Dossier::id(),1);
-                            $showAction='<a class="line" href="javascript:'.$xaction.'">';
-                            echo '<li>'.$showAction.$action[$o]['str_date']." ".$action[$o]['ag_ref']." ".
-					h($action[$o]['sub_title']).'('.h($action[$o]['dt_value']).')</a>'." "
-				.'</li>';
-                         }
-                         /*
-                          * READ ONLY
-                          */
-                         else
-                         {
-				$showAction='<a class="line" href="'.$base."&ag_id=".$action[$o]['ag_id'].'">';
-				echo '<li>'.$showAction.$action[$o]['str_date']." ".$action[$o]['ag_ref']." ".
-					h($action[$o]['sub_title']).'('.h($action[$o]['dt_value']).')</a>'." "
-				.'</li>';
-			}
-		}
+		$this->display_children($p_view,$p_base);
 
 		?>
-		</ol>
+		
 		<?php if ( $p_view != 'READ') echo '<span class="noprint">'.$iaction->input().'</span>';?>
 	</div>
 </div>
+
+</div>
 <div style="clear: both"></div>
 <div id="div_action_description">
-  <h1 class="legend">
-	    <?php echo _('Description')?>
-  </h1>
+  
   <p>
 <script language="javascript">
    function enlarge(p_id_textarea){
@@ -252,10 +223,6 @@ function small(p_id_textarea){
 
    }
 </script>
-<?php if  ($p_view != 'NEW') : ?>
-Document créé le <?php echo $this->ag_timestamp ?> par <?php echo $this->ag_owner?>
-<?php endif; ?>
-  <h4 class="info" style="margin-left:110px"><?php echo _('Titre')?></h4>
     <p style="margin-left:100px">
     <?php echo $title->input();
     ?>
@@ -267,27 +234,23 @@ Document créé le <?php echo $this->ag_timestamp ?> par <?php echo $this->ag_ow
 for( $c=0;$c<count($acomment);$c++){
         if ($c == 0) { $m_desc=_('Description');}
         else
-        if ($c == 1) { $m_desc=_('Commentaire');}
-        else
-         { $m_desc="";}?>
-        <h4 class="info" >   <?php echo $m_desc;?></h4>
+         { $m_desc=_('Commentaire');}
 
-	<?php
-        if ( $p_view != 'READ')
+         if ( $p_view != 'READ' && $c > 0)
 	{
 		$rmComment=sprintf("return confirm_box(null,'"._('Voulez-vous effacer ce commentaire')." ?',function() {remove_comment('%s','%s');});",
 						dossier::id(),
 						$acomment[$c]['agc_id']);
 				$js= '<a class="tinybutton" id="accom'.$acomment[$c]['agc_id'].'" href="javascript:void(0)" onclick="'.$rmComment.'">'.SMALLX.'</a>';
-		echo hb('n°'.$acomment[$c]['agc_id'].'('.$acomment[$c]['tech_user']." ".$acomment[$c]['str_agc_date'].')').$js.
-				'<pre style="white-space: -moz-pre-wrap;white-space: pre-wrap;border:1px solid blue;width:80%;" id="com'.$acomment[$c]['agc_id'].'"> '.
+		echo h($m_desc.' '.$acomment[$c]['agc_id'].'('.$acomment[$c]['tech_user']." ".$acomment[$c]['str_agc_date'].')').$js.
+				'<pre style="margin-top:1px;white-space: -moz-pre-wrap;white-space: pre-wrap;border:1px solid blue;width:80%;" id="com'.$acomment[$c]['agc_id'].'"> '.
 				" ".h($acomment[$c]['agc_comment']).'</pre>'
 				;
 	}
 	else
 	{
-		echo hb('n°'.$acomment[$c]['agc_id'].'('.$acomment[$c]['tech_user']." ".$acomment[$c]['str_agc_date'].')').
-				'<pre style="white-space: -moz-pre-wrap;white-space: pre-wrap;border:1px solid blue;width:80%;" id="com'.$acomment[$c]['agc_id'].'"> '.
+		echo h($m_desc.' '.$acomment[$c]['agc_id'].'('.$acomment[$c]['tech_user']." ".$acomment[$c]['str_agc_date'].')').
+				'<pre style="margin-top:1px;white-space: -moz-pre-wrap;white-space: pre-wrap;border:1px solid blue;width:80%;" id="com'.$acomment[$c]['agc_id'].'"> '.
 				" ".h($acomment[$c]['agc_comment']).'</pre>'
 				;
 
@@ -509,5 +472,24 @@ catch(exception) { alert('<?php echo j(_('Je ne peux pas ajouter de fichier'))?>
   </div>
  <?php endif;?>
 </div>
+<?php if  ($p_view != 'NEW') : ?>
+Document créé le <?php echo $this->ag_timestamp ?> par <?php echo $this->ag_owner?>
+<?php endif; ?>
+
 </div>
 <script>compute_all_ledger()</script>
+<script>
+  $('related_action_tab<?php echo $uniq?>').onclick=function() {
+      $('related_action_tab<?php echo $uniq?>').className='tabs_selected';
+      $('related_operation_tab<?php echo $uniq?>').className='tabs';
+      $('related_operation_div<?php echo $uniq?>').hide();
+      $('related_action_div<?php echo $uniq?>').show();
+  }  
+  $('related_operation_tab<?php echo $uniq?>').onclick=function() {
+      $('related_operation_tab<?php echo $uniq?>').className='tabs_selected';
+      $('related_action_tab<?php echo $uniq?>').className='tabs';
+      $('related_action_div<?php echo $uniq?>').hide();
+      $('related_operation_div<?php echo $uniq?>').show();
+  }  
+  
+</script>

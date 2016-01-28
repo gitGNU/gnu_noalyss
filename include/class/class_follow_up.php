@@ -210,16 +210,6 @@ class Follow_Up
         $iconcerned=new IConcerned('operation');
 
         // List related action
-        $action=$this->db->get_array("
-			select ag_id,ag_ref,substr(ag_title,1,40) as sub_title,to_char(ag_timestamp,'DD.MM.YY') as str_date ,
-				ag_timestamp,dt_value
-					from action_gestion
-					 join document_type on (ag_type=dt_id)
-				where
-				ag_id in (select aga_greatest from action_gestion_related where aga_least =$1)
-				or
-				ag_id in (select aga_least from action_gestion_related where aga_greatest =$1)
-				order by ag_timestamp", array($this->ag_id));
         $iaction=new IRelated_Action('action');
         $iaction->value=(isset($this->action))?$this->action:"";
 
@@ -1842,4 +1832,153 @@ class Follow_Up
                     , array($this->ag_id, $_SESSION['g_user'], $this->ag_comment));
         }
     }
+    /**
+     * Return the first parent of the event tree, or -1 if not found
+     * @return integer (ag_id)
+     */
+    function get_parent() {
+        $value=$this->db->get_array('
+             with recursive t (aga_least,aga_greatest,depth) as (
+                select aga_least,aga_greatest , 1
+                from 
+                  action_gestion_related
+                 where aga_greatest=$1
+              union all
+                select p2.aga_least,p2.aga_greatest,depth + 1
+                from 
+                  t as p1, action_gestion_related as p2
+                where
+                  p2.aga_greatest is not null and
+                  p2.aga_greatest = p1.aga_least
+              ) select * from t order by depth desc limit 1
+                ' , array($this->ag_id)
+                );
+        if ( ! empty($value ) ) 
+            return $value[0]['aga_least'];
+        else
+            return -1;
+    }
+    /**
+     * Compute an array of the complete tree depending of $p_id
+     * @param $p_id ag_id
+     * @return array 
+     * key index :
+     *     - uniq value  , path 
+     *     - aga_least
+     *     - aga_greatest
+     *     - depth
+     */
+    function get_children($p_id) {
+        // retrieve parent
+        // Get information
+         $sql = "with recursive t (key_path, aga_least,aga_greatest,depth) as (
+                select 
+                 aga_least::text||'-'||aga_greatest::text as key_path ,
+                        aga_least,aga_greatest , 1
+                from 
+                        action_gestion_related
+              where aga_least=$1
+                union all
+            select key_path||'-'||p2.aga_greatest::text,
+              p2.aga_least,p2.aga_greatest,depth + 1
+            from 
+              t as p1, action_gestion_related as p2
+            where
+              p1.aga_greatest is not null and
+              p1.aga_greatest = p2.aga_least
+          ) 
+          select key_path,aga_greatest,ag_title as title,depth ,to_char(ag_timestamp,'DD/MM/YY') as str_date,dt_value as action_ref
+          from 
+            action_gestion join t on (ag_id=aga_greatest)
+            join document_type on (ag_type=dt_id)
+          order by key_path
+            
+";
+         $ret_array=$this->db->get_array($sql,array($p_id));
+         // Empty returns
+         if ( empty($ret_array)) return array();
+         
+         
+         return $ret_array;
+    }
+
+    /**
+     * Display the tree of childrens of the current Action + related parents
+     * @return return the tree of children in a unordered list , HTML string 
+     */
+    function display_children($p_view, $p_base)
+    {
+        /**
+         * First we retrieve the parent
+         */
+        $parent=$this->get_parent();
+
+        $base=HtmlInput::request_to_string(array("gDossier", "ac", "sa", "sb", "sc",
+                    "f_id"));
+        $parent=$this->get_parent();
+        if ($parent==-1)
+        {
+            echo _('Principal');
+            $parent = $this->ag_id;
+        }
+        else
+        {
+            $fu_parent=new Follow_Up($this->db, $parent);
+            $fu_parent->get();
+            echo'<span class="highlight">';
+            $xaction=sprintf('view_action(%d,%d,%d)', $fu_parent->ag_id,
+                        Dossier::id(), 1);
+            $showAction='<a class="line" href="javascript:'.$xaction.'">';
+            echo $showAction.
+                $fu_parent->ag_timestamp," ",
+                h($fu_parent->ag_title),
+                '('.h($fu_parent->ag_ref).')',
+                    '</a>';
+                            
+            echo "</span>";
+        }
+        echo '<ul style="padding-left:10px;list-style-type: none;">';
+        $action=$this->get_children($parent);
+        for ($o=0; $o<count($action); $o++)
+        {
+            $class=($this->ag_id == $action[$o]['aga_greatest'])?' class="highlight" ':'';
+            $margin=($action[$o]['depth']>1 )?str_repeat("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;",$action[$o]['depth']-1)."&#8680;":"";
+            if ($p_view!='READ'&&$p_base!='ajax')
+            {
+                $rmAction=sprintf("return confirm_box(null,'"._('Voulez-vous effacer cette action ')."', function () {remove_action('%s','%s','%s');});",
+                        dossier::id(), $action[$o]['aga_greatest'],
+                        $_REQUEST['ag_id']);
+                $showAction='<a class="line" href="'.$base."&ag_id=".$action[$o]['aga_greatest'].'">';
+                $js='<a class="tinybutton" id="acact'.$action[$o]['aga_greatest'].'" href="javascript:void(0)" onclick="'.$rmAction.'">'.SMALLX.'</a>';
+                echo '<li '.$class.' id="act'.$action[$o]['aga_greatest'].'">'.$margin.$showAction.$action[$o]['str_date'].
+                h($action[$o]['title']).'('.h($action[$o]['action_ref']).')</a>'." "
+                .$js.'</li>';
+            }
+            else
+            /*
+             * Display detail requested from Ajax Div
+             */
+            if ($p_base=='ajax')
+            {
+                $xaction=sprintf('view_action(%d,%d,%d)', $action[$o]['aga_greatest'],
+                        Dossier::id(), 1);
+                $showAction='<a class="line" href="javascript:'.$xaction.'">';
+                echo '<li  '.$class.' >'.$margin.$showAction.$action[$o]['str_date']." ".
+                h($action[$o]['title']).'('.h($action[$o]['action_ref']).')</a>'." "
+                .'</li>';
+            }
+            /*
+             * READ ONLY
+             */
+            else
+            {
+                $showAction='<a class="line" href="'.$base."&ag_id=".$action[$o]['aga_greatest'].'">';
+                echo '<li  '.$class.' >'.$margin.$showAction.$action[$o]['str_date']." ".
+                h($action[$o]['sub_title']).'('.h($action[$o]['action_ref']).')</a>'." "
+                .'</li>';
+            }
+        }
+        echo '</ul>';
+    }
+
 }

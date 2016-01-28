@@ -2053,6 +2053,7 @@ function view_action(ag_id, dossier, modify)
                         });
                         $(id).innerHTML = code_html;
                         if ( ctl_txt == 'ok') { compute_all_ledger();}
+                        code_html.evalScripts();
                     } catch (e) {
                         alert_box('view_action' + e.message);
                     }
