@@ -160,7 +160,7 @@ class Document_Export
             }
             //-----------------------------------
             // Fix broken PDF , actually pdftk can not handle all the PDF
-            if ( define ('FIX_BROKEN_PDF') == 'YES' ) {
+            if ( FIX_BROKEN_PDF == 'YES' ) {
                 $stmpt = CONVERT_GIF_PDF." ". escapeshellarg($this->store_convert . '/' . $file_pdf)." ". escapeshellarg($this->store_convert . '/' . $file_pdf.'tmp');
                 passthru($stmpt,$status);
                 rename ($this->store_convert . '/' . $file_pdf.'tmp',$this->store_convert . '/' . $file_pdf);
