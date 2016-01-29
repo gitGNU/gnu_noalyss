@@ -150,7 +150,14 @@ class Document_Export
             // transform gif file to pdf with convert tool
             $stmt = CONVERT_GIF_PDF . " " . escapeshellarg($this->store_convert . '/' . 'stamp.gif') . " " . escapeshellarg($this->store_convert . '/stamp.pdf');
             passthru($stmt, $status);
-
+            if ($status <> 0)
+            {
+                $this->feedback[$cnt_feedback]['file'] = 'stamp.pdf';
+                $this->feedback[$cnt_feedback]['message'] = ' cannot convert to PDF';
+                $this->feedback[$cnt_feedback]['error'] = $status;
+                $cnt_feedback++;
+                continue;
+            }
             //-----------------------------------
             // Fix broken PDF , actually pdftk can not handle all the PDF
             if ( define ('FIX_BROKEN_PDF') == 'YES' ) {
@@ -160,8 +167,8 @@ class Document_Export
             }
             if ($status <> 0)
             {
-                $this->feedback[$cnt_feedback]['file'] = 'stamp.pdf';
-                $this->feedback[$cnt_feedback]['message'] = ' cannot convert to PDF';
+                $this->feedback[$cnt_feedback]['file'] = $this->store_convert . '/' . $file_pdf;
+                $this->feedback[$cnt_feedback]['message'] = ' cannot force to PDF';
                 $this->feedback[$cnt_feedback]['error'] = $status;
                 $cnt_feedback++;
                 continue;
