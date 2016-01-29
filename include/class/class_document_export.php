@@ -137,7 +137,7 @@ class Document_Export
                     $cnt_feedback++;
                     continue;
                 }
-            }
+            } 
 
             // Create a image with the stamp + formula
             $img = imagecreatefromgif(NOALYSS_INCLUDE . '/template/template.gif');
@@ -151,6 +151,13 @@ class Document_Export
             $stmt = CONVERT_GIF_PDF . " " . escapeshellarg($this->store_convert . '/' . 'stamp.gif') . " " . escapeshellarg($this->store_convert . '/stamp.pdf');
             passthru($stmt, $status);
 
+            //-----------------------------------
+            // Fix broken PDF , actually pdftk can not handle all the PDF
+            if ( define ('FIX_BROKEN_PDF') == 'YES' ) {
+                $stmpt = CONVERT_GIF_PDF." ". escapeshellarg($this->store_convert . '/' . $file_pdf)." ". escapeshellarg($this->store_convert . '/' . $file_pdf.'tmp');
+                passthru($stmpt,$status);
+                rename ($this->store_convert . '/' . $file_pdf.'tmp',$this->store_convert . '/' . $file_pdf);
+            }
             if ($status <> 0)
             {
                 $this->feedback[$cnt_feedback]['file'] = 'stamp.pdf';

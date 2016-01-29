@@ -43,6 +43,9 @@ if ( !defined("NOALYSS_HOME")) define ("NOALYSS_HOME",dirname($dirname)."/html")
 if ( !defined("NOALYSS_PLUGIN")) define ("NOALYSS_PLUGIN",$g_ext_dir);
 if ( !defined("NOALYSS_INCLUDE")) define ("NOALYSS_INCLUDE",$g_include_dir);
 if ( !defined("NOALYSS_TEMPLATE")) define ("NOALYSS_TEMPLATE",$g_template_dir);
+// pdftk can deal with all the PDF , for some of them it is preferable to fix it
+// with convert
+if ( !defined("FIX_BROKEN_PDF")) define ("FIX_BROKEN_PDF",'NO');
 
 require_once NOALYSS_INCLUDE.'/constant.security.php';
 
