@@ -165,6 +165,7 @@ $uniq=HtmlInput::generate_id("tab");
     <ul class="tabs">
         <li id="related_action_tab<?php echo $uniq?>" class="tabs_selected"><?php echo _("Actions concernées")?></li>
         <li id="related_operation_tab<?php echo $uniq?>" class="tabs"><?php echo _('Opérations concernées')?></li>
+        <li id="dependant_action_tab<?php echo $uniq?>" class="tabs"><?php echo _('Dépendant')?></li>
     </ul>
 	<div id="related_operation_div<?php echo $uniq?>" style="display:none">
 
@@ -204,6 +205,11 @@ $uniq=HtmlInput::generate_id("tab");
 		
 		<?php if ( $p_view != 'READ') echo '<span class="noprint">'.$iaction->input().'</span>';?>
 	</div>
+        <div id="dependant_action_div<?php echo $uniq?>" style="display:none">
+        <?php
+            $this->display_parent($p_view,$p_base);
+        ?>
+        </div>
 </div>
 
 </div>
@@ -482,14 +488,25 @@ Document créé le <?php echo $this->ag_timestamp ?> par <?php echo $this->ag_ow
   $('related_action_tab<?php echo $uniq?>').onclick=function() {
       $('related_action_tab<?php echo $uniq?>').className='tabs_selected';
       $('related_operation_tab<?php echo $uniq?>').className='tabs';
+      $('dependant_action_tab<?php echo $uniq?>').className='tabs';
       $('related_operation_div<?php echo $uniq?>').hide();
+      $('dependant_action_div<?php echo $uniq?>').hide();
       $('related_action_div<?php echo $uniq?>').show();
   }  
   $('related_operation_tab<?php echo $uniq?>').onclick=function() {
       $('related_operation_tab<?php echo $uniq?>').className='tabs_selected';
       $('related_action_tab<?php echo $uniq?>').className='tabs';
+      $('dependant_action_tab<?php echo $uniq?>').className='tabs';
       $('related_action_div<?php echo $uniq?>').hide();
+      $('dependant_action_div<?php echo $uniq?>').hide();
       $('related_operation_div<?php echo $uniq?>').show();
   }  
-  
+    $('dependant_action_tab<?php echo $uniq?>').onclick=function() {
+      $('dependant_action_tab<?php echo $uniq?>').className='tabs_selected';
+      $('related_action_tab<?php echo $uniq?>').className='tabs';
+      $('related_operation_tab<?php echo $uniq?>').className='tabs';
+      $('related_operation_div<?php echo $uniq?>').hide();
+      $('related_action_div<?php echo $uniq?>').hide();
+      $('dependant_action_div<?php echo $uniq?>').show();
+  }  
 </script>
