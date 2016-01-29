@@ -995,7 +995,7 @@ class Follow_Up
         $doc->f_id=$this->f_id_dest;
         $doc->md_id=$md_id;
         $doc->ag_id=$this->ag_id;
-        $doc->Generate($p_array);
+        $doc->Generate($p_array,$this->ag_id);
     }
 
     /**
