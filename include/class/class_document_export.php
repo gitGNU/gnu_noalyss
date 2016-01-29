@@ -158,6 +158,14 @@ class Document_Export
                 $cnt_feedback++;
                 continue;
             }
+      
+
+            // 
+            // remove extension
+            $ext = strrpos($file[0]['jr_pj_name'], ".");
+            $file_pdf = substr($file[0]['jr_pj_name'], 0, $ext);
+            $file_pdf .=".pdf";
+            
             //-----------------------------------
             // Fix broken PDF , actually pdftk can not handle all the PDF
             if ( FIX_BROKEN_PDF == 'YES' ) {
@@ -173,13 +181,6 @@ class Document_Export
                     continue;
                 }
             }
-
-            // 
-            // remove extension
-            $ext = strrpos($file[0]['jr_pj_name'], ".");
-            $file_pdf = substr($file[0]['jr_pj_name'], 0, $ext);
-            $file_pdf .=".pdf";
-
             // output
             $output = $this->store_convert . '/stamp_' . $file_pdf;
 
