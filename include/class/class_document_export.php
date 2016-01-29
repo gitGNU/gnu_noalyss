@@ -164,14 +164,14 @@ class Document_Export
                 $stmpt = CONVERT_GIF_PDF." ". escapeshellarg($this->store_convert . '/' . $file_pdf)." ". escapeshellarg($this->store_convert . '/' . $file_pdf.'tmp');
                 passthru($stmpt,$status);
                 rename ($this->store_convert . '/' . $file_pdf.'tmp',$this->store_convert . '/' . $file_pdf);
-            }
-            if ($status <> 0)
-            {
-                $this->feedback[$cnt_feedback]['file'] = $this->store_convert . '/' . $file_pdf;
-                $this->feedback[$cnt_feedback]['message'] = ' cannot force to PDF';
-                $this->feedback[$cnt_feedback]['error'] = $status;
-                $cnt_feedback++;
-                continue;
+                if ($status <> 0)
+                {
+                    $this->feedback[$cnt_feedback]['file'] = $this->store_convert . '/' . $file_pdf;
+                    $this->feedback[$cnt_feedback]['message'] = ' cannot force to PDF';
+                    $this->feedback[$cnt_feedback]['error'] = $status;
+                    $cnt_feedback++;
+                    continue;
+                }
             }
 
             // 
