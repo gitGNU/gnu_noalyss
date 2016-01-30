@@ -576,7 +576,7 @@ class Acc_Operation
     }
     static function test_me()
     {
-        $_SESSION['g_user']='phpcompta';
+        $_SESSION['g_user']=NOALYSS_ADMINISTRATOR;
         $_SESSION['g_pass']='dany';
         global $g_user;
         $cn=Dossier::connect();

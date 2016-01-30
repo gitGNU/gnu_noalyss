@@ -47,6 +47,10 @@ if ( !defined("NOALYSS_TEMPLATE")) define ("NOALYSS_TEMPLATE",$g_template_dir);
 // with convert
 if ( !defined("FIX_BROKEN_PDF")) define ("FIX_BROKEN_PDF",'NO');
 
+if ( !defined('NOALYSS_ADMINISTRATOR')) {
+    define ('NOALYSS_ADMINISTRATOR','phpcompta');
+}
+
 require_once NOALYSS_INCLUDE.'/constant.security.php';
 
 if ( strpos($inc_path,";") != 0 ) {

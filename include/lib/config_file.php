@@ -69,6 +69,7 @@ function config_file_form($p_array=null)
 	$multi="N";
 	$cdbname="";
         $chost="localhost";
+        $cadmin='admin';
 
     }
     else extract ($p_array);
@@ -77,32 +78,34 @@ function config_file_form($p_array=null)
     $ictmp->size=25;
 
     $iclocale=new ISelect('clocale');
-	$iclocale->value=array(
-		array("value"=>1,"label"=>"Activé"),
-		array("value"=>0,"label"=>"Désactivé")
-	);
-	$iclocale->selected=1;
+    $iclocale->value=array(
+            array("value"=>1,"label"=>"Activé"),
+            array("value"=>0,"label"=>"Désactivé")
+    );
+    $iclocale->selected=1;
 
-	$icpath=new IText("cpath",$cpath);
-	$icpath->size=30;
+    $icpath=new IText("cpath",$cpath);
+    $icpath->size=30;
+    
+    $icuser=new IText('cuser',$cuser);
+    $icpasswd=new IText('cpasswd',$cpasswd);
+    $icport=new IText("cport",$cport);
+    $ichost=new IText("chost",$chost);
+    
+    $icadmin=new IText('cadmin',$cadmin);
+    /*
+     * For version MONO
+     */
+    $smulti=new ICheckBox('multi');
+    $smulti->javascript=' onchange="show_dbname(this)" ';
+    $smulti->value = 'Y';
+    if ( $multi == 'Y') {
+        $smulti->selected=true;
 
-	$icuser=new IText('cuser',$cuser);
-	$icpasswd=new IText('cpasswd',$cpasswd);
-	$icport=new IText("cport",$cport);
-	$ichost=new IText("chost",$chost);
-	/*
-	 * For version MONO
-	 */
-	$smulti=new ICheckBox('multi');
-	$smulti->javascript=' onchange="show_dbname(this)" ';
-        $smulti->value = 'Y';
-        if ( $multi == 'Y') {
-            $smulti->selected=true;
-            
-        }
-	$icdbname=new IText('cdbname');
-        $icdbname->value=$cdbname;
-	require NOALYSS_TEMPLATE.'/template_config_form.php';
+    }
+    $icdbname=new IText('cdbname');
+    $icdbname->value=$cdbname;
+    require NOALYSS_TEMPLATE.'/template_config_form.php';
 }
 /**
  * Display the  content of the config.inc.php with variables
@@ -146,7 +149,9 @@ function display_file_config($p_array,$from_setup=1,$p_os=1)
     print ("\r\n");
     print ( 'define ("noalyss_psql_host","'.$chost.'");');
     print ("\r\n");
-
+    print ( 'define ("NOALYSS_ADMINISTRATOR","'.$cadmin.'");');
+    print ("\r\n");
+    
     print ( 'define ("LOCALE",'.$clocale.');');
     print ("\r\n");
 
@@ -187,10 +192,9 @@ function display_file_config($p_array,$from_setup=1,$p_os=1)
     print ( '// define ("NOALYSS_INCLUDE","");');
     print ("\r\n");
     print ( '// define ("NOALYSS_TEMPLATE","");');
+    print ("\r\n");
     print ( "// Fix an issue with PDF when exporting receipt in PDF in ANCGL"."\r\n");
     print ( '// define ("FIX_BROKEN_PDF","NO");');
-    print ("\r\n");
-    print ("\r\n");
     print ("\r\n");
     print ("\r\n");
     print ( "// Uncomment if you don't want "."\r\n");

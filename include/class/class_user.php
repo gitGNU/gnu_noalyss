@@ -384,7 +384,7 @@ class User
 	function Admin()
 	{
             $this->admin = 0;
-		if ($this->login != 'phpcompta')
+		if ($this->login != NOALYSS_ADMINISTRATOR )
 		{
 			$pass5 = md5($this->pass);
 			$sql = "select use_admin from ac_users where use_login=$1
