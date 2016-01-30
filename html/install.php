@@ -591,7 +591,7 @@ if ($account == 0 ) {
 
  if ( ! DEBUG) ob_end_clean();
 echo '<h1>'._('Important').'</h1>';
-echo '<p>'._('Utilisateur  administrateur'),' ',$cadmin,'</p>';
+echo '<p>'._('Utilisateur  administrateur'),' ',NOALYSS_ADMINISTRATOR,'</p>';
 echo '<p>',_('Mot de passe'),' phpcompta','</p>';
  }// end if
 // Add a french accountancy model
@@ -613,11 +613,7 @@ if  (defined("MULTI") && MULTI == 0)
                      
             if ( ! DEBUG) ob_end_clean();
 	}
-        /* update name administrator */
-        if ( isset ($_REQUEST['cadmin'])) {
-           $db->exec_sql("update ac_users set use_login=$1 where use_id=1",
-            array($cadmin));
-        }
+       
         
         if ($db->exist_table("version") == false)
 	{
@@ -647,9 +643,12 @@ if  (defined("MULTI") && MULTI == 0)
                 $db->execute_script(NOALYSS_INCLUDE.'/sql/patch/ac-upgrade'.$i.'.sql');
             }
         }
+        
+        $db->exec_sql("update ac_users set use_login=$1 where use_id=1",
+              array(strtolower(NOALYSS_ADMINISTRATOR)));
         echo '<h1>'._('Important').'</h1>';
-        echo '<p>'._('Utilisateur administrateur'),' ',$cadmin,'</p>';
-        echo '<p>',_('Mot de passe'),' phpcompta','</p>';
+        echo '<p>'._('Utilisateur administrateur'),' ',NOALYSS_ADMINISTRATOR,'</p>';
+        echo '<p>',_('Mot de passe par défaut à l\'installation'),' phpcompta','</p>';
         echo "<h2 class=\"warning\">";
         printf (" VOUS DEVEZ EFFACER CE FICHIER %s",__FILE__);
         echo "</h2>";
