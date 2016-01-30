@@ -149,6 +149,11 @@ function display_file_config($p_array,$from_setup=1,$p_os=1)
     print ("\r\n");
     print ( 'define ("noalyss_psql_host","'.$chost.'");');
     print ("\r\n");
+    print ("\r\n");
+    print ("// If you change the NOALYSS_ADMINISTRATOR , you will need to rerun http://..../noalyss/html/install.php");
+    print ("\r\n");
+    print ("// But it doesn't change the password");
+    print ("\r\n");
     print ( 'define ("NOALYSS_ADMINISTRATOR","'.$cadmin.'");');
     print ("\r\n");
     
