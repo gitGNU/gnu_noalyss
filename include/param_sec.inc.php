@@ -68,8 +68,8 @@ if ( ! isset($_REQUEST['action']))
                                             use_login,
                                             use_admin
                                                 from ac_users left join jnt_use_dos using (use_id)
-					where use_login != 'phpcompta' and use_active=1
-					and (dos_id=$1  or (dos_id is null and use_admin=1))" . $ord_sql, array($gDossier));
+					where use_login != $2 and use_active=1
+					and (dos_id=$1  or (dos_id is null and use_admin=1))" . $ord_sql, array($gDossier,NOALYSS_ADMINISTRATOR));
 
     $MaxUser = Database::num_row($user_sql);
 

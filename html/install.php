@@ -216,7 +216,7 @@ $locale=HtmlInput::default_value_request("clocale", "1");
 $ctmp=HtmlInput::default_value_request("ctmp", "/tmp");
 $cpath=HtmlInput::default_value_request("cpath", "/usr/bin");
 $db_name=HtmlInput::default_value_request("cdbname", "");
-$cadmin=HtmlInput::default_value_request("cadmin", "phpcompta");
+$cadmin=HtmlInput::default_value_request("cadmin", "admin");
 $cadmin=strtolower($cadmin);
 //-------------------------------------------------------------------------
 // warn only if we can not write in include 
