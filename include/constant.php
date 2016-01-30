@@ -250,6 +250,10 @@ else
     define ('PDFTK','NOT');  
 }
 
+// If it is not a mono folder it is a multi one
+if ( !defined('MULTI')) {
+    define('MULTI',1);
+}
 
 define ('JS_INFOBULLE','
         <DIV id="bulle" class="infobulle"></DIV>

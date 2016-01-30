@@ -187,6 +187,9 @@ function display_file_config($p_array,$from_setup=1,$p_os=1)
     print ( '// define ("NOALYSS_INCLUDE","");');
     print ("\r\n");
     print ( '// define ("NOALYSS_TEMPLATE","");');
+    print ( "// Fix an issue with PDF when exporting receipt in PDF in ANCGL"."\r\n");
+    print ( '// define ("FIX_BROKEN_PDF","NO");');
+    print ("\r\n");
     print ("\r\n");
     print ("\r\n");
     print ("\r\n");
