@@ -156,14 +156,13 @@ class Document
 
             $file_to_parse=$filename;
         }
-		if ( $p_filename !="") {
-
+	if ( $p_filename !="") {
 			$this->d_filename=$this->compute_filename($p_filename, $this->d_filename);
-		}
+	}
         $this->SaveGenerated($dirname.DIRECTORY_SEPARATOR.$file_to_parse);
         // Invoice
         $href=http_build_query(array('gDossier'=>Dossier::id(),"d_id"=>$this->d_id,'act'=>'RAW:document'));
-        $ret='<A class="mtitle" HREF="export.php?'.$href.'">Document g&eacute;n&eacute;r&eacute;</A>';
+        $ret='<A class="mtitle" HREF="export.php?'.$href.'">'._('Document').'</A>';
         @rmdir($dirname);
         return $ret;
     }

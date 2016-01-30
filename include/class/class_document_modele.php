@@ -36,6 +36,7 @@ class Document_modele
     var $md_sequence;     /*!<  $md_sequence sequence name (autogenerate) */
     var $sequence;        /*!< $sequence sequence number used by the create sequence start with */
     var $md_affect;	/*!< $md_affect if you can use it in VEN for sale, ACH for purchase or GES for follow-up */
+    var $md_filename;   /*! < $md_filename is the filename of the template */
     //Constructor parameter = database connexion
     function Document_modele($p_cn,$p_id=-1)
     {
