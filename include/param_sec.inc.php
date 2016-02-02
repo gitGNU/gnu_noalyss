@@ -68,8 +68,8 @@ if ( ! isset($_REQUEST['action']))
                                             use_login,
                                             use_admin
                                                 from ac_users left join jnt_use_dos using (use_id)
-					where use_login != 'phpcompta' and use_active=1
-					and (dos_id=$1  or (dos_id is null and use_admin=1))" . $ord_sql, array($gDossier));
+					where use_login != $2 and use_active=1
+					and (dos_id=$1  or (dos_id is null and use_admin=1))" . $ord_sql, array($gDossier,NOALYSS_ADMINISTRATOR));
 
     $MaxUser = Database::num_row($user_sql);
 
@@ -282,9 +282,9 @@ if ( $action == "view" )
     $MaxJrn=Database::num_row($Res);
     $jrn_priv=new ISelect();
     $array=array(
-               array ('value'=>'R','label'=>'Uniquement lecture'),
-               array ('value'=>'W','label'=>'Lecture et écriture'),
-               array ('value'=>'X','label'=>'Aucun accès')
+               array ('value'=>'R','label'=>_('Uniquement lecture')),
+               array ('value'=>'W','label'=>_('Lecture et écriture')),
+               array ('value'=>'X','label'=>_('Aucun accès'))
            );
   
     for ( $i =0 ; $i < $MaxJrn; $i++ )
@@ -316,14 +316,14 @@ if ( $action == "view" )
     //**********************************************************************
     // Show Priv. for actions
     //**********************************************************************
-    echo '<fieldset> <legend>Actions </legend>';
+    echo '<fieldset> <legend>'._('Actions').'</legend>';
     echo HtmlInput::button("grant_all_action", _("Toutes les actions"), " onclick=\" grant_action(1) \"");
     echo HtmlInput::button("revoke_all_action", _("Aucune action"), " onclick=\" grant_action (0) \"");
     include(NOALYSS_TEMPLATE.'/security_list_action.php');
     echo '</fieldset>';
-    echo HtmlInput::button('Imprime','imprime',"onclick=\"window.open('".$sHref."');\"");
-    echo HtmlInput::submit('ok','Sauve');
-    echo HtmlInput::reset('Annule');
+    echo HtmlInput::button('Imprime',_('imprime'),"onclick=\"window.open('".$sHref."');\"");
+    echo HtmlInput::submit('ok',_('Sauve'));
+    echo HtmlInput::reset(_('Annule'));
 	echo $return;
     echo '</form>';
     ?>

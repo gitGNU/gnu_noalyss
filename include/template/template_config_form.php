@@ -51,6 +51,14 @@
 		<TD><?php echo _('Mot de passe de l\'utilisateur Postgresql');?> </TD>
 		<TD><?php echo $icpasswd->input();echo HtmlInput::infobulle(204)?></TD>
 </TR>
+<tr>
+    <td>
+        <?php echo _('Administrateur de noalyss')?>
+    </td>
+    <td>
+        <?php echo $icadmin->input();?>
+    </td>
+</tr>
 <TR>
 	<TD><?php echo _('Adresse Serveur Postgresql');?> </TD>
 	<TD><?php echo $ichost->input();echo HtmlInput::infobulle(208)?></TD>

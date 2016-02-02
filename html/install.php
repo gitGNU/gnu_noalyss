@@ -216,6 +216,8 @@ $locale=HtmlInput::default_value_request("clocale", "1");
 $ctmp=HtmlInput::default_value_request("ctmp", "/tmp");
 $cpath=HtmlInput::default_value_request("cpath", "/usr/bin");
 $db_name=HtmlInput::default_value_request("cdbname", "");
+$cadmin=HtmlInput::default_value_request("cadmin", "admin");
+$cadmin=strtolower($cadmin);
 //-------------------------------------------------------------------------
 // warn only if we can not write in include 
 //-------------------------------------------------------------------------
@@ -244,6 +246,9 @@ if (isset($_POST['save_config'])) {
   // If conx successfull save the file or display it
   // -----
   if ( $cnx !== false ) {
+       echo '<h1>'._('Important').'</h1>';
+       echo '<p>'._('Utilisateur administrateur'),' ',$cadmin,'</p>';
+       echo '<p>',_('Mot de passe'),' phpcompta','</p>';
       // Create the db
       if (is_writable(NOALYSS_INCLUDE)) { 
         $url=config_file_create($_POST,1,$os); 
@@ -265,6 +270,7 @@ if (isset($_POST['save_config'])) {
           print (_('Puis cliquez sur ce lien'))." ";
           echo '<a href="install.php?lang='.$_GET['lang'].'">'._('Installation')."</a>";
           echo '</p>';
+      
           echo '<textarea cols="80" rows="50" style="height:auto">';
           echo display_file_config($_POST,1,$os);
           echo '</textarea>';
@@ -551,6 +557,11 @@ if ($account == 0 ) {
   $cn->execute_script(NOALYSS_INCLUDE."/sql/account_repository/schema.sql");
   $cn->execute_script(NOALYSS_INCLUDE."/sql/account_repository/data.sql");
   $cn->execute_script(NOALYSS_INCLUDE."/sql/account_repository/constraint.sql");
+  /* update name administrator */
+  $cadmin=NOALYSS_ADMINISTRATOR;
+  $cn->exec_sql("update ac_users set use_login=$1 where use_id=1",
+              array(strtolower($cadmin)));
+
   $cn->commit($cn);
 
  if ( ! DEBUG) ob_end_clean();
@@ -579,7 +590,9 @@ if ($account == 0 ) {
   $cn->commit();
 
  if ( ! DEBUG) ob_end_clean();
-
+echo '<h1>'._('Important').'</h1>';
+echo '<p>'._('Utilisateur  administrateur'),' ',NOALYSS_ADMINISTRATOR,'</p>';
+echo '<p>',_('Mot de passe'),' phpcompta','</p>';
  }// end if
 // Add a french accountancy model
 //--
@@ -597,8 +610,11 @@ if  (defined("MULTI") && MULTI == 0)
 	{
             if ( ! DEBUG) { ob_start();  }
             $db->execute_script(NOALYSS_INCLUDE.'/sql/mono/mono.sql');
+                     
             if ( ! DEBUG) ob_end_clean();
 	}
+       
+        
         if ($db->exist_table("version") == false)
 	{
 		echo '<p class="warning">' . $failed ;
@@ -627,6 +643,12 @@ if  (defined("MULTI") && MULTI == 0)
                 $db->execute_script(NOALYSS_INCLUDE.'/sql/patch/ac-upgrade'.$i.'.sql');
             }
         }
+        
+        $db->exec_sql("update ac_users set use_login=$1 where use_id=1",
+              array(strtolower(NOALYSS_ADMINISTRATOR)));
+        echo '<h1>'._('Important').'</h1>';
+        echo '<p>'._('Utilisateur administrateur'),' ',NOALYSS_ADMINISTRATOR,'</p>';
+        echo '<p>',_('Mot de passe par défaut à l\'installation'),' phpcompta','</p>';
         echo "<h2 class=\"warning\">";
         printf (" VOUS DEVEZ EFFACER CE FICHIER %s",__FILE__);
         echo "</h2>";
@@ -644,7 +666,12 @@ if  (defined("MULTI") && MULTI == 0)
 define ('ALLOWED',1);
 $_GET['sb']="upg_all";
 $rep=new Database();
+$rep->exec_sql("update ac_users set use_login=$1 where use_id=1",
+              array(strtolower(NOALYSS_ADMINISTRATOR)));
 require NOALYSS_INCLUDE."/upgrade.inc.php";
+echo '<h1>'._('Important').'</h1>';
+echo '<p>'._('Utilisateur administrateur'),' ',NOALYSS_ADMINISTRATOR,'</p>';
+        
 echo "<h2 class=\"warning\">";
 printf (" VOUS DEVEZ EFFACER CE FICHIER %s",__FILE__);
 echo "</h2>";
