@@ -44,7 +44,7 @@ if ( !defined("NOALYSS_PLUGIN")) define ("NOALYSS_PLUGIN",$g_ext_dir);
 if ( !defined("NOALYSS_INCLUDE")) define ("NOALYSS_INCLUDE",$g_include_dir);
 if ( !defined("NOALYSS_TEMPLATE")) define ("NOALYSS_TEMPLATE",$g_template_dir);
 // pdftk can deal with all the PDF , for some of them it is preferable to fix it
-// with convert
+// with convert , see also PDF2PS and PS2PDF if yes
 if ( !defined("FIX_BROKEN_PDF")) define ("FIX_BROKEN_PDF",'NO');
 
 require_once NOALYSS_INCLUDE.'/constant.security.php';
@@ -236,7 +236,26 @@ if (file_exists($convert_gif_pdf))
     define ('CONVERT_GIF_PDF','NOT');
     
 }
+/**
+ * PDF2PS is used when the PDF is broken , used with FIX_BROKEN_PDF
+ */
+$pdf2ps='/usr/bin/pdf2ps';
 
+if ( ! file_exists($pdf2ps) ) 
+    define ('PDF2PS','NOT');
+ else
+    define ('PDF2PS',$pdf2ps);
+/**
+ * PS2PDF is used when the PDF is broken , used with FIX_BROKEN_PDF
+ */
+$ps2pdf='/usr/bin/ps2pdf';
+
+if ( ! file_exists($ps2pdf) ) 
+    define ('PS2PDF','NOT');
+ else
+    define ('PS2PDF',$ps2pdf);
+
+ 
 /**
  * Outil pour manipuler les PDF 
  */

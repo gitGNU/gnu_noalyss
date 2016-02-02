@@ -168,10 +168,12 @@ class Document_Export
             
             //-----------------------------------
             // Fix broken PDF , actually pdftk can not handle all the PDF
-            if ( FIX_BROKEN_PDF == 'YES' ) {
-                $stmpt = CONVERT_GIF_PDF." ". escapeshellarg($this->store_convert . '/' . $file_pdf)." ". escapeshellarg($this->store_convert . '/' . $file_pdf.'tmp');
+            if ( FIX_BROKEN_PDF == 'YES' && PDF2PS != 'NOT' && PS2PDF != 'NOT') {
+                
+                $stmpt = PDF2PS." ". escapeshellarg($this->store_convert . '/' . $file_pdf)." ". escapeshellarg($this->store_convert . '/' . $file_pdf.'.ps');
+                
                 passthru($stmpt,$status);
-                rename ($this->store_convert . '/' . $file_pdf.'tmp',$this->store_convert . '/' . $file_pdf);
+                
                 if ($status <> 0)
                 {
                     $this->feedback[$cnt_feedback]['file'] = $this->store_convert . '/' . $file_pdf;
@@ -180,6 +182,19 @@ class Document_Export
                     $cnt_feedback++;
                     continue;
                 }
+                $stmpt = PS2PDF." ". escapeshellarg($this->store_convert . '/' . $file_pdf.'.ps')." ". escapeshellarg($this->store_convert . '/' . $file_pdf.'.2');
+                
+                passthru($stmpt,$status);
+                
+                if ($status <> 0)
+                {
+                    $this->feedback[$cnt_feedback]['file'] = $this->store_convert . '/' . $file_pdf;
+                    $this->feedback[$cnt_feedback]['message'] = ' cannot force to PDF';
+                    $this->feedback[$cnt_feedback]['error'] = $status;
+                    $cnt_feedback++;
+                    continue;
+                }
+                rename ($this->store_convert . '/' . $file_pdf.'.2',$this->store_convert . '/' . $file_pdf);
             }
             // output
             $output = $this->store_convert . '/stamp_' . $file_pdf;
