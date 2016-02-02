@@ -96,7 +96,7 @@ class Document_Export
 
     function clean_folder()
     {
-        //unlink($this->store_convert . '/*.pdf');
+        rmdir($this->store_convert);
     }
 
     /**
