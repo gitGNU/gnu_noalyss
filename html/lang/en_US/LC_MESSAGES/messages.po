@@ -4,14 +4,14 @@
 # Dany De Bontridder <dany@alchimerys.be>
 #
 # dany, 2014.
-# Dany De Bontridder <danydb@noalyss.eu>, 2014, 2015.
+# Dany De Bontridder <danydb@noalyss.eu>, 2014, 2015, 2016.
 msgid ""
 msgstr ""
 "Project-Id-Version: NOALYSS 672\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-14 17:45+0100\n"
-"PO-Revision-Date: 2015-12-15 17:38+0100\n"
-"Last-Translator: Dany De Bontridder <danydb@noalyss.eu>\n"
+"POT-Creation-Date: 2016-01-30 23:17+0100\n"
+"PO-Revision-Date: 2016-01-30 23:19+0100\n"
+"Last-Translator: dany\n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
 "Language: en_US\n"
 "MIME-Version: 1.0\n"
@@ -21,6 +21,7 @@ msgstr ""
 "X-Generator: Lokalize 1.4\n"
 
 #: include/ext/importbank/include/class_import_bank.php:310
+#: include/ext/importbank/include/class_import_bank.php:288
 msgid " - Date hors des journaux"
 msgstr "Date out of ledger"
 
@@ -163,7 +164,7 @@ msgid " Utilisateur normal"
 msgstr "Normal User"
 
 #: html/admin/setup.php:402 html/install.php:466 html/install.php:465
-#: html/install.php:463
+#: html/install.php:463 html/install.php:469
 msgid ""
 " Vous devez absolument utiliser au minimum une version 8.4 de PostGresql, si "
 "votre distribution n'en\n"
@@ -210,6 +211,7 @@ msgstr "last backup"
 #: include/ext/invoicing/include/invoice_send_mail.inc.php:113
 #: include/ext/invoicing/include/invoice_send_mail.inc.php:123
 #: include/ext/invoicing/include/invoice_send_mail.inc.php:147
+#: include/ext/invoicing/include/invoice_send_mail.inc.php:151
 msgid " destinataire "
 msgstr "recipient"
 
@@ -266,6 +268,7 @@ msgstr "The accounting item ["
 #: include/class_document_export.php:173 include/class_document_export.php:183
 #: include/class/class_document_export.php:183
 #: include/class/class_document_export.php:182
+#: include/class/class_document_export.php:197
 msgid " ne peut pas convertir en PDF"
 msgstr "Conversion to PDF failed"
 
@@ -300,6 +303,7 @@ msgid " vous ne pouvez pas encoder à une date antérieure"
 msgstr "You can not enter an entry before the last operation"
 
 #: include/ext/invoicing/include/invoice_send_mail.inc.php:153
+#: include/ext/invoicing/include/invoice_send_mail.inc.php:157
 msgid " à "
 msgstr "To"
 
@@ -495,6 +499,7 @@ msgstr "To amortize"
 
 #: include/ext/importbank/include/template/show_field.php:19
 #: include/ext/importbank/include/template/show_transfer.php:160
+#: include/ext/importbank/include/template/show_transfer.php:159
 msgid "A importer dans le journal de banque"
 msgstr "To import in financial ledger"
 
@@ -665,6 +670,7 @@ msgstr "Forbidden"
 #: include/class_acc_ledger.php:3849 include/class_acc_ledger.php:3861
 #: include/class_acc_ledger.php:3869 include/class/class_acc_ledger.php:3869
 #: include/class/class_acc_ledger.php:3868
+#: include/class/class_acc_ledger.php:3880
 msgid "Action non accessible"
 msgstr "Folder not available"
 
@@ -678,6 +684,10 @@ msgstr "Unauthorized"
 msgid "Action pour aujourd'hui"
 msgstr "For today"
 
+#: include/param_sec.inc.php:319
+msgid "Actions"
+msgstr "Actions"
+
 #: include/template/ledger_detail_bottom.php:35
 msgid "Actions Gestion"
 msgstr "Action Management"
@@ -687,6 +697,7 @@ msgstr "Action Management"
 #: include/template/detail-action.php:187
 #: include/template/detail-action.php:192
 #: include/template/detail-action.php:191
+#: include/template/detail-action.php:166
 msgid "Actions concernées"
 msgstr "Concerned operations"
 
@@ -718,7 +729,7 @@ msgstr "Accounting / Activity"
 #: include/compta_ven.inc.php:324 include/ext/modop/modop_display.php:123
 #: include/template/detail-action.php:400
 #: include/template/detail-action.php:399 include/compta_ach.inc.php:287
-#: include/compta_ven.inc.php:326
+#: include/compta_ven.inc.php:326 include/template/detail-action.php:368
 msgid "Actualiser"
 msgstr "Refresh"
 
@@ -731,6 +742,10 @@ msgstr "Refresh"
 #: html/user_login.php:103
 msgid "Administrateur"
 msgstr "Administrator"
+
+#: include/template/template_config_form.php:56
+msgid "Administrateur de noalyss"
+msgstr "Noalyss Administrators"
 
 #: include/database.item.php:122 include/database.item.php:125
 #: include/database.item.php:131 include/database.item.php:127
@@ -764,11 +779,13 @@ msgid "Adresse "
 msgstr "Address"
 
 #: include/template/template_config_form.php:55
+#: include/template/template_config_form.php:63
 msgid "Adresse Serveur Postgresql"
 msgstr "Postgresql Host"
 
 #: include/class_document_modele.php:68
 #: include/class/class_document_modele.php:68
+#: include/class/class_document_modele.php:69
 msgid "Affect."
 msgstr "Assigned"
 
@@ -776,6 +793,7 @@ msgstr "Assigned"
 #: include/template/modele_document.php:40
 #: include/class/class_document_modele.php:255
 #: include/class/class_document_modele.php:256
+#: include/class/class_document_modele.php:257
 msgid "Affectation"
 msgstr "Assignment"
 
@@ -1067,6 +1085,7 @@ msgstr "Add a folder"
 #: include/template/detail-action.php:503
 #: include/template/detail-action.php:508
 #: include/template/detail-action.php:507
+#: include/template/detail-action.php:476
 msgid "Ajouter un fichier"
 msgstr "Add an attachment"
 
@@ -1090,6 +1109,7 @@ msgstr "Add a profile"
 #: include/class/class_anc_group_operation.php:189
 #: include/class/class_anticipation.php:431
 #: include/template/detail-action.php:400 include/template/stock_inv.php:104
+#: include/template/detail-action.php:369
 msgid "Ajouter une ligne"
 msgstr "Add a row"
 
@@ -1142,6 +1162,7 @@ msgstr "Cushioning"
 #: include/ext/amortis/include/template/listing_year.php:69
 #: include/database.item.php:19
 #: include/ext/amortis/include/template/listing_year.php:35
+#: include/ext/amortis/raw.php:60
 msgid "Amortissement"
 msgstr "Amortization"
 
@@ -1181,6 +1202,10 @@ msgstr "Announce"
 msgid "Annuités"
 msgstr "Annuities"
 
+#: include/param_sec.inc.php:326
+msgid "Annule"
+msgstr "Cancel"
+
 #: include/category_detail.inc.php:68 include/param_pcmn.inc.php:63
 #: include/template/dashboard.php:343
 #: include/ext/amortis/include/template/material_add.php:51
@@ -1194,6 +1219,7 @@ msgstr "Annuities"
 #: include/ext/amortis/include/template/material_add.php:87
 #: include/ajax/ajax_mod_predf_op.php:56 include/ajax/ajax_card.php:303
 #: include/template/dashboard.php:353 include/template/pcmn_update.php:54
+#: include/ext/amortis/include/template/material_add.php:88
 msgid "Annuler"
 msgstr "Cancel"
 
@@ -1208,7 +1234,8 @@ msgstr "Cancel"
 msgid "Année"
 msgstr "Year"
 
-#: include/ext/amortis/raw.php:100
+#: include/ext/amortis/raw.php:100 include/ext/amortis/raw.php:56
+#: include/ext/amortis/raw.php:125
 msgid "Année Achat"
 msgstr "Purchase year"
 
@@ -1345,6 +1372,7 @@ msgstr ""
 
 #: html/admin/template_config_form.php:76
 #: include/template/template_config_form.php:80
+#: include/template/template_config_form.php:88
 msgid ""
 "Attention : si vous installez sous windows n'utilisez pas le \\ mais plutôt "
 "le / dans les nom de répertoire (càd les chemins ou path)"
@@ -1388,7 +1416,7 @@ msgid ""
 msgstr "Warning the parameter effective_cache_size is %s instead of 1000"
 
 #: html/admin/setup.php:442 html/install.php:506 html/install.php:505
-#: html/install.php:503
+#: html/install.php:503 html/install.php:509
 #, php-format
 msgid "Attention le paramètre effective_cache_size est de %s au lieu de 1000"
 msgstr "Warning the parameter effective_cache_size is %s instead of 1000"
@@ -1466,6 +1494,7 @@ msgstr "Card attribute"
 #: include/class/class_follow_up.php:1227
 #: include/class/class_follow_up.php:1228
 #: include/class/class_follow_up.php:1229
+#: include/class/class_follow_up.php:1219
 msgid "Aucun"
 msgstr "No"
 
@@ -1475,7 +1504,7 @@ msgstr "No"
 #: include/class_profile_menu.php:247 include/class_profile_menu.php:272
 #: include/class/class_profile_menu.php:247
 #: include/class/class_profile_menu.php:272 include/param_sec.inc.php:209
-#: include/param_sec.inc.php:280
+#: include/param_sec.inc.php:280 include/param_sec.inc.php:287
 msgid "Aucun accès"
 msgstr "No access"
 
@@ -1514,6 +1543,8 @@ msgstr "No VAT code corresponds to the rate"
 #: include/class/class_acc_ledger.php:3563
 #: include/class/class_acc_ledger.php:3611
 #: include/class/class_acc_ledger.php:3768
+#: include/class/class_acc_ledger.php:3618
+#: include/class/class_acc_ledger.php:3780
 msgid "Aucun compte en banque n'est donné"
 msgstr "No bank account given"
 
@@ -1535,7 +1566,7 @@ msgstr "No available folder"
 msgid "Aucun dossier à afficher"
 msgstr "No file"
 
-#: include/preod.inc.php:82
+#: include/preod.inc.php:82 include/preod.inc.php:85
 msgid "Aucun enregistrement"
 msgstr "No record found"
 
@@ -1573,6 +1604,10 @@ msgstr "No filter, all ledgers"
 #: include/ext/sav/include/class_service_after_sale_parameter.php:120
 msgid "Aucun matériel choisi"
 msgstr "No equipment"
+
+#: include/ext/invoicing/include/class_invoicing_recorded_message.php:50
+msgid "Aucun message sauvé"
+msgstr "No message saved"
 
 #: include/ajax_preference.php:152 include/ajax_preference.php:153
 #: include/ajax_preference.php:160 include/ajax/ajax_preference.php:160
@@ -1646,6 +1681,7 @@ msgstr "No action in late"
 #: include/ext/invoicing/include/invoice_send_mail.inc.php:133
 #: include/ext/invoicing/include/invoice_send_mail.inc.php:175
 #: include/ext/invoicing/include/invoice_send_mail.inc.php:177
+#: include/ext/invoicing/include/invoice_send_mail.inc.php:181
 msgid "Aucune adresse email trouvée"
 msgstr "No email address found"
 
@@ -1748,6 +1784,7 @@ msgstr "No period found"
 #: include/ext/invoicing/include/invoice_send_mail.inc.php:130
 #: include/ext/invoicing/include/invoice_send_mail.inc.php:172
 #: include/ext/invoicing/include/invoice_send_mail.inc.php:174
+#: include/ext/invoicing/include/invoice_send_mail.inc.php:178
 msgid "Aucune pièce à envoyer"
 msgstr "No room to send"
 
@@ -1888,6 +1925,7 @@ msgstr "With the card"
 #: html/install.php:411 html/install.php:420 html/install.php:428
 #: html/install.php:410 html/install.php:419 html/install.php:427
 #: html/install.php:408 html/install.php:417 html/install.php:425
+#: html/install.php:414 html/install.php:423 html/install.php:431
 msgid "Avertissement"
 msgstr "Warning"
 
@@ -2064,12 +2102,14 @@ msgstr "Empty  Database"
 
 #: html/admin/setup.php:388 html/install.php:452 html/install.php:451
 #: html/install.php:449 include/upgrade.inc.php:67 include/upgrade.inc.php:93
+#: html/install.php:455
 msgid "Base de données"
 msgstr "Database"
 
 #: include/template/action_display_short.php:61
 #: include/class/class_follow_up.php:273
 #: include/template/action_display_short.php:59
+#: include/class/class_follow_up.php:263
 msgid "Basse"
 msgstr "Low"
 
@@ -2137,6 +2177,7 @@ msgstr "Budget"
 #: include/class_document_export.php:198 include/class_document_export.php:208
 #: include/class/class_document_export.php:208
 #: include/class/class_document_export.php:207
+#: include/class/class_document_export.php:222
 msgid "CONVERT_GIF_PDF n'est pas installé"
 msgstr "CONVERT_GIF_PDF is not installed"
 
@@ -2147,6 +2188,7 @@ msgstr "CONVERT_GIF_PDF is not installed"
 #: include/template/detail-action.php:373
 #: include/template/detail-action.php:378
 #: include/template/detail-action.php:377
+#: include/template/detail-action.php:346
 msgid "Cacher les détails"
 msgstr "Hide details"
 
@@ -2208,6 +2250,8 @@ msgstr "Category"
 #: include/class_fiche.php:555 include/lib/class_html_input.php:372
 #: include/class/class_document_modele.php:67
 #: include/class/class_fiche.php:430 include/class/class_fiche.php:555
+#: include/ext/invoicing/include/invoice_send_mail_input.inc.php:149
+#: include/class/class_document_modele.php:68
 msgid "Catégorie"
 msgstr "Category"
 
@@ -2384,6 +2428,14 @@ msgstr "This accounting exercise is not in this folder"
 #: html/extension.raw.php:57 html/ajax.php:67
 msgid "Cette extension n'existe pas "
 msgstr "This plugin do not exist"
+
+#: include/class/class_extension.php:96
+msgid ""
+"Cette extension ne fonctionne pas sur cette version de NOALYSS Veuillez "
+"mettre votre programme a jour. Version minimum "
+msgstr ""
+"This plugin does not work with this version , please upgrade . Minimum "
+"version "
 
 #: include/database.item.php:16
 msgid "Cette extension permet de faire les listings et declarations TVA"
@@ -2622,6 +2674,10 @@ msgstr "Select your language"
 msgid "Choix"
 msgstr "Choice"
 
+#: include/ext/invoicing/include/ajax_message.php:30
+msgid "Choix Message"
+msgstr "Choice Message"
+
 #: include/class_anc_print.php:132 include/class_anc_print.php:127
 #: include/class_anc_print.php:133 include/class/class_anc_print.php:127
 #: include/class/class_anc_print.php:133
@@ -2664,7 +2720,7 @@ msgstr "Report choice"
 msgid "Choix du dépôt"
 msgstr "select warehouse"
 
-#: include/ext/importbank/ajax.php:186
+#: include/ext/importbank/ajax.php:186 include/ext/importbank/ajax.php:189
 msgid "Choix du tiers pour les opérations sélectionnées"
 msgstr "Choose the tiers for the selected records"
 
@@ -2678,6 +2734,10 @@ msgstr "Select the type of paper"
 #: include/class/class_acc_ledger.php:3566
 msgid "Choix du type de journal est obligatoire"
 msgstr "Select the type of ledger"
+
+#: include/ext/invoicing/include/invoice_send_mail_input.inc.php:100
+msgid "Choix message"
+msgstr "Choice Message"
 
 #: include/class_acc_account.php:189 include/class/class_acc_account.php:189
 #, php-format
@@ -2745,6 +2805,10 @@ msgstr "Incorrect customer"
 #: include/export/export_ledger_csv.php:241
 msgid "Client/Fourn."
 msgstr "Customer / Supplier"
+
+#: include/template/param_jrn.php:194
+msgid "Clients (C)"
+msgstr "Customers(c)"
 
 #: include/template/dashboard.php:284 include/template/dashboard.php:267
 #: include/template/dashboard.php:271 include/template/dashboard.php:250
@@ -2856,6 +2920,7 @@ msgstr "Tick ​​to delete this record"
 #: include/template/ledger_detail_ach.php:149
 #: include/template/ledger_detail_ven.php:151
 #: include/ajax/ajax_add_menu.php:148 include/ajax/ajax_add_menu.php:203
+#: include/ext/amortis/raw.php:53 include/ext/amortis/raw.php:121
 msgid "Code"
 msgstr "Code"
 
@@ -2931,6 +2996,7 @@ msgstr "Stock"
 #: include/template/detail-action.php:347
 #: include/class/class_acc_ledger_purchase.php:1779
 #: include/class/class_acc_ledger_sold.php:1361
+#: include/template/detail-action.php:316
 msgid "Code TVA"
 msgstr "VAT Code"
 
@@ -3022,11 +3088,13 @@ msgstr "Code not used"
 #: include/fiche.inc.php:515 include/fiche.inc.php:518
 #: include/export/export_fiche_balance_csv.php:142
 #: include/export/export_fiche_balance_csv.php:155
+#: include/export/export_fiche_balance_csv.php:156
 msgid "Comm"
 msgstr "How"
 
 #: html/admin/setup.php:445 html/admin/setup.php:463 html/admin/setup.php:469
 #: html/install.php:533 html/install.php:532 html/install.php:530
+#: html/install.php:536
 msgid "Commencer la mise à jour ou l'installation"
 msgstr "Start the uprade or the installation"
 
@@ -3058,6 +3126,7 @@ msgstr "Start the uprade or the installation"
 #: include/class/class_acc_ledger_purchase.php:1768
 #: include/class/class_acc_ledger_sold.php:1350
 #: include/export/export_stock_histo_csv.php:44
+#: include/template/detail-action.php:243
 msgid "Commentaire"
 msgstr "How"
 
@@ -3282,6 +3351,7 @@ msgstr "Config accountancy"
 
 #: html/admin/setup.php:236 html/admin/setup.php:254 html/admin/setup.php:256
 #: html/install.php:320 html/install.php:319 html/install.php:317
+#: html/install.php:323
 msgid "Configuration"
 msgstr "Setting"
 
@@ -3405,7 +3475,7 @@ msgstr "Confirm"
 
 #: include/compta_fin.inc.php:83 include/compta_fin.inc.php:84
 #: include/operation_ods_confirm.inc.php:78
-#: include/ext/importbank/ajax.php:232
+#: include/ext/importbank/ajax.php:232 include/ext/importbank/ajax.php:237
 msgid "Confirmer"
 msgstr "Confirmed"
 
@@ -3442,7 +3512,8 @@ msgstr "You are not an administrator"
 
 #: html/admin/setup.php:561 html/admin/setup.php:636 html/install.php:627
 #: html/install.php:648 html/install.php:628 html/install.php:649
-#: html/install.php:635 html/install.php:656
+#: html/install.php:635 html/install.php:656 html/install.php:657
+#: html/install.php:683
 msgid "Connectez-vous à NOALYSS"
 msgstr "Connect to NOALYSS"
 
@@ -3458,7 +3529,8 @@ msgstr "Contact"
 #: include/opening.inc.php:132 include/opening.inc.php:163
 #: include/opening.inc.php:251 html/admin/setup.php:214 html/install.php:256
 #: html/install.php:297 html/install.php:255 html/install.php:296
-#: html/install.php:253 html/install.php:294
+#: html/install.php:253 html/install.php:294 html/install.php:258
+#: html/install.php:300
 msgid "Continuer"
 msgstr "Continue"
 
@@ -3497,7 +3569,12 @@ msgstr "Consideration for expenditure from the manager"
 #: include/ext/invoicing/include/invoicing.inc.php:106
 #: include/ext/invoicing/include/invoice_send_mail_input.inc.php:66
 #: include/ext/invoicing/include/invoice_send_mail_input.inc.php:67
+#: include/ext/invoicing/include/invoice_send_mail_input.inc.php:73
 msgid "Conversion en PDF"
+msgstr "PDF conversion"
+
+#: include/ext/invoicing/include/invoicing.inc.php:67
+msgid "Convertir en PDF"
 msgstr "PDF conversion"
 
 #: include/class_document_export.php:136 include/class_document_export.php:146
@@ -3539,12 +3616,12 @@ msgid "Creation Dossier"
 msgstr "Folder Creation"
 
 #: html/admin/setup.php:497 html/install.php:561 html/install.php:560
-#: html/install.php:558
+#: html/install.php:558 html/install.php:569
 msgid "Creation of Modele 1"
 msgstr "Creation template 1"
 
 #: html/admin/setup.php:510 html/install.php:574 html/install.php:573
-#: html/install.php:571
+#: html/install.php:571 html/install.php:582
 msgid "Creation of Modele 2"
 msgstr "Creation template 2"
 
@@ -3644,6 +3721,7 @@ msgstr "Creation, modification, parameter lists, mailing list"
 #: include/template/anc_balance_group.php:50
 #: include/export/export_fiche_balance_csv.php:144
 #: include/export/export_fiche_balance_csv.php:157
+#: include/export/export_fiche_balance_csv.php:158
 msgid "Crébit"
 msgstr "Credit"
 
@@ -3755,11 +3833,13 @@ msgstr "Add a new public note"
 #: include/class/class_pre_op_ven.php:166
 #: include/class/class_pre_op_ven.php:173
 #: include/class/class_acc_ledger.php:3651 include/contact.inc.php:129
-#: include/manager.inc.php:131
+#: include/manager.inc.php:131 include/class/class_acc_ledger.php:3658
+#: include/class/class_follow_up.php:296
 msgid "Créer une nouvelle fiche"
 msgstr "Add a new card"
 
 #: html/install.php:264 html/install.php:263 html/install.php:261
+#: html/install.php:266
 #, php-format
 msgid "Créez ce fichier %s avec les informations suivantes "
 msgstr "Create this file %s with the following informations"
@@ -3775,6 +3855,7 @@ msgstr "D"
 #: include/class/class_anc_listing.php:85
 #: include/export/export_fiche_balance_csv.php:159
 #: include/export/export_poste_detail_csv.php:178
+#: include/export/export_fiche_balance_csv.php:160
 msgid "D/C"
 msgstr "D / C"
 
@@ -3796,6 +3877,7 @@ msgstr "Unallowed fee"
 #: include/class_acc_ledger.php:3927 include/class_acc_ledger.php:3935
 #: include/class/class_acc_ledger.php:3935
 #: include/class/class_acc_ledger.php:3934
+#: include/class/class_acc_ledger.php:3946
 msgid "Dans le dépôt"
 msgstr "In the warehouse"
 
@@ -3910,6 +3992,8 @@ msgstr "In the ledger"
 #: include/class/class_acc_reconciliation.php:466
 #: include/class/class_acc_reconciliation.php:482
 #: include/class/class_balance_age.php:147
+#: include/ext/invoicing/include/invoice_send_mail_input.inc.php:112
+#: include/export/export_fiche_balance_csv.php:153
 msgid "Date"
 msgstr "Date"
 
@@ -3947,6 +4031,7 @@ msgstr "Date purchase"
 
 #: include/ext/amortis/raw.php:51 include/ext/amortis/raw.php:100
 #: include/ext/amortis/include/template/material_listing.php:11
+#: include/ext/amortis/raw.php:55 include/ext/amortis/raw.php:124
 msgid "Date acquisition"
 msgstr "Date acquisition"
 
@@ -4016,6 +4101,7 @@ msgid "Date fin"
 msgstr "End date"
 
 #: include/ext/importbank/include/class_import_bank.php:303
+#: include/ext/importbank/include/class_import_bank.php:281
 msgid "Date hors des limites"
 msgstr "Date out of bound"
 
@@ -4048,6 +4134,7 @@ msgstr "Date out of bound"
 #: include/class/class_anc_table.php:123
 #: include/class/class_follow_up.php:1707
 #: include/class/class_follow_up.php:1709
+#: include/class/class_follow_up.php:1702
 msgid "Date invalide"
 msgstr "Invalid Date"
 
@@ -4120,6 +4207,7 @@ msgstr "Payment date"
 
 #: include/ext/invoicing/include/invoice_send_mail_input.inc.php:102
 #: include/ext/invoicing/include/invoice_send_mail_input.inc.php:103
+#: include/ext/invoicing/include/invoice_send_mail_input.inc.php:120
 msgid "Date rappel"
 msgstr "Reminder"
 
@@ -4319,6 +4407,9 @@ msgstr "Event depends on this category"
 #: include/export/export_histo_csv.php:42
 #: include/export/export_poste_detail_csv.php:74
 #: include/export/export_poste_detail_csv.php:176
+#: include/template/detail-action.php:313
+#: include/template/detail-action.php:471 include/ext/amortis/raw.php:54
+#: include/ext/amortis/raw.php:123 include/export/export_histo_csv.php:43
 msgid "Description"
 msgstr "Description"
 
@@ -4371,6 +4462,7 @@ msgstr "Invalid recipient"
 #: include/export_fiche_balance_csv.php:148
 #: include/export/export_fiche_balance_csv.php:148
 #: include/export/export_fiche_balance_csv.php:161
+#: include/export/export_fiche_balance_csv.php:162
 msgid "Diff Let."
 msgstr "Let Diff."
 
@@ -4469,6 +4561,7 @@ msgstr "Miscelleanous"
 #: include/database.item.php:91 include/class/class_acc_ledger.php:873
 #: include/ajax/ajax_ledger.php:315 include/ajax/ajax_ledger.php:345
 #: include/compta_ven.inc.php:181 include/ajax/ajax_ledger.php:316
+#: include/class/class_document.php:165
 msgid "Document"
 msgstr "Document"
 
@@ -4508,6 +4601,7 @@ msgstr "Document generated only if the payment method is set"
 #: include/template/detail-action.php:419
 #: include/template/detail-action.php:424
 #: include/template/detail-action.php:423
+#: include/template/detail-action.php:392
 msgid "Document à générer"
 msgstr "Document to generate"
 
@@ -4585,6 +4679,7 @@ msgstr ""
 #: include/ext/importbank/include/class_import_bank.php:495
 #: include/modele.inc.php:420 include/compta_fin_rec.inc.php:115
 #: include/compta_fin_rec.inc.php:122
+#: include/ext/importbank/include/class_import_bank.php:451
 msgid "Donnée invalide"
 msgstr "Invalid data"
 
@@ -4726,6 +4821,7 @@ msgstr "Amortization term"
 #: include/export/export_gl_csv.php:90
 #: include/export/export_ledger_csv.php:138
 #: include/export/export_poste_detail_csv.php:75
+#: include/export/export_fiche_balance_csv.php:157
 msgid "Débit"
 msgstr "Debit"
 
@@ -4823,6 +4919,10 @@ msgstr "Delimiter"
 msgid "Dénomination"
 msgstr "Name"
 
+#: include/template/detail-action.php:168
+msgid "Dépendant"
+msgstr "Depending on"
+
 #: include/ajax_get_menu_detail.php:82
 msgid "Dépendant de"
 msgstr "Depending on"
@@ -4899,6 +4999,7 @@ msgstr "Sorry there was an error"
 
 #: include/ext/invoicing/include/invoice_send_mail.inc.php:39
 #: include/ext/invoicing/include/invoice_send_mail.inc.php:61
+#: include/ext/invoicing/include/invoice_send_mail.inc.php:65
 msgid "Désolé mais il faut donner l'email de celui qui envoie"
 msgstr "Sorry, but you have to give the email of sender"
 
@@ -4932,6 +5033,8 @@ msgstr "Sorry the box is not checked"
 #: include/ext/sav/include/template/sas_display_list.php:66
 #: include/template/detail-action.php:330
 #: include/template/detail-action.php:329
+#: include/template/detail-action.php:298
+#: include/ext/invoicing/include/template/recorded_message_list.php:60
 msgid "Détail"
 msgstr "Detail"
 
@@ -5082,6 +5185,7 @@ msgid "Echeance dépassée"
 msgstr "Missed deadline"
 
 #: include/ext/importbank/include/template/show_transfer.php:271
+#: include/ext/importbank/include/template/show_transfer.php:270
 msgid "Echec"
 msgstr "Failed"
 
@@ -5251,7 +5355,11 @@ msgstr "Removal forbidden"
 #: include/ext/importbank/include/template/show_list.php:53
 #: include/ext/importbank/include/template/show_list.php:197
 #: include/ajax/ajax_admin.php:236 include/modele.inc.php:327
-#: include/ajax/ajax_admin.php:261
+#: include/ajax/ajax_admin.php:261 include/preod.inc.php:111
+#: include/template/detail-action.php:445
+#: include/ext/invoicing/include/ajax_message.php:61
+#: include/ext/amortis/include/template/material_detail.php:189
+#: include/class/class_document_modele.php:71
 msgid "Effacer"
 msgstr "Remove"
 
@@ -5313,6 +5421,7 @@ msgid "Effacer une opération "
 msgstr "Remove an operation"
 
 #: include/ext/amortis/include/material_delete.inc.php:6
+#: include/ext/amortis/include/material_delete.inc.php:7
 msgid "Effacé"
 msgstr "Erased"
 
@@ -5334,6 +5443,7 @@ msgstr "E-mail"
 #: include/ext/invoicing/include/invoicing.inc.php:109
 #: include/ext/invoicing/include/invoice_send_mail_input.inc.php:69
 #: include/ext/invoicing/include/invoice_send_mail_input.inc.php:70
+#: include/ext/invoicing/include/invoice_send_mail_input.inc.php:80
 msgid "Email envoyé par"
 msgstr "Email sent"
 
@@ -5514,6 +5624,7 @@ msgstr "Enter the date of the declaration"
 
 #: html/admin/setup.php:208 html/admin/setup.php:226 html/admin/setup.php:228
 #: html/install.php:290 html/install.php:289 html/install.php:287
+#: html/install.php:293
 msgid "Entrez les informations nécessaires à noalyss"
 msgstr "Enter the required information for Noalyss"
 
@@ -5521,6 +5632,10 @@ msgstr "Enter the required information for Noalyss"
 #: include/ext/rapport_avance/include/template/parameter_send_mail_input.php:27
 msgid "Envoi"
 msgstr "Sending"
+
+#: include/ext/invoicing/include/invoicing.inc.php:68
+msgid "Envoi de la facture sans conversion en PDF"
+msgstr "Send invoice without PDF conversion"
 
 #: include/ext/invoicing/include/invoicing.inc.php:102
 #: include/ext/invoicing/include/invoicing.inc.php:101
@@ -5531,16 +5646,19 @@ msgstr "Send invoices by email"
 #: include/ext/invoicing/include/invoice_send_mail.inc.php:126
 #: include/ext/invoicing/include/invoice_send_mail.inc.php:168
 #: include/ext/invoicing/include/invoice_send_mail.inc.php:170
+#: include/ext/invoicing/include/invoice_send_mail.inc.php:174
 msgid "Envoi echoué"
 msgstr "Sending fails"
 
 #: include/ext/invoicing/include/invoice_send_mail.inc.php:153
+#: include/ext/invoicing/include/invoice_send_mail.inc.php:157
 msgid "Envoi facture"
 msgstr "Shipping bill"
 
 #: include/ext/invoicing/include/invoice_send_mail.inc.php:113
 #: include/ext/invoicing/include/invoice_send_mail.inc.php:123
 #: include/ext/invoicing/include/invoice_send_mail.inc.php:147
+#: include/ext/invoicing/include/invoice_send_mail.inc.php:151
 msgid "Envoi facture "
 msgstr "Shipping bill"
 
@@ -5552,14 +5670,21 @@ msgstr "Send by email"
 #: include/ext/invoicing/include/invoicing.inc.php:104
 #: include/ext/invoicing/include/invoice_send_mail_input.inc.php:64
 #: include/ext/invoicing/include/invoice_send_mail_input.inc.php:65
+#: include/ext/invoicing/include/invoice_send_mail_input.inc.php:71
 msgid "Envoi uniquement à ceux ayant une adresse email et une facture"
 msgstr "Sending only those with an email address and an invoice"
 
 #: include/ext/invoicing/include/invoicing.inc.php:124
 #: include/ext/invoicing/include/invoice_send_mail_input.inc.php:84
 #: include/ext/invoicing/include/invoice_send_mail_input.inc.php:85
+#: include/ext/invoicing/include/invoice_send_mail_input.inc.php:76
 msgid "Envoyer copie à l'expéditeur"
 msgstr "Send copy to sender"
+
+#: include/ext/invoicing/include/template/recorded_message_display.php:21
+#: include/ext/invoicing/include/template/recorded_message_list.php:24
+msgid "Envoyé par"
+msgstr "Sent by"
 
 #: include/ac_common.php:317 include/forecast.inc.php:373
 #: include/action.common.inc.php:140 include/action.common.inc.php:280
@@ -5699,6 +5824,7 @@ msgid "Etape 3/3"
 msgstr "Step 3/3"
 
 #: include/ext/importbank/include/template/show_transfer.php:147
+#: include/ext/importbank/include/template/show_transfer.php:146
 msgid "Etape 4/4 : les données sont sauvegardées"
 msgstr "Step 4/4 : data are loaded"
 
@@ -6039,6 +6165,7 @@ msgstr "Bank receipt"
 
 #: include/ext/invoicing/include/invoice_send_mail_input.inc.php:141
 #: include/ext/invoicing/include/invoice_send_mail_input.inc.php:143
+#: include/ext/invoicing/include/invoice_send_mail_input.inc.php:160
 msgid "Exécuter"
 msgstr "Execute"
 
@@ -6135,7 +6262,9 @@ msgstr "Firm action"
 #: include/class/class_extension.php:237
 #: include/template/ledger_detail_top.php:16
 #: include/ext/importbank/ajax.php:192 include/ext/importbank/ajax.php:233
-#: include/lib/class_html_input.php:435
+#: include/lib/class_html_input.php:435 include/ext/importbank/ajax.php:195
+#: include/ext/importbank/ajax.php:238
+#: include/ext/amortis/include/template/material_detail.php:190
 #, php-format
 msgid "Fermer"
 msgstr "close"
@@ -6166,6 +6295,7 @@ msgstr "close"
 #: include/database.item.php:114 include/template/detail-action.php:344
 #: include/template/detail-action.php:343 include/template/stock_inv.php:65
 #: include/export/export_stock_histo_csv.php:43
+#: include/template/detail-action.php:312
 msgid "Fiche"
 msgstr "Card"
 
@@ -6181,6 +6311,14 @@ msgstr "Card (limit %d)"
 #: include/class/class_anc_acc_list.php:44
 msgid "Fiche /Activité"
 msgstr "Card / Activity"
+
+#: include/ext/amortis/raw.php:130
+msgid "Fiche Amortissement acté"
+msgstr "deed Amortization Card"
+
+#: include/ext/amortis/raw.php:129
+msgid "Fiche Charge"
+msgstr "Fee Card"
 
 #: include/ext/import_account/include/template/parameter.php:11
 msgid "Fiche TVA"
@@ -6202,6 +6340,7 @@ msgstr "Undeleted record"
 #: include/class_fiche.php:653 include/class/class_fiche.php:653
 #: include/ajax/ajax_card.php:144
 #: include/ext/importbank/include/class_import_bank.php:501
+#: include/ext/importbank/include/class_import_bank.php:479
 msgid "Fiche non trouvée"
 msgstr "Card not found"
 
@@ -6221,6 +6360,14 @@ msgstr "Card for hours"
 msgid "Fiche sauvée"
 msgstr "Card saved"
 
+#: include/ext/amortis/raw.php:130
+msgid "Ficher Amortissement acté"
+msgstr "deed "
+
+#: include/ext/amortis/raw.php:129
+msgid "Ficher Charge"
+msgstr "Fee Card"
+
 #: include/ext/import_account/index.php:57
 #: include/ext/import_doli/index.php:57
 #: include/export/export_stock_resume_list.php:38
@@ -6231,11 +6378,16 @@ msgstr "Sheets"
 msgid "Fiches ayant changé de poste comptable"
 msgstr "The card %s has changed his accouting"
 
+#: include/template/param_jrn.php:251
+msgid "Fiches utilisables (D/C)"
+msgstr "Usable Cards (D/C)"
+
 #: include/class_document_modele.php:69 include/ajax_plugin_detail.php:47
 #: include/template/modele_document.php:61 include/menu.inc.php:116
 #: include/menu.inc.php:117 include/menu.inc.php:112
 #: include/ajax/ajax_plugin_detail.php:47
 #: include/class/class_document_modele.php:69
+#: include/class/class_document_modele.php:70
 msgid "Fichier"
 msgstr "File"
 
@@ -6252,6 +6404,7 @@ msgid "Fichier effacé"
 msgstr "Removed file"
 
 #: html/install.php:261 html/install.php:260 html/install.php:258
+#: html/install.php:263
 msgid "Fichier non sauvé"
 msgstr "Card not found"
 
@@ -6388,6 +6541,7 @@ msgstr "Financial"
 
 #: include/ext/importbank/include/template/show_field.php:27
 #: include/ext/importbank/include/template/show_transfer.php:168
+#: include/ext/importbank/include/template/show_transfer.php:167
 msgid "Format de date"
 msgstr "Date format"
 
@@ -6433,6 +6587,10 @@ msgstr "Supplier"
 #: include/class/class_pre_op_ach.php:226
 msgid "Fournisseur "
 msgstr "Supplier"
+
+#: include/template/param_jrn.php:139
+msgid "Fournisseurs (C)"
+msgstr "Supplier (C)"
 
 #: include/template/dashboard.php:282 include/template/dashboard.php:265
 #: include/template/dashboard.php:269 include/template/dashboard.php:248
@@ -6724,6 +6882,7 @@ msgstr "Accounting entries generation"
 #: include/class_follow_up.php:407 include/class_follow_up.php:410
 #: include/class_follow_up.php:418 include/class_follow_up.php:420
 #: include/class_follow_up.php:421 include/class/class_follow_up.php:421
+#: include/class/class_follow_up.php:411
 msgid "Génére le document"
 msgstr "Generate the document"
 
@@ -6733,6 +6892,7 @@ msgstr "Generate writing"
 
 #: include/template/detail-action.php:311
 #: include/template/detail-action.php:310
+#: include/template/detail-action.php:279
 msgid "Générer"
 msgstr "Generate File"
 
@@ -6786,6 +6946,7 @@ msgstr "Operation without tax"
 #: include/template/action_display_short.php:59
 #: include/class/class_follow_up.php:271
 #: include/template/action_display_short.php:57
+#: include/class/class_follow_up.php:261
 msgid "Haute"
 msgstr "High"
 
@@ -7008,7 +7169,7 @@ msgid "Il n'y a aucune marchandise"
 msgstr "There is no item"
 
 #: html/admin/setup.php:462 html/install.php:526 html/install.php:525
-#: html/install.php:523
+#: html/install.php:523 html/install.php:529
 #, php-format
 msgid "Il y a %s param&egrave;tre qui sont trop bas"
 msgstr "There are %s invalid parameters"
@@ -7059,6 +7220,11 @@ msgstr "Import CSV file from bank"
 #: include/database.item.php:134 include/database.item.php:133
 msgid "Import/export plan"
 msgstr "Import / export"
+
+#: html/install.php:249 html/install.php:593 html/install.php:649
+#: html/install.php:672
+msgid "Important"
+msgstr "Important"
 
 #: include/ext/importbank/index.php:56 include/ext/importbank/index.php:58
 msgid "Importation"
@@ -7124,6 +7290,7 @@ msgid "Importer ce rapport"
 msgstr "Import this report"
 
 #: include/ext/importbank/include/template/show_transfer.php:270
+#: include/ext/importbank/include/template/show_transfer.php:269
 msgid "Importés"
 msgstr "Imported"
 
@@ -7148,6 +7315,7 @@ msgstr "Not possible to write in include folder"
 #: include/class_acc_ledger.php:3776 include/class_acc_ledger.php:3778
 #: include/class_acc_ledger.php:3786 include/class/class_acc_ledger.php:3786
 #: include/class/class_acc_ledger.php:3785
+#: include/class/class_acc_ledger.php:3797
 msgid "Impossible d'effacer un journal qui contient des opérations"
 msgstr "It is not possible to remove this ledger.It is still in use"
 
@@ -7189,6 +7357,7 @@ msgid "Impossible de sauver ce fichier"
 msgstr "Unable to save this file"
 
 #: html/install.php:278 html/install.php:277 html/install.php:275
+#: html/install.php:281
 msgid ""
 "Impossible de se connecter à Postgresql, vérifiez les informations de "
 "connection"
@@ -7299,6 +7468,7 @@ msgstr "Print great ledger"
 
 #: include/ext/invoicing/include/invoice_send_mail_input.inc.php:87
 #: include/ext/invoicing/include/invoice_send_mail_input.inc.php:88
+#: include/ext/invoicing/include/invoice_send_mail_input.inc.php:105
 msgid "Inclure dans le suivi"
 msgstr "Save in follow up"
 
@@ -7390,6 +7560,7 @@ msgid "Informations générales"
 msgstr "General Information"
 
 #: html/install.php:269 html/install.php:268 html/install.php:266
+#: html/install.php:271
 msgid "Installation"
 msgstr "Installation"
 
@@ -7427,6 +7598,7 @@ msgstr "Internal"
 #: include/export/export_poste_detail_csv.php:174
 #: include/class/class_acc_reconciliation.php:467
 #: include/class/class_balance_age.php:149
+#: include/export/export_fiche_balance_csv.php:155
 msgid "Interne"
 msgstr "Internal"
 
@@ -7459,6 +7631,7 @@ msgstr "Javascript"
 #: include/template/detail-action.php:488
 #: include/template/detail-action.php:493
 #: include/template/detail-action.php:492
+#: include/template/detail-action.php:461
 msgid "Je ne peux pas ajouter de fichier"
 msgstr "I can not add this file"
 
@@ -7497,6 +7670,8 @@ msgstr "Journal in which writing will be passed"
 #: include/ext/importbank/include/import_bank.php:220
 #: include/ext/importbank/include/import_bank.php:233
 #: include/ext/importbank/include/class_import_bank.php:441
+#: include/ext/importbank/include/class_import_bank.php:419
+#: include/ext/importbank/include/import_bank.php:242
 msgid "Journal financier mal configuré"
 msgstr "Financial ledger misconfigured"
 
@@ -7590,7 +7765,7 @@ msgstr ""
 "with PhpPgAdmin or pgAdmin3 or in command line with psql \n"
 "and then select one of this option :"
 
-#: html/install.php:605
+#: html/install.php:605 html/install.php:621
 #, php-format
 msgid ""
 "La base de donnée %s est vide, \n"
@@ -7629,7 +7804,7 @@ msgstr ""
 " and then"
 
 #: html/admin/setup.php:459 html/install.php:523 html/install.php:522
-#: html/install.php:520
+#: html/install.php:520 html/install.php:526
 msgid "La base de données est bien configurée "
 msgstr "The database is properly configured"
 
@@ -7835,6 +8010,7 @@ msgstr "Prefix of receipt can be different for each ledgers"
 
 #: include/ext/invoicing/include/invoice_send_mail.inc.php:42
 #: include/ext/invoicing/include/invoice_send_mail.inc.php:65
+#: include/ext/invoicing/include/invoice_send_mail.inc.php:69
 msgid "Le sujet est obligatoire"
 msgstr "The subject is compulsory"
 
@@ -7850,6 +8026,10 @@ msgstr "Total different from 100, computed total ="
 #: include/class/class_profile_menu.php:270
 msgid "Lecture"
 msgstr "Reading"
+
+#: include/param_sec.inc.php:286
+msgid "Lecture et écriture"
+msgstr "Read and write"
 
 #: html/ajax_misc.php:366 html/ajax_misc.php:385 html/ajax_misc.php:399
 #: html/ajax_misc.php:405 html/ajax_misc.php:483
@@ -7876,10 +8056,12 @@ msgstr "The plugs must have at least one name"
 
 #: html/admin/setup.php:193 html/admin/setup.php:211 html/admin/setup.php:213
 #: html/install.php:255 html/install.php:254 html/install.php:252
+#: html/install.php:257
 msgid "Les informations sont sauv&eacute;es vous pouvez continuer"
 msgstr "Parameters are saved , continue"
 
 #: include/ext/importbank/include/template/show_transfer.php:212
+#: include/ext/importbank/include/template/show_transfer.php:211
 msgid "Les lignes ayant ce nombre de colonnes sont valides"
 msgstr "Rows with this number of columns are valid"
 
@@ -7949,12 +8131,18 @@ msgstr ""
 "in your preference to have another default periode. To avoid this check, "
 "change in COMPANY"
 
+#: include/ext/importbank/include/import_bank.php:156
+#: include/ext/importbank/include/import_bank.php:199
+msgid "Les séparateurs décimals et de millier doivent être différents"
+msgstr ""
+
 #: include/export_fiche_balance_csv.php:147 include/fiche.inc.php:443
 #: include/fiche.inc.php:448 include/fiche.inc.php:450
 #: include/fiche.inc.php:518 include/fiche.inc.php:521
 #: include/export/export_fiche_balance_csv.php:147
 #: include/export/export_fiche_balance_csv.php:160
 #: include/export/export_poste_detail_csv.php:78
+#: include/export/export_fiche_balance_csv.php:161
 msgid "Let."
 msgstr "Let."
 
@@ -8130,6 +8318,7 @@ msgstr "Link between Accounting and Cost Accounting"
 
 #: include/ext/importbank/include/template/show_field.php:62
 #: include/ext/importbank/include/template/show_transfer.php:203
+#: include/ext/importbank/include/template/show_transfer.php:202
 msgid "Ligne d'en-tête à ne pas prendre en considération"
 msgstr "Header lines"
 
@@ -8138,6 +8327,7 @@ msgid "Ligne non importée"
 msgstr "Not imported online"
 
 #: include/ext/importbank/include/template/show_transfer.php:231
+#: include/ext/importbank/include/template/show_transfer.php:230
 msgid "Ligne n°"
 msgstr "Line #"
 
@@ -8462,6 +8652,9 @@ msgstr "Wednesday"
 #: include/ext/invoicing/include/invoicing.inc.php:120
 #: include/ext/invoicing/include/invoice_send_mail_input.inc.php:80
 #: include/ext/invoicing/include/invoice_send_mail_input.inc.php:81
+#: include/ext/invoicing/include/ajax_message.php:58
+#: include/ext/invoicing/include/invoice_send_mail_input.inc.php:91
+#: include/ext/invoicing/include/template/recorded_message_display.php:27
 msgid "Message"
 msgstr "Message"
 
@@ -8486,7 +8679,7 @@ msgid "Mis à jour"
 msgstr "Update"
 
 #: html/admin/setup.php:528 html/install.php:592 html/install.php:591
-#: html/install.php:589
+#: html/install.php:589 html/install.php:602
 msgid "Mise  à jour dossier"
 msgstr "Update folder"
 
@@ -8522,7 +8715,7 @@ msgid "Mise à jour"
 msgstr "Update"
 
 #: html/admin/setup.php:549 html/install.php:613 html/install.php:614
-#: html/install.php:621
+#: html/install.php:621 html/install.php:637
 msgid "Mise à jour Repository"
 msgstr "Update Repository"
 
@@ -8539,7 +8732,7 @@ msgid "Mise à jour du plugin, pourriez-vous en vérifier le paramètrage ?"
 msgstr "Update plugin, could you check the parameter setting?"
 
 #: html/admin/setup.php:527 html/install.php:591 html/install.php:590
-#: html/install.php:588
+#: html/install.php:588 html/install.php:601
 msgid "Mise à jour du systeme"
 msgstr "Update"
 
@@ -8579,6 +8772,7 @@ msgstr "Missing parameter"
 
 #: html/admin/template_config_form.php:59
 #: include/template/template_config_form.php:63
+#: include/template/template_config_form.php:71
 msgid "Mode Serveur mutualisé"
 msgstr "Mode Server (default) or limited "
 
@@ -8662,6 +8856,8 @@ msgstr "Missing description"
 #: include/class/class_document_type.php:75
 #: include/template/detail-action.php:454
 #: include/class/class_document_modele.php:91
+#: include/template/detail-action.php:423
+#: include/class/class_document_modele.php:92
 msgid "Modifier"
 msgstr "Modify"
 
@@ -8844,6 +9040,10 @@ msgstr "Amount"
 msgid "Montant / unité"
 msgstr "Amount / unit"
 
+#: include/ext/amortis/raw.php:57 include/ext/amortis/raw.php:131
+msgid "Montant Achat"
+msgstr "Amount Purchases"
+
 #: include/ext/amortis/raw.php:51
 msgid "Montant Achats"
 msgstr "Amount Purchases"
@@ -8910,6 +9110,7 @@ msgstr "Amount ND"
 #: include/class/class_acc_ledger_purchase.php:1780
 #: include/class/class_acc_ledger_sold.php:695
 #: include/class/class_acc_ledger_sold.php:1362
+#: include/template/detail-action.php:317
 msgid "Montant TVA"
 msgstr "VAT Amount"
 
@@ -8945,6 +9146,7 @@ msgstr "VAT amount incorrect"
 #: include/template/detail-action.php:349
 #: include/class/class_acc_ledger_purchase.php:1404
 #: include/class/class_acc_ledger_sold.php:697
+#: include/template/detail-action.php:318
 msgid "Montant TVAC"
 msgstr "Amount VAT included"
 
@@ -8960,7 +9162,7 @@ msgstr "Amount cushion"
 msgid "Montant achat"
 msgstr "Purchase amount"
 
-#: include/ext/amortis/raw.php:100
+#: include/ext/amortis/raw.php:100 include/ext/amortis/raw.php:132
 msgid "Montant amorti"
 msgstr "Amortized amount"
 
@@ -9003,6 +9205,7 @@ msgid "Montant min. "
 msgstr "min Amount"
 
 #: include/export/export_histo_csv.php:44
+#: include/export/export_histo_csv.php:45
 msgid "Montant opération"
 msgstr "Operation amount"
 
@@ -9029,6 +9232,7 @@ msgstr "Total amount including VAT"
 #: include/ext/amortis/include/template/material_display.php:15
 #: include/ext/amortis/include/template/material_listing.php:15
 #: include/ext/amortis/include/template/listing_year.php:34
+#: include/ext/amortis/raw.php:59 include/ext/amortis/raw.php:133
 msgid "Montant à amortir"
 msgstr "Amount to be amortized"
 
@@ -9039,6 +9243,7 @@ msgstr "Amount to purchase"
 
 #: include/template/detail-action.php:310
 #: include/template/detail-action.php:309
+#: include/template/detail-action.php:278
 msgid "Montrer articles"
 msgstr "Show items"
 
@@ -9049,10 +9254,12 @@ msgstr "Show items"
 #: include/template/detail-action.php:372
 #: include/template/detail-action.php:377
 #: include/template/detail-action.php:376
+#: include/template/detail-action.php:345
 msgid "Montrer les détails"
 msgstr "Show details"
 
-#: include/user.inc.php:80 include/user.inc.php:81
+#: include/user.inc.php:80 include/user.inc.php:81 html/install.php:251
+#: html/install.php:595
 msgid "Mot de passe"
 msgstr "password"
 
@@ -9077,6 +9284,10 @@ msgstr "User's password"
 msgid "Mot de passe de l'utilisateur pour la base de données ((Postgresql)"
 msgstr "Password of postgresql user"
 
+#: html/install.php:651
+msgid "Mot de passe par défaut à l'installation"
+msgstr "Default password after install"
+
 #: include/template/stock_inv.php:50 include/template/stock_inv.php:51
 msgid "Motif de changement"
 msgstr "Reason of change"
@@ -9090,6 +9301,7 @@ msgstr "Payment middle"
 #: include/template/action_display_short.php:60
 #: include/class/class_follow_up.php:272
 #: include/template/action_display_short.php:58
+#: include/class/class_follow_up.php:262
 msgid "Moyenne"
 msgstr "Medium"
 
@@ -9119,6 +9331,7 @@ msgid "Nbre annuités"
 msgstr "Number annuities"
 
 #: include/ext/importbank/include/template/show_transfer.php:232
+#: include/ext/importbank/include/template/show_transfer.php:231
 msgid "Nbre de colonnes"
 msgstr "Number of columns"
 
@@ -9279,6 +9492,7 @@ msgstr "No action"
 #: include/ajax/ajax_admin.php:204 include/modele.inc.php:263
 #: include/modele.inc.php:369 include/export/export_fiche_balance_csv.php:57
 #: include/class/class_balance_age.php:145 include/class/class_fiche.php:1600
+#: include/ext/amortis/raw.php:122 include/class/class_document_modele.php:67
 msgid "Nom"
 msgstr "Name"
 
@@ -9305,6 +9519,7 @@ msgstr "Label VAT"
 
 #: html/admin/template_config_form.php:64
 #: include/template/template_config_form.php:68
+#: include/template/template_config_form.php:76
 msgid "Nom base de donnée"
 msgstr "Database name"
 
@@ -9344,6 +9559,7 @@ msgstr "Folder name"
 
 #: include/ext/importbank/include/template/show_field.php:11
 #: include/ext/importbank/include/template/show_transfer.php:152
+#: include/ext/importbank/include/template/show_transfer.php:151
 msgid "Nom du format"
 msgstr "Format  Name"
 
@@ -9405,7 +9621,8 @@ msgstr "Number"
 msgid "Nombre amortissement"
 msgstr "Total amortization"
 
-#: include/ext/amortis/raw.php:51
+#: include/ext/amortis/raw.php:51 include/ext/amortis/raw.php:58
+#: include/ext/amortis/raw.php:126
 msgid "Nombre annuités"
 msgstr "Number annuities"
 
@@ -9449,7 +9666,7 @@ msgstr "Number of incorrect rows"
 msgid "Nombre de ligne trouvé incorrect"
 msgstr "Incorrect number of rows "
 
-#: include/ext/importbank/ajax.php:198
+#: include/ext/importbank/ajax.php:198 include/ext/importbank/ajax.php:201
 msgid "Nombre de lignes choisies"
 msgstr "Number of recorded  lines"
 
@@ -9550,6 +9767,7 @@ msgstr "not used"
 #: include/template/security_list_action.php:73
 #: include/export/export_histo_csv.php:43
 #: include/export/export_ledger_csv.php:242
+#: include/export/export_histo_csv.php:44
 msgid "Note"
 msgstr "Note"
 
@@ -9649,6 +9867,7 @@ msgstr "New row"
 #: include/class_acc_ledger.php:3945 include/class_acc_ledger.php:3953
 #: include/class/class_acc_ledger.php:3953
 #: include/class/class_acc_ledger.php:3952
+#: include/class/class_acc_ledger.php:3964
 msgid "Nouvelle opération"
 msgstr "New  operations"
 
@@ -10062,6 +10281,10 @@ msgstr "Not Lettered operations"
 msgid "Opérations Ventes/Achats"
 msgstr "Operations Sales / Purchases"
 
+#: include/template/detail-action.php:167
+msgid "Opérations concernées"
+msgstr "Concerned operations"
+
 #: include/database.item.php:12 include/database.item.php:111
 #: include/database.item.php:15 include/database.item.php:114
 #: include/database.item.php:120 include/database.item.php:117
@@ -10336,6 +10559,7 @@ msgstr "Parameter"
 
 #: html/admin/setup.php:412 html/install.php:476
 #: include/admin_repo.inc.php:121 html/install.php:475 html/install.php:473
+#: html/install.php:479
 msgid "Paramètre base de données"
 msgstr "Database parameters"
 
@@ -10404,6 +10628,7 @@ msgstr "Non-tax deductible portion"
 #: include/template/modele_document.php:50
 #: include/class/class_document_modele.php:261
 #: include/class/class_document_modele.php:262
+#: include/class/class_document_modele.php:263
 msgid "Partie gestion"
 msgstr "Management"
 
@@ -10427,6 +10652,7 @@ msgstr "Na category for contact"
 #: include/ext/invoicing/include/invoice_send_mail.inc.php:75
 #: include/ext/invoicing/include/invoice_send_mail.inc.php:80
 #: include/ext/invoicing/include/invoice_send_mail.inc.php:103
+#: include/ext/invoicing/include/invoice_send_mail.inc.php:107
 msgid "Pas de conversion en PDF disponible"
 msgstr "No PDF conversion available"
 
@@ -10501,6 +10727,7 @@ msgstr "Paid"
 #: include/class/class_acc_ledger_purchase.php:1627
 #: include/class/class_acc_ledger_purchase.php:1634
 #: include/class/class_acc_ledger.php:3628
+#: include/class/class_acc_ledger.php:3635
 msgid "Payé par"
 msgstr "Paid by"
 
@@ -10657,6 +10884,7 @@ msgstr "Spare part not found"
 #: include/template/detail-action.php:430
 #: include/template/detail-action.php:435
 #: include/template/detail-action.php:434
+#: include/template/detail-action.php:403
 msgid "Pièces attachées"
 msgstr "Attachment"
 
@@ -10714,6 +10942,7 @@ msgid "Port"
 msgstr "Port"
 
 #: include/template/template_config_form.php:59
+#: include/template/template_config_form.php:67
 msgid "Port de Postgresql"
 msgstr "Port of Postgresql"
 
@@ -10776,7 +11005,7 @@ msgstr "Possible %d"
 msgid "Poste"
 msgstr "Account. Item"
 
-#: include/ext/amortis/raw.php:100
+#: include/ext/amortis/raw.php:100 include/ext/amortis/raw.php:127
 msgid "Poste Charge"
 msgstr "Post Charge"
 
@@ -10824,6 +11053,10 @@ msgstr "Inexisting accountancy"
 msgid "Poste amortis"
 msgstr "Post amortized"
 
+#: include/ext/amortis/raw.php:128
+msgid "Poste amortissement"
+msgstr "Amortization accounting"
+
 #: include/ext/amortis/include/template/material_add.php:29
 #: include/ext/amortis/include/template/material_detail.php:31
 #: include/ext/amortis/include/template/material_display.php:29
@@ -10855,11 +11088,13 @@ msgid "Poste comptable Parent"
 msgstr "Parent Accounting"
 
 #: include/ext/importbank/include/class_import_bank.php:297
+#: include/ext/importbank/include/class_import_bank.php:275
 msgid "Poste comptable de la  fiche est incorrecte"
 msgstr "Accounting used with the card is incorrect"
 
 #: include/ext/importbank/include/import_bank.php:228
 #: include/ext/importbank/include/import_bank.php:241
+#: include/ext/importbank/include/import_bank.php:250
 msgid "Poste comptable de la fiche banque est incorrect"
 msgstr "Accounting used with the financial ledger is incorrect"
 
@@ -10925,7 +11160,7 @@ msgid "Pour aujourd'hui"
 msgstr "For today"
 
 #: html/admin/setup.php:420 html/install.php:484 html/install.php:483
-#: html/install.php:481
+#: html/install.php:481 html/install.php:487
 msgid ""
 "Pour cela, sur la ligne de commande en tant qu\\'utilisateur postgres, "
 "faites createlang plpgsql template1"
@@ -11029,6 +11264,10 @@ msgstr "Percentage"
 msgid "Première route"
 msgstr ""
 
+#: include/class/class_follow_up.php:1926
+msgid "Principal"
+msgstr ""
+
 #: include/template/detail-action.php:115
 #: include/template/detail-action.php:123
 #: include/template/detail-action.php:129
@@ -11093,6 +11332,7 @@ msgstr "Products"
 #: include/param_sec.inc.php:269 include/database.item.php:82
 #: include/database.item.php:81 include/param_sec.inc.php:270
 #: include/param_sec.inc.php:275
+#: include/ext/invoicing/include/invoice_send_mail_input.inc.php:129
 msgid "Profil"
 msgstr "Profile"
 
@@ -11108,6 +11348,7 @@ msgstr "Profile not found"
 #: include/class/class_anc_grandlivre.php:198
 #: include/export/export_fiche_balance_csv.php:158
 #: include/export/export_poste_detail_csv.php:77
+#: include/export/export_fiche_balance_csv.php:159
 msgid "Prog."
 msgstr "Progr."
 
@@ -11185,6 +11426,7 @@ msgid "Public"
 msgstr "Public"
 
 #: html/install.php:268 html/install.php:267 html/install.php:265
+#: html/install.php:270
 msgid "Puis cliquez sur ce lien"
 msgstr "After click on this link"
 
@@ -11553,6 +11795,10 @@ msgstr "Rejected"
 msgid "Reprise inventaire"
 msgstr "Inventory"
 
+#: include/ext/amortis/raw.php:61
+msgid "Restant"
+msgstr "Remaining"
+
 #: include/restore.inc.php:237
 msgid "Restauration"
 msgstr "Restore"
@@ -11644,7 +11890,11 @@ msgstr "Return to list"
 msgid "Retrait TVA"
 msgstr "VAT Drawing"
 
-#: include/ext/importbank/ajax.php:189
+#: include/ext/invoicing/include/invoicing.inc.php:29
+msgid "Rien n'a été choisi"
+msgstr "Nothing selected"
+
+#: include/ext/importbank/ajax.php:189 include/ext/importbank/ajax.php:192
 msgid "Rien n'est sélectionné"
 msgstr "Nothing selected"
 
@@ -11749,6 +11999,7 @@ msgstr "Meeting"
 #: include/class/class_follow_up.php:1786
 #: include/class/class_follow_up.php:1787
 #: include/class/class_follow_up.php:1790
+#: include/class/class_follow_up.php:1785
 msgid "SECURITE : Ajout impossible"
 msgstr "Security : unauthorized"
 
@@ -11797,7 +12048,8 @@ msgstr "new line"
 #: include/ajax/ajax_card.php:478 include/company.inc.php:149
 #: include/report.inc.php:88 include/template/dashboard.php:352
 #: include/template/pcmn_update.php:53
-#: include/template/todo_list_display.php:105
+#: include/template/todo_list_display.php:105 include/param_sec.inc.php:325
+#: include/template/detail-action.php:432
 msgid "Sauve"
 msgstr "Save"
 
@@ -11862,17 +12114,24 @@ msgstr "Safeguard"
 #: include/template/modele_document.php:119
 #: include/ajax/ajax_display_letter.php:214 include/template/stock_inv.php:105
 #: include/class/class_acc_ledger.php:3289
+#: include/ext/amortis/include/template/material_add.php:89
+#: include/ext/amortis/include/template/material_detail.php:187
 msgid "Sauver"
 msgstr "Save"
 
 #: include/ext/invoicing/include/invoice_send_mail_input.inc.php:89
 #: include/ext/invoicing/include/invoice_send_mail_input.inc.php:90
+#: include/ext/invoicing/include/invoice_send_mail_input.inc.php:107
 msgid "Sauver dans le suivi"
 msgstr "Save in follow up"
 
 #: html/admin/setup.php:214 html/admin/setup.php:232 html/admin/setup.php:234
 msgid "Sauver la configuration"
 msgstr "Save  parameters"
+
+#: include/ext/invoicing/include/invoice_send_mail_input.inc.php:95
+msgid "Sauver le message"
+msgstr "Save the message"
 
 #: include/category_detail.inc.php:67 include/category_detail.inc.php:69
 msgid "Sauver les modifications"
@@ -11964,6 +12223,14 @@ msgstr "Service_after sales"
 #: include/ext/tva/form_parameter.php:89 include/ext/tva/form_parameter.php:92
 msgid "Services intracommunautaires avec report de perception"
 msgstr "Services intra-deferred perception"
+
+#: include/template/param_jrn.php:136
+msgid "Services, fournitures ou biens  achetés (D)"
+msgstr "Services, or good  purchased (D)"
+
+#: include/template/param_jrn.php:197
+msgid "Services, fournitures ou biens  vendus (D)"
+msgstr "Services, or good  Sold (D)"
 
 #: include/class_user.php:51 include/class_user.php:58
 #: include/class/class_user.php:58
@@ -12194,6 +12461,9 @@ msgstr "Follow up supplier"
 #: include/ext/invoicing/include/invoice_send_mail_input.inc.php:76
 #: include/template/action_display_short.php:98
 #: include/template/action_display_short.php:109
+#: include/ext/invoicing/include/invoice_send_mail_input.inc.php:86
+#: include/ext/invoicing/include/template/recorded_message_display.php:24
+#: include/ext/invoicing/include/template/recorded_message_list.php:27
 msgid "Sujet"
 msgstr "Topic"
 
@@ -12241,6 +12511,7 @@ msgstr "Select all"
 
 #: include/ext/importbank/include/template/show_field.php:36
 #: include/ext/importbank/include/template/show_transfer.php:177
+#: include/ext/importbank/include/template/show_transfer.php:176
 msgid "Séparateur de champs"
 msgstr "Field separator"
 
@@ -12250,17 +12521,20 @@ msgstr "unknown fieldseparator"
 
 #: include/ext/importbank/include/template/show_field.php:45
 #: include/ext/importbank/include/template/show_transfer.php:186
+#: include/ext/importbank/include/template/show_transfer.php:185
 msgid "Séparateur de millier"
 msgstr "Thousand separator"
 
 #: include/ext/importbank/include/template/show_field.php:54
 #: include/ext/importbank/include/template/show_transfer.php:195
+#: include/ext/importbank/include/template/show_transfer.php:194
 msgid "Séparateur décimal"
 msgstr "Decimal separator"
 
 #: include/class_document_export.php:199 include/class_document_export.php:209
 #: include/class/class_document_export.php:209
 #: include/class/class_document_export.php:208
+#: include/class/class_document_export.php:223
 msgid "TKPDF n'est pas installé"
 msgstr "TKPDF is not installed"
 
@@ -12514,6 +12788,7 @@ msgstr "Theme"
 #: include/class/class_acc_ledger.php:825 include/ext/importbank/ajax.php:91
 #: include/export/export_histo_csv.php:41
 #: include/export/export_ledger_csv.php:187
+#: include/export/export_histo_csv.php:42
 msgid "Tiers"
 msgstr "Tiers"
 
@@ -12530,6 +12805,7 @@ msgstr "Tiers"
 #: include/template/dashboard.php:334 include/template/dashboard.php:339
 #: include/template/detail-action.php:259
 #: include/template/detail-action.php:258 include/template/dashboard.php:348
+#: include/ext/invoicing/include/invoice_send_mail_input.inc.php:139
 msgid "Titre"
 msgstr "Title"
 
@@ -12774,6 +13050,7 @@ msgstr "All"
 #: include/class/class_follow_up.php:1218
 #: include/class/class_follow_up.php:1219
 #: include/class/class_follow_up.php:1220
+#: include/class/class_follow_up.php:1210
 msgid "Tous les Etats"
 msgstr "All States"
 
@@ -12797,6 +13074,7 @@ msgstr "All the depending accouting"
 #: include/class/class_follow_up.php:1249
 #: include/class/class_follow_up.php:1250
 #: include/class/class_follow_up.php:1253
+#: include/class/class_follow_up.php:1243
 msgid "Tous les profiles"
 msgstr "All profiles"
 
@@ -12806,6 +13084,7 @@ msgstr "All profiles"
 #: include/class/class_follow_up.php:1211
 #: include/class/class_follow_up.php:1212
 #: include/class/class_follow_up.php:1213
+#: include/class/class_follow_up.php:1203
 msgid "Tous les types"
 msgstr "Any type"
 
@@ -12820,7 +13099,8 @@ msgstr "Uncheck all"
 
 #: html/admin/setup.php:547 html/admin/setup.php:632 html/install.php:611
 #: html/install.php:644 html/install.php:612 html/install.php:645
-#: html/install.php:619 html/install.php:652
+#: html/install.php:619 html/install.php:652 html/install.php:635
+#: html/install.php:679
 msgid "Tout est install&eacute;"
 msgstr "Everything is installed"
 
@@ -12876,6 +13156,7 @@ msgstr "Transformation data into another format"
 #: include/template/detail-action.php:406
 #: include/template/detail-action.php:411
 #: include/template/detail-action.php:410
+#: include/template/detail-action.php:379
 msgid "Transformer en facture"
 msgstr "Generate invoices"
 
@@ -12929,6 +13210,7 @@ msgstr "Type"
 #: include/class_follow_up.php:1696 include/class/class_follow_up.php:1700
 #: include/class/class_follow_up.php:1701
 #: include/class/class_follow_up.php:1704
+#: include/class/class_follow_up.php:1699
 msgid "Type action invalide"
 msgstr "Invalid options"
 
@@ -13037,6 +13319,7 @@ msgstr "Only digits"
 #: include/template/modele_document.php:48
 #: include/class/class_document_modele.php:259
 #: include/class/class_document_modele.php:260
+#: include/class/class_document_modele.php:261
 msgid "Uniquement journaux achat"
 msgstr "Only ledger of purchase"
 
@@ -13044,8 +13327,13 @@ msgstr "Only ledger of purchase"
 #: include/template/modele_document.php:49
 #: include/class/class_document_modele.php:260
 #: include/class/class_document_modele.php:261
+#: include/class/class_document_modele.php:262
 msgid "Uniquement journaux vente"
 msgstr "Only ledger of sales"
+
+#: include/param_sec.inc.php:285
+msgid "Uniquement lecture"
+msgstr "Read only"
 
 #: include/impress_gl_comptes.inc.php:93
 msgid "Uniquement les comptes non soldés"
@@ -13076,6 +13364,10 @@ msgstr "invalid values"
 msgid "Utilisateur"
 msgstr "Users"
 
+#: html/install.php:594
+msgid "Utilisateur  administrateur"
+msgstr "Administrator user"
+
 #: include/param_sec.inc.php:91
 msgid "Utilisateur Normal"
 msgstr "Users"
@@ -13084,6 +13376,10 @@ msgstr "Users"
 #: include/template/template_config_form.php:47
 msgid "Utilisateur Postgresql"
 msgstr "Postgresql users"
+
+#: html/install.php:250 html/install.php:650 html/install.php:673
+msgid "Utilisateur administrateur"
+msgstr "Administrator user"
 
 #: html/admin/template_config_form.php:47
 msgid "Utilisateur de la base de donnée"
@@ -13261,7 +13557,7 @@ msgid "Verification comptabilite"
 msgstr "Check accountancy"
 
 #: html/admin/setup.php:395 html/install.php:459 html/install.php:458
-#: html/install.php:456
+#: html/install.php:456 html/install.php:462
 msgid "Version base de données :"
 msgstr "Postgresql version"
 
@@ -13300,6 +13596,7 @@ msgstr "City"
 
 #: include/ext/amortis/raw.php:100
 #: include/ext/amortis/include/template/material_detail.php:40
+#: include/ext/amortis/raw.php:120
 msgid "Visible"
 msgstr "Visible"
 
@@ -13342,6 +13639,7 @@ msgstr "Do you have a copy of this issue"
 #: include/template/detail-action.php:274
 #: include/template/detail-action.php:279
 #: include/template/detail-action.php:278
+#: include/template/detail-action.php:247
 #, php-format
 msgid "Voulez-vous effacer ce commentaire"
 msgstr "Do you want to delete this comment"
@@ -13361,6 +13659,8 @@ msgstr "Do you want to delete this action ?"
 #: include/template/detail-action.php:196
 #: include/template/detail-action.php:201
 #: include/template/detail-action.php:200
+#: include/class/class_follow_up.php:1958
+#: include/class/class_follow_up.php:2022
 #, php-format
 msgid "Voulez-vous effacer cette action "
 msgstr "Do you want to delete this action"
@@ -13385,6 +13685,7 @@ msgstr "Do you want to delete this relation"
 #: include/template/detail-action.php:465
 #: include/template/detail-action.php:470
 #: include/template/detail-action.php:469
+#: include/template/detail-action.php:438
 #, php-format
 msgid "Voulez-vous effacer le document"
 msgstr "Would you remove this Document"
@@ -13393,7 +13694,7 @@ msgstr "Would you remove this Document"
 msgid "Voulez-vous modifier ?"
 msgstr "Do you want to modify"
 
-#: include/preod.inc.php:109
+#: include/preod.inc.php:109 include/preod.inc.php:112
 msgid "Voulez-vous vraiment effacer cette operation ?"
 msgstr "Do you want to delete this transaction"
 
@@ -13501,7 +13802,7 @@ msgid "Vous devez donner un fichier"
 msgstr "You must give a card"
 
 #: html/admin/setup.php:419 html/install.php:483 html/install.php:482
-#: html/install.php:480
+#: html/install.php:480 html/install.php:486
 msgid ""
 "Vous devez installer le langage plpgsql pour permettre aux fonctions SQL de "
 "fonctionner."
@@ -13509,6 +13810,7 @@ msgstr "You must install plpgsql "
 
 #: html/admin/setup.php:261 html/admin/setup.php:279 html/admin/setup.php:281
 #: html/install.php:345 html/install.php:344 html/install.php:342
+#: html/install.php:348
 msgid "Vous devez installer ou activer l'extension"
 msgstr "You must set or activate the plugin"
 
@@ -13610,7 +13912,7 @@ msgid "Vous pouvez utiliser le % pour indiquer le poste parent"
 msgstr "You can use the % to show the parent accounting"
 
 #: html/admin/setup.php:259 html/install.php:323 html/install.php:322
-#: html/install.php:320
+#: html/install.php:320 html/install.php:326
 msgid "Vous utilisez le domaine"
 msgstr "You are using the domain"
 
@@ -13737,7 +14039,7 @@ msgid "a un montant invalide ["
 msgstr "Has an invalid Amount"
 
 #: html/admin/setup.php:272 html/install.php:336 html/install.php:335
-#: html/install.php:333
+#: html/install.php:333 html/install.php:339
 msgid "a une mauvaise valeur"
 msgstr "Has an invalid value"
 
@@ -13758,6 +14060,7 @@ msgid "act invalide"
 msgstr "invalid act"
 
 #: include/ext/importbank/include/class_import_bank.php:597
+#: include/ext/importbank/include/class_import_bank.php:574
 msgid "action impossible"
 msgstr "Impossible action"
 
@@ -13812,6 +14115,7 @@ msgstr "Ledgers"
 #: include/class_acc_ledger.php:3689 include/class_acc_ledger.php:3691
 #: include/class_acc_ledger.php:3699 include/class/class_acc_ledger.php:3699
 #: include/class/class_acc_ledger.php:3698
+#: include/class/class_acc_ledger.php:3705
 msgid "choix du type de journal"
 msgstr "Select the type of ledger"
 
@@ -13872,6 +14176,7 @@ msgid "date"
 msgstr "Date"
 
 #: include/ext/invoicing/include/invoice_send_mail.inc.php:153
+#: include/ext/invoicing/include/invoice_send_mail.inc.php:157
 msgid "date "
 msgstr "Date"
 
@@ -13887,6 +14192,10 @@ msgstr "Invalid Date"
 #: include/export/export_fiche_balance_csv.php:57
 msgid "debit"
 msgstr "Debit"
+
+#: include/class/class_follow_up.php:1953
+msgid "direct parent "
+msgstr "Direct Parent"
 
 #: include/modele.inc.php:69
 msgid "doit être migrée en unicode"
@@ -14073,6 +14382,10 @@ msgstr "id"
 msgid "id fiche"
 msgstr "card id"
 
+#: include/param_sec.inc.php:324
+msgid "imprime"
+msgstr "Print"
+
 #: include/dossier.inc.php:355 include/dossier.inc.php:311
 #: include/dossier.inc.php:334 include/dossier.inc.php:370
 msgid "inexistant"
@@ -14193,6 +14506,7 @@ msgstr "login"
 
 #: html/admin/setup.php:329 html/admin/setup.php:347 html/admin/setup.php:349
 #: html/install.php:413 html/install.php:412 html/install.php:410
+#: html/install.php:416
 msgid "max_execution_time devrait être de 60 minimum"
 msgstr "max_execution_time should be more than 60 "
 
@@ -14402,7 +14716,7 @@ msgid "php mal configur&eacute; "
 msgstr "php is not  properly configured"
 
 #: html/admin/setup.php:375 html/install.php:439 html/install.php:438
-#: html/install.php:436
+#: html/install.php:436 html/install.php:442
 msgid "php mal configuré "
 msgstr "php is not  properly configured"
 
@@ -14411,7 +14725,7 @@ msgid "php.ini est bien configur&eacute; "
 msgstr "php.ini corretly configured"
 
 #: html/admin/setup.php:373 html/install.php:437 html/install.php:436
-#: html/install.php:434
+#: html/install.php:434 html/install.php:440
 msgid "php.ini est bien configuré "
 msgstr "php.ini corretly configured"
 
@@ -14460,6 +14774,7 @@ msgstr "price"
 #: include/template/detail-action.php:341
 #: include/template/detail-action.php:346
 #: include/template/detail-action.php:345
+#: include/template/detail-action.php:314
 msgid "prix unitaire"
 msgstr "Price unit"
 
@@ -14480,7 +14795,7 @@ msgstr "price / unit without vat"
 msgid "période %s entre [%s]  et [%s]"
 msgstr "period between% s [% s] and [% s]"
 
-#: include/ext/amortis/raw.php:100
+#: include/ext/amortis/raw.php:100 include/export/export_histo_csv.php:41
 msgid "qcode"
 msgstr "QCode"
 
@@ -14520,6 +14835,7 @@ msgstr "QCode"
 #: include/class/class_acc_ledger_purchase.php:1782
 #: include/class/class_acc_ledger_sold.php:690
 #: include/class/class_acc_ledger_sold.php:1364
+#: include/template/detail-action.php:315
 msgid "quantité"
 msgstr "quantity"
 
@@ -14549,11 +14865,12 @@ msgstr "Search"
 #: include/fiche.inc.php:513 include/fiche.inc.php:516
 #: include/export/export_fiche_balance_csv.php:140
 #: include/export/export_fiche_balance_csv.php:153
+#: include/export/export_fiche_balance_csv.php:154
 msgid "ref"
 msgstr "Ref"
 
 #: html/admin/setup.php:357 html/install.php:421 html/install.php:420
-#: html/install.php:418
+#: html/install.php:418 html/install.php:424
 msgid "register_globals doit être à off"
 msgstr "register_globals must be set to off"
 
@@ -14584,20 +14901,20 @@ msgstr ""
 "or nothing"
 
 #: html/admin/setup.php:539 html/install.php:603 html/install.php:604
-#: html/install.php:611
+#: html/install.php:611 html/install.php:627
 msgid ""
 "soit noalyss/contrib/mono-dossier/mono-belge.sql pour la comptabilité belge"
 msgstr "or noalyss/contrib/mono-dossier/mono-belge.sql for belgian accountancy"
 
 #: html/admin/setup.php:538 html/install.php:602 html/install.php:603
-#: html/install.php:610
+#: html/install.php:610 html/install.php:626
 msgid ""
 "soit noalyss/contrib/mono-dossier/mono-france.sql pour la comptabilité "
 "française"
 msgstr "or noalyss/contrib/mono-dossier/mono-france.sql for french accountancy"
 
 #: html/admin/setup.php:540 html/install.php:604 html/install.php:605
-#: html/install.php:612
+#: html/install.php:612 html/install.php:628
 msgid "soit y restaurer un backup ou un modèle"
 msgstr "or restore un backup or a template"
 
@@ -14618,6 +14935,7 @@ msgid "solde débiteur"
 msgstr "Total debit"
 
 #: include/ext/invoicing/include/invoice_send_mail.inc.php:153
+#: include/ext/invoicing/include/invoice_send_mail.inc.php:157
 msgid "sujet"
 msgstr "Topic"
 
@@ -14852,9 +15170,6 @@ msgstr "wiki"
 
 #~ msgid "Choix de l'extension"
 #~ msgstr "Choice of the plugin"
-
-#~ msgid "Clients"
-#~ msgstr "Customers"
 
 #~ msgid "Commencer le transfert"
 #~ msgstr "Start the transfert"
