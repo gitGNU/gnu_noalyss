@@ -236,6 +236,10 @@ class Document_Export
         {
             if (CONVERT_GIF_PDF == 'NOT')    throw new Exception(_("CONVERT_GIF_PDF n'est pas installé"));
             if (PDFTK          == 'NOT')     throw new Exception(_("TKPDF n'est pas installé"));
+            if ( FIX_BROKEN_PDF == 'YES') {
+                if (PS2PDF == 'NOT')                    throw new Exception(_('PS2PDF non installé'));
+                if (PDF2PS == 'NOT')                    throw new Exception(_('PDF2PS non installé'));
+            }
         } catch (Exception $ex) 
         {
             throw ($ex);
