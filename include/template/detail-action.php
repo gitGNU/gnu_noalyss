@@ -162,12 +162,12 @@ $uniq=HtmlInput::generate_id("tab");
 
 </div>
 <div id="choice_other_info_div" style="float:left;">
-    <ul class="tabs">
+    <ul class="tabs noprint" >
         <li id="related_action_tab<?php echo $uniq?>" class="tabs_selected"><?php echo _("Actions concernées")?></li>
         <li id="related_operation_tab<?php echo $uniq?>" class="tabs"><?php echo _('Opérations concernées')?></li>
         <li id="dependant_action_tab<?php echo $uniq?>" class="tabs"><?php echo _('Dépendant')?></li>
     </ul>
-	<div id="related_operation_div<?php echo $uniq?>" style="display:none">
+	<div id="related_operation_div<?php echo $uniq?>" style="display:none" class="print">
 
 		<ol>
 
@@ -194,7 +194,7 @@ $uniq=HtmlInput::generate_id("tab");
 		<?php if ($p_view != 'READ')   echo '<span class="noprint">'.$iconcerned->input().'</span>';?>
 	</div>
 
-        <div id="related_action_div<?php echo $uniq?>">
+        <div id="related_action_div<?php echo $uniq?>" class="print">
 		
 		
 
@@ -205,7 +205,7 @@ $uniq=HtmlInput::generate_id("tab");
 		
 		<?php if ( $p_view != 'READ') echo '<span class="noprint">'.$iaction->input().'</span>';?>
 	</div>
-        <div id="dependant_action_div<?php echo $uniq?>" style="display:none">
+        <div id="dependant_action_div<?php echo $uniq?>" style="display:none" class="print">
         <?php
             $this->display_parent($p_view,$p_base);
         ?>
@@ -229,11 +229,11 @@ function small(p_id_textarea){
 
    }
 </script>
-    <p style="margin-left:100px">
+    <p style="margin-left:10px;">
     <?php echo $title->input();
     ?>
 </p>
-    <div style="margin-left:100px">
+    <div style="margin-left:10px;">
    <?php
    $style_enl='style="display:inline"';$style_small='style="display:none"';
 
@@ -249,14 +249,14 @@ for( $c=0;$c<count($acomment);$c++){
 						$acomment[$c]['agc_id']);
 				$js= '<a class="tinybutton" id="accom'.$acomment[$c]['agc_id'].'" href="javascript:void(0)" onclick="'.$rmComment.'">'.SMALLX.'</a>';
 		echo h($m_desc.' '.$acomment[$c]['agc_id'].'('.$acomment[$c]['tech_user']." ".$acomment[$c]['str_agc_date'].')').$js.
-				'<pre style="margin-top:1px;white-space: -moz-pre-wrap;white-space: pre-wrap;border:1px solid blue;width:80%;" id="com'.$acomment[$c]['agc_id'].'"> '.
+				'<pre class="field_follow_up" id="com'.$acomment[$c]['agc_id'].'"> '.
 				" ".h($acomment[$c]['agc_comment']).'</pre>'
 				;
 	}
 	else
 	{
 		echo h($m_desc.' '.$acomment[$c]['agc_id'].'('.$acomment[$c]['tech_user']." ".$acomment[$c]['str_agc_date'].')').
-				'<pre style="margin-top:1px;white-space: -moz-pre-wrap;white-space: pre-wrap;border:1px solid blue;width:80%;" id="com'.$acomment[$c]['agc_id'].'"> '.
+				'<pre class="field_follow_up" id="com'.$acomment[$c]['agc_id'].'"> '.
 				" ".h($acomment[$c]['agc_comment']).'</pre>'
 				;
 

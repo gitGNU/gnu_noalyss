@@ -2149,6 +2149,15 @@ td.selectedmenu {
 .visible_gt800 {
     
 }
+.field_follow_up
+{
+    margin-top:1px;
+    white-space: -moz-pre-wrap;
+    white-space: pre-wrap;
+    border:1px solid blue;
+    width:95%;
+}
+
 @media only screen and (max-width:850px) {
     .visible_gt800 {
         display:none;
@@ -2167,4 +2176,20 @@ td.selectedmenu {
 }
 
 
+}
+/** 
+ * go_up
+*/
+#go_up {
+    background-color: transparent;
+    border:0px;
+    font-size:300%;
+    box-shadow: none;
+    color:blue;
+    
+}
+#go_up a ,#go_up a:visited{
+    background-image: none;
+    text-decoration: none;
+    color:blue;
 }
