@@ -30,7 +30,7 @@ class gestion_table
 {
     var $db; 						/*!< $db database connection */
     /*!\brief contains only the dabase connx */
-    function gestion_table($p_cn)
+    function __construct($p_cn)
     {
         $this->db=$p_cn;
     }

@@ -63,7 +63,7 @@ class Anc_Operation
     /*!\brief constructor
      *
      */
-    function Anc_Operation ($p_cn,$p_id=0)
+    function __construct ($p_cn,$p_id=0)
     {
         $this->db=$p_cn;
         $this->id=$p_id;

@@ -40,7 +40,7 @@ class Pre_operation
     var $jrn_type;					/*!< $jrn_type */
     var $name;						/*!< $name name of the predef. operation */
 
-    function Pre_operation($cn,$p_id=0)
+    function __construct($cn,$p_id=0)
     {
         $this->db=$cn;
         $this->od_direct='false';

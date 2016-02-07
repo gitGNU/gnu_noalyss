@@ -40,7 +40,7 @@ class Anc_Plan
     var $description;				/*!< description of the PA plan_analytique.pa_description*/
     var $id;						/*!< id = plan_analytique.pa_id */
 
-    function Anc_Plan($p_cn,$p_id=0)
+    function __construct($p_cn,$p_id=0)
     {
         $this->db=$p_cn;
         $this->id=$p_id;

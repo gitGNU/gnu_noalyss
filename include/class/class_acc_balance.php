@@ -33,7 +33,7 @@ class Acc_Balance
     var $from_poste;				/*!< from_poste  filter on the post */
     var $to_poste;				/*!< to_poste filter on the post*/
     var $unsold;				/**= 0) */
-    function Acc_Balance($p_cn)
+    function __construct($p_cn)
     {
         $this->db=$p_cn;
         $this->jrn=null;

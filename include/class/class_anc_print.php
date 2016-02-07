@@ -45,7 +45,7 @@ class Anc_Print
     var $from_poste;				/*!< $from_poste from poste  */
     var $to_poste;				/*!< $to_poste to the poste */
 
-    function Anc_Print($p_cn)
+    function __construct($p_cn)
     {
         $this->db=$p_cn;
         $this->from="";

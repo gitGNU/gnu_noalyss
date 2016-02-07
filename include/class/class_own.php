@@ -47,7 +47,7 @@ class Own
     var $MY_STOCK;
     
     // constructor
-    function Own($p_cn)
+    function __construct($p_cn)
     {
         $this->db=$p_cn;
         $Res=$p_cn->exec_sql("select * from parameter where pr_id like 'MY_%'");

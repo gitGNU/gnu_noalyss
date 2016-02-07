@@ -32,7 +32,7 @@ class contact extends Fiche
 {
     var $company; /*!< $company company of the contact (ad_id=ATTR_DEF_COMPANY)*/
     /*!\brief constructor */
-    function contact($p_cn,$p_id=0)
+    function __construct($p_cn,$p_id=0)
     {
         $this->fiche_def_ref=FICHE_TYPE_CONTACT;
         parent::__construct($p_cn,$p_id) ;

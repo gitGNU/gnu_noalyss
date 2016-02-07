@@ -34,7 +34,7 @@ class Document_type
 	 * \param $p_cn database connx
 	 */
 
-	function document_type($p_cn, $p_id = -1)
+	function __construct($p_cn, $p_id = -1)
 	{
 		$this->db = $p_cn;
 		$this->dt_id = $p_id;

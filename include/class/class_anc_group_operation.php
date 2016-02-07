@@ -48,7 +48,7 @@ class Anc_Group_Operation
     var $pa_id;							/*!< the concerned pa_id */
 
     /*!\brief constructor */
-    function  Anc_Group_Operation($p_cn,$p_id=0)
+    function __construct($p_cn,$p_id=0)
     {
         $this->db=$p_cn;
         $this->id=$p_id;

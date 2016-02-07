@@ -45,7 +45,7 @@ class Admin extends Fiche
 
     /*! \brief Constructor
     /* only a db connection is needed */
-    function Admin($p_cn,$p_id=0)
+    function __construct($p_cn,$p_id=0)
     {
         $this->fiche_def_ref=FICHE_TYPE_ADM_TAX;
         parent::__construct($p_cn,$p_id) ;

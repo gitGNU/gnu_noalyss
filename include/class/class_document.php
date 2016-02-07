@@ -43,7 +43,7 @@ class Document
     /* Constructor
      * \param $p_cn Database connection
      */
-    function Document($p_cn,$p_d_id=0)
+    function __construct($p_cn,$p_d_id=0)
     {
         $this->db=$p_cn;
         $this->d_id=$p_d_id;

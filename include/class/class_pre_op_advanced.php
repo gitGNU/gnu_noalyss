@@ -30,7 +30,7 @@ require_once  NOALYSS_INCLUDE.'/class/class_pre_operation.php';
 class Pre_Op_Advanced extends Pre_operation_detail
 {
     var $op;
-    function Pre_Op_Advanced($cn)
+    function __construct($cn)
     {
         parent::__construct($cn);
         $this->operation->od_direct='t';

@@ -38,7 +38,7 @@ class Document_modele
     var $md_affect;	/*!< $md_affect if you can use it in VEN for sale, ACH for purchase or GES for follow-up */
     var $md_filename;   /*! < $md_filename is the filename of the template */
     //Constructor parameter = database connexion
-    function Document_modele($p_cn,$p_id=-1)
+    function __construct($p_cn,$p_id=-1)
     {
         $this->cn=$p_cn;
         $this->md_id=$p_id;

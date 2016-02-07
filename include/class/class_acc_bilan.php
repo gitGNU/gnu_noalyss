@@ -41,7 +41,7 @@ class Acc_Bilan
     var $from;					/*!< from periode */
     var $to;					/*!< end periode */
 
-    function Acc_Bilan($p_cn)
+    function __construct($p_cn)
     {
         $this->db=$p_cn;
     }

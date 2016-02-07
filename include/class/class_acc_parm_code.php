@@ -35,7 +35,7 @@ class Acc_Parm_Code
     var $p_value;   /*!< $p_value  parm_code.p_value  */
     var $p_comment; /*!< $p_comment parm_code.p_comment */
 // constructor
-    function Acc_Parm_Code($p_cn,$p_id=-1)
+    function __construct($p_cn,$p_id=-1)
     {
         $this->db=$p_cn;
         $this->p_code=$p_id;

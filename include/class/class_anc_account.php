@@ -42,7 +42,7 @@ class Anc_Account
     var $description;       /*!< po_description description of the post */
     var $db;	/*!< database	  connection*/
     var $ga_id;		/*!< FK to the table groupe analytique */
-    function Anc_Account($p_db,$p_id=0)
+    function __construct($p_db,$p_id=0)
     {
         $this->db=$p_db;
         $this->id=$p_id;
