@@ -133,6 +133,10 @@ function todo_list_save(p_form)
                                 var rec = req.responseText;
                                 alert_box('erreur :' + rec);
                             }
+                            if ( getNodeText(tl_id[0]) == '0') {
+                                smoke.alert('Note est vide');
+                                return;
+                            }
                             var tr = $('tr'+p_form);
                             if ( p_form == 0) 
                             {

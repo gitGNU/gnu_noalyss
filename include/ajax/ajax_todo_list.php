@@ -106,16 +106,33 @@ if ($ac == 'save')
     $todo->set_parameter("desc", HtmlInput::default_value_get("p_desc", ""));
     $todo->set_is_public(HtmlInput::default_value_get("p_public", "N"));
     
+    ob_start();
     if ( $todo->get_parameter('owner') == $_SESSION['g_user'] ) $todo->save();
-    $todo->load();
-     header('Content-type: text/xml; charset=UTF-8');
+    ob_end_clean();
     $dom=new DOMDocument('1.0','UTF-8');
-    $tl_id=$dom->createElement('tl_id',$todo->get_parameter('id'));
-    $tl_content=$dom->createElement('row',$todo->display_row('class="odd"','N'));
-     $root=$dom->createElement("root");
-     $todo_class=$todo->get_class();
-     $todo_class=($todo_class=="")?' odd ':$todo_class;
-     $class=$dom->createElement("style",$todo_class);
+    
+    if ($todo->get_parameter("id")==0)
+    {
+        $tl_id=$dom->createElement('tl_id', 0);
+        $tl_content=$dom->createElement('row','');
+        $root=$dom->createElement("root");
+        $todo_class=$todo->get_class();
+        $todo_class=($todo_class=="")?' odd ':$todo_class;
+        $class=$dom->createElement("style", $todo_class);
+    }
+    else
+    {
+        $todo->load();
+        $tl_id=$dom->createElement('tl_id', $todo->get_parameter('id'));
+        $tl_content=$dom->createElement('row',$todo->display_row('class="odd"', 'N'));
+        $root=$dom->createElement("root");
+        $todo_class=$todo->get_class();
+        $todo_class=($todo_class=="")?' odd ':$todo_class;
+        $class=$dom->createElement("style", $todo_class);
+    }
+    header('Content-type: text/xml; charset=UTF-8');
+    
+    
     
     $root->appendChild($tl_id);
     $root->appendChild($tl_content);
