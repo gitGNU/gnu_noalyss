@@ -1186,7 +1186,7 @@ span.remain {
 div#wait_box
 {
     background-color:#DDE6FF;
-    font-family: arial,verdana,helvetica,arial,sans-serif;
+   text-align: center;
     width: 300px;
     padding:0px;
     margin:0px;
@@ -1197,9 +1197,12 @@ div#wait_box
     top:30%;
     border:1px solid #00008B;
     width: 260px;
+    opacity: 0.8;
+    border-radius: 5px;
 }
 #wait_box h2
 {
+    margin-top:2px;
     /* color:#000000; */
     text-align:center;
     /* width: 50%; */

@@ -747,7 +747,7 @@ function waiting_box()
     }
     waiting_node();
     add_div(obj);
-    $('wait_box').setOpacity(0.7);
+    
 
 }
 /**
