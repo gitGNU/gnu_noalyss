@@ -33,7 +33,7 @@ $title=new IText('title_event');
 $title->css_isze="60%";
 // Description
 $summary=new ITextarea('summary');
-$summary->style.='class="itextarea" style="padding:0px;margin:0px"';
+$summary->style='class="itextarea" style="padding:0px;margin:0px"';
 
 // Type of document / event
 $type=new ISelect("type_event");
