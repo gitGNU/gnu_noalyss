@@ -200,7 +200,7 @@ class Follow_Up
         $desc->name="ag_comment";
         $desc->readOnly=$readonly;
         $acomment=$this->db->get_array("SELECT agc_id, ag_id, to_char(agc_date,'DD.MM.YYYY HH24:MI') as str_agc_date, agc_comment, tech_user
-				 FROM action_gestion_comment where ag_id=$1 order by agc_id;", array($this->ag_id)
+				 FROM action_gestion_comment where ag_id=$1 order by agc_id", array($this->ag_id)
         );
 
         // List opération liées
@@ -2016,7 +2016,7 @@ class Follow_Up
         for ($o=0; $o<count($a_parent); $o++)
         {
             $class=($this->ag_id == $a_parent[$o]['ag_id'])?' class="highlight" ':'';
-            
+
             if ($p_view!='READ'&&$p_base!='ajax')
             {
                 $rmAction=sprintf("return confirm_box(null,'"._('Voulez-vous effacer cette action ')."', function () {remove_action('%s','%s','%s');});",
@@ -2037,7 +2037,7 @@ class Follow_Up
                 $xaction=sprintf('view_action(%d,%d,%d)', $a_parent[$o]['ag_id'],
                         Dossier::id(), 1);
                 $showAction='<a class="line" href="javascript:'.$xaction.'">';
-                echo '<li  '.$class.' >'.$margin.$showAction.$a_parent[$o]['str_date']." ".
+                echo '<li  '.$class.' >'.$showAction.$a_parent[$o]['str_date']." ".
                 h($a_parent[$o]['title']).'('.h($a_parent[$o]['action_ref']).')'.'</a>'." "
                 .'</li>';
             }
@@ -2047,7 +2047,7 @@ class Follow_Up
             else
             {
                 $showAction='<a class="line" href="'.$base."&ag_id=".$a_parent[$o]['ag_id'].'">';
-                echo '<li  '.$class.' >'.$margin.$showAction.$a_parent[$o]['str_date']." ".
+                echo '<li  '.$class.' >'.$showAction.$a_parent[$o]['str_date']." ".
                 h($a_parent[$o]['sub_title']).'('.h($a_parent[$o]['action_ref']).')'.'</a>'." "
                 .'</li>';
             }
