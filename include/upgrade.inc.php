@@ -71,6 +71,7 @@ if ($sb === "upg_all" && (!defined('MULTI')||(defined('MULTI')&&MULTI==1)))
             $db=new Database($db_row['dos_id'], 'dos');
             $db->apply_patch($db_row['dos_name']);
             Dossier::synchro_admin($db_row['dos_id']);
+            User::remove_inexistant_user($db_row['dos_id']);
         }
         else
         {

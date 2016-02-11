@@ -1315,6 +1315,24 @@ class User
 
 
     }
+    static function remove_inexistant_user($p_dossier)
+    {
+        $cnx_repo=new Database();
+        $cnx_dossier=new Database($p_dossier);
+        
+        $a_user=$cnx_dossier->get_array('select user_name from profile_user');
+        if ( ! $a_user ) return;
+        $nb=count($a_user);
+        for ($i=0;$i < $nb;$i++) {
+            if ( $cnx_repo->get_value('select count(*) from ac_users where use_login=$1',
+                    array($a_user[$i]['user_name'])) == 0) {
+                $cnx_dossier->exec_sql("delete from user_sec_jrn where uj_login=$1",array($a_user[$i]['user_name']));
+                $cnx_dossier->exec_sql("delete from profile_user where user_name=$1",array($a_user[$i]['user_name']));
+                $cnx_dossier->exec_sql("delete from user_sec_act where ua_login=$1",array($a_user[$i]['user_name']));
+                $cnx_dossier->exec_sql("delete from user_sec_jrn where uj_login=$1",array($a_user[$i]['user_name']));
+            }
+        }
+    }
 }
 
 ?>

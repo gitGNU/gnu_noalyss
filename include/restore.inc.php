@@ -134,6 +134,7 @@ if ( isset ($_REQUEST['sa'] ))
         $new_cn->apply_patch($name,0);
         echo '<span class="error">'._('Ne pas recharger la page, sinon votre base de données sera restaurée une fois de plus').'</span>';
 	Dossier::synchro_admin($id);
+        User::remove_inexistant_user($id);
         echo $retour;
 
         echo '</div>';

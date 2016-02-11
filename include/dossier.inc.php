@@ -172,6 +172,7 @@ if ( isset ($_POST["DATABASE"]) )
                 $Res=$cn->exec_sql($sql);
 
                 Dossier::synchro_admin($l_id);
+                User::remove_inexistant_user($l_id);
 
 
             }
