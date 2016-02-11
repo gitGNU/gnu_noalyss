@@ -575,7 +575,7 @@ class Database
      * in a array
      * \param $p_sql sql query
      * \param $p_array if not null we use ExecSqlParam
-     * \return an empty array if nothing is found
+     * \return false if nothing is found
      */
 
     function get_array($p_sql, $p_array=null)
