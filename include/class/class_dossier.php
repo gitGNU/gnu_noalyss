@@ -316,14 +316,7 @@ class Dossier
             $cn->start();
             for ($i=0; $i<count($a_admin); $i++)
             {
-                $exist=$cn->get_value("select p_id from profile_user
-					where user_name=$1",
-                                    array($a_admin[$i]['use_login']));
-                if ($exist=="")
-                {
-                    $cn->exec_sql("insert into profile_user(user_name,p_id) values($1,1)",
-                            array($a_admin[$i]['use_login']));
-                }
+                User::grant_admin_access($a_admin[$i]['use_login'], $p_id);
             }
             $cn->commit();
         }

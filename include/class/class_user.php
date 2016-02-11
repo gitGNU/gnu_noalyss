@@ -1247,6 +1247,74 @@ class User
         $repo=new Database();
         $repo->exec_sql("update ac_users set use_email=$1 where use_login=$2", array($p_email, $_SESSION['g_user']));
     }
+    /**
+     * Remove a user and all his privileges
+     * So it cannot connect anymore and all his privileges are removed from
+     * the dossier
+     * 
+     */
+    static function revoke_access($p_login,$p_dossier) {
+        // connect to the repository
+        $repo_cnx=new Database();
+        
+        // Retrieve the user
+        $user=$repo_cnx->get_array('select use_id,use_login from ac_users where use_login=$1',
+                array($p_login));
+        if ( ! $user ) return false;
+        
+        // remove him from jnt_use_dos
+        $repo_cnx->exec_sql("delete from jnt_use_dos WHERE use_id=$1 and dos_id=$2",
+            array($user[0]['use_id'],$p_dossier));
+
+        // Remove user from user's dossier
+        $cn_dossier=new Database($p_dossier);
+        $cn_dossier->exec_sql("delete from profile_user where user_name=$1",array($p_login));
+        $cn_dossier->exec_sql("delete from user_sec_act where ua_login=$1",array($p_login));
+            
+    }
+    
+    /**
+     * Grant access to folder, grant administrator profile , all the ledgers and all the action
+     * 
+     */
+    static function grant_admin_access($p_login,$p_dossier) 
+    {
+         $repo_cnx=new Database();
+        $user=$repo_cnx->get_array("select use_id,use_login
+                                from ac_users
+                                where use_login=$1", array($p_login));
+
+        if ( ! $user ) return false;
+        $cn_dossier=new Database($p_dossier);
+        // if not access to DB
+        if ( 
+                $repo_cnx->get_value("select count(*) from jnt_use_dos where use_id=$1 and dos_id=$2",
+                        array($user[0]['use_id'],$p_dossier)) == 0
+                )
+        {
+            $repo_cnx->exec_sql("insert into jnt_use_dos(use_id,dos_id) values ($1,$2)",
+                array($user[0]['use_id'], $p_dossier));
+        }
+        //------  Give him the admin menu
+        if ( $cn_dossier->get_value("select count(*) from profile_user where user_name=$1",
+                array($user[0]['use_login'])) == 0)
+        {
+            $cn_dossier->exec_sql('insert into profile_user(user_name,p_id) values($1,1)',
+                    array($user[0]['use_login']));
+        }
+        // Grant all action + ledger to him
+        $cn_dossier->exec_sql("delete from user_sec_act where ua_login=$1",array($p_login));
+
+        $cn_dossier->exec_sql("insert into user_sec_act (ua_login,ua_act_id)"
+                ." select $1 ,ac_id from action ",array($p_login));
+
+        $cn_dossier->exec_sql("delete from user_sec_jrn where uj_login=$1",array($p_login));
+        $cn_dossier->exec_sql("insert into user_sec_jrn(uj_login,uj_jrn_id,uj_priv)"
+                ." select $1,jrn_def_id,'W' from jrn_def",
+                        array($p_login));
+
+
+    }
 }
 
 ?>
