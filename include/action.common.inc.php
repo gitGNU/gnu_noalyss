@@ -162,11 +162,13 @@ if ($sub_action == "update")
 
 		//----------------------------------------
 		// puis comme ajout normal (copier / coller )
-		$act->fromArray($_POST);
 		$act->ag_id = 0;
 		$act->d_id = 0;
 		$act->action = $_POST['ag_id'];
-
+                $act->ag_timestamp=date('d.m.Y');
+                $act->ag_hour="";
+                $act->ag_title="";
+                $act->ag_remind_date="";
 		echo '<div class="content">';
 
 		// Add hidden tag
