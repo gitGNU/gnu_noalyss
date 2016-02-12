@@ -137,14 +137,14 @@ if ($op=='folder_display') // operation
                 <input type="text" id="database_filter_input" class="input_text" autofocus="true" autocomplete="off" nohistory autocomplete="false" value="<?php echo $p_filter ?>" 
                        onkeyup="filter_table(this, 'folder_display_tb','1,2,3',0)"  >
                 <input type="button" class="smallbutton" onclick="$('database_filter_input').value='';filter_table($('database_filter_input'), 'folder_display_tb','1,2,3',0);" value="X">
-                <input type="submit" class="smallbutton" value="<?php echo _('Valider') ?>">
+                <input type="submit" class="smallbutton" value="<?php echo _('Rechercher') ?>">
             </p>
         </form>    
         <p>
             <?php
             $nb_dossier=count($a_dossier);
             $max=( $nb_dossier>=MAX_FOLDER_TO_SHOW)?MAX_FOLDER_TO_SHOW:$nb_dossier;
-            echo _('Dossiers trouvés').':'.$nb_dossier." "._('Dossiers affichés').$max;
+            echo _('Dossiers trouvés').':'.$nb_dossier." "._('Dossiers affichés').$max.' '._('Limite dossiers').":".MAX_FOLDER_TO_SHOW;
             ?>
         </p>
         <?php
