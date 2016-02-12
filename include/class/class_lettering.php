@@ -266,7 +266,7 @@ class Lettering
 	function get_linked($p_jlid)
 	{
 		$sql="select j_id,j_date,to_char(j_date,'DD.MM.YYYY') as j_date_fmt,
-             j_montant,j_debit,jr_comment,jr_internal,jr_id,jr_def_id,
+             j_montant,j_debit,jr_comment,jr_internal,jr_id,jr_def_id,jr_pj_number,
              coalesce(comptaproc.get_letter_jnt(j_id),-1) as letter
              from jrnx join jrn on (j_grpt = jr_grpt_id)
 			 where
@@ -446,7 +446,8 @@ class Lettering_Account extends Lettering
         $sql="
              select j_id,j_date,to_char(j_date,'DD.MM.YYYY') as j_date_fmt,
              j_montant,j_debit,jr_comment,jr_internal,jr_id,jr_def_id,
-             coalesce(comptaproc.get_letter_jnt(j_id),-1) as letter
+             coalesce(comptaproc.get_letter_jnt(j_id),-1) as letter,
+             jr_pj_number
              from jrnx join jrn on (j_grpt = jr_grpt_id)
              where j_poste = $1 and j_date >= to_date($2,'DD.MM.YYYY') and j_date <= to_date ($3,'DD.MM.YYYY')
              and $this->sql_ledger
