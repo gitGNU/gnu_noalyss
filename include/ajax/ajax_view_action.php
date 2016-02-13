@@ -34,8 +34,9 @@ echo HtmlInput::title_box(_("Détail action"), $div);
 $act = new Follow_Up($cn);
 $act->ag_id = $ag_id;
 $act->get();
+
 $code='nok';
-if ($g_user->can_write_action($ag_id) == true || $g_user->can_read_action($ag_id) == true || $act->ag_dest == -1)
+if ( ($g_user->can_write_action($ag_id) == true || $g_user->can_read_action($ag_id) == true || $act->ag_dest == -1) && $act->ag_id !=0)
 {   
         $menu=new Default_Menu();
 	echo $act->Display('READ', false, "ajax", "");
