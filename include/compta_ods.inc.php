@@ -64,7 +64,7 @@ if ($g_user->check_jrn($ledger->id) == 'X')
 $p_msg="";
 if (!isset($_POST['summary']) && !isset($_POST['save']))
 {
-	require('operation_ods_new.inc.php');
+	require NOALYSS_INCLUDE.'/operation_ods_new.inc.php';
 	return;
 }
 elseif (isset($_POST['summary']))
@@ -134,7 +134,7 @@ elseif (isset($_POST['save']))
 	}
 	catch (Exception $e)
 	{
-		require('operation_ods_new.inc.php');
+		require NOALYSS_INCLUDE.'/operation_ods_new.inc.php';
 		alert($e->getMessage());
                 $p_msg=$e->getMessage();
 	}
