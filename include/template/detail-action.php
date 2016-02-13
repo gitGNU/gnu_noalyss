@@ -241,26 +241,30 @@ for( $c=0;$c<count($acomment);$c++){
         if ($c == 0) { $m_desc=_('Description');}
         else
          { $m_desc=_('Commentaire');}
-
+         $comment="";
          if ( $p_view != 'READ' && $c > 0)
 	{
 		$rmComment=sprintf("return confirm_box(null,'"._('Voulez-vous effacer ce commentaire')." ?',function() {remove_comment('%s','%s');});",
 						dossier::id(),
 						$acomment[$c]['agc_id']);
 				$js= '<a class="tinybutton" id="accom'.$acomment[$c]['agc_id'].'" href="javascript:void(0)" onclick="'.$rmComment.'">'.SMALLX.'</a>';
-		echo h($m_desc.' '.$acomment[$c]['agc_id'].'('.$acomment[$c]['tech_user']." ".$acomment[$c]['str_agc_date'].')').$js.
+		$comment= h($m_desc.' '.$acomment[$c]['agc_id'].'('.$acomment[$c]['tech_user']." ".$acomment[$c]['str_agc_date'].')').$js.
 				'<pre class="field_follow_up" id="com'.$acomment[$c]['agc_id'].'"> '.
 				" ".h($acomment[$c]['agc_comment']).'</pre>'
 				;
+                
 	}
 	else
 	{
-		echo h($m_desc.' '.$acomment[$c]['agc_id'].'('.$acomment[$c]['tech_user']." ".$acomment[$c]['str_agc_date'].')').
+		$comment=h($m_desc.' '.$acomment[$c]['agc_id'].'('.$acomment[$c]['tech_user']." ".$acomment[$c]['str_agc_date'].')').
 				'<pre class="field_follow_up" id="com'.$acomment[$c]['agc_id'].'"> '.
 				" ".h($acomment[$c]['agc_comment']).'</pre>'
 				;
+                
 
 	}
+        $comment=preg_replace('/#([0-9]+)/','<a class="line" href="javascript:void()" onclick="view_action(\1,'.Dossier::id().',0)" >\1</a>',$comment);
+        echo $comment;
 }
 echo '<span class="noprint">';
 echo $desc->input();
