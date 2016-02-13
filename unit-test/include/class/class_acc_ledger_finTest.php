@@ -19,7 +19,7 @@ class Acc_Ledger_FinTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         include 'global.php';
-        $this->object=new Acc_Ledger_Fin($g_connection,1);
+        $this->object=new Acc_Ledger_Fin($g_connection, 1);
     }
 
     /**
@@ -38,8 +38,8 @@ class Acc_Ledger_FinTest extends PHPUnit_Framework_TestCase
      */
     public function testVerify()
     {
-       
-       $this->object->verify(null);
+
+        $this->object->verify(null);
     }
 
     /**
@@ -96,10 +96,10 @@ class Acc_Ledger_FinTest extends PHPUnit_Framework_TestCase
      */
     public function testGet_bank_name()
     {
-       $name=$this->object->get_bank_name();
-       var_export($name);
-       if (strpos ($name,NOTFOUND) !=0 ) 
-               $this->assertTrue(FALSE);
+        $name=$this->object->get_bank_name();
+        var_export($name);
+        if (strpos($name, NOTFOUND)!=0)
+            $this->assertTrue(FALSE);
     }
 
     /**
@@ -108,7 +108,7 @@ class Acc_Ledger_FinTest extends PHPUnit_Framework_TestCase
      */
     public function testGet_bank()
     {
-       $this->assertEquals(27,$this->object->get_bank());
+        $this->assertEquals(9, $this->object->get_bank());
     }
 
     /**

@@ -895,6 +895,13 @@ class Acc_Ledger_Fin extends Acc_Ledger
 							if (isNumber($rRapt) == 1)
 							{
 								$rec->insert($rRapt);
+                                                                try {
+                                                                    $oppaid=new Acc_Operation($this->db);
+                                                                    $oppaid->set_id($rRapt);
+                                                                    $oppaid->set_paid();
+                                                                } catch (Exception $ex) {
+                                                                    echo _('Attention , erreur Acc_Ledger_Fin::insert  , coche paiement');
+                                                                }
 							}
 						}
 					}
@@ -904,6 +911,17 @@ class Acc_Ledger_Fin extends Acc_Ledger
 						$rec = new Acc_Reconciliation($this->db);
 						$rec->set_jr_id($jr_id);
 						$rec->insert(${"e_concerned$i"});
+                                                 try {
+                                                    $oppaid=new Acc_Operation($this->db);
+                                                    $oppaid->set_id(${"e_concerned" . $i});
+                                                    $conc_amount=$oppaid->get_amount();
+                                                    if ($conc_amount == $acc_operation->amount) 
+                                                    {
+                                                        $oppaid->set_paid();
+                                                    }
+                                                } catch (Exception $ex) {
+                                                    echo _('Attention , erreur Acc_Ledger_Fin::insert  , coche paiement');
+                                                }
 					}
 				}
 

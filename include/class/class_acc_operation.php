@@ -574,6 +574,44 @@ class Acc_Operation
             $action->insert_operation();
         }
     }
+    /**
+     * 
+     * @param type $p_id
+     */
+    function set_id($p_id) 
+    {
+        if (isNumber($p_id)==0) {
+            throw new Exception(_('Acc_Operation::set_id , id invalide '));
+        }
+        $this->jr_id=$p_id;
+    }
+    /**
+     * \brief flag the operation as paid
+     */
+    function set_paid() 
+    {
+        // Operation 
+        if ( $this->jr_id == 0 )            
+            throw new Exception(_('Object invalide, id incorrect'));
+        if ( 
+                $this->db->get_value('select count(*) from jrn where jr_id=$1',
+                        array($this->jr_id)) == 0 )
+            throw new Exception(_('Object invalide, id incorrect'));
+        
+        $this->db->exec_sql("update jrn set jr_rapt = 'paid' where jr_id = $1",
+                array($this->jr_id));
+    }
+    /**
+     * return amount of the jr_id
+     */
+    function get_amount() 
+    {
+        if ( $this->jr_id == 0 )            
+            throw new Exception(_('Object invalide, id incorrect'));
+        $amount=$this->db->get_value('select jr_montant from jrn where jr_id=$1',
+                array($this->jr_id));
+        return $amount;
+    }
     static function test_me()
     {
         $_SESSION['g_user']=NOALYSS_ADMINISTRATOR;
