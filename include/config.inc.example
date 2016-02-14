@@ -1,0 +1,44 @@
+<?php 
+date_default_timezone_set ('Europe/Brussels');
+$_ENV['TMP']='/tmp';
+define("PG_PATH","/usr/bin");
+define("PG_RESTORE","/usr/bin/pg_restore ");
+define("PG_DUMP","/usr/bin/pg_dump ");
+define ("PSQL","/usr/bin/psql");
+define ("noalyss_user","noalyss_sql");
+define ("noalyss_password","dany");
+define ("noalyss_psql_port","5432");
+define ("noalyss_psql_host","localhost");
+
+// If you change the NOALYSS_ADMINISTRATOR , you will need to rerun http://..../noalyss/html/install.php
+// But it doesn't change the password
+define ("NOALYSS_ADMINISTRATOR","admin");
+define ("LOCALE",1);
+define ("domaine","");
+define ("MULTI",1);
+define ("dbname","");
+ // Uncomment to DEBUG
+// define ("DEBUG",TRUE);
+ // Uncomment to log your input
+// define ("LOGINPUT",TRUE);
+
+
+ // Do not change below !!!
+ // These variable are computed but could be changed in 
+ // very special configuration
+// define ("NOALYSS_HOME","");
+// define ("NOALYSS_PLUGIN","");
+// define ("NOALYSS_INCLUDE","");
+// define ("NOALYSS_TEMPLATE","");
+// Fix an issue with PDF when exporting receipt in PDF in ANCGL
+// define ("FIX_BROKEN_PDF","NO");
+
+// Uncomment if you don't want 
+// to be informed when a new release is 
+// published
+// define ("SITE_UPDATE","");
+// define ("SITE_UPDATE_PLUGIN","");
+// To allow to access the Info system
+// define ("SYSINFO_DISPLAY",true);
+// For developpement
+// define ("NOALYSS VERSION",9999);
