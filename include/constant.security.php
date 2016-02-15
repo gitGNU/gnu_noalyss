@@ -29,5 +29,7 @@ define ('RMOPER',1120);   // Effacer une opération comptable
 define ('SHARENOTE',1210); // Can share a note
 define ('SHARENOTEPUBLIC',1220); // Can create public note
 define ('SHARENOTEREMOVE',1230); // Can drop drop of other
-global $audit; $audit=false;
+global $audit; 
+$audit=false;
+if (defined('AUDIT_ENABLE') && AUDIT_ENABLE == true ) $audit=true;
 ?>
