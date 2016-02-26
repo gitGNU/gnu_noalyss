@@ -77,7 +77,7 @@ if ( isset ($_GET['action']) && ! isset($_POST['correct']))
 }
 $p_msg=(isset($p_msg))?$p_msg:"";
 print '<p class="notice">'.$p_msg.'</p>';
-echo '<form method="post"  class="print">';
+echo '<form method="post"  class="print" onsubmit="return controleBalance();" >';
 echo dossier::hidden();
 echo HtmlInput::request_to_hidden(array('ac'));
 
