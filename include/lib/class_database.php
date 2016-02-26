@@ -988,7 +988,7 @@ class Database
     }
 
     /**\brief wrapper for the function pg_lo_export
-     * \param $p_oid is the oid of the log
+     * \param $p_oid is the filename
      * \param $tmp  is the file
      * \return result of the operation
      */

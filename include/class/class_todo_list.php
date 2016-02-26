@@ -236,7 +236,7 @@ class Todo_List
         $sql="delete from todo_list where tl_id=$1 ";
         $res=$this->cn->exec_sql($sql,array($this->tl_id));
         
-       
+      
 
     }
     /**

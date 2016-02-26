@@ -63,7 +63,7 @@ class PDF extends TFPDF
 		$this->bigger=0;
         if($p_cn == null) die("No database connection. Abort.");
 
-        parent::TFPDF($orientation, $unit, $format);
+        parent::__construct($orientation, $unit, $format);
         $this->AddFont('DejaVu','','DejaVuSans.ttf',true);
         $this->AddFont('DejaVu','B','DejaVuSans-Bold.ttf',true);
         $this->AddFont('DejaVu','BI','DejaVuSans-BoldOblique.ttf',true);
@@ -333,7 +333,7 @@ class PDFLand extends PDF
         if($p_cn == null) die("No database connection. Abort.");
         $this->bigger=0;
 
-        parent::TFPDF('L', $unit, $format);
+        parent::__construct('L', $unit, $format);
         date_default_timezone_set ('Europe/Paris');
         $this->AddFont('DejaVu','','DejaVuSans.ttf',true);
         $this->AddFont('DejaVu','B','DejaVuSans-Bold.ttf',true);
