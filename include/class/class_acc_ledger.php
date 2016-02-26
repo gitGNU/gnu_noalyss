@@ -2369,7 +2369,7 @@ class Acc_Ledger extends jrn_def_sql
              and j_poste::text not like '7%'
              and j_poste::text not like '6%'
              group by j_poste,j_qcode
-             having (sum(a.montant) != 0 )";
+             having (sum(a.montant) != 0 ) order by 1 desc";
 		$res = $this->db->get_array($sql, array($p_exercice));
 		return $res;
 	}
