@@ -269,7 +269,7 @@ try
 
     echo "<FORM class=\"print\" NAME=\"form_detail\" METHOD=\"POST\" >";
     /* request for a predefined operation */
-    if (isset($_REQUEST['pre_def'])&&!isset($_POST['correct']))
+    if (isset($_REQUEST['pre_def'])&&!isset($_POST['correct']) && ! isset($correct))
     {
         // used a predefined operation
         //
@@ -334,7 +334,7 @@ echo '<div class="content">';
     {
 		echo '<script> update_pj()</script>';
     }
-	if (!isset($_POST['e_date']) && $g_parameter->MY_DATE_SUGGEST=='Y')
+	if (!isset($_REQUEST['e_date']) && $g_parameter->MY_DATE_SUGGEST=='Y')
 	{
 		echo create_script(" get_last_date()");
 	}

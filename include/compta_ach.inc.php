@@ -254,7 +254,7 @@ try
     $payment=HtmlInput::default_value_request("e_mp", 0);
     echo "<FORM class=\"print\"NAME=\"form_detail\" METHOD=\"POST\" >";
     /* request for a predefined operation */
-    if (isset($_REQUEST['pre_def'])&&!isset($_POST['correct']))
+    if (isset($_REQUEST['pre_def'])&&!isset($_POST['correct']) && ! isset($correct) )
     {
         // used a predefined operation
         //
@@ -296,7 +296,7 @@ catch (Exception $e)
     alert($e->getMessage());
     return;
 }
-if (!isset($_POST['e_date']) && $g_parameter->MY_DATE_SUGGEST=='Y')
+if (!isset($_REQUEST['e_date']) && $g_parameter->MY_DATE_SUGGEST=='Y')
 	echo create_script(" get_last_date()");
 echo create_script(" update_name()");
 echo '</div>';

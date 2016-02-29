@@ -241,7 +241,6 @@ function success_update_bank(req)
  */
 function get_last_date()
 {
-    if (String.trim(document.getElementsByName('e_date')[0].value) != "") return;
     var jrn = g('p_jrn').value;
     var dossier = g('gDossier').value;
     var qs = 'gDossier=' + dossier + '&op=lastdate&p_jrn=' + jrn;

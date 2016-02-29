@@ -61,7 +61,7 @@ echo '</div>';
 // Show the predef operation
 // Don't forget the p_jrn
 $p_post=$_POST;
-if ( isset ($_GET['action']) && ! isset($_POST['correct']))
+if ( isset ($_GET['action']) && ! isset($_POST['correct']) && ! isset($correct) )
 {
 	if ( $_GET['action']=='use_opd')
 	{
@@ -108,7 +108,7 @@ echo '</form>';
 echo "<script>checkTotalDirect();</script>";
 echo create_script(" update_name()");
 
-if ($g_parameter->MY_DATE_SUGGEST=='Y')
+if (!isset($_REQUEST['e_date']) && $g_parameter->MY_DATE_SUGGEST=='Y')
 {
 	echo create_script(" get_last_date()");
 }

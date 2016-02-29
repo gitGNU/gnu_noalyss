@@ -151,7 +151,7 @@ try
     echo HtmlInput::submit('save',_('Sauve'));
     echo HtmlInput::reset(_('Effacer'));
 
-    if ( ! isset ($_POST['e_date'])&& $g_parameter->MY_DATE_SUGGEST=='Y')
+    if ( ! isset($_REQUEST['e_date'])&& $g_parameter->MY_DATE_SUGGEST=='Y')
     {
             echo create_script(" get_last_date();ajax_saldo('first_sold');");
     }else {

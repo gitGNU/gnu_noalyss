@@ -1028,7 +1028,6 @@ EOF;
         else
             $op_date = (!isset($e_date) ) ? '' : $e_date;
 
-
         $e_ech = (isset($e_ech)) ? $e_ech : "";
         $e_comm = (isset($e_comm)) ? $e_comm : "";
 
