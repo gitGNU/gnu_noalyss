@@ -333,7 +333,7 @@ class PDFLand extends PDF
         if($p_cn == null) die("No database connection. Abort.");
         $this->bigger=0;
 
-        parent::__construct('L', $unit, $format);
+        parent::__construct($p_cn,'L', $unit, $format);
         date_default_timezone_set ('Europe/Paris');
         $this->AddFont('DejaVu','','DejaVuSans.ttf',true);
         $this->AddFont('DejaVu','B','DejaVuSans-Bold.ttf',true);

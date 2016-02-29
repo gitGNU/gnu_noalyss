@@ -632,7 +632,7 @@ class Acc_Ledger_Sold extends Acc_Ledger {
         }
         $date_limit = $lPeriode->get_date_limit();
         $r = "";
-        
+        $r .= '<div id="summary_op1" >';
         $r.='<TABLE>';
         if ( $p_summary ) {
             $jr_id=$this->db->get_value('select jr_id from jrn where jr_internal=$1',array($this->internal));
@@ -669,6 +669,10 @@ class Acc_Ledger_Sold extends Acc_Ledger {
         $r.='<tr>';
         $r.='<td> ' . _('Période Comptable') . '</td><td> ' .hb( $date_limit['p_start'] . '-' . $date_limit['p_end']) . '</td>';
         $r.='</tr>';
+        $r.='</table>';
+        $r.='</div>';
+        $r .= '<div id="summary_op2">';
+        $r.='<table>';
         $r.='<tr>';
         $r.='<td> ' . _('Journal') . '</td><td> ' . hb($this->get_name()) . '</td>';
         $r.='</tr>';
@@ -680,6 +684,10 @@ class Acc_Ledger_Sold extends Acc_Ledger {
         $r.='<td> ' . _('Client') . '</td><td> ' . hb($e_client . ':' . $client_name) . '</td>';
         $r.='</tr>';
         $r.='</table>';
+        $r.='</div>';
+        $r.='<div style="position:float;clear:both">';
+        $r.='</div>';
+        
         $r.='<h2>' . _('Détail articles vendus') . '</h2>';
         $r.='<p class="decale">';
         $r.='<table class="result" >';

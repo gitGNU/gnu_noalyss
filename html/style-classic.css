@@ -2196,3 +2196,13 @@ td.selectedmenu {
     text-decoration: none;
     color:blue;
 }
+/*
+ * Summary of operation , contains miscelleneous informations
+ * before confirming sale , purchase
+ */
+#summary_op1,#summary_op2 
+{
+    position:float;
+    float:left;
+    padding-left: 150px;
+}
