@@ -61,6 +61,13 @@ $filter_year=" where p_exercice='".sql_string($exercice)."'";
 echo '<FORM  METHOD="GET">';
 echo HtmlInput::hidden('type','bilan');
 echo dossier::hidden();
+
+// By default , show last day of exercice
+if ($bilan->to == -1 ){
+    $t_periode=new Periode($cn);
+    list($per_max,$per_min)=$t_periode->get_limit($exercice);
+    $bilan->to=$per_min->p_id;
+}
 echo $bilan->display_form ($filter_year);
 echo '<span class="notice"> '._('Attention : si le bilan n\'est pas équilibré.<br> Vérifiez <ul>
        <li>L\'affectation du résultat est fait</li>

@@ -75,6 +75,12 @@ $input_from->user=$g_user;
 echo _('Depuis').' :'.$input_from->input();
 // filter on the current year
 $to=HtmlInput::default_value_get("to_periode", "");
+
+if( $to == "") {
+     $t_periode=new Periode($cn);
+     list($per_max,$per_min)=$t_periode->get_limit($exercice);
+     $to=$per_min->p_id;
+}
 $input_to=new IPeriod("to_periode",$to,$exercice);
 $input_to->show_start_date=false;
 $input_to->filter_year=true;
