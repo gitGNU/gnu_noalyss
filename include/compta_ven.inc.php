@@ -172,7 +172,7 @@ show_tab(a_tab,'facturation_div_id');
             }
 
             /* Show button  */
-            echo '<h1 style="float:right;margin-right:20%"> Enregistrement </h1>';
+            echo '<h1> Enregistrement </h1>';
 
             echo $Ledger->confirm($_POST,true);
             /* Show link for Invoice */
