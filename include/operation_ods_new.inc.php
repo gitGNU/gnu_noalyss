@@ -43,7 +43,7 @@ if ( $g_user->check_jrn($ledger->id)=='X')
 	alert(_("Vous ne pouvez pas écrire dans ce journal, contacter votre administrateur"));
 	return;
 }
-echo '<div style="position:absolute" class="content">';
+echo '<div class="content">';
 echo '<div id="predef_form">';
 echo HtmlInput::hidden('p_jrn_predef', $ledger->id);
 $op = new Pre_op_ods($cn);

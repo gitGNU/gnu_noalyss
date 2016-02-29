@@ -133,8 +133,6 @@ if ( isset($_POST['correct']))
 //----------------------------------------
 // Blank form
 //----------------------------------------
-echo '<div style="position:absolute" class="content">';
-
 echo '<p class="notice">'.$p_msg.'</p>';
 
 echo '<form class="print" name="form_detail" enctype="multipart/form-data" class="print" METHOD="POST">';

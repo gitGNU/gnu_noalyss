@@ -230,10 +230,7 @@ show_tab(a_tab,'facturation_div_id');
 //
 // pre defined operation
 //
-if ( is_msie() == 0 ) 
-    echo '<div style="position:absolute"  class="content">';
-else
-    echo '<div class="content">';
+echo '<div class="content">';
 
 if (!isset($_REQUEST ['p_jrn']))
 {

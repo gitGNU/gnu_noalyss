@@ -243,10 +243,7 @@ echo $op->form_get('do.php?'.$url);
 echo '</div>';
 echo '</div>';
 
-if ( is_msie() == 0 ) 
-    echo '<div style="position:absolute"  class="content">';
-else
-    echo '<div class="content">';
+echo '<div class="content">';
 
 echo '<p class="notice">'.$p_msg.'</p>';
 try
