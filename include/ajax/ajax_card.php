@@ -330,6 +330,7 @@ case 'sc':
     {
         $html.=alert(_('Action interdite'),true);
     }
+    $html.=HtmlInput::button_close($ctl);
     break;
     /*----------------------------------------------------------------------
      * Search a card
