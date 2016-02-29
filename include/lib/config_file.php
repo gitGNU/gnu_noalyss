@@ -99,7 +99,7 @@ function config_file_form($p_array=null)
     $smulti=new ICheckBox('multi');
     $smulti->javascript=' onchange="show_dbname(this)" ';
     $smulti->value = 'Y';
-    if ( $multi == 'Y') {
+    if ( isset($multi) && $multi == 'Y') {
         $smulti->selected=true;
 
     }
