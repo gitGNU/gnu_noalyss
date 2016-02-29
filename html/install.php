@@ -425,14 +425,6 @@ if ( ini_get("register_globals") == true)  {
         echo "</li>";
 	$flag_php++;
 }
-
-if ( ini_get("session.use_trans_sid") == false )  {
-        echo "<li>";
-        echo _('Avertissement').' : '.$failed;
-	print '<span class="warning"> avertissement session.use_trans_sid should be set to true </span>';
-        echo "</li>";
-}
-
 echo "</li>";
 
  echo "</ul>";
@@ -666,7 +658,8 @@ if  (defined("MULTI") && MULTI == 0)
 define ('ALLOWED',1);
 $_GET['sb']="upg_all";
 $rep=new Database();
-$rep->exec_sql("update ac_users set use_login=$1 where use_id=1",
+if (defined (NOALYSS_ADMINISTRATOR) )
+        $rep->exec_sql("update ac_users set use_login=$1 where use_id=1",
               array(strtolower(NOALYSS_ADMINISTRATOR)));
 require NOALYSS_INCLUDE."/upgrade.inc.php";
 echo '<h1>'._('Important').'</h1>';
