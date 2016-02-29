@@ -118,6 +118,13 @@ print '<TR>';
 
 $periode_end = $cn->make_array("select p_id,to_char(p_end,'DD-MM-YYYY') from parm_periode $filter_year order by p_start,p_end");
 $w->selected = (isset($_GET['to_periode'])) ? $_GET['to_periode'] : '';
+
+// By default , show last day of exercice
+     if ($w->selected== '' ){
+             $t_periode=new Periode($cn);
+             list($per_max,$per_min)=$t_periode->get_limit($exercice);
+             $w->selected=$per_min->p_id;
+     }
 print td('Jusque ') . $w->input('to_periode', $periode_end);
 print "</TR><TR>";
 $a = array(
