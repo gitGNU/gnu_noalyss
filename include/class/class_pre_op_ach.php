@@ -126,14 +126,18 @@ class Pre_op_ach extends Pre_operation_detail
             }
             else
             {
-                $array+=array("e_march".$count=>$row['opd_poste'],
+                if ( trim($row['opd_poste']) !="" )
+                {
+                    $array+=array("e_march".$count=>$row['opd_poste'],
                               "e_march".$count."_price"=>$row['opd_amount'],
                               "e_march".$count."_tva_id"=>$row['opd_tva_id'],
                               "e_march".$count."_tva_amount"=>$row['opd_tva_amount'],
                               "e_quant".$count=>$row['opd_quantity']
                              );
-                $count++;
+                    $count++;
+                }
             }
+            $array['nb_item']=$count;
         }
         return $array;
     }
