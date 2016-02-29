@@ -119,14 +119,6 @@ $str_add_card = ($g_user->check_action(FICADD) == 1) ? $h_add_card_b->input() : 
 /*
  * You show now the result
  */
-if ($array == null)
-{
-        echo '<div class="content">';
-	echo '<h2 class="info2"> '._('Aucune fiche trouvée').'</h2>';
-	echo $str_add_card;
-        echo '</div>';
-	return;
-}
 
 $allcard = (isset($_GET['allcard'])) ? 1 : 0;
 if ( $allcard == 0 ){
@@ -135,6 +127,15 @@ if ( $allcard == 0 ){
 	echo h1($fiche_def->label,"");
 	echo h2($fiche_def->fd_description,"");
 }
+if ($array == null && $allcard == 0)
+{
+        echo '<div class="content">';
+	echo '<h2 class="info2"> '._('Aucune fiche trouvée').'</h2>';
+	echo $str_add_card;
+        echo '</div>';
+	return;
+}
+
 echo '<div class="content">';
 /* * *********************************************************************************************************************************
  * Liste
