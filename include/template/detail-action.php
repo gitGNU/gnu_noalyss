@@ -340,6 +340,7 @@ if ( ($aCard[$i] != 0 && $p_view == 'READ') || $p_view != 'READ'):
 <?php endfor; ?>
 </table>
     </div>
+    <?php if ($p_view != "READ" ): ?>
 <script language="JavaScript">
 if ( $('e_march0') && $('e_march0').value =='') { toggleShowDetail();}
 $('div_generate_document').hide();
@@ -351,7 +352,7 @@ function toggleShowDetail() {
 	catch (error)  {alert(error);}
 	}
 </script>    
-
+<?php endif; ?>
 <?php if ( $show_row != 0 ): ?>
 <div>
   
