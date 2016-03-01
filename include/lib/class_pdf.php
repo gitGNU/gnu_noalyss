@@ -169,7 +169,7 @@ class PDF extends TFPDF
                 // If the text is bigger than a sheet of paper then return false
                 if ($height >= $this->h) return false;
 
-                if ( $y + $height > ($this->h - $this->bMargin ))
+                if ( $y + $height > ($this->h - $this->bMargin -7  ))
                     return true;
 
             }
