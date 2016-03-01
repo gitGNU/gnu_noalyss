@@ -45,7 +45,7 @@ if ($gDossier==-1)
 }
 $gDossierLogInput=$gDossier;
 global $cn, $g_user, $g_succeed, $g_failed;
-$cn=Dossier::id();
+$cn=Dossier::connect();
 
 $g_parameter=new Own($cn);
 $g_user=new User($cn);
