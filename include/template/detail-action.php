@@ -280,7 +280,6 @@ echo '</span>';
 </div>
 <?php if ( $p_view !='READ'  ) :?>
 <input type='button' class="button" class="noprint" value="<?php echo _('Montrer articles');?>" id="toggleButton" onclick='toggleShowDetail()'>
-<input type='button' class="button" class="noprint" value="<?php echo _('Générer')?>" id="toggleButtonGenerate" onclick="$('div_generate_document').show()">
 <?php endif; ?>
 <?php
 /**
@@ -310,7 +309,7 @@ for ($i=0;$i<count($aArticle);$i++) :
 	if ( ($aCard[$i] != 0 && $p_view == 'READ') || $p_view != 'READ'){ $show_row=1;}
 endfor;
 ?>
-    <div style="position:relative;top:5px">
+    <div>
 <table style="width:100%" id="art" >
 <tr>
   <th><?php echo _('Fiche')?></th>
@@ -374,7 +373,15 @@ function toggleShowDetail() {
      <input type="button" class="smallbutton" onclick="gestion_add_row()" value="<?php echo _("Ajouter une ligne")?>">
      </div>
      
-<?php endif; ?>         
+<?php endif; ?> 
+    <?php if ($p_view != 'READ' && $str_select_doc != '') : ?>
+         <?php echo _('Document à générer')?>
+  </legend>
+  <?php echo $str_select_doc;
+ echo $str_submit_generate;
+
+endif; ?>
+    <legend>
 </div>
 <?php if ( $this->ag_id != 0 && ! $readonly) : ?>
      <div >
@@ -391,16 +398,7 @@ function toggleShowDetail() {
 <?php endif; ?>
 
 <div style="clear:both"></div>    
-<?php if ($p_view != 'READ' && $str_select_doc != '') : ?>
-<div id="div_generate_document" class="noprint" style="display:none" >
-  <legend>
-     <?php echo _('Document à générer')?>
-  </legend>
-  <?php echo $str_select_doc;
- echo $str_submit_generate;
-  ?>
-</div>
-<?php endif; ?>
+
 
 
 <div class="myfieldset" id="div_action_attached_doc">
