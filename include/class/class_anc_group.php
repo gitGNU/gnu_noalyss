@@ -163,6 +163,7 @@ class Anc_Group extends Anc_Print
 
       $sql="with m as (select po_id,
 	po_name,
+        po_description,
 	ga_id,
 	case when  oa_debit = 't' then oa_amount
 	else 0
@@ -174,9 +175,9 @@ class Anc_Group extends Anc_Print
 	from operation_analytique
 join poste_analytique using (po_id)
 where pa_id=$1 $filter_date )
-select sum(amount_cred) as sum_cred, sum(amount_deb)as sum_deb,po_name,ga_id,ga_description
+select sum(amount_cred) as sum_cred, sum(amount_deb)as sum_deb,po_name,ga_id,ga_description,po_description
 from m left join groupe_analytique using (ga_id)
-group by ga_id,po_name,ga_description
+group by ga_id,po_name,ga_description,po_description
 order by ga_description,po_name";
       $ret=$this->db->get_array($sql,array($this->pa_id));
 
@@ -223,12 +224,13 @@ order by ga_description,po_name";
     $array=$this->get_result();
     $cvs=new Noalyss_Csv ('anc-balance-group-export');
     $cvs->send_header();
-    $cvs->write_header(array("groupe","activité","débit","credit","solde"));
+    $cvs->write_header(array("groupe","activité","description","débit","credit","solde"));
     bcscale(2);
     for ($i=0;$i<count($array);$i++)
       {
         $cvs->add($array[$i]['ga_id']);
         $cvs->add($array[$i]['po_name']);
+        $cvs->add($array[$i]['po_description']);
         $cvs->add($array[$i]['sum_deb'],"number");
         $cvs->add($array[$i]['sum_cred'],"number");
         $cvs->add(bcsub($array[$i]['sum_cred'],$array[$i]['sum_deb']),"number");

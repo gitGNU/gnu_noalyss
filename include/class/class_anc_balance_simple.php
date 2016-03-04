@@ -48,15 +48,18 @@ class Anc_Balance_Simple extends Anc_Print
 
         $sql="select m.po_id,sum(deb) as sum_deb,sum(cred) as sum_cred,";
         $sql.=" po_name||'  '||coalesce(po_description,'') as po_name";
+        $sql.=",ga_description ";
         $sql.=" from ";
         $sql.=" (select po_id,case when oa_debit='t' then oa_amount else 0 end as deb,";
         $sql.="case when oa_debit='f' then oa_amount else 0 end as cred ";
         $sql.=" from operation_analytique join poste_analytique using(po_id)";
         $sql.=(empty($filter) == false)?" where ".$filter:"";
         $sql.=" ) as m join poste_analytique using (po_id)";
-        $sql.=" where pa_id=".$this->pa_id;
-        $sql.=" group by po_id,po_name,po_description";
-        $sql.=" order by po_id";
+        $sql.=" left join groupe_analytique on ( poste_analytique.ga_id=groupe_analytique.ga_id)";
+        $sql.=" where poste_analytique.pa_id=".$this->pa_id;
+        $sql.=" group by po_id,po_name,po_description,ga_description";
+        $sql.=" order by po_name";
+
         $res=$this->db->exec_sql($sql);
 
         if ( Database::num_row($res) == 0 ) {
@@ -72,6 +75,7 @@ class Anc_Balance_Simple extends Anc_Print
             $a[$count]['sum_deb']=$row['sum_deb'];
             $a[$count]['sum_cred']=$row['sum_cred'];
             $a[$count]['po_name']=$row['po_name'];
+            $a[$count]['ga_description']=$row['ga_description'];
             $a[$count]['solde']=abs($row['sum_deb']-$row['sum_cred']);
             $a[$count]['debit']=($row['sum_deb']>$row['sum_cred'])?"debit":"credit";
             $count++;
@@ -126,6 +130,7 @@ class Anc_Balance_Simple extends Anc_Print
         $r="<table class=\"result\">";
         $r.="<tr>";
         $r.="<th>Poste comptable Analytique</th>";
+        $r.="<th>Groupe</th>";
         $r.="<th>D&eacute;bit</th>";
         $r.="<th>Cr&eacute;dit</th>";
         $r.="<th>Solde</th>";
@@ -149,6 +154,7 @@ class Anc_Balance_Simple extends Anc_Print
             // the name and po_id
             //	  $r.=sprintf("<td>%s</td>",$row['po_id']);
             $r.=sprintf("<td align=\"left\">%s</td>",h($row['po_name']));
+            $r.=sprintf("<td align=\"left\">%s</td>",h($row['ga_description']));
             $r.=td(nbm($row['sum_deb']),' class="num"');
             $r.=td(nbm($row['sum_cred']),' class="num"');
             $r.=td(nbm($row['solde']),' class="num"');
@@ -162,10 +168,11 @@ class Anc_Balance_Simple extends Anc_Print
         }
         $r.='<tr class="highlight">';
         $r.=td(_("Total"));
-        $r.=td(nbm($deb_side));
-        $r.=td(nbm($cred_side));
+        $r.=td(" ");
+        $r.=td(nbm($deb_side),'class="num"');
+        $r.=td(nbm($cred_side),'class="num"');
         $solde_side=abs(bcsub($deb_side,$cred_side));
-        $r.=td(nbm($solde_side));
+        $r.=td(nbm($solde_side),'class="num"');
         if ( $deb_side == $cred_side ) $r.=td("=");
         else if ( $deb_side > $cred_side ) $r.=td("D");
         else $r.=td("C");
@@ -206,8 +213,8 @@ class Anc_Balance_Simple extends Anc_Print
         for ($i=0;$i<count($array);$i++)
         {
             $row=$array[$i];
-            $pdf->write_cell(20,6,$row['po_id'],0,0,'L');
-            $pdf->write_cell(90,6,$row['po_name'],0,0,'L');
+            $pdf->write_cell(50,6,$row['po_name'],0,0,'L');
+            $pdf->write_cell(50,6,$row['ga_description'],0,0,'L');
             $pdf->write_cell(20,6,sprintf('%s',nbm($row['sum_deb'])),0,0,'R');
             $pdf->write_cell(20,6,sprintf('%s',nbm($row['sum_cred'])),0,0,'R');
             $pdf->write_cell(20,6,sprintf('%s',nbm($row['solde'])),0,0,'R');
@@ -238,8 +245,8 @@ class Anc_Balance_Simple extends Anc_Print
             // the name and po_id
             $solde=($row['sum_cred']>$row['sum_deb'])?'C':'D';
             $solde=($row['sum_cred']==$row['sum_deb'])?'0':$solde;
-            $csv->add($row['po_id']);
             $csv->add($row['po_name']);
+            $csv->add($row['ga_description']);
             $csv->add($row['sum_deb'],"number");
             $csv->add($row['sum_cred'],"number");
             $csv->add($row['solde'],"number");

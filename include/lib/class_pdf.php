@@ -401,8 +401,8 @@ class PDFBalance_simple extends PDF
 
         $this->Ln();
         $this->SetFont('DejaVu','',6);
-        $this->Cell(20,7,'id','B');
-        $this->Cell(90,7,'Poste Comptable','B');
+        
+        $this->Cell(110,7,'Poste Comptable','B');
         $this->Cell(20,7,'Débit','B',0,'L');
         $this->Cell(20,7,'Crédit','B',0,'L');
         $this->Cell(20,7,'Solde','B',0,'L');
