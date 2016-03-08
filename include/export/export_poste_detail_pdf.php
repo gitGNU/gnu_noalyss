@@ -40,10 +40,10 @@ extract($_GET);
 
 if ( isset ( $poste_fille) )
 { //choisit de voir tous les postes
-    $a_poste=$cn->get_array("select pcm_val from tmp_pcmn where pcm_val::text like '$poste_id%' order by pcm_val");
+    $a_poste=$cn->get_array("select pcm_val from tmp_pcmn where pcm_val::text like $1||'%' order by pcm_val",array($poste_id));
 }
 else
-    $a_poste=$cn->get_array("select pcm_val from tmp_pcmn where pcm_val::text = '$poste_id'");
+    $a_poste=$cn->get_array("select pcm_val from tmp_pcmn where pcm_val::text = $1 ",array($poste_id));
 
 
 $ret="";
@@ -116,12 +116,12 @@ foreach ($a_poste as $poste)
                     $diff_solde=bcsub($tot_deb,$tot_cred);
                     if ( $diff_solde < 0 )
                     {
-                        $solde=" créditeur ";
+                        $solde=_(" C ");
                         $diff_solde=bcmul($diff_solde,-1);
                     }
                     else
                     {
-                         $solde=" débiteur ";
+                         $solde=_(" D ");
                     }
                     $str_diff_solde=sprintf("%12.2f €",$diff_solde);
 
@@ -143,7 +143,7 @@ foreach ($a_poste as $poste)
             }
         $l=0;
         $diff=bcsub($row['deb_montant'],$row['cred_montant']);
-        $prog=bcadd($row['deb_montant'],$row['cred_montant']);
+        $prog=bcadd($prog,$diff);
 
         $date=shrink_date($row['j_date_fmt']);
         $pdf->write_cell($size[$l],6,$date,0,0,$align[$l]);
@@ -163,11 +163,18 @@ foreach ($a_poste as $poste)
         $l++;
         $pdf->write_cell($size[$l],6,(sprintf('% 12.2f',$row['cred_montant'])),0,0,$align[$l]);
         $l++;
-        $pdf->write_cell($size[$l],6,(sprintf('% 12.2f',abs($prog))),0,0,$align[$l]);
+        $solde="=";
+        if ( $prog < 0 ) 
+            $solde=_('C');
+        elseif ($prog > 0)
+        {
+            $solde=_("D");
+        }
+        $pdf->write_cell($size[$l],6,(sprintf('% 12.2f %s',abs($prog),$solde)),0,0,$align[$l]);
         $l++;
         $pdf->line_new();
         $tot_deb=bcadd($tot_deb,$row['deb_montant']);
-        $tot_cred=bcadd($tot_deb,$row['cred_montant']);
+        $tot_cred=bcadd($tot_cred,$row['cred_montant']);
         /* -------------------------------------- */
         /* if details are asked we show them here */
         /* -------------------------------------- */
@@ -211,24 +218,25 @@ foreach ($a_poste as $poste)
     }
     $str_debit=sprintf("% 12.2f €",$tot_deb);
     $str_credit=sprintf("% 12.2f €",$tot_cred);
-    $diff_solde=$tot_deb-$tot_cred;
+    $diff_solde=bcsub($tot_deb,$tot_cred);
+    $solde=" = ";
     if ( $diff_solde < 0 )
     {
-        $solde=" créditeur ";
+        $solde=_(" C ");
         $diff_solde=bcmul($diff_solde,-1);
     }
-    else
+    elseif ( $diff_solde > 0)
     {
-        $solde=" débiteur ";
+        $solde=_(" D ");
     }
     $str_diff_solde=sprintf("%12.2f €",$diff_solde);
 
     $pdf->SetFont('DejaVu','B',8);
 
-    $pdf->write_cell(160,5,'Débit',0,0,'R');
+    $pdf->write_cell(160,5,_("Débit"),0,0,'R');
     $pdf->write_cell(30,5,$str_debit,0,0,'R');
     $pdf->line_new();
-    $pdf->write_cell(160,5,'Crédit',0,0,'R');
+    $pdf->write_cell(160,5,_('Crédit'),0,0,'R');
     $pdf->write_cell(30,5,$str_credit,0,0,'R');
     $pdf->line_new();
     $pdf->write_cell(160,5,'Solde '.$solde,0,0,'R');
