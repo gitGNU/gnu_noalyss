@@ -1076,6 +1076,50 @@ class Database
             printf("\n\r");
         }
     }
+    /**
+     * @brief Find all lob and remove those which are not used by any tables
+     * 
+     */
+    function clean_orphan_lob()
+    {
+        // find all columns of type lob
+        $sql =" 
+                select table_schema,table_name,column_name 
+                from 
+                    information_schema.columns 
+                where table_schema not in ('information_schema','pg_catalog') 
+                and data_type='oid'";
+        $all_lob= "
+            select oid,'N' as used from pg_largeobject_metadata
+            ";
+        $a_table=  $this->get_array($sql);
+        $a_lob = $this->get_array($all_lob);
+        if ( $a_table == false || $a_lob == false ) return;
+        // for each lob
+        $nb_lob=count($a_lob);
+        $nb_table=count($a_table);
+        for ($i=0;$i  < $nb_lob;$i++)
+        {
+            $lob=$a_lob[$i]['oid'];
+            if ( $a_lob[$i]['used']=='Y')                    continue;
+            for ($j=0;$j  < $nb_table;$j++)
+            {
+                if ( $a_lob[$i]['used']=='Y')                    continue;
+                $check = $this->get_value(" select count(*) from ".
+                        $a_table[$j]['table_schema'].".".$a_table[$j]['table_name'].
+                        " where ".
+                        $a_table[$j]['column_name']."=$1",array($lob));
+                if ( $check != 0 ) 
+                    $a_lob[$i]['used']='Y';
+                     
+            }
+        }
+        for ($i=0;$i  < $nb_lob;$i++)
+        {
+            if ( $a_lob[$i]['used']=='Y')                    continue;
+                $this->lo_unlink($a_lob[$i]['oid']);
+        }
+    }
 
 }
 
