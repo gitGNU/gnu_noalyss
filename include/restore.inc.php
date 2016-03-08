@@ -150,16 +150,16 @@ if ( isset ($_REQUEST['sa'] ))
         $id=$cn->get_next_seq('s_modid');
 
         if ( strlen(trim($_REQUEST['database'])) == 0 )
-            $lname=$id." Restauration :".sql_string($_FILES['file']['name']);
+            $lname=$id." Restauration :".$_FILES['file']['name'];
         else
             $lname=$id." ".$_REQUEST['database'];
-
-
-        $sql="insert into modeledef (mod_id,mod_name,mod_desc) values (".$id.",'Restauration".$lname."','".$ldesc."') ";
+        
+        $ldesc=HtmlInput::default_value_post("desc", "");
+        $sql="insert into modeledef (mod_id,mod_name,mod_desc) values ($1,$2,$3)";
         $cn->start();
         try
         {
-            $cn->get_value($sql);
+            $cn->exec_sql($sql,array($id,$lname,$ldesc));
 
         }
         catch ( Exception $e)
