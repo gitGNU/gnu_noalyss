@@ -160,10 +160,12 @@ class Anc_Table extends Anc_Acc_Link
 		    $tot_col[$x]=$amount;
 		  }
                 $side=($amount < 0 ) ? 'D' : 'C';
+                $side=($tot_global==0)?"=":$side;
 		echo td(nbm(abs($amount))." ".$side,' class="num" ');
 		$tot_row=bcadd($tot_row,$amount);
 	      }
             $side=($tot_row < 0 ) ? 'D' : 'C';
+            $side=($tot_global==0)?"=":$side;
 	    echo td(nbm(abs($tot_row))." ".$side,' class="num"');
 	    $tot_global=bcadd($tot_global,$tot_row);
 	    echo '</tr>';
@@ -175,9 +177,12 @@ class Anc_Table extends Anc_Acc_Link
 	for ($i=0;$i<count($this->aheader);$i++)
 	  {
             $side=($tot_col[$i]<0)?"D":"C";
+            $side=($tot_global==0)?"=":$side;
 	    echo td(nbm(abs($tot_col[$i]))." ".$side,' class="num"');
 	  }
-	echo td(nbm($tot_global),' class="num input_text notice" ');
+        $side=($tot_global>0)?"C":"D";
+        $side=($tot_global==0)?"=":$side;
+	echo td(nbm($tot_global)." ".$side,' class="num input_text notice" ');
 	echo '</tr>';
 	echo '</table>';
       }
@@ -217,10 +222,12 @@ class Anc_Table extends Anc_Acc_Link
 		    $tot_col[$x]=$amount;
 		  }
                 $side=($amount < 0 ) ? 'D' : 'C';
+                $side=($tot_global==0)?"=":$side;
 		echo td(nbm(abs($amount))." ".$side,' class="num" ');
 		$tot_row=bcadd($tot_row,$amount);
 	      }
             $side=($tot_row < 0 ) ? 'D' : 'C';
+            $side=($tot_global==0)?"=":$side;
 	    echo td(nbm(abs($tot_row))." ".$side,' class="num"');
 	    $tot_global=bcadd($tot_global,$tot_row);
 	    echo '</tr>';
@@ -236,7 +243,10 @@ class Anc_Table extends Anc_Acc_Link
             $side=($tot_col[$i]<0)?"D":"C";
 	    echo td(nbm(abs($tot_col[$i]))." ".$side,' class="num"');
 	  }
-	echo td(nbm($tot_global),' class="num input_text" ');
+       $side=($tot_global>0)?"C":"D";
+       $side=($tot_global==0)?"=":$side;
+       
+	echo td(nbm($tot_global)." ".$side,' class="num input_text" ');
 	echo '</tr>';
 	echo '</table>';
 
@@ -291,6 +301,17 @@ class Anc_Table extends Anc_Acc_Link
             $csv->write();
 
 	  }
+          /* ----
+           * Sum for each column
+           */
+          $csv->add("");
+          $sum_col=0;
+          for ($x=0;$x<count($this->aheader);$x++) {
+              $csv->add($tot_col[$x],"number");
+              $sum_col=bcadd($sum_col,$tot_col[$x]);
+          }
+          $csv->add($sum_col,"number");
+          $csv->write();
       }
     //---------------
    // By Accounting
@@ -312,7 +333,8 @@ class Anc_Table extends Anc_Acc_Link
 	for ($i=0;$i<count($this->arow);$i++)
 	  {
 
-	    $csv->add($this->arow[$i]['card_account'].' '.$this->arow[$i]['name']);
+	    $csv->add($this->arow[$i]['card_account']);
+            $csv->add($this->arow[$i]['name']);
 	    $tot_row=0;
 	    for ($x=0;$x<count($this->aheader);$x++)
 	      {
@@ -334,6 +356,18 @@ class Anc_Table extends Anc_Acc_Link
               
 
 	  }
+          /* ----
+           * Sum for each column
+           */
+          $csv->add("");
+          $csv->add("");
+          $sum_col=0;
+          for ($x=0;$x<count($this->aheader);$x++) {
+              $csv->add($tot_col[$x],"number");
+              $sum_col=bcadd($sum_col,$tot_col[$x]);
+          }
+          $csv->add($sum_col,"number");
+          $csv->write();
       }
    
   }
