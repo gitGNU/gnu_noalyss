@@ -181,18 +181,6 @@ if (isset($_POST["FMOD_NAME"]))
 		$Res = $cn_mod->exec_sql("delete from action_tags");
 		$Res = $cn_mod->exec_sql("delete from document");
 
-		// Remove lob file
-		$Res = $cn_mod->exec_sql("select distinct d_lob from document");
-		if (Database::num_row($Res) != 0)
-		{
-			$a_lob = Database::fetch_all($Res);
-                        $a_lob = ($a_lob == false) ? array():$a_lob;
-			//var_dump($a_lob);
-			foreach ($a_lob as $lob)
-			{
-				$cn_mod->lo_unlink($lob['d_lob']);
-			}
-		}
                 // reset sequences for Follow-up
                 $a_seq=$cn_mod->get_array(" select sequence_name "
                         . " from information_schema.sequences "
@@ -225,14 +213,7 @@ if (isset($_POST["FMOD_NAME"]))
 		$Res = $cn_mod->exec_sql("delete from document_modele");
 		$Res = $cn_mod->exec_sql("delete from op_predef");
 
-		// Remove lob file
-		$Res = $cn_mod->exec_sql("select distinct loid from pg_largeobject");
-		if (Database::num_row($Res) != 0)
-		{
-			$a_lob = Database::fetch_all($Res);
-			foreach ($a_lob as $lob)
-				$cn_mod->lo_unlink($lob['loid']);
-		}
+
 	}
 	if (isset($_POST['CANAL']))
 	{
@@ -252,6 +233,8 @@ if (isset($_POST["FMOD_NAME"]))
                 $cn_mod->exec_sql(" drop schema ".$a_schema[$i]['nspname']." cascade");
             }
         }
+        // Clean orphan log
+        $cn_mod->orphan_lob_clean();
 
 }
 // Show all available templates

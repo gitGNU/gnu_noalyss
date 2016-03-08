@@ -72,6 +72,7 @@ if ($sb === "upg_all" && (!defined('MULTI')||(defined('MULTI')&&MULTI==1)))
             $db->apply_patch($db_row['dos_name']);
             Dossier::synchro_admin($db_row['dos_id']);
             User::remove_inexistant_user($db_row['dos_id']);
+            $db->clean_orphan_lob();
         }
         else
         {
@@ -96,6 +97,7 @@ if ($sb === "upg_all" && (!defined('MULTI')||(defined('MULTI')&&MULTI==1)))
         {
             $db=new Database($db_row['mod_id'], 'mod');
             $db->apply_patch($db_row['mod_name']);
+            $db->clean_orphan_lob();
         }
         else
         {

@@ -131,10 +131,11 @@ if ( isset ($_REQUEST['sa'] ))
         }
         $new_cn=new Database($id);
 
-        $new_cn->apply_patch($name,0);
+        $new_cn->apply_patch($name);
         echo '<span class="error">'._('Ne pas recharger la page, sinon votre base de données sera restaurée une fois de plus').'</span>';
 	Dossier::synchro_admin($id);
         User::remove_inexistant_user($id);
+        $new_cn->clean_orphan_lob();
         echo $retour;
 
         echo '</div>';
@@ -192,8 +193,8 @@ if ( isset ($_REQUEST['sa'] ))
 
         $new_cn=new Database($id,'mod');
 
-        $new_cn->apply_patch($name,0);
-
+        $new_cn->apply_patch($name);
+        $new_cn->clean_orphan_lob();
         echo '<span class="error">'._('Ne pas recharger la page, sinon votre base de données sera restaurée une fois de plus').'</span>';
         echo $retour;
 
