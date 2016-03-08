@@ -47,6 +47,7 @@ class Anc_Balance_Double extends Anc_Print
 
     function display_html ()
     {
+        bcscale(2);
         $r="";
 
         $array=$this->load();
@@ -77,7 +78,8 @@ class Anc_Balance_Double extends Anc_Print
                 {
 		  $r.="<tr>".td('');
 		  $r.="<td>Total </td>".td(nbm($tot_deb),' class="num"').td(nbm($tot_cred),' class="num"');
-                    $s=abs($tot_deb-$tot_cred);
+                    $s=abs(bcsub($tot_deb,$tot_cred));
+                    
                     $d=($tot_deb>$tot_cred)?'debit':'credit';
                     $r.="<td class=\"num\">".nbm($s)."</td><td>$d</td>";
                     $r.="</tr>";
@@ -103,8 +105,8 @@ class Anc_Balance_Double extends Anc_Print
 		$r.= '<tr>';
 		$r.=td('');
             }
-            $tot_deb+=$row['a_d'];
-            $tot_cred+=$row['a_c'];
+            $tot_deb=bcadd($tot_deb,$row['a_d']);
+            $tot_cred=bcadd($tot_cred,$row['a_c']);
 
 	    $r.=td($row['b_po_name']." ".$row['b_po_description']);
 
@@ -144,7 +146,7 @@ class Anc_Balance_Double extends Anc_Print
             $r.='<td>'.$row['desc'].'</td>';
             $r.='<td class="num">'.nbm($row['debit']).'</td>';
             $r.='<td class="num">'.nbm($row['credit']).'</td>';
-	    $diff=bcsub($row['debit'],$row['credit']);
+	    $diff=bcsub($row['credit'],$row['debit']);
 	    $tot_cred=bcadd($tot_cred,$row['credit']);
 	    $tot_deb=bcadd($tot_deb,$row['debit']);
 
@@ -157,7 +159,7 @@ class Anc_Balance_Double extends Anc_Print
 	$r.=td('total');
 	$r.=td(nbm($tot_deb),'class="num"');
 	$r.=td(nbm($tot_cred),'class="num"');
-	$solde=bcsub($tot_deb,$tot_cred);
+	$solde=bcsub($tot_cred,$tot_deb);
 	$sign=($tot_cred<$tot_deb)?" - ":" + ";
 	$r.=td($sign.nbm($solde),'class="num" style="border:solid 1px blue;font-weight:bold"');
 	$r.='</tr>';
@@ -173,6 +175,7 @@ class Anc_Balance_Double extends Anc_Print
     function display_pdf()
     {
         $array=$this->load();
+        bcscale(2);
         if (empty($array))return;
         $pdf=new PDF($this->db);
         $pdf->Setdossierinfo(dossier::name());
@@ -231,7 +234,9 @@ class Anc_Balance_Double extends Anc_Print
             $pdf->write_cell(40,6,mb_substr($row['b_po_description'],0,31),0,0,'L');
             $pdf->write_cell(20,6,$row['a_d'],0,0,'R');
             $pdf->write_cell(20,6,$row['a_c'],0,0,'R');
-            $pdf->write_cell(20,6,$row['a_solde'],0,0,'R');
+            $side=($row['a_c']>$row['a_d'])?"+":"-";
+            $side=($row['a_c'] == $row['a_d'])?"=":$side;
+            $pdf->write_cell(20,6,$side." ".$row['a_solde'],0,0,'R');
             $pdf->write_cell(20,6,$row['a_debit'],0,0,'C');
             $pdf->line_new();
         }
@@ -249,7 +254,8 @@ class Anc_Balance_Double extends Anc_Print
         $pdf->write_cell(20,7,'Solde','B',0,'L');
         $pdf->write_cell(20,7,'D/C','B',0,'L');
         $pdf->line_new();
-
+        // Summary
+        $tot_cred=$tot_deb=0;
         for ($i=0;$i<count($sum);$i++)
         {
             $row=$sum[$i];
@@ -257,10 +263,24 @@ class Anc_Balance_Double extends Anc_Print
             $pdf->write_cell(60,6,$row['desc'],0,0,'L');
             $pdf->write_cell(20,6,sprintf('%.2f',$row['debit']),0,0,'R');
             $pdf->write_cell(20,6,sprintf('%.2f',$row['credit']),0,0,'R');
-            $pdf->write_cell(20,6,sprintf('%.2f',$row['solde']),0,0,'R');
+            $side=($row['credit']>$row['debit'])?"+":"-";
+            $side=($row['debit'] == $row['credit'])?"=":$side;
+            $pdf->write_cell(20,6,sprintf($side." ".'%.2f',$row['solde']),0,0,'R');
             $pdf->write_cell(20,6,$row['dc'],0,0,'R');
             $pdf->line_new();
+            $tot_cred=bcadd($tot_cred,$row['credit']);
+            $tot_deb=bcadd($tot_deb,$row['debit']);
         }
+        $pdf->write_cell(20,6,"",0,0,'L');
+        $pdf->write_cell(60,6,_('Total'),0,0,'L');
+        $pdf->write_cell(20,6,nb($tot_deb),0,0,'R');
+        $pdf->write_cell(20,6,nb($tot_cred),0,0,'R');
+        $side=($tot_cred > $tot_deb)?"+":"-";
+        $side=($tot_deb == $tot_cred)?"=":$side;
+        $solde=abs(bcsub($tot_cred,$tot_deb));
+        $pdf->write_cell(20,6,$side." ".$solde,0,0,'R');
+        $pdf->write_cell(20,6,$row['dc'],0,0,'R');
+        $pdf->line_new();
         $fDate=date('dmy-Hi');
         $pdf->output('crossbalance-'.$fDate.'.pdf','D');
     }
@@ -480,7 +500,7 @@ class Anc_Balance_Double extends Anc_Print
             $a[$count]['a_po_description']=$row['a_po_description'];
             $a[$count]['b_po_name']=$row['b_po_name'];
             $a[$count]['b_po_description']=$row['b_po_description'];
-            $a[$count]['a_solde']=abs($row['a_d']-$row['a_c']);
+            $a[$count]['a_solde']=abs($row['a_c']-$row['a_d']);
             $a[$count]['a_debit']=($row['a_d']>$row['a_c'])?"debit":"credit";
 
             $count++;
