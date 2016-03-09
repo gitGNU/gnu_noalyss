@@ -40,6 +40,7 @@ class Anc_Group extends Anc_Print
 
     function __construct ( $p_cn )
     {
+        parent::__construct($p_cn);
         $this->db=$p_cn;
         $this->ga_id=null;
         $this->ga_description=null;
