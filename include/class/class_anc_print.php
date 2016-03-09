@@ -47,9 +47,11 @@ class Anc_Print
 
     function __construct($p_cn)
     {
+        global $g_user;
+        list($from,$to)=$g_user->get_limit_current_exercice();
         $this->db=$p_cn;
-        $this->from="";
-        $this->to="";
+        $this->from=$from;
+        $this->to=$to;
         $this->from_poste="";
         $this->to_poste="";
         $this->has_data=0;
