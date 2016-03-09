@@ -46,66 +46,9 @@
 		<?php echo HtmlInput::hidden('ctlc',$_GET['ctlc'])?>
 <?php endif; ?>
 		<?php echo  dossier::hidden()?>
-		<table style="width:100%">
-                    <tr>
-				<td style="text-align:right">
-					<?php printf(_("Après le "))?>
-				</td>
-				<td >
-					<?php echo  $start->input()?>
-				</td>
-			</tr>
+            <table  style="display:inline;width:30%">
 			<tr>
-				<td style="text-align:right"><?php echo  _('Avant le')?></td>
-				<td>
-					<?php echo  $end->input()?>
-				</td>
-			</tr>
-			<tr>
-				<td style="width:180px;text-align:right"> <?php echo _("Date de rappel après");?></td>
-				<td>
-					<?php echo $remind_date->input();?>
-				</td>
-			</tr>
-			<tr>
-				<td style="width:180px;text-align:right"> <?php echo _("Date de rappel avant");?></td>
-				<td>
-					<?php echo $remind_date_end->input();?>
-				</td>
-			</tr>
-			<tr>
-				<td style="width:180px;text-align:right"> <?php echo _("Affiche aussi les actions fermées");?></td>
-				<td><?php echo $closed_action->input();?></td>
-			</tr>
-                        <tr>
-			<td style="width:180px;text-align:right"><?php echo _('Etiquette'); ?></td>
-				<td id="searchtag_choose_td">
-                                    <?php echo Tag::button_search('search'); ?>
-                                    <?php
-                                        if ( isset($_GET['searchtag'])) {
-                                            echo Tag::add_clear_button('search');
-                                            for ($i=0;$i<count($_GET['searchtag']);$i++) {
-                                                $t=new Tag($cn, $_GET['searchtag'][$i]);
-                                                echo $t->update_search_cell('search');
-                                            }
-                                        }
-                                    ?>
-				</td>
-			</tr>
-                        <tr>
-			<td style="width:180px;text-align:right"> <?php echo _("Référence");?></td>
-				<td>
-					<?php echo $osag_ref->input();?>
-				</td>
-			</tr>
-			<tr>
-				<td style="width:180px;text-align:right"> <?php echo _("Numéro document");?></td>
-				<td>
-					<?php $num=new INum('ag_id');echo $num->input();?>
-				</td>
-			</tr>
-			<tr>
-				<td style="width:180px;text-align:right"><?php echo _('Destinataire')?></td>
+				<td style=";text-align:right"><?php echo _('Destinataire')?></td>
 				<?php $label=$w->id."_label";?>
 				<td ><?php echo  $w->input() . $w->search()?><span id="<?php echo $label?>"></span></td>
 			</tr>
@@ -122,7 +65,7 @@
 				<td><?php echo  $hsExcptype_state->input()?></td>
 			</tr>
 			<td style="text-align:right"><?php printf(_('contenant le mot'))?></td>
-			<td ><input class="input_text" style="width:100%" type="text" name="action_query" value="<?php echo  $a?>"></td>
+			<td ><input class="input_text" style="width:40%" type="text" name="action_query" value="<?php echo  $a?>"></td>
 			</tr>
 			<tr>
 				<td style="text-align:right"><?php echo  _('Type de document')?></td>
@@ -135,12 +78,90 @@
 				<td><?php echo  $only_internal->input()?>
 				</td>
 			</tr>
-		</table>
-		<input type="submit" class="smallbutton" name="submit_query" value="<?php echo  _('recherche')?>">
-		<input type="hidden" name="sa" value="list">
+                </table>
 
+		<table style="display:inline;width:30%">
+                    <tr>
+				<td style="text-align:right">
+					<?php printf(_("Après le "))?>
+				</td>
+				<td >
+					<?php echo  $start->input()?>
+				</td>
+			</tr>
+			<tr>
+				<td style="text-align:right"><?php echo  _('Avant le')?></td>
+				<td>
+					<?php echo  $end->input()?>
+				</td>
+			</tr>
+			<tr>
+				<td style="text-align:right"> <?php echo _("Date de rappel après");?></td>
+				<td>
+					<?php echo $remind_date->input();?>
+				</td>
+			</tr>
+			<tr>
+				<td style="text-align:right"> <?php echo _("Date de rappel avant");?></td>
+				<td>
+					<?php echo $remind_date_end->input();?>
+				</td>
+			</tr>
+			<tr>
+				<td style="text-align:right"> <?php echo _("Affiche aussi les actions fermées");?></td>
+				<td><?php echo $closed_action->input();?></td>
+			</tr>
+                        <tr>
+			<td style="text-align:right"><?php echo _('Etiquette'); ?></td>
+				<td id="searchtag_choose_td">
+                                    <?php echo Tag::button_search('search'); ?>
+                                    <?php
+                                        if ( isset($_GET['searchtag'])) {
+                                            echo Tag::add_clear_button('search');
+                                            for ($i=0;$i<count($_GET['searchtag']);$i++) {
+                                                $t=new Tag($cn, $_GET['searchtag'][$i]);
+                                                echo $t->update_search_cell('search');
+                                            }
+                                        }
+                                    ?>
+				</td>
+			</tr>
+                        </table>
+
+                        <table style="display:inline;width:30%">
+                        <tr>
+			<td style="text-align:right"> <?php echo _("Référence");?></td>
+				<td>
+					<?php echo $osag_ref->input();?>
+				</td>
+			</tr>
+			<tr>
+				<td style="text-align:right"> <?php echo _("Numéro document");?></td>
+				<td>
+					<?php $num=new INum('ag_id');echo $num->input();?>
+				</td>
+			</tr>
+                        
+                        </table>
+                            
+                        
+		<input type="hidden" name="sa" value="list">
 		<?php echo  $supl_hidden?>
-		<?php echo HtmlInput::button_anchor(_('Fermer'), 'javascript:void(0)', 'fsearch_form', 'onclick="$(\'search_action\').style.display=\'none\';"','smallbutton');?>
+            <ul class="aligned-block">
+                <li>
+		<input type="submit" class="smallbutton" name="submit_query" value="<?php echo  _('recherche')?>">
+                </li>
+                <li>
+		<?php 
+                if ( $inner) {
+                    echo HtmlInput::button_close('search_action_div');
+                }
+                else {
+                echo HtmlInput::button_anchor(_('Fermer'), 'javascript:void(0)', 'fsearch_form',
+                        'onclick="$(\'search_action\').style.display=\'none\';"','smallbutton');}
+                ?>
+                </li>
+            </ul>
 	</form>
 </div>
 
