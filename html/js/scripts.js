@@ -1753,6 +1753,7 @@ function search_action(dossier, ctl_concern)
 {
     try
     {
+        waiting_box();
         var dossier = g('gDossier').value;
 
         var target = "search_action_div";
@@ -1761,7 +1762,7 @@ function search_action(dossier, ctl_concern)
 
         var div = {id: target, cssclass: 'inner_box', style: str_style, html: loading(), drag: 1};
 
-        add_div(div);
+       
         var target = {gDossier: dossier,
             ctlc: ctl_concern,
             op: 'search_action',
@@ -1778,6 +1779,7 @@ function search_action(dossier, ctl_concern)
                     onSuccess: function (req) {
                         try {
                             remove_waiting_box();
+                             add_div(div);
                             $('search_action_div').innerHTML = req.responseText;
                             req.responseText.evalScripts();
                         } catch (e) {
