@@ -1159,6 +1159,7 @@ class Follow_Up
     /**
      * Display only a search box for searching an action
      * @param $cn database connx
+     * @param $inner true if coming from an ajax (ajax_search_action)
      */
     static function display_search($cn, $inner=false)
     {
@@ -1186,6 +1187,7 @@ class Follow_Up
             require_once NOALYSS_TEMPLATE.'/action_button.php';
 
         $w=new ICard();
+        if ( $inner ) $w->autocomplete=0;
         $w->name='qcode';
         $w->id=$w->generate_id($w->name);
         $w->value=$qcode;
