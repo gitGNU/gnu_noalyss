@@ -305,6 +305,7 @@ class Acc_Bilan
         while (! feof ($p_handle))
         {
             $buffer=trim(fgets($p_handle));
+            //echo "buffer [$buffer]\n";
             // $a=(Impress::check_formula($buffer)  == true)?"$buffer ok<br>":'<font color="red">'.'Pas ok '.$buffer."</font><br>";
             // echo $a;
             // blank line are skipped
@@ -317,8 +318,9 @@ class Acc_Bilan
             // We need to eval it
             $a=Impress::parse_formula($this->db,"$buffer",$buffer,$this->from,$this->to,false);
             $b=str_replace("$","\$this->",$a);
+           // echo $b;
             if ( eval("$b;") === false )
-                echo_debug(__FILE__,__LINE__,"Code failed with $b");
+                echo(__FILE__.__LINE__."Code failed with $b");
 
 
         }// end read form line per line
