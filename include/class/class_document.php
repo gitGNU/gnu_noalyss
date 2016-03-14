@@ -163,7 +163,7 @@ class Document
         // Invoice
         $href=http_build_query(array('gDossier'=>Dossier::id(),"d_id"=>$this->d_id,'act'=>'RAW:document'));
         $ret='<A class="mtitle" HREF="export.php?'.$href.'">'._('Document').'</A>';
-        @rmdir($dirname);
+        
         return $ret;
     }
 
