@@ -57,6 +57,10 @@ $filter_year="  j_tech_per in (select p_id from parm_periode ".
 
 
 $id=$cn->get_value('select jrn_def_bank from jrn_def where jrn_def_id=$1',array($_GET['j']));
+if ( $id == '' ) {
+	echo '{"saldo":"ERR"}';
+	return;
+}
 $acc=new Fiche($cn,$id);
 
 $res=$acc->get_bk_balance($filter_year." and ( trim(jr_pj_number) != '' and jr_pj_number is not null)" );
@@ -67,9 +71,5 @@ $solde=$res['solde'];
 if ( $res['debit'] < $res['credit'] ) $solde=$solde*(-1);
 
 //header("Content-type: text/html; charset: utf8",true);
+
 echo '{"saldo":"'.$solde.'"}';
-
-
-
-?>
-
