@@ -15,7 +15,9 @@ if NEW.j_tech_per = -1 then
         raise exception 'Période invalide';
 end if;
 
-if trim(coalesce(NEW.j_qcode,'')) = '' then
+NEW.j_qcode=trim(upper(NEW.j_qcode));
+
+if coalesce(NEW.j_qcode,'') = '' then
         -- how many card has this accounting
         select count(*) into nCount from fiche_detail where ad_id=5 and ad_value=NEW.j_poste;
         -- only one card is found , then we change the j_qcode by the card
@@ -23,12 +25,12 @@ if trim(coalesce(NEW.j_qcode,'')) = '' then
                 select f_id into n_fid from fiche_detail where ad_id = 5 and ad_value=NEW.j_poste;
                 select ad_value into sQcode  from fiche_detail where f_id=n_fid and ad_id = 23;
                 NEW.f_id := n_fid;
-                NEW.j_qcode = sQcode;
+                NEW.j_qcode = trim(sQcode);
         end if;
 
 end if;
 
-NEW.j_qcode=trim(upper(NEW.j_qcode));
+
 
 if length (NEW.j_qcode) = 0 then
     NEW.j_qcode=NULL;
