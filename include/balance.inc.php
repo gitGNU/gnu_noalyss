@@ -323,6 +323,7 @@ if ( isset($_GET['view'] ) )
     $lvl3_old='';
 
     bcscale(2);
+    $nb_row = count($row);
     foreach ($row as $r)
     {
         $i++;
@@ -343,7 +344,7 @@ if ( isset($_GET['view'] ) )
 	    if ( ${'lvl'.$ind.'_old'} != mb_substr($r['poste'],0,$ind))
 	      {
 
-		echo '<tr >';
+		echo '<tr class="highlight">';
 		echo td(${'lvl'.$ind.'_old'},'style="font-weight:bold;"');
 		echo td(${'lvl'.$ind.'_old'}." "._("Total niveau")." ".$ind,'style="font-weight:bold;"');
                 if ($previous==1) {
@@ -379,6 +380,10 @@ if ( isset($_GET['view'] ) )
 	      $lvl2[$a]=bcadd($lvl2[$a],$r[$a]);
 	      $lvl3[$a]=bcadd($lvl3[$a],$r[$a]);
 	    }
+       // For the Total row , there is no accounting
+        if ( $r['poste'] == "") {
+            $tr="highlight";
+        }
         echo '<TR class="'.$tr.'">';
         echo td($view_history);
         echo td(h($r['label']));
