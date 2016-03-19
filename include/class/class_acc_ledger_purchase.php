@@ -1139,15 +1139,15 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
         // Record the current number of article
 
         $e_comment=(isset($e_comment))?$e_comment:"";
-		$p_article= ( isset ($nb_item))?$nb_item:$this->get_min_row();
-        $max=($p_article < $this->get_min_row())?$this->get_min_row():$p_article;
+	$p_article= ( isset ($nb_item))?$nb_item:$this->get_min_row();
+        $p_article=($p_article < $this->get_min_row())?$this->get_min_row():$p_article;
 
         $Hid=new IHidden();
 		$r.=$Hid->input("nb_item",$p_article);
 
         // For each article
         //--
-        for ($i=0;$i< $max ;$i++)
+        for ($i=0;$i< $p_article ;$i++)
         {
             // Code id, price & vat code
             //--

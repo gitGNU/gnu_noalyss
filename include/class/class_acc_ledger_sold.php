@@ -1170,14 +1170,14 @@ EOF;
         $Hid = new IHidden();
         $p_article = ( isset($nb_item)) ? $nb_item : $this->get_min_row();
         $r.=$Hid->input("nb_item", $p_article);
-        $max = ($p_article < $this->get_min_row()) ? $this->get_min_row() : $p_article;
+        $p_article = ($p_article < $this->get_min_row()) ? $this->get_min_row() : $p_article;
 
 
         $f_legend_detail = _("Détail articles vendus");
 
         // For each article
         //--
-        for ($i = 0; $i < $max; $i++) {
+        for ($i = 0; $i < $p_article; $i++) {
             // Code id, price & vat code
             //--
             $march = (isset(${"e_march$i"})) ? ${"e_march$i"} : "";
