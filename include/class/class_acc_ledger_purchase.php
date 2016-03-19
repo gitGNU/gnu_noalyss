@@ -768,7 +768,9 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
             $acc_operation=new Acc_Operation($this->db);
             $acc_operation->date=$e_date;
             $acc_operation->echeance=$e_ech;
-            $acc_operation->amount=abs(round($tot_debit,2));
+            // Total DEB
+            $acc_operation->amount=$this->db->get_value("select sum(j_montant) from jrnx where j_grpt = $1 and j_debit='t'",
+                    array($seq));
             $acc_operation->desc=$e_comm;
             $acc_operation->grpt=$seq;
             $acc_operation->jrn=$p_jrn;
