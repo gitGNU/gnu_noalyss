@@ -177,11 +177,11 @@ class Anc_GrandLivre extends Anc_Print
             {
                 if ($ix > 0)
                 {
-                    $r.='<tr>';
+                    $r.='<tr class="highlight">';
                     $tot_solde = bcsub($tot_cred, $tot_deb);
-                    $sign = " ".($tot_solde > 0) ? 'C' : 'D';
+                    $sign = " ".(($tot_solde > 0) ? 'C' : 'D');
 		    $r.=td('') . td('') . td('');
-                    $r.=td('') . td('') . td('') . td('') . td('') . td(nbm($tot_deb), ' class="num"') . td(nbm($tot_cred), ' class="num"') . td(nbm($tot_solde) . $sign, ' class="num notice"');
+                    $r.=td('') . td('') . td('') . td('') . td('') . td(nbm($tot_deb), ' class="num"') . td(nbm($tot_cred), ' class="num"') . td(nbm($tot_solde) . $sign, ' class="num"');
                 }
                 $r.='<tr>' . '<td colspan="7" style="width:auto">' . '<h2>' . h($row['po_name'] . ' ' . $row['po_description']) . '</td></tr>';
                 $r.= '<tr>' .
@@ -246,11 +246,11 @@ class Anc_GrandLivre extends Anc_Print
                     '<td class="num">' . nbm($tot_solde). '</td>';
             $r.= '</tr>';
         }
-        $r.='<tr>';
+        $r.='<tr class="highlight">';
         $tot_solde = bcsub($tot_cred, $tot_deb);
         $sign = ($tot_solde > 0) ? 'C' : 'D';
 	$r.=td('') . td('') . td('');
-        $r.=td('') . td('') . td('') . td('') . td('') . td(nbm($tot_deb), ' class="num"') . td(nbm($tot_cred), ' class="num"') . td(nbm($tot_solde) . $sign, '  class="num notice"');
+        $r.=td('') . td('') . td('') . td('') . td('') . td(nbm($tot_deb), ' class="num"') . td(nbm($tot_cred), ' class="num"') . td(nbm($tot_solde) . $sign, '  class="num"');
 
         $r.= '</table>';
         return $r;
