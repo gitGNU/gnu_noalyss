@@ -105,6 +105,8 @@ class Database
             else
             {
                 echo '<h2 class="error">Erreur de connexion !</h2>';
+                $this->is_open=false;
+                return;
             }
         }
         $this->db=$a;
