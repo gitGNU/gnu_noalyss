@@ -192,7 +192,7 @@ class Document
         $h=fopen($infile_name,"r");
 
         // check if tmpdir exist otherwise create it
-        $temp_dir=$_SERVER["DOCUMENT_ROOT"].DIRECTORY_SEPARATOR.'tmp';
+        $temp_dir=$_ENV['TMP'];
         if ( is_dir($temp_dir) == false )
         {
             if ( mkdir($temp_dir) == false )

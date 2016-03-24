@@ -800,6 +800,7 @@ class Anc_Operation
     function save_update_form($p_array)
     {
         extract($p_array);
+        if ( ! isset($opanc)) return;
         for ($i = 0; $i < count($opanc); $i++)
         {
             /* clean operation_analytique */
