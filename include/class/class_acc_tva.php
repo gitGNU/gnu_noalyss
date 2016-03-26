@@ -50,6 +50,11 @@ class Acc_Tva
         $this->cn=$p_init;
         $this->tva_id=$p_tva_id;
         $this->poste="";
+        $this->tva_label=null;
+        $this->tva_rate=0;
+        $this->tva_comment=null;
+        $this->tva_poste=null;
+        $this->tva_both_side='f';
     }
     public function get_parameter($p_string)
     {
