@@ -682,7 +682,7 @@ class Database
      */
     function exist_blob($p_oid)
     {
-        $r=$this->get_value('select count(loid) from pg_largeobject where loid=$1'
+        $r=$this->get_value('select count(*) from pg_largeobject_metadata where oid=$1'
                 , array($p_oid));
         if ($r>0)
             return true;
