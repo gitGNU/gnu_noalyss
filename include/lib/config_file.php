@@ -201,6 +201,11 @@ function display_file_config($p_array,$from_setup=1,$p_os=1)
     print ( "// Fix an issue with PDF when exporting receipt in PDF in ANCGL"."\r\n");
     print ( '// define ("FIX_BROKEN_PDF","NO");');
     print ("\r\n");
+    print ("// Uncomment if you want to convert to PDF");
+    print ("// With the unoconv tool");
+    print ( "//define ('OFFICE','HOME=/tmp unoconv ');");
+    print ("\r\n");
+    printf("//define ('GENERATE_PDF','YES');");
     print ("\r\n");
     print ( "// Uncomment if you don't want "."\r\n");
     print ( "// to be informed when a new release is "."\r\n");

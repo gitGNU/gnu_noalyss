@@ -227,8 +227,8 @@ define ("FICHE_TYPE_MATERIAL",7);
  * ou
  *  unoconv -l -v -s localhost
  */
-define ('OFFICE','unoconv ');
-define ('GENERATE_PDF','YES');
+if ( ! defined ('OFFICE')) define ('OFFICE','');
+if ( ! defined ('GENERATE_PDF') ) define ('GENERATE_PDF','NO');
 
 /**
  * Pour conversion GIF en PDF
