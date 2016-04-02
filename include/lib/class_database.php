@@ -20,13 +20,15 @@
 
 // Copyright Author Dany De Bontridder danydb@aevalys.eu
 
-/**\file
+/**
+ * \file
  * \brief contains the class for connecting to a postgresql database
  */
 require_once NOALYSS_INCLUDE.'/constant.php';
 require_once NOALYSS_INCLUDE.'/lib/ac_common.php';
 
-/**\brief
+/**
+ * \brief
  * This class allow you to connect to the postgresql database, execute sql, retrieve data
  *
  */
@@ -202,7 +204,8 @@ class Database
         return $this->ret;
     }
 
-    /** \brief Count the number of row returned by a sql statement
+    /** 
+     * \brief Count the number of row returned by a sql statement
      *
      * \param $p_sql sql string
      * \param $p_array if not null we use the safer pg_query_params
@@ -214,7 +217,8 @@ class Database
         return pg_NumRows($r_sql);
     }
 
-    /**\brief get the current sequence value
+    /**
+     * \brief get the current sequence value
      */
 
     function get_current_seq($p_seq)
@@ -223,7 +227,8 @@ class Database
         return $Res;
     }
 
-    /**\brief  get the next sequence value
+    /**
+     * \brief  get the next sequence value
      */
 
     function get_next_seq($p_seq)
@@ -234,7 +239,7 @@ class Database
     }
 
     /**
-     * @ brief : start a transaction
+     * @brief : start a transaction
      *
      */
     function start()
@@ -611,7 +616,8 @@ class Database
         return true;
     }
 
-    /**\brief test if a table exist
+    /**
+     * \brief test if a table exist
      * \param $p_name table name
      * \param  $schema name of the schema default public
      * \return true if a table exist otherwise false
@@ -951,6 +957,7 @@ class Database
 
     function lo_unlink($p_oid)
     {
+        if ( ! $this->exist_blob($p_oid)) return;
         return pg_lo_unlink($this->db, $p_oid);
     }
 
@@ -965,7 +972,8 @@ class Database
         return pg_prepare($this->db, $p_string, $p_sql);
     }
 
-    /**\brief wrapper for the function pg_execute
+    /**
+     * \brief wrapper for the function pg_execute
      * \param $p_string string name of the stmt given in pg_prepare function
      * \param $p_array contains the variables
      * \note set this->ret to the return of pg_execute
@@ -978,7 +986,8 @@ class Database
         return $this->ret;
     }
 
-    /**\brief wrapper for the function pg_lo_export
+    /**
+     * \brief wrapper for the function pg_lo_export
      * \param $p_oid is the oid of the log
      * \param $tmp  is the file
      * \return result of the operation
