@@ -91,12 +91,12 @@ echo HtmlInput::button_action(_("Fermer"), "$('create_user').style.display='none
     <script>
         function check_form() {
             if ($F('input_login') == "") { 
-                    alert('<?php echo _('Le login ne peut être vide') ?>');
+                    smoke.alert('<?php echo _('Le login ne peut être vide') ?>');
                     $('input_login').setStyle({border:"red solid 2px"});
                     return false;
                 }
             if ($F('input_password') == "") { 
-                alert('<?php echo _('Le mot de passe ne peut être vide') ?>');
+                smoke.alert('<?php echo _('Le mot de passe ne peut être vide') ?>');
                 $('input_password').setStyle({border:"red solid 2px"});
                 return false;
             }
