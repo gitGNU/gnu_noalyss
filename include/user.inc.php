@@ -168,9 +168,13 @@ if ( !empty ($a_user) )
         echo td($r_user['use_name']);
         echo td($r_user['use_first_name']);
         echo td($Active);
-		$type=($r_user['use_admin']==1)?_("Administrateur"):_("Utilisateur");
-		echo "<td>".$type."</td>";
-		echo td($r_user['ag_dossier']);
+        $type=($r_user['use_admin']==1)?_("Administrateur"):_("Utilisateur");
+        echo "<td>".$type."</td>";
+        if ( $r_user['use_admin'] == 0)
+            echo td($r_user['ag_dossier']);
+        else {
+            echo td(_('Tous'));
+        }
         echo '</tr>';
     }// foreach
     echo '</table>';
