@@ -93,9 +93,17 @@ class Document_Export
         header('Pragma: public');
         echo file_get_contents($this->store_pdf . '/result.pdf');
     }
-
+    /**
+     * @brief remove folder and its content
+     */
     function clean_folder()
     {
+        return;
+        $files=  scandir($this->store_convert);
+        $nb_file=count($file);
+        for ($i=0;$i < $nb_file;$i++) {
+            if (is_file($files[$i])) unlink($file[$i]);
+        }
         rmdir($this->store_convert);
     }
 
@@ -138,7 +146,6 @@ class Document_Export
                     continue;
                 }
             } 
-
             // Create a image with the stamp + formula
             $img = imagecreatefromgif(NOALYSS_INCLUDE . '/template/template.gif');
             $font = imagecolorallocatealpha($img, 100, 100, 100, 110);
