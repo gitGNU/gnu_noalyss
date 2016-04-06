@@ -103,7 +103,6 @@ class Sendmail
     function compose()
     {
         $this->verify();
-        $uid = md5(uniqid(time()));
 
         // a random hash will be necessary to send mixed content
         $separator = md5(time());
