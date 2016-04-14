@@ -93,7 +93,7 @@ if ( $action== "delete_per" )
             $Res=$cn->exec_sql("delete from parm_periode where p_id=$p_per");
         } else
         {
-            alert(' Désolé mais vous devez avoir au moins une période');
+            alert(_('Désolé mais vous devez avoir au moins une période'));
         }
     }
     $choose="yes";
@@ -121,7 +121,7 @@ if ( $choose=="yes" )
     $per->display_form_periode();
     $nb_exercice=new ISelect("nb_exercice");
     $nb_exercice->value=array(
-			      array('value'=>12,'label'=>_("12 périodes)"),
+			      array('value'=>12,'label'=>_("12 périodes)")),
 			      array('value'=>13,'label'=>_("13 périodes"))
 			      );
 
