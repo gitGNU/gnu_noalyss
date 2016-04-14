@@ -84,7 +84,7 @@ if ( $action== "delete_per" )
 // Check if the periode is not used
     if ( $cn->count_sql("select * from jrnx where j_tech_per=$p_per") != 0 )
     {
-        alert(' Désolé mais cette période est utilisée');
+        alert(_(' Désolé mais cette période est utilisée'));
     }
     else
     {
@@ -112,7 +112,7 @@ if ( $action == 'reopen')
 if ( $choose=="yes" )
 {
     echo '<p>';
-    echo HtmlInput::button_anchor('Autre Journal ?','?choose=no&ac='.$_REQUEST['ac'].'&gDossier='.dossier::id());
+    echo HtmlInput::button_anchor(_('Autre Journal ?'),'?choose=no&ac='.$_REQUEST['ac'].'&gDossier='.dossier::id());
     echo '</p>';
     $per=new Periode($cn);
     $jrn=(isset($_GET['jrn_def_id']))?$_GET['jrn_def_id']:0;
@@ -121,8 +121,8 @@ if ( $choose=="yes" )
     $per->display_form_periode();
     $nb_exercice=new ISelect("nb_exercice");
     $nb_exercice->value=array(
-			      array('value'=>12,'label'=>"12 périodes"),
-			      array('value'=>13,'label'=>"13 périodes")
+			      array('value'=>12,'label'=>_("12 périodes)"),
+			      array('value'=>13,'label'=>_("13 périodes"))
 			      );
 
     require_once NOALYSS_TEMPLATE.'/periode_add_exercice.php';
@@ -137,11 +137,11 @@ else
     $wSel=new ISelect();
     $wSel->value=$sel_jrn;
     $wSel->name='jrn_def_id';
-    echo "Choisissez global ou uniquement le journal à fermer".$wSel->input();
+    echo _("Choisissez global ou uniquement le journal à fermer").$wSel->input();
     echo   HtmlInput::submit('choose','Valider');
     echo HtmlInput::hidden('ac',$_REQUEST['ac']);
     echo "</form>";
-    echo '<p class="info"> Pour ajouter, effacer ou modifier une p&eacute;riode, il faut choisir global</p>';
+    echo '<p class="info">'._("Pour ajouter, effacer ou modifier une p&eacute;riode, il faut choisir global").'</p>';
 }
 echo '</div>';
 ?>
