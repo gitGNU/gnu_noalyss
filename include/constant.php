@@ -106,7 +106,7 @@ if ( ! defined ("SYSINFO_DISPLAY")) {
 }
 define ("DBVERSION",125);
 define ("MONO_DATABASE",25);
-define ("DBVERSIONREPO",16);
+define ("DBVERSIONREPO",17);
 define ('NOTFOUND','--not found--');
 define ("MAX_COMPTE",4);
 define ('MAX_ARTICLE',5);
@@ -296,4 +296,9 @@ define ("SQL_LIST_UNPAID_INVOICE_DATE_LIMIT" ,"
         where (jr_rapt is null or jr_rapt = '')
         and to_date(to_char(jr_ech,'DD.MM.YYYY'),'DD.MM.YYYY') < to_date(to_char(now(),'DD.MM.YYYY'),'DD.MM.YYYY')
         and jr_valid = true" );
-?>
+
+/**
+ * Exception
+ */
+// Limit email exceeds parameter
+define ('EMAIL_LIMIT',1002);
