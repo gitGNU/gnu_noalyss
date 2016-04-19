@@ -95,9 +95,9 @@ if ( isset ($_POST["DATABASE"]) )
     try
     {
         $repo->start();
-
+        if (isNumber($max_email) == 0) $max_email=-1;
         $Res=$repo->exec_sql("insert into ac_dossier(dos_name,dos_description,dos_email)
-                           values ($1,$2)",array($dos,$desc,$max_email));
+                           values ($1,$2,$3)",array($dos,$desc,$max_email));
         $l_id=$repo->get_current_seq('dossier_id');
         $repo->commit();
     }
@@ -345,6 +345,7 @@ if ( $sa == 'list' )
     <?php
         $max_email_input=new INum('max_email');
         $max_email_input->prec=0;
+        $max_email_input->value=-1;
         echo $max_email_input->input();
     ?>
     </td>
