@@ -133,7 +133,7 @@ else
     echo dossier::hidden();
     $sel_jrn=$cn->make_array("select jrn_def_id, jrn_def_name from ".
                              " jrn_def order by jrn_def_name");
-    $sel_jrn[]=array('value'=>0,'label'=>'Global : periode pour tous les journaux');
+    $sel_jrn[]=array('value'=>0,'label'=>_('Global : periode pour tous les journaux'));
     $wSel=new ISelect();
     $wSel->value=$sel_jrn;
     $wSel->name='jrn_def_id';
