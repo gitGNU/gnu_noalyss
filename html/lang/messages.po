@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-04 18:51+0200\n"
+"POT-Creation-Date: 2016-04-21 17:15+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -41,6 +41,7 @@ msgstr ""
 #: include/ext/rapport_avance/index.php:63 html/ajax_card.php:182
 #: include/database.item.php:101 include/database.item.php:100
 #: include/database.item.php:8 include/ajax/ajax_card.php:162
+#: include/ext/listing/index.php:62
 msgid "Historique"
 msgstr ""
 
@@ -197,6 +198,8 @@ msgstr ""
 #: include/ext/rapport_avance/include/class_formulaire_param_detail.php:293
 #: include/ext/rapport_avance/include/class_formulaire_param_detail.php:368
 #: include/ajax/ajax_card.php:472
+#: include/ext/listing/include/class_rapav_listing_formula.php:386
+#: include/ext/listing/include/class_rapav_listing_formula.php:806
 msgid "Recherche poste"
 msgstr ""
 
@@ -384,6 +387,7 @@ msgstr ""
 #: include/modele.inc.php:451 include/ext/syndicat_tools/ajax.php:15
 #: include/dossier.inc.php:362 include/dossier.inc.php:405
 #: include/modele.inc.php:397 include/modele.inc.php:434
+#: include/dossier.inc.php:378 include/dossier.inc.php:421
 msgid "Retour"
 msgstr ""
 
@@ -567,7 +571,8 @@ msgstr ""
 #: include/ext/rapport_avance/raw.php:210 html/show_pj.php:83
 #: include/ext/rapport_avance/raw.php:277 include/export/export_receipt.php:71
 #: include/ext/rapport_avance/raw.php:63
-#: include/ext/rapport_avance/raw.php:107
+#: include/ext/rapport_avance/raw.php:107 include/ext/listing/raw.php:59
+#: include/ext/listing/raw.php:106 include/ext/listing/raw.php:173
 msgid "Fichier effacé"
 msgstr ""
 
@@ -635,6 +640,7 @@ msgstr ""
 #: html/user_login.php:170 include/modele.inc.php:265
 #: include/report.inc.php:142 include/modele.inc.php:289
 #: include/balance.inc.php:97 include/modele.inc.php:272
+#: include/cfgplugin.inc.php:108
 msgid "Filtre"
 msgstr ""
 
@@ -888,7 +894,7 @@ msgstr ""
 #: include/class/class_balance_age.php:145 include/class/class_fiche.php:1600
 #: include/ext/amortis/raw.php:122 include/class/class_document_modele.php:67
 #: include/dossier.inc.php:219 include/modele.inc.php:246
-#: include/modele.inc.php:352
+#: include/modele.inc.php:352 include/dossier.inc.php:222
 msgid "Nom"
 msgstr ""
 
@@ -1038,7 +1044,8 @@ msgstr ""
 #: include/ext/importbank/include/template/show_field.php:93
 #: include/ajax/ajax_add_menu.php:163 include/ajax/ajax_add_menu.php:209
 #: include/ajax/ajax_admin.php:140
-#: include/template/action_display_short.php:124
+#: include/template/action_display_short.php:124 include/cfgplugin.inc.php:164
+#: include/ext/import_card/include/template/input_file.php:54
 msgid "Valider"
 msgstr ""
 
@@ -1096,6 +1103,7 @@ msgstr ""
 #: include/anc_pa.inc.php:244 include/user_detail.inc.php:236
 #: include/class/class_anc_key.php:341 include/class/class_anc_key.php:342
 #: include/user_detail.inc.php:245
+#: include/ext/import_card/include/class_import_card.php:205
 msgid "Ajout"
 msgstr ""
 
@@ -2584,6 +2592,7 @@ msgstr ""
 #: include/ext/importbank/include/template/show_list.php:45
 #: include/class/class_acc_ledger_purchase.php:1386
 #: include/class/class_acc_ledger_sold.php:677
+#: include/ext/importbank/include/template/show_list.php:34
 msgid "Journal"
 msgstr ""
 
@@ -3263,7 +3272,8 @@ msgstr ""
 #: include/template/detail-action.php:475 include/template/letter_prop.php:34
 #: include/template/letter_prop.php:77 include/modele.inc.php:247
 #: include/modele.inc.php:356 include/template/detail-action.php:316
-#: include/template/detail-action.php:473
+#: include/template/detail-action.php:473 include/cfgplugin.inc.php:113
+#: include/dossier.inc.php:223 include/dossier.inc.php:337
 msgid "Description"
 msgstr ""
 
@@ -3412,7 +3422,7 @@ msgstr ""
 #: include/ajax_admin.php:268 include/ajax/ajax_admin.php:195
 #: include/ajax/ajax_admin.php:268 include/ajax/ajax_plugin_detail.php:29
 #: include/class/class_anticipation.php:203 include/ajax/ajax_admin.php:199
-#: include/ajax/ajax_admin.php:272
+#: include/ajax/ajax_admin.php:272 include/ajax/ajax_admin.php:279
 msgid "Modification"
 msgstr ""
 
@@ -3596,6 +3606,9 @@ msgstr ""
 #: include/ext/importbank/include/template/show_list.php:62
 #: include/ext/importbank/include/template/show_list.php:207
 #: include/modele.inc.php:310 include/template/detail-action.php:447
+#: include/dossier.inc.php:276 include/dossier.inc.php:285
+#: include/ext/importbank/include/template/show_list.php:51
+#: include/ajax/ajax_admin.php:243 include/ajax/ajax_admin.php:268
 msgid "Effacer"
 msgstr ""
 
@@ -3652,6 +3665,9 @@ msgstr ""
 #: include/ext/rapport_avance/include/class_rapav_declaration.php:371
 #: include/ext/rapport_avance/include/class_rapav_declaration.php:328
 #: include/ext/rapport_avance/include/class_rapav_declaration.php:401
+#: include/ext/listing/include/class_rapav_listing_compute_fiche.php:244
+#: include/ext/listing/include/class_rapav_listing_compute_fiche.php:324
+#: include/ext/listing/include/class_rapav_listing_compute_fiche.php:486
 msgid "Ne peut pas sauver "
 msgstr ""
 
@@ -3674,6 +3690,7 @@ msgstr ""
 #: include/class/class_document_modele.php:92 include/dossier.inc.php:275
 #: include/template/detail-action.php:427 include/ajax/ajax_view_action.php:49
 #: include/template/detail-action.php:425 include/ajax/ajax_view_action.php:47
+#: include/dossier.inc.php:278
 msgid "Modifier"
 msgstr ""
 
@@ -4634,6 +4651,7 @@ msgstr ""
 #: include/database.item.php:59 include/cfgplugin.inc.php:110
 #: include/database.item.php:62 include/database.item.php:61
 #: include/database.item.php:19 include/ajax/ajax_navigator.php:102
+#: include/cfgplugin.inc.php:111
 msgid "Extension"
 msgstr ""
 
@@ -5184,6 +5202,9 @@ msgstr ""
 #: include/template/fiche_def_input.php:6 include/database.item.php:111
 #: include/database.item.php:117 include/database.item.php:114
 #: include/database.item.php:113
+#: include/ext/import_card/include/template/input_file.php:41
+#: include/ext/import_card/include/template/test_file.php:39
+#: include/ext/import_doli/include/template/test_file.php:27
 msgid "Catégorie de fiche"
 msgstr ""
 
@@ -5813,47 +5834,48 @@ msgid "Ferme l'action"
 msgstr ""
 
 #: include/dossier.inc.php:49 include/dossier.inc.php:54
-#: include/dossier.inc.php:56
+#: include/dossier.inc.php:56 include/dossier.inc.php:58
 msgid "Le nom du dossier est vide"
 msgstr ""
 
 #: include/dossier.inc.php:56 include/modele.inc.php:67
 #: include/dossier.inc.php:74 include/dossier.inc.php:80
-#: include/modele.inc.php:65
+#: include/modele.inc.php:65 include/dossier.inc.php:82
 msgid "Désolé vous devez migrer ce modèle en unicode"
 msgstr ""
 
 #: include/dossier.inc.php:58 include/dossier.inc.php:76
-#: include/dossier.inc.php:82
+#: include/dossier.inc.php:82 include/dossier.inc.php:84
 msgid "le modele "
 msgstr ""
 
 #: include/dossier.inc.php:58 include/dossier.inc.php:76
-#: include/dossier.inc.php:82
+#: include/dossier.inc.php:82 include/dossier.inc.php:84
 msgid " doit être migré en unicode."
 msgstr ""
 
 #: include/dossier.inc.php:59 include/modele.inc.php:70
 #: include/dossier.inc.php:77 include/dossier.inc.php:83
 #: include/modele.inc.php:71 include/modele.inc.php:69
+#: include/dossier.inc.php:85
 msgid ""
 "Pour le passer en unicode, faites-en un backup puis restaurez le fichier reçu"
 msgstr ""
 
 #: include/dossier.inc.php:76 include/dossier.inc.php:97
-#: include/dossier.inc.php:103
+#: include/dossier.inc.php:103 include/dossier.inc.php:106
 msgid ""
 "Desole la creation de ce dossier a echoue,\n"
 " la cause la plus probable est deux fois le même nom de dossier"
 msgstr ""
 
 #: include/dossier.inc.php:94 include/dossier.inc.php:115
-#: include/dossier.inc.php:126
+#: include/dossier.inc.php:126 include/dossier.inc.php:129
 msgid " est une année invalide"
 msgstr ""
 
 #: include/dossier.inc.php:111 include/dossier.inc.php:132
-#: include/dossier.inc.php:143
+#: include/dossier.inc.php:143 include/dossier.inc.php:146
 msgid " Base de donnée "
 msgstr ""
 
@@ -5861,6 +5883,7 @@ msgstr ""
 #: include/dossier.inc.php:322 include/dossier.inc.php:133
 #: include/dossier.inc.php:355 include/dossier.inc.php:144
 #: include/dossier.inc.php:391 include/dossier.inc.php:392
+#: include/dossier.inc.php:147 include/dossier.inc.php:408
 msgid "est accèdée, déconnectez-vous d'abord"
 msgstr ""
 
@@ -5873,6 +5896,7 @@ msgstr ""
 #: include/dossier.inc.php:179 include/dossier.inc.php:213
 #: include/modele.inc.php:254 include/modele.inc.php:278
 #: include/dossier.inc.php:214 include/modele.inc.php:261
+#: include/dossier.inc.php:217
 msgid "Ajouter"
 msgstr ""
 
@@ -5881,7 +5905,7 @@ msgstr ""
 #: html/admin/setup.php:566 html/admin/setup.php:584 html/admin/setup.php:591
 #: include/upgrade.inc.php:82 include/upgrade.inc.php:77
 #: include/dossier.inc.php:268 include/upgrade.inc.php:78
-#: include/upgrade.inc.php:79
+#: include/upgrade.inc.php:79 include/dossier.inc.php:271
 msgid "Dossier inexistant"
 msgstr ""
 
@@ -5889,19 +5913,19 @@ msgstr ""
 #: include/modele.inc.php:278 include/dossier.inc.php:243
 #: include/dossier.inc.php:277 include/modele.inc.php:292
 #: include/modele.inc.php:331 include/dossier.inc.php:278
-#: include/modele.inc.php:314
+#: include/modele.inc.php:314 include/dossier.inc.php:281
 msgid "Backup"
 msgstr ""
 
 #: include/dossier.inc.php:254 include/dossier.inc.php:251
 #: include/dossier.inc.php:273 include/dossier.inc.php:307
-#: include/dossier.inc.php:308
+#: include/dossier.inc.php:308 include/dossier.inc.php:311
 msgid "pas de modèle disponible"
 msgstr ""
 
 #: include/dossier.inc.php:275 include/dossier.inc.php:272
 #: include/dossier.inc.php:294 include/dossier.inc.php:330
-#: include/dossier.inc.php:331
+#: include/dossier.inc.php:331 include/dossier.inc.php:334
 msgid "Nom du dossier"
 msgstr ""
 
@@ -5910,12 +5934,13 @@ msgstr ""
 #: include/compta_ven.inc.php:96 include/dossier.inc.php:278
 #: include/operation_ods_confirm.inc.php:51 include/dossier.inc.php:300
 #: include/dossier.inc.php:336 include/dossier.inc.php:337
+#: include/dossier.inc.php:353
 msgid "Modèle"
 msgstr ""
 
 #: include/dossier.inc.php:286 include/dossier.inc.php:283
 #: include/dossier.inc.php:305 include/dossier.inc.php:341
-#: include/dossier.inc.php:342
+#: include/dossier.inc.php:342 include/dossier.inc.php:358
 msgid "Creation Dossier"
 msgstr ""
 
@@ -5925,19 +5950,20 @@ msgstr ""
 #: include/modele.inc.php:290 include/ajax/ajax_admin.php:212
 #: include/modele.inc.php:329 include/ajax/ajax_admin.php:290
 #: include/ext/rapport_avance/include/template/rapav_listing_to_list.php:65
-#: include/modele.inc.php:312
+#: include/modele.inc.php:312 include/ajax/ajax_admin.php:219
+#: include/ajax/ajax_admin.php:297
 msgid "Modifie"
 msgstr ""
 
 #: include/dossier.inc.php:329 include/ajax_admin.php:223
 #: include/ajax_admin.php:224 include/ajax/ajax_admin.php:224
-#: include/ajax/ajax_admin.php:228
+#: include/ajax/ajax_admin.php:228 include/ajax/ajax_admin.php:235
 msgid "Etes vous sûr et certain de vouloir effacer "
 msgstr ""
 
 #: include/dossier.inc.php:332 include/ajax_admin.php:227
 #: include/ajax_admin.php:228 include/ajax/ajax_admin.php:228
-#: include/ajax/ajax_admin.php:232
+#: include/ajax/ajax_admin.php:232 include/ajax/ajax_admin.php:239
 msgid "Cochez la case si vous êtes sûr de vouloir effacer ce dossier"
 msgstr ""
 
@@ -5945,19 +5971,19 @@ msgstr ""
 #: include/modele.inc.php:358 include/dossier.inc.php:324
 #: include/dossier.inc.php:360 include/modele.inc.php:372
 #: include/modele.inc.php:413 include/dossier.inc.php:361
-#: include/modele.inc.php:396
+#: include/modele.inc.php:396 include/dossier.inc.php:377
 msgid "Désolé, vous n'avez pas coché la case"
 msgstr ""
 
 #: include/dossier.inc.php:355 include/dossier.inc.php:311
 #: include/dossier.inc.php:334 include/dossier.inc.php:370
-#: include/dossier.inc.php:371
+#: include/dossier.inc.php:371 include/dossier.inc.php:387
 msgid "inexistant"
 msgstr ""
 
 #: include/dossier.inc.php:365 include/dossier.inc.php:321
 #: include/dossier.inc.php:354 include/dossier.inc.php:390
-#: include/dossier.inc.php:391
+#: include/dossier.inc.php:391 include/dossier.inc.php:407
 msgid "Base de donnée "
 msgstr ""
 
@@ -6092,6 +6118,7 @@ msgstr ""
 
 #: include/fiche.inc.php:63 include/ext/rapport_avance/index.php:58
 #: include/template/calendar.php:10 include/ext/rapport_avance/index.php:60
+#: include/ext/listing/index.php:60
 msgid "Liste"
 msgstr ""
 
@@ -6325,7 +6352,8 @@ msgstr ""
 #: include/ajax_admin.php:218 include/ajax_admin.php:244
 #: include/payment_middle.inc.php:54 include/ajax/ajax_admin.php:218
 #: include/ajax/ajax_admin.php:244 include/ajax/ajax_admin.php:222
-#: include/ajax/ajax_admin.php:248
+#: include/ajax/ajax_admin.php:248 include/ajax/ajax_admin.php:229
+#: include/ajax/ajax_admin.php:255
 msgid "Efface"
 msgstr ""
 
@@ -7550,7 +7578,7 @@ msgstr ""
 #: include/ext/coprop/index.php:84 include/ext/rapport_avance/index.php:39
 #: include/ext/skel/index.php:82 include/ext/tva/index.php:69
 #: include/ext/sav/index.php:79 include/ext/skel/index.php:74
-#: include/ext/rapport_avance/index.php:41
+#: include/ext/rapport_avance/index.php:41 include/ext/listing/index.php:41
 msgid "L'extension est installée, pourriez-vous en vérifier le paramètrage ?"
 msgstr ""
 
@@ -7651,6 +7679,7 @@ msgid "Document généré"
 msgstr ""
 
 #: include/ext/rapport_avance/ajax.php:4 include/ext/rapport_avance/ajax.php:7
+#: include/ext/listing/ajax.php:8 include/ext/rapport_avance/ajax.php:8
 msgid "act invalide"
 msgstr ""
 
@@ -7663,7 +7692,7 @@ msgid "Résultat"
 msgstr ""
 
 #: include/ext/rapport_avance/index.php:58
-#: include/ext/rapport_avance/index.php:60
+#: include/ext/rapport_avance/index.php:60 include/ext/listing/index.php:60
 msgid "Création, modification, Paramètre de listes, mailing list"
 msgstr ""
 
@@ -7681,7 +7710,7 @@ msgstr ""
 
 #: include/ext/rapport_avance/index.php:61
 #: include/ext/rapport_avance/index.php:60
-#: include/ext/rapport_avance/index.php:62
+#: include/ext/rapport_avance/index.php:62 include/ext/listing/index.php:61
 msgid "Génération"
 msgstr ""
 
@@ -8018,7 +8047,7 @@ msgstr ""
 #: include/ext/amortis/include/template/util_generate.php:35
 #: include/ext/tva/form_periode.php:10 include/dossier.inc.php:281
 #: include/dossier.inc.php:303 include/dossier.inc.php:339
-#: include/dossier.inc.php:340
+#: include/dossier.inc.php:340 include/dossier.inc.php:356
 msgid "Année"
 msgstr ""
 
@@ -8346,14 +8375,17 @@ msgid "N° opération"
 msgstr ""
 
 #: include/ext/import_account/include/class_import_card.php:145
+#: include/ext/import_card/include/class_import_card.php:137
 msgid "Aucune colonne n'est définie"
 msgstr ""
 
 #: include/ext/import_account/include/class_import_card.php:150
+#: include/ext/import_card/include/class_import_card.php:142
 msgid "Les fiches doivent avoir au minimum un nom"
 msgstr ""
 
 #: include/ext/import_account/include/class_import_card.php:155
+#: include/ext/import_card/include/class_import_card.php:147
 msgid "Vous avez défini plusieurs fois la même colonne"
 msgstr ""
 
@@ -8918,6 +8950,7 @@ msgstr ""
 
 #: include/ext/import_account/include/template/input_file.php:7
 #: include/ext/import_account/include/template/test_file.php:9
+#: include/ext/import_card/include/template/test_file.php:25
 msgid ""
 "Pour importer des données, c'est-à-dire transformer des fichiers CSV (Valeur "
 "séparé par des virgules) en des fiches. Vous devez choisir, un fichier et "
@@ -8926,6 +8959,7 @@ msgid ""
 msgstr ""
 
 #: include/ext/import_account/include/template/input_file.php:10
+#: include/ext/import_card/include/template/input_file.php:29
 msgid ""
 "Par défaut, correspond à un export CSV depuis Calc (OpenOffice.org ou "
 "libreoffice)"
@@ -8934,6 +8968,7 @@ msgstr ""
 #: include/ext/import_account/include/template/input_file.php:16
 #: include/ext/import_account/include/template/test_file.php:16
 #: include/ext/import_account/include/template/test_operation.php:16
+#: include/ext/import_card/include/template/input_file.php:35
 msgid "Délimiteur"
 msgstr ""
 
@@ -8941,10 +8976,14 @@ msgstr ""
 #: include/ext/import_account/include/template/test_file.php:20
 #: include/ext/import_account/include/template/test_operation.php:20
 #: include/ext/import_account/include/template/upload_operation.php:40
+#: include/ext/import_card/include/template/input_file.php:38
+#: include/ext/import_card/include/template/test_file.php:36
+#: include/ext/import_doli/include/template/test_file.php:24
 msgid "Fichier à charger"
 msgstr ""
 
 #: include/ext/import_account/include/template/input_file.php:25
+#: include/ext/import_card/include/template/input_file.php:44
 msgid "Encodage unicode"
 msgstr ""
 
@@ -8970,11 +9009,15 @@ msgstr ""
 
 #: include/ext/import_account/include/template/test_file.php:26
 #: include/ext/import_account/include/template/test_operation.php:26
+#: include/ext/import_card/include/template/test_file.php:42
+#: include/ext/import_doli/include/template/test_file.php:30
 msgid "Encodage"
 msgstr ""
 
 #: include/ext/import_account/include/template/test_file.php:29
 #: include/ext/import_account/include/template/test_operation.php:29
+#: include/ext/import_card/include/template/test_file.php:45
+#: include/ext/import_doli/include/template/test_file.php:33
 msgid "Texte entouré par"
 msgstr ""
 
@@ -9374,6 +9417,7 @@ msgstr ""
 
 #: include/ajax_navigator.php:52 include/cfgplugin.inc.php:101
 #: include/cfgplugin.inc.php:113 include/ajax/ajax_navigator.php:52
+#: include/cfgplugin.inc.php:114
 msgid "Chemin"
 msgstr ""
 
@@ -9453,6 +9497,7 @@ msgstr ""
 #: include/anc_pa.inc.php:93 include/anc_pa.inc.php:186
 #: include/anc_pa.inc.php:188 include/lib/user_menu.php:120
 #: include/lib/user_menu.php:121
+#: include/ext/import_card/include/class_import_card.php:215
 msgid "Mise à jour"
 msgstr ""
 
@@ -9604,12 +9649,14 @@ msgstr ""
 #: include/dossier.inc.php:183 include/dossier.inc.php:217
 #: include/modele.inc.php:238 include/modele.inc.php:262
 #: include/dossier.inc.php:218 include/modele.inc.php:245
+#: include/dossier.inc.php:221
 msgid "id"
 msgstr ""
 
 #: include/card_attr.inc.php:97 include/dossier.inc.php:184
 #: include/card_attr.inc.php:96 include/dossier.inc.php:204
 #: include/dossier.inc.php:238 include/dossier.inc.php:239
+#: include/dossier.inc.php:242
 msgid "Taille"
 msgstr ""
 
@@ -9814,6 +9861,7 @@ msgstr ""
 #: include/export/export_histo_csv.php:41
 #: include/export/export_ledger_csv.php:187
 #: include/export/export_histo_csv.php:42 include/ext/importbank/ajax.php:92
+#: include/ext/importbank/include/template/show_list.php:62
 msgid "Tiers"
 msgstr ""
 
@@ -10267,6 +10315,7 @@ msgstr ""
 #: include/menu.inc.php:109 include/menu.inc.php:126
 #: include/ajax/ajax_get_profile.php:108
 #: include/template/profile_menu_display_module.php:56
+#: include/cfgplugin.inc.php:112
 msgid "Menu"
 msgstr ""
 
@@ -11138,18 +11187,23 @@ msgstr ""
 #: include/ext/rapport_avance/include/declaration.inc.php:157
 #: include/ext/rapport_avance/include/declaration.inc.php:118
 #: include/ext/rapport_avance/include/declaration.inc.php:154
+#: include/ext/listing/include/declaration.inc.php:37
+#: include/ext/listing/include/declaration.inc.php:62
+#: include/ext/listing/include/declaration.inc.php:98
 msgid "Etape"
 msgstr ""
 
 #: include/ext/rapport_avance/include/declaration.inc.php:121
 #: include/ext/rapport_avance/include/declaration.inc.php:122
 #: include/ext/rapport_avance/include/declaration.inc.php:119
+#: include/ext/listing/include/declaration.inc.php:63
 msgid "Exporter en CSV ou passer à l'étape suivante"
 msgstr ""
 
 #: include/ext/rapport_avance/include/declaration.inc.php:157
 #: include/ext/rapport_avance/include/declaration.inc.php:158
 #: include/ext/rapport_avance/include/declaration.inc.php:155
+#: include/ext/listing/include/declaration.inc.php:99
 msgid "Sélectionner les lignes que vous vous voulez conserver"
 msgstr ""
 
@@ -11209,6 +11263,7 @@ msgstr ""
 
 #: include/ext/rapport_avance/include/class_rapav.php:150
 #: include/ext/rapport_avance/include/class_rapav.php:152
+#: include/ext/listing/include/class_rapav.php:152
 msgid " Erreur dans la formule "
 msgstr ""
 
@@ -11342,6 +11397,7 @@ msgid "Nombre de plugins trouvés"
 msgstr ""
 
 #: include/cfgplugin.inc.php:102 include/cfgplugin.inc.php:114
+#: include/cfgplugin.inc.php:115
 msgid "Disponible"
 msgstr ""
 
@@ -12195,6 +12251,7 @@ msgstr ""
 #: include/ajax/ajax_admin.php:84 include/ajax/ajax_admin.php:122
 #: include/ajax/ajax_admin.php:170 include/class/class_dossier.php:114
 #: include/ajax/ajax_admin.php:174 include/class/class_dossier.php:115
+#: include/class/class_dossier.php:116
 msgid "Erreur paramètre"
 msgstr ""
 
@@ -12221,11 +12278,13 @@ msgstr ""
 
 #: include/ajax_admin.php:248 include/ajax_admin.php:249
 #: include/ajax/ajax_admin.php:249 include/ajax/ajax_admin.php:253
+#: include/ajax/ajax_admin.php:260
 msgid "Etes vous sure et certain de vouloir effacer "
 msgstr ""
 
 #: include/ajax_admin.php:252 include/ajax_admin.php:253
 #: include/ajax/ajax_admin.php:253 include/ajax/ajax_admin.php:257
+#: include/ajax/ajax_admin.php:264
 msgid "Cochez la case si vous êtes sûr de vouloir effacer ce modèle"
 msgstr ""
 
@@ -12328,6 +12387,7 @@ msgstr ""
 
 #: include/dossier.inc.php:242 include/dossier.inc.php:264
 #: include/dossier.inc.php:298 include/dossier.inc.php:299
+#: include/dossier.inc.php:302
 msgid "Ajout d'un dossier"
 msgstr ""
 
@@ -12344,6 +12404,7 @@ msgstr ""
 #: include/dossier.inc.php:204 include/dossier.inc.php:238
 #: include/modele.inc.php:273 include/modele.inc.php:297
 #: include/dossier.inc.php:239 include/modele.inc.php:280
+#: include/dossier.inc.php:242
 msgid "Nom base de données"
 msgstr ""
 
@@ -12670,17 +12731,20 @@ msgstr ""
 
 #: include/dossier.inc.php:159 include/dossier.inc.php:179
 #: include/dossier.inc.php:213 include/dossier.inc.php:214
+#: include/dossier.inc.php:217
 msgid "Ajouter un dossier"
 msgstr ""
 
 #: include/dossier.inc.php:331 include/dossier.inc.php:367
 #: include/dossier.inc.php:403 include/dossier.inc.php:404
+#: include/dossier.inc.php:420
 #, php-format
 msgid "Le dossier %s est effacé"
 msgstr ""
 
 #: include/dossier.inc.php:150 include/dossier.inc.php:170
 #: include/dossier.inc.php:204 include/dossier.inc.php:205
+#: include/dossier.inc.php:208
 msgid "Dossier Management"
 msgstr ""
 
@@ -12835,6 +12899,7 @@ msgstr ""
 
 #: include/ext/rapport_avance/include/class_rapav_listing_compute.php:194
 #: include/ext/rapport_avance/include/template/declaration_display.php:46
+#: include/ext/listing/include/class_rapav_listing_compute.php:194
 msgid "Modifie description"
 msgstr ""
 
@@ -12992,6 +13057,7 @@ msgid "Aucun dossier disponible"
 msgstr ""
 
 #: include/dossier.inc.php:64 include/dossier.inc.php:66
+#: include/dossier.inc.php:68
 msgid "Parametre invalide"
 msgstr ""
 
@@ -13102,6 +13168,7 @@ msgstr ""
 #: include/ext/importbank/include/template/show_list.php:199
 #: include/ext/importbank/include/template/show_list.php:64
 #: include/ext/importbank/include/template/show_list.php:209
+#: include/ext/importbank/include/template/show_list.php:53
 msgid "Transfèrer"
 msgstr ""
 
@@ -13227,10 +13294,12 @@ msgid "Base de donnée vide"
 msgstr ""
 
 #: include/dossier.inc.php:195 include/dossier.inc.php:196
+#: include/dossier.inc.php:199
 msgid "Echec création "
 msgstr ""
 
 #: include/dossier.inc.php:318 include/dossier.inc.php:319
+#: include/dossier.inc.php:322
 msgid "Aucun modèle (dossier vide, devant être restauré manuellement)"
 msgstr ""
 
@@ -14388,6 +14457,9 @@ msgstr ""
 #: include/class/class_fiche.php:2043 include/balance.inc.php:287
 #: include/dossier.inc.php:231
 #: include/ext/rapport_avance/include/historique.inc.php:47
+#: include/dossier.inc.php:234
+#: include/ext/listing/include/class_rapav_listing_compute.php:213
+#: include/ext/listing/include/historique.inc.php:49
 #, php-format
 msgid "Cherche"
 msgstr ""
@@ -14535,14 +14607,17 @@ msgid "--nouveau--"
 msgstr ""
 
 #: include/ext/importbank/include/template/show_list.php:15
+#: include/ext/importbank/include/template/show_list.php:60
 msgid "--choix--"
 msgstr ""
 
 #: include/ext/importbank/include/template/show_list.php:16
+#: include/ext/importbank/include/template/show_list.php:63
 msgid "Donner le tiers"
 msgstr ""
 
 #: include/ext/importbank/include/template/show_list.php:17
+#: include/ext/importbank/include/template/show_list.php:64
 msgid "Supprimer le tiers"
 msgstr ""
 
@@ -14555,25 +14630,30 @@ msgid "Valider réconciliation automatique"
 msgstr ""
 
 #: include/ext/importbank/include/template/show_list.php:20
+#: include/ext/importbank/include/template/show_list.php:72
 msgid "Marquer pour suppression"
 msgstr ""
 
 #: include/ext/importbank/include/template/show_list.php:21
+#: include/ext/importbank/include/template/show_list.php:73
 msgid "Enlever le marquage de suppression"
 msgstr ""
 
 #: include/ext/importbank/include/template/show_list.php:40
 #: include/ext/importbank/include/template/show_list.php:45
+#: include/ext/importbank/include/template/show_list.php:34
 msgid "Fiche "
 msgstr ""
 
 #: include/ext/importbank/include/template/show_list.php:57
 #: include/ext/importbank/include/template/show_list.php:66
+#: include/ext/importbank/include/template/show_list.php:55
 msgid "Reconciliation automatique"
 msgstr ""
 
 #: include/ext/importbank/include/template/show_list.php:59
 #: include/ext/importbank/include/template/show_list.php:68
+#: include/ext/importbank/include/template/show_list.php:57
 msgid "Opérations sélectionnées"
 msgstr ""
 
@@ -15332,6 +15412,7 @@ msgid "Format effacé"
 msgstr ""
 
 #: include/ext/rapport_avance/include/class_rapav_listing.php:417
+#: include/ext/listing/include/class_rapav_listing.php:419
 msgid "Clonage impossible"
 msgstr ""
 
@@ -15382,4 +15463,117 @@ msgstr ""
 msgid ""
 "Les extensions CONVERT_GIF_PDF et PDFTK pour convertir en pdf ne sont pas "
 "installées "
+msgstr ""
+
+#: include/dossier.inc.php:342 include/ajax/ajax_admin.php:213
+msgid "Max. email / jour (-1 = illimité)"
+msgstr ""
+
+#: include/periode.inc.php:87
+msgid " Désolé mais cette période est utilisée"
+msgstr ""
+
+#: include/periode.inc.php:96
+msgid "Désolé mais vous devez avoir au moins une période"
+msgstr ""
+
+#: include/periode.inc.php:115
+msgid "Autre Journal ?"
+msgstr ""
+
+#: include/periode.inc.php:124
+msgid "12 périodes)"
+msgstr ""
+
+#: include/periode.inc.php:125
+msgid "13 périodes"
+msgstr ""
+
+#: include/periode.inc.php:136
+msgid "Global : periode pour tous les journaux"
+msgstr ""
+
+#: include/periode.inc.php:140
+msgid "Choisissez global ou uniquement le journal à fermer"
+msgstr ""
+
+#: include/periode.inc.php:144
+msgid ""
+"Pour ajouter, effacer ou modifier une p&eacute;riode, il faut choisir global"
+msgstr ""
+
+#: include/ext/listing/index.php:61
+msgid "Génération listing"
+msgstr ""
+
+#: include/ext/listing/index.php:62
+msgid "Historique listing "
+msgstr ""
+
+#: include/ext/import_card/include/class_import_card.php:244
+#, php-format
+msgid "%d fiches sont insérées dans la catégorie %s"
+msgstr ""
+
+#: include/ext/importbank/include/template/show_list.php:66
+msgid "Réconciliation"
+msgstr ""
+
+#: include/ext/importbank/include/template/show_list.php:68
+msgid "Valider réconciliation"
+msgstr ""
+
+#: include/ext/importbank/include/template/show_list.php:69
+msgid "Supprimer réconciliation"
+msgstr ""
+
+#: include/ext/importbank/include/template/show_list.php:71
+msgid "Suppression"
+msgstr ""
+
+#: include/ext/import_card/include/template/input_file.php:25
+#: include/ext/import_doli/include/template/test_file.php:13
+msgid ""
+"Pour importer des données, c'est-à-dire transformer des fichiers CSV (Valeur "
+"séparé par des virgules) en des fiches. Vous devez choisir, un fichier et "
+"donner une catégorie de fiche existante. Ensuite, il suffit d'indiquer "
+"quelles colonnes correspondent à quelle attribut. "
+msgstr ""
+
+#: include/ext/import_card/include/template/input_file.php:47
+msgid "  Texte entouré du signe"
+msgstr ""
+
+#: include/ext/import_card/include/template/input_file.php:50
+msgid "Supprimer la première ligne"
+msgstr ""
+
+#: include/ext/import_card/include/template/test_file.php:32
+msgid "Délimiteur "
+msgstr ""
+
+#: include/ext/import_card/include/template/test_file.php:49
+msgid "Suppression première ligne"
+msgstr ""
+
+#: include/ext/import_card/include/template/test_file.php:82
+msgid "Supprimé"
+msgstr ""
+
+#: include/ext/import_card/include/template/test_file.php:105
+#: include/ext/import_doli/include/template/test_file.php:84
+msgid "Catégorie invalide"
+msgstr ""
+
+#: include/ext/import_doli/include/template/test_file.php:91
+msgid "Numéro de ligne"
+msgstr ""
+
+#: include/lib/class_sendmail.php:96
+#, php-format
+msgid "%s est vide"
+msgstr ""
+
+#: include/lib/class_sendmail.php:152
+msgid "Email non envoyé"
 msgstr ""
