@@ -157,7 +157,7 @@ class Acc_Ledger_Sold extends Acc_Ledger {
         // foreach item
         //----------------------------------------
         for ($i = 0; $i < $nb_item; $i++) {
-            if (strlen(trim(${'e_march' . $i})) == 0)
+            if (! isset (${'e_march' . $i}) || strlen(trim(${'e_march' . $i})) == 0)
                 continue;
             /* check if amount are numeric and */
             if (isNumber(${'e_march' . $i . '_price'}) == 0)
