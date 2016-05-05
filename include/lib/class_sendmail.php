@@ -25,6 +25,7 @@
  * @author dany
  */
 require_once NOALYSS_INCLUDE.'/lib/class_filetosend.php';
+require_once NOALYSS_INCLUDE.'/class/class_dossier.php';
 
 class Sendmail
 {
@@ -158,7 +159,7 @@ class Sendmail
         // Increment email amount
         $repo =new Database();
         $date=date('Ymd');
-        $dossier=Dossier::id();
+        $dossier=HtmlInput::default_value_request("gDossier", -1);
         $this->increment_mail($repo,$dossier,$date);
     }
     /**
@@ -228,6 +229,7 @@ class Sendmail
      */
     function increment_mail(Database $p_repo,$p_dossier,$p_date)
     {
+        if ( $p_dossier == -1) return ; 
         $email_sent = $this->get_email_sent($p_repo,$p_dossier,$p_date);
         if (  $email_sent == 0 ){
                 $p_repo->exec_sql("insert into public.dossier_sent_email(de_sent_email,dos_id,de_date) values($1,$2,$3)",

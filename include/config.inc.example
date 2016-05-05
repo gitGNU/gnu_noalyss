@@ -42,3 +42,11 @@ define ("dbname","");
 // define ("SYSINFO_DISPLAY",true);
 // For developpement
 // define ("NOALYSS VERSION",9999);
+
+// If you want to override the parameters you have to define OVERRIDE_PARAM
+// and give your own parameters for max_execution_time and memory limit
+// define ('OVERRIDE_PARAM',1);
+// ini_set ('max_execution_time',240);
+// ini_set ('memory_limit','256M');
+// 
+  
