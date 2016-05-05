@@ -162,6 +162,10 @@ td.tool a.mtitle:hover {
     margin-bottom: 18px;
     width: 100%;
 }
+@media only screen and (max-width:955px) {
+    margin-bottom: 70px;
+}
+
 #module {
     position:absolute;
     top:0px;
