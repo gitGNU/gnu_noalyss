@@ -66,6 +66,7 @@ ini_set ('default_charset',"UTF-8");
 ini_set ('session.use_cookies',1);
 ini_set ('magic_quotes_gpc','off');
 ini_set ('session.use_only_cookies','on');
+ini_set ('session.use_cookies',1);
 
 if ( ! defined('OVERRIDE_PARAM')) {
     ini_set ('max_execution_time',240);
