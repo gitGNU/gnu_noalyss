@@ -209,6 +209,13 @@ if (in_array($op, array('modele_drop', 'modele_modify', 'folder_modify', 'folder
         echo _('Description').' : <br>';
         echo $wDesc->input('desc', $dos->get_parameter('desc'));
         echo '<br>';
+        
+        echo _('Max. email / jour (-1 = illimité)')    ;
+        $max_email_input=new INum('max_email');
+        $max_email_input->value=$dos->get_parameter('max_email');
+        $max_email_input->prec=0;
+        echo $max_email_input->input();
+        echo '<br>';
         echo HtmlInput::submit('upd', _('Modifie'));
         echo '</form>';
         $content=ob_get_clean();

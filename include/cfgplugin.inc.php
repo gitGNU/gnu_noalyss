@@ -105,7 +105,8 @@ if ( isset ($_POST['save_plugin'])){
 <div class="content">
     <?php echo _('Nombre de plugins trouvés')." ".$nb_plugin; ?>
     <form method="post">
-    <table class="result">
+    <?php echo _('Filtre');echo " ";echo HtmlInput::filter_table("plugin_install_tb", '0,1,2,3', 1);?>
+    <table id="plugin_install_tb" class="result">
         <tr>
             <th><?php echo _('Extension')?></th>
             <th><?php echo _('Menu')?></th>

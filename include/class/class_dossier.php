@@ -43,7 +43,8 @@ class Dossier
 
     private static $variable=array("id"=>"dos_id",
         "name"=>"dos_name",
-        "desc"=>"dos_description");
+        "desc"=>"dos_description",
+        "max_email"=>'dos_email');
 
     function __construct($p_id)
     {
@@ -176,7 +177,9 @@ class Dossier
             exit('gDossier Invalide : '.$id);
     }
 
-    /*!\brief return a string to put to gDossier into a GET */
+    /*!
+     * \brief return a string to put to gDossier into a GET 
+     */
 
     static function get()
     {
@@ -247,20 +250,21 @@ class Dossier
                         array($this->dos_name, $this->dos_id))!=0)
             return;
 
-        $sql="update ac_dossier set dos_name=$1,dos_description=$2 ".
-                " where dos_id = $3";
+        $sql="update ac_dossier set dos_name=$1,dos_description=$2 ,dos_email=$3".
+                " where dos_id = $4";
         $res=$this->cn->exec_sql(
                 $sql,
                 array(trim($this->dos_name),
-            trim($this->dos_description),
-            $this->dos_id)
+                      trim($this->dos_description),
+                      $this->dos_email,
+                      $this->dos_id)
         );
     }
 
     public function load()
     {
 
-        $sql="select dos_name,dos_description from ac_dossier where dos_id=$1";
+        $sql="select dos_name,dos_description,dos_email from ac_dossier where dos_id=$1";
 
         $res=$this->cn->exec_sql(
                 $sql, array($this->dos_id)

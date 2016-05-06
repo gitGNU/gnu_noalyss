@@ -755,11 +755,11 @@ class Anc_Operation
            op contains sequence
            p_item is used to identify what op is concerned
         */
-        /* echo "j_id = $j_id p_item = $p_item hplan=".var_export($hplan[$p_item],true)." val = ".var_export($val[$p_item],true).'<br>'; */
         /* for each row */
-        //   for ($i=0;$i<count($val[$p_item]);$i++) {
         $idx_pa_id=0;
         $row=0;
+        
+        if ( ! isset ($hplan[$p_item]))            return;
         // foreach col PA
         for ($e=0;$e<count($hplan[$p_item]);$e++)
         {

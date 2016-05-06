@@ -38,8 +38,10 @@ if ( isset ($_POST['upd']) && isNumber($dossier_id) == 1 && $dossier_id != -1)
     $dos=new dossier($dossier_id);
     $name=HtmlInput::default_value_post('name', "--vide--");
     $desc=HtmlInput::default_value_post('desc', "--vide--");
+     $max_email=HtmlInput::default_value_post("max_email", -1);
     $dos->set_parameter('name',$name);
     $dos->set_parameter('desc',$desc);
+    $dos->set_parameter("max_email", $max_email);
     $dos->save();
 }
 echo '<div class="content" style="width:80%;margin-left:10%">';
@@ -89,12 +91,13 @@ if ( isset ($_POST["DATABASE"]) )
      * Insert new dossier with description
      */
     $desc=HtmlInput::default_value_post("DESCRIPTION","");
+    $max_email=HtmlInput::default_value_post("max_email", -1);
     try
     {
         $repo->start();
-
-        $Res=$repo->exec_sql("insert into ac_dossier(dos_name,dos_description)
-                           values ($1,$2)",array($dos,$desc));
+        if (isNumber($max_email) == 0) $max_email=-1;
+        $Res=$repo->exec_sql("insert into ac_dossier(dos_name,dos_description,dos_email)
+                           values ($1,$2,$3)",array($dos,$desc,$max_email));
         $l_id=$repo->get_current_seq('dossier_id');
         $repo->commit();
     }
@@ -334,6 +337,19 @@ if ( $sa == 'list' )
                                          <TD><?php echo _('Description');
     ?></td><td>  <TEXTAREA  class="input_text"  COLS="60" ROWS="2" NAME="DESCRIPTION" ></TEXTAREA> </TD>
                                           </TR>
+<tr>
+    <td>
+    <?php echo _('Max. email / jour (-1 = illimité)')    ;?>
+    </td>
+    <td>
+    <?php
+        $max_email_input=new INum('max_email');
+        $max_email_input->prec=0;
+        $max_email_input->value=-1;
+        echo $max_email_input->input();
+    ?>
+    </td>
+</tr>
                                           <TR> <TD><?php echo _('Modèle');
     ?></td><td>  <?php   echo $template;
     ?> </TD></TR>

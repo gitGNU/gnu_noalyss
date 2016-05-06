@@ -553,7 +553,7 @@ class Fiche
                 array($this->id));
         $ret="";
         $ret.=h2(_("Catégorie")." ".$type_card, 'style="display:inline"');
-        $ret.='<span style="font-weight:bolder;margin-right:5px;float:right">'.
+        $ret.='<span style="margin-right:5px;float:right">'.
                 _('id fiche').':'.$this->id."</span>";
         $ret.="<table style=\"width:98%;margin:1%\">";
         if (empty($attr))

@@ -31,6 +31,7 @@ Sort on date
 force as numeric (normally useless):
 <th class="sorttable_numeric">Part number</th>
 
+Column to ignore : <th class="sorttable_nosort">
 To avoid the sort on the last row, use tfoot
 
 */
