@@ -25,10 +25,17 @@
 require_once NOALYSS_INCLUDE.'/lib/class_html_input.php';
 class IText extends HtmlInput
 {
+    var $placeholder; 
+    var $title;
+    var $autofocus;
     function __construct($name='',$value='',$p_id="")
     {
         parent::__construct($name,$value,$p_id);
+        $this->title="";
+        $this->placeholder="";
+        $this->extra="";
         $this->style=' class="input_text" ';
+        $this->autofocus=false;
     }
     /*!\brief show the html  input of the widget*/
     public function input($p_name=null,$p_value=null)
@@ -36,28 +43,44 @@ class IText extends HtmlInput
         $this->name=($p_name==null)?$this->name:$p_name;
         $this->value=($p_value==null)?$this->value:$p_value;
         if ( $this->readOnly==true) return $this->display();
-		$this->id=($this->id=="")?$this->name:$this->id;
+	$this->id=($this->id=="")?$this->name:$this->id;
 
-        $t= ((isset($this->title)))?'title="'.$this->title.'"   ':' ';
-
-        $extra=(isset($this->extra))?$this->extra:"";
-
+        $t= 'title="'.$this->title.'" ';
+        $autofocus=($this->autofocus)?" autofocus ":"";
         $this->value=str_replace('"','',$this->value);
         if ( ! isset ($this->css_size))
         {
-        $r='<INPUT '.$this->style.' TYPE="TEXT" id="'.
-           $this->id.'"'.$t.
-           'NAME="'.$this->name.'" VALUE="'.$this->value.'"  '.
-           'SIZE="'.$this->size.'" '.$this->javascript."  $this->extra >";
-        /* add tag for column if inside a table */
+            
+            $r=  sprintf('<INPUT TYPE="TEXT" %s id="%s" name="%s" value="%s" placeholder="%s" title="%s"
+                     Size="%s"  %s %s  %s>
+                    ',$this->style,
+                    $this->id,
+                    $this->name,
+                    $this->value,
+                    $this->placeholder,
+                    $this->title,
+                    $this->size,
+                    $this->javascript,
+                    $this->extra,
+                    $autofocus
+                    );
         } else {
-           $r='<INPUT '.$this->style.' TYPE="TEXT" id="'.
-           $this->id.'"'.$t.
-           'NAME="'.$this->name.'" VALUE="'.$this->value.'"  '.
-           ' style="width:'.$this->css_size.';" '.$this->javascript."  $this->extra >";
-
+            $r=  sprintf('<INPUT TYPE="TEXT" %s id="%s" name="%s" value="%s" placeholder="%s" title="%s"
+                     style="width:%s;"  %s %s  %s>
+                    ',$this->style,
+                    $this->id,
+                    $this->name,
+                    $this->value,
+                    $this->placeholder,
+                    $this->title,
+                    $this->css_size,
+                    $this->javascript,
+                    $this->extra,
+                    $autofocus
+                    );
         }
 
+        /* add tag for column if inside a table */
         if ( $this->table == 1 )		  $r='<td>'.$r.'</td>';
 
         return $r;
