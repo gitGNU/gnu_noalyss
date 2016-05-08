@@ -81,6 +81,8 @@ class Periode
             return 1;
         return 0;
     }
+    ///Return 1 if the periode is open otherwise 0
+    //!\note For only a ledger you must set Periode::jrn_def_id to the ledger id
     function is_open()
     {
         /* if jrn_Def_id == 0 then we check the global otherwise we check
@@ -99,6 +101,8 @@ class Periode
             return 1;
         return 0;
     }
+    ///Return 1 if periode is centralized
+    //!\note deprecated , centralization not used anymore
     function is_centralized()
     {
         if ( $this->jrn_def_id != 0 )
@@ -138,7 +142,9 @@ class Periode
         }
 
     }
-
+    ///Close a periode , if Periode::jrn_def_id is set to a different value
+    /// than 0 , it close only for this ledger id ; otherwise close for all 
+    /// periode
     function close()
     {
         if ( $this->jrn_def_id == 0 )
