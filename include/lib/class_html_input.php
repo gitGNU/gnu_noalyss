@@ -64,9 +64,9 @@ class HtmlInput
     var $disabled;                  /*!<  $disabled poss. value == true or nothing, to disable INPUT*/
     var $extra;                     /*!<  $extra different usage, it depends of the $type */
     var $extra2;                    /*!<  $extra2 different usage,
-        									it depends of the $type */
-    var $javascript;				   /*!< $javascript  is the javascript to add to the widget */
-    var $ctrl;						/*!<$ctrl is the control to update (see js_search_card_control) */
+                                            it depends of the $type */
+    var $javascript;                /*!< $javascript  is the javascript to add to the widget */
+    var $ctrl;			/*!<$ctrl is the control to update (see js_search_card_control) */
 
     var $tabindex;
     function __construct($p_name="",$p_value="",$p_id="")
@@ -81,6 +81,7 @@ class HtmlInput
         $this->table=0;
         $this->disabled=false;
         $this->javascript="";
+        $this->extra="";
         $this->extra2="all";
         $this->attribute=array();
         $this->id=$p_id;
