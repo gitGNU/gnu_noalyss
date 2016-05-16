@@ -134,6 +134,7 @@ if  ( $get_option == 0 )
     $title[]=_("Interne");
     $title[]=_("Date");
     $title[]=_("Poste");
+    $title[]=_("QuickCode");
     $title[]=_("Libellé");
     $title[]=_("Débit");
     $title[]=_("Crédit");
@@ -159,6 +160,7 @@ if  ( $get_option == 0 )
         $export->add($op['internal']);
         $export->add($op['j_date']);
         $export->add($op['poste']);
+        $export->add($op['j_qcode']);
         $export->add($desc);
         $export->add($op['deb_montant'],"number");
         $export->add($op['cred_montant'],"number");
@@ -184,6 +186,7 @@ if  ($get_option == 1)
         $title[]=_("operation");
         $title[]=_("Date");
         $title[]=_("N° Pièce");
+        $title[]=_("QuickCode");
         $title[]=_("Tiers");
         $title[]=_("commentaire");
         $title[]=_("internal");
@@ -191,11 +194,15 @@ if  ($get_option == 1)
         $export->write_header($title);
 	 foreach ($Row as $line)
 	   {
-
+             $tiers_id=$Jrn->get_tiers_id($line['jrn_def_type'],$line['jr_id']);
+             $fiche_tiers=new Fiche($cn,$tiers_id);
+             $tiers=$fiche_tiers->strAttribut(ATTR_DEF_NAME,0)." ".$fiche_tiers->strAttribut(ATTR_DEF_FIRST_NAME,0);
+             
 	     $export->add( $line['num']);
 	     $export->add($line['date']);
 	     $export->add($line['jr_pj_number']);
-	     $export->add($Jrn->get_tiers($line['jrn_def_type'],$line['jr_id']));
+	     $export->add($fiche_tiers->get_quick_code());
+	     $export->add($tiers);
 	     $export->add($line['comment']);
 	     $export->add($line['jr_internal']);
 	     //	  echo "<TD>".$line['pj'].";";
