@@ -921,7 +921,16 @@ div.topmenu {
 	font-size:0.85rem;
         
 }
-
+@media only screen and (max-width:320px) {
+  div.topmenu {
+    margin-top: 44px;      
+}
+}
+@media only screen and (max-width:800px) {
+    div.topmenu{ 
+        margin-top: 44px;
+    }  
+}
 #dossier h2{
     color:#6D3F2E;
     display:inline;

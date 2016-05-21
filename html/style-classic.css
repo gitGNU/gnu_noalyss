@@ -162,9 +162,7 @@ td.tool a.mtitle:hover {
     margin-bottom: 40px;
     width: 100%;
 }
-@media only screen and (max-width:955px) {
-    margin-bottom: 70px;
-}
+
 #module {
     position:absolute;
     top:0px;
@@ -980,9 +978,18 @@ td.toolselected a.mtitle {
 div.topmenu {
 	font-size:13.6px;
 	font-size:0.80rem;
-        
+       
 }
-
+@media only screen and (max-width:320px) {
+  div.topmenu {
+    margin-top: 44px;      
+}
+}
+@media only screen and (max-width:800px) {
+    div.topmenu{ 
+        margin-top: 44px;
+    }  
+}
 #dossier h2{
     color:#00008B;
     display:inline;
