@@ -472,7 +472,7 @@ class Acc_Ledger extends jrn_def_sql
 					'cred_montant' => ' ',
 					'description' => '<b><i>' . h($line['jr_comment']) . ' [' . $tot_op . '] </i></b>',
 					'poste' => $line['oc'],
-					'qcode' => $line['j_qcode'],
+					'j_qcode' => $line['j_qcode'],
 					'periode' => $line['periode'],
 					'jr_pj_number' => $line ['jr_pj_number']);
 
@@ -486,7 +486,7 @@ class Acc_Ledger extends jrn_def_sql
 					'cred_montant' => $mont_cred,
 					'description' => $line['description'],
 					'poste' => $line['poste'],
-					'qcode' => $line['j_qcode'],
+					'j_qcode' => $line['j_qcode'],
 					'periode' => $line['periode'],
 					'jr_pj_number' => ''
 				);
@@ -503,7 +503,7 @@ class Acc_Ledger extends jrn_def_sql
 					'cred_montant' => $mont_cred,
 					'description' => $line['description'],
 					'poste' => $line['poste'],
-					'qcode' => $line['j_qcode'],
+					'j_qcode' => $line['j_qcode'],
 					'periode' => $line['periode'],
 					'jr_pj_number' => '');
 			}
@@ -3388,6 +3388,7 @@ class Acc_Ledger extends jrn_def_sql
         //---------------------------------------------------------------------
         function get_tiers_id($p_jrn_type, $jr_id)
         {
+            $tiers=0;
             switch ($p_jrn_type)
 		{
 			case 'VEN':
