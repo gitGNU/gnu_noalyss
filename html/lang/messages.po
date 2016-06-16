@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-21 17:15+0200\n"
+"POT-Creation-Date: 2016-05-21 18:16+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -41,7 +41,8 @@ msgstr ""
 #: include/ext/rapport_avance/index.php:63 html/ajax_card.php:182
 #: include/database.item.php:101 include/database.item.php:100
 #: include/database.item.php:8 include/ajax/ajax_card.php:162
-#: include/ext/listing/index.php:62
+#: include/ext/listing/index.php:62 include/ext/import_account/index.php:65
+#: include/ext/listing/index.php:60
 msgid "Historique"
 msgstr ""
 
@@ -830,6 +831,7 @@ msgstr ""
 #: include/class/class_pre_op_ach.php:181
 #: include/class/class_pre_op_ven.php:170
 #: include/class/class_pre_op_ven.php:177
+#: include/class/class_acc_ledger.php:3669
 msgid "Créer une nouvelle fiche"
 msgstr ""
 
@@ -895,6 +897,7 @@ msgstr ""
 #: include/ext/amortis/raw.php:122 include/class/class_document_modele.php:67
 #: include/dossier.inc.php:219 include/modele.inc.php:246
 #: include/modele.inc.php:352 include/dossier.inc.php:222
+#: include/lib/class_html_input.php:327
 msgid "Nom"
 msgstr ""
 
@@ -1046,6 +1049,8 @@ msgstr ""
 #: include/ajax/ajax_admin.php:140
 #: include/template/action_display_short.php:124 include/cfgplugin.inc.php:164
 #: include/ext/import_card/include/template/input_file.php:54
+#: include/ext/importbank/include/template/show_field.php:105
+#: include/lib/class_html_input.php:355 include/lib/class_html_input.php:397
 msgid "Valider"
 msgstr ""
 
@@ -1323,6 +1328,7 @@ msgstr ""
 #: include/class/class_acc_ledger_purchase.php:1773
 #: include/class/class_acc_ledger_sold.php:680
 #: include/class/class_acc_ledger_sold.php:1352
+#: include/export/export_ledger_csv.php:138
 #, php-format
 msgid "Libellé"
 msgstr ""
@@ -1727,6 +1733,8 @@ msgstr ""
 #: include/class/class_acc_ledger_purchase.php:1371
 #: include/class/class_acc_ledger_purchase.php:1769
 #: include/class/class_acc_ledger_sold.php:1348
+#: include/export/export_ledger_csv.php:187
+#: include/export/export_ledger_csv.php:244
 msgid "Date"
 msgstr ""
 
@@ -1857,6 +1865,7 @@ msgstr ""
 #: include/export/export_fiche_balance_csv.php:157
 #: include/template/letter_prop.php:37 include/template/letter_prop.php:80
 #: include/export/export_poste_detail_pdf.php:236
+#: include/export/export_ledger_csv.php:139
 msgid "Débit"
 msgstr ""
 
@@ -1897,6 +1906,7 @@ msgstr ""
 #: include/export/export_poste_detail_csv.php:76
 #: include/template/letter_prop.php:40 include/template/letter_prop.php:83
 #: include/export/export_poste_detail_pdf.php:239
+#: include/export/export_ledger_csv.php:140
 msgid "Crédit"
 msgstr ""
 
@@ -2029,6 +2039,7 @@ msgstr ""
 #: include/class/class_acc_ledger_sold.php:1345
 #: include/class/class_acc_ledger_purchase.php:1774
 #: include/class/class_acc_ledger_sold.php:1353
+#: include/export/export_ledger_csv.php:247
 msgid "Pièce"
 msgstr ""
 
@@ -2193,6 +2204,7 @@ msgstr ""
 #: include/class_acc_ledger.php:3442 include/class_acc_ledger.php:3444
 #: include/class_acc_ledger.php:3452 include/class/class_acc_ledger.php:3452
 #: include/class/class_acc_ledger.php:3451
+#: include/class/class_acc_ledger.php:3462
 msgid "Journal n'existe pas"
 msgstr ""
 
@@ -2211,6 +2223,7 @@ msgstr ""
 #: include/class/class_acc_ledger.php:3628
 #: include/class/class_acc_ledger.php:3635
 #: include/class/class_acc_ledger_purchase.php:1644
+#: include/class/class_acc_ledger.php:3646
 msgid "Payé par"
 msgstr ""
 
@@ -3274,6 +3287,7 @@ msgstr ""
 #: include/modele.inc.php:356 include/template/detail-action.php:316
 #: include/template/detail-action.php:473 include/cfgplugin.inc.php:113
 #: include/dossier.inc.php:223 include/dossier.inc.php:337
+#: include/lib/class_html_input.php:328
 msgid "Description"
 msgstr ""
 
@@ -3536,6 +3550,7 @@ msgstr ""
 #: include/class/class_fiche.php:430 include/class/class_fiche.php:555
 #: include/ext/invoicing/include/invoice_send_mail_input.inc.php:149
 #: include/class/class_document_modele.php:68
+#: include/lib/class_html_input.php:373
 msgid "Catégorie"
 msgstr ""
 
@@ -3609,6 +3624,7 @@ msgstr ""
 #: include/dossier.inc.php:276 include/dossier.inc.php:285
 #: include/ext/importbank/include/template/show_list.php:51
 #: include/ajax/ajax_admin.php:243 include/ajax/ajax_admin.php:268
+#: include/ext/importbank/include/template/show_field.php:108
 msgid "Effacer"
 msgstr ""
 
@@ -3931,6 +3947,7 @@ msgid "Tous les profiles"
 msgstr ""
 
 #: include/class_html_input.php:323 include/lib/class_html_input.php:323
+#: include/lib/class_html_input.php:324
 msgid "Filtre "
 msgstr ""
 
@@ -3986,6 +4003,8 @@ msgstr ""
 #: include/ext/amortis/include/template/material_detail.php:190
 #: include/template/action_search.php:160 include/ext/importbank/ajax.php:196
 #: include/ext/importbank/ajax.php:239
+#: include/ext/importbank/include/template/confirm_transfer.php:230
+#: include/lib/class_html_input.php:421 include/lib/class_html_input.php:436
 #, php-format
 msgid "Fermer"
 msgstr ""
@@ -3993,6 +4012,7 @@ msgstr ""
 #: include/class_ibutton.php:61 include/class_ibutton.php:63
 #: include/class_html_input.php:332 include/lib/class_html_input.php:332
 #: include/lib/class_ibutton.php:63 include/compta_fin_rec.inc.php:221
+#: include/lib/class_html_input.php:333
 msgid "Inverser la sélection"
 msgstr ""
 
@@ -4026,7 +4046,8 @@ msgstr ""
 
 #: include/class_periode.php:240 include/class_periode.php:269
 #: include/class_periode.php:276 include/class/class_periode.php:240
-#: include/class/class_periode.php:276
+#: include/class/class_periode.php:276 include/class/class_periode.php:246
+#: include/class/class_periode.php:282
 #, php-format
 msgid "Nombre opérations %d"
 msgstr ""
@@ -4034,11 +4055,12 @@ msgstr ""
 #: include/class_periode.php:242 include/class_periode.php:360
 #: include/class_periode.php:243 include/class_periode.php:375
 #: include/class/class_periode.php:243 include/class/class_periode.php:375
+#: include/class/class_periode.php:249 include/class/class_periode.php:381
 msgid "Confirmez Réouverture"
 msgstr ""
 
 #: include/class_periode.php:265 include/class_periode.php:271
-#: include/class/class_periode.php:271
+#: include/class/class_periode.php:271 include/class/class_periode.php:277
 msgid "Confirmez effacement ?"
 msgstr ""
 
@@ -6118,7 +6140,7 @@ msgstr ""
 
 #: include/fiche.inc.php:63 include/ext/rapport_avance/index.php:58
 #: include/template/calendar.php:10 include/ext/rapport_avance/index.php:60
-#: include/ext/listing/index.php:60
+#: include/ext/listing/index.php:60 include/ext/listing/index.php:58
 msgid "Liste"
 msgstr ""
 
@@ -6639,7 +6661,7 @@ msgstr ""
 #: include/class_html_input.php:832 include/template/calendar-list.php:33
 #: include/class_html_input.php:836 include/lib/class_html_input.php:836
 #: include/ajax/ajax_calendar_zoom.php:23 include/lib/class_html_input.php:851
-#: include/lib/class_html_input.php:862
+#: include/lib/class_html_input.php:862 include/lib/class_html_input.php:863
 msgid "Calendrier"
 msgstr ""
 
@@ -6727,6 +6749,7 @@ msgstr ""
 #: include/card_attr.inc.php:95 include/user_detail.inc.php:159
 #: include/menu.inc.php:111 include/lib/class_html_input.php:328
 #: include/template/pcmn_update.php:42 include/user_detail.inc.php:168
+#: include/lib/class_html_input.php:329
 msgid "Type"
 msgstr ""
 
@@ -7202,6 +7225,7 @@ msgstr ""
 #: include/template/ledger_detail_ven.php:139
 #: include/template/ledger_detail_ven.php:136
 #: include/export/export_ledger_csv.php:244
+#: include/export/export_ledger_csv.php:251
 msgid "HTVA"
 msgstr ""
 
@@ -7224,6 +7248,7 @@ msgstr ""
 #: include/template/ledger_detail_ven.php:138
 #: include/class/class_print_ledger_detail_item.php:65
 #: include/export/export_ledger_csv.php:258
+#: include/export/export_ledger_csv.php:265
 msgid "TVAC"
 msgstr ""
 
@@ -7605,6 +7630,7 @@ msgstr ""
 
 #: include/ext/import_account/index.php:59
 #: include/ext/import_doli/index.php:59
+#: include/ext/import_account/index.php:66
 msgid "Paramètrage"
 msgstr ""
 
@@ -7688,11 +7714,13 @@ msgstr ""
 #: include/verif_bilan.inc.php:116 include/verif_bilan.inc.php:177
 #: include/ext/rapport_avance/ajax_include_follow_save.php:11
 #: include/ext/importbank/include/template/confirm_transfer.php:275
+#: include/ext/importbank/include/template/confirm_transfer.php:285
 msgid "Résultat"
 msgstr ""
 
 #: include/ext/rapport_avance/index.php:58
 #: include/ext/rapport_avance/index.php:60 include/ext/listing/index.php:60
+#: include/ext/listing/index.php:58
 msgid "Création, modification, Paramètre de listes, mailing list"
 msgstr ""
 
@@ -7711,6 +7739,7 @@ msgstr ""
 #: include/ext/rapport_avance/index.php:61
 #: include/ext/rapport_avance/index.php:60
 #: include/ext/rapport_avance/index.php:62 include/ext/listing/index.php:61
+#: include/ext/listing/index.php:59
 msgid "Génération"
 msgstr ""
 
@@ -8127,6 +8156,7 @@ msgstr ""
 #: include/ext/importbank/include/template/show_transfer.php:100
 #: include/ext/amortis/include/class_am_card.php:237
 #: include/class/class_acc_compute.php:195
+#: include/ext/import_account/include/class_impacc_csv.php:50
 msgid "Montant invalide"
 msgstr ""
 
@@ -8253,6 +8283,7 @@ msgstr ""
 #: include/ext/import_account/include/class_impacc_operation.php:38
 #: include/ext/importbank/include/import_bank.php:120
 #: include/ext/importbank/include/import_bank.php:133
+#: include/ext/import_account/include/class_impacc_file.php:54
 msgid "Pas de fichier donné"
 msgstr ""
 
@@ -8321,6 +8352,8 @@ msgstr ""
 #: include/class_balance_age.php:138 include/class/class_balance_age.php:138
 #: include/export/export_poste_detail_csv.php:173
 #: include/class/class_balance_age.php:144
+#: include/export/export_ledger_csv.php:137
+#: include/export/export_ledger_csv.php:189
 msgid "QuickCode"
 msgstr ""
 
@@ -8409,12 +8442,14 @@ msgid "Erreur attribut inexistant"
 msgstr ""
 
 #: include/ext/import_account/include/imd_operation.inc.php:55
+#: include/ext/import_account/include/imd_operation.inc.php:59
 msgid ""
 "Les opérations qui ne sont pas marquées comme correctes ne seront pas "
 "transfèrées"
 msgstr ""
 
 #: include/ext/import_account/include/imd_operation.inc.php:64
+#: include/ext/import_account/include/imd_operation.inc.php:72
 msgid "Transfert des opérations"
 msgstr ""
 
@@ -9184,6 +9219,7 @@ msgstr ""
 #: include/class/class_acc_reconciliation.php:464
 #: include/class/class_acc_reconciliation.php:472
 #: include/class/class_acc_reconciliation.php:488
+#: include/export/export_ledger_csv.php:193
 msgid "montant"
 msgstr ""
 
@@ -9848,6 +9884,7 @@ msgstr ""
 #: include/class/class_acc_ledger.php:823
 #: include/export/export_histo_csv.php:39
 #: include/export/export_ledger_csv.php:238
+#: include/export/export_ledger_csv.php:245
 msgid "Paiement"
 msgstr ""
 
@@ -9862,6 +9899,7 @@ msgstr ""
 #: include/export/export_ledger_csv.php:187
 #: include/export/export_histo_csv.php:42 include/ext/importbank/ajax.php:92
 #: include/ext/importbank/include/template/show_list.php:62
+#: include/export/export_ledger_csv.php:190
 msgid "Tiers"
 msgstr ""
 
@@ -9889,6 +9927,7 @@ msgstr ""
 #: include/class_acc_ledger.php:2095 include/class_acc_ledger.php:2107
 #: include/class_acc_ledger.php:2110 include/class/class_acc_ledger.php:2110
 #: include/class/class_acc_ledger.php:2109
+#: include/ext/import_account/include/class_impacc_csv.php:54
 msgid "Balance incorrecte"
 msgstr ""
 
@@ -9956,6 +9995,7 @@ msgstr ""
 #: include/class_acc_ledger.php:3544 include/class_acc_ledger.php:3546
 #: include/class_acc_ledger.php:3554 include/class/class_acc_ledger.php:3554
 #: include/class/class_acc_ledger.php:3553
+#: include/class/class_acc_ledger.php:3564
 msgid "Nombre de ligne incorrect"
 msgstr ""
 
@@ -9965,6 +10005,7 @@ msgstr ""
 #: include/class_acc_ledger.php:3548 include/class_acc_ledger.php:3550
 #: include/class_acc_ledger.php:3558 include/class/class_acc_ledger.php:3558
 #: include/class/class_acc_ledger.php:3557
+#: include/class/class_acc_ledger.php:3568
 msgid "Un journal avec ce nom existe déjà"
 msgstr ""
 
@@ -9989,6 +10030,9 @@ msgstr ""
 #: include/class/class_acc_ledger.php:3768
 #: include/class/class_acc_ledger.php:3618
 #: include/class/class_acc_ledger.php:3780
+#: include/class/class_acc_ledger.php:3574
+#: include/class/class_acc_ledger.php:3629
+#: include/class/class_acc_ledger.php:3791
 msgid "Aucun compte en banque n'est donné"
 msgstr ""
 
@@ -9999,6 +10043,7 @@ msgstr ""
 #: include/class_acc_ledger.php:3699 include/class/class_acc_ledger.php:3699
 #: include/class/class_acc_ledger.php:3698
 #: include/class/class_acc_ledger.php:3705
+#: include/class/class_acc_ledger.php:3716
 msgid "choix du type de journal"
 msgstr ""
 
@@ -10009,6 +10054,7 @@ msgstr ""
 #: include/class_acc_ledger.php:3786 include/class/class_acc_ledger.php:3786
 #: include/class/class_acc_ledger.php:3785
 #: include/class/class_acc_ledger.php:3797
+#: include/class/class_acc_ledger.php:3808
 msgid "Impossible d'effacer un journal qui contient des opérations"
 msgstr ""
 
@@ -10019,6 +10065,7 @@ msgstr ""
 #: include/class_acc_ledger.php:3869 include/class/class_acc_ledger.php:3869
 #: include/class/class_acc_ledger.php:3868
 #: include/class/class_acc_ledger.php:3880
+#: include/class/class_acc_ledger.php:3891
 msgid "Action non accessible"
 msgstr ""
 
@@ -10276,6 +10323,7 @@ msgstr ""
 #: include/export/export_histo_csv.php:43
 #: include/export/export_ledger_csv.php:242
 #: include/export/export_histo_csv.php:44
+#: include/export/export_ledger_csv.php:249
 msgid "Note"
 msgstr ""
 
@@ -10487,7 +10535,7 @@ msgstr ""
 msgid "Ajout d'un menu"
 msgstr ""
 
-#: include/ext/tools/index.php:44
+#: include/ext/tools/index.php:44 include/ext/import_account/index.php:64
 msgid "Export"
 msgstr ""
 
@@ -10534,11 +10582,13 @@ msgid "Erreur"
 msgstr ""
 
 #: include/class_html_input.php:319 include/lib/class_html_input.php:319
+#: include/lib/class_html_input.php:320
 msgid "Journaux"
 msgstr ""
 
 #: include/class_html_input.php:373 include/class_html_input.php:374
 #: include/class_html_input.php:378 include/lib/class_html_input.php:378
+#: include/lib/class_html_input.php:379
 msgid "Choix des categories"
 msgstr ""
 
@@ -10550,7 +10600,7 @@ msgstr ""
 #: include/class/class_acc_ledger.php:2542
 #: include/lib/class_html_input.php:876
 #: include/class/class_acc_ledger.php:2541
-#: include/lib/class_html_input.php:887
+#: include/lib/class_html_input.php:887 include/lib/class_html_input.php:888
 msgid "choix des journaux"
 msgstr ""
 
@@ -11419,6 +11469,7 @@ msgstr ""
 #: include/class_acc_ledger.php:3419 include/class_acc_ledger.php:3427
 #: include/class/class_acc_ledger.php:3427
 #: include/class/class_acc_ledger.php:3426
+#: include/class/class_acc_ledger.php:3437
 msgid "Ajout journal"
 msgstr ""
 
@@ -11428,6 +11479,7 @@ msgstr ""
 #: include/class/class_acc_ledger.php:3935
 #: include/class/class_acc_ledger.php:3934
 #: include/class/class_acc_ledger.php:3946
+#: include/class/class_acc_ledger.php:3957
 msgid "Dans le dépôt"
 msgstr ""
 
@@ -11547,6 +11599,7 @@ msgstr ""
 #: include/class_html_input.php:904 include/class_html_input.php:908
 #: include/lib/class_html_input.php:908 include/lib/class_html_input.php:919
 #: include/lib/class_html_input.php:934 include/lib/class_html_input.php:945
+#: include/lib/class_html_input.php:946
 #, php-format
 msgid "Voulez-vous effacer cette relation "
 msgstr ""
@@ -11555,6 +11608,7 @@ msgstr ""
 #: include/class_html_input.php:916 include/class_html_input.php:920
 #: include/lib/class_html_input.php:920 include/lib/class_html_input.php:931
 #: include/lib/class_html_input.php:946 include/lib/class_html_input.php:957
+#: include/lib/class_html_input.php:958
 msgid "Ajout autres"
 msgstr ""
 
@@ -11758,6 +11812,7 @@ msgstr ""
 #: include/class_acc_ledger.php:3557 include/class_acc_ledger.php:3559
 #: include/class_acc_ledger.php:3567 include/class/class_acc_ledger.php:3567
 #: include/class/class_acc_ledger.php:3566
+#: include/class/class_acc_ledger.php:3577
 msgid "Choix du type de journal est obligatoire"
 msgstr ""
 
@@ -11860,6 +11915,7 @@ msgstr ""
 #: include/template/operation_detail_ach.php:53
 #: include/template/operation_detail_ven.php:45
 #: include/export/export_ledger_csv.php:248
+#: include/export/export_ledger_csv.php:255
 msgid "TVA NP"
 msgstr ""
 
@@ -11938,6 +11994,7 @@ msgstr ""
 #: include/class/class_acc_ledger.php:3953
 #: include/class/class_acc_ledger.php:3952
 #: include/class/class_acc_ledger.php:3964
+#: include/class/class_acc_ledger.php:3975
 msgid "Nouvelle opération"
 msgstr ""
 
@@ -12252,6 +12309,7 @@ msgstr ""
 #: include/ajax/ajax_admin.php:170 include/class/class_dossier.php:114
 #: include/ajax/ajax_admin.php:174 include/class/class_dossier.php:115
 #: include/class/class_dossier.php:116
+#: include/ext/import_account/include/imd_operation.inc.php:83
 msgid "Erreur paramètre"
 msgstr ""
 
@@ -12355,6 +12413,7 @@ msgstr ""
 
 #: include/class_html_input.php:722 include/class_html_input.php:726
 #: include/lib/class_html_input.php:726 include/lib/class_html_input.php:741
+#: include/lib/class_html_input.php:742
 msgid "Paramètre invaide"
 msgstr ""
 
@@ -13039,6 +13098,7 @@ msgstr ""
 #: include/lib/class_html_input.php:926 include/lib/class_html_input.php:937
 #: include/template/action_display_short.php:80
 #: include/lib/class_html_input.php:952 include/lib/class_html_input.php:963
+#: include/lib/class_html_input.php:964
 msgid "Nouvel événement"
 msgstr ""
 
@@ -13234,12 +13294,14 @@ msgid "date incorrecte"
 msgstr ""
 
 #: include/ext/importbank/include/template/confirm_transfer.php:280
+#: include/ext/importbank/include/template/confirm_transfer.php:290
 msgid "Enregistrer les opérations"
 msgstr ""
 
 #: include/ext/importbank/include/template/show_field.php:98
 #: include/ext/importbank/include/template/show_field.php:110
 #: include/ext/importbank/include/template/show_field.php:119
+#: include/ext/importbank/include/template/show_field.php:131
 msgid "Nom manquant"
 msgstr ""
 
@@ -14276,6 +14338,7 @@ msgstr ""
 
 #: html/install.php:261 html/install.php:260 html/install.php:258
 #: html/install.php:263
+#: include/ext/import_account/include/class_impacc_file.php:69
 msgid "Fichier non sauvé"
 msgstr ""
 
@@ -14460,67 +14523,80 @@ msgstr ""
 #: include/dossier.inc.php:234
 #: include/ext/listing/include/class_rapav_listing_compute.php:213
 #: include/ext/listing/include/historique.inc.php:49
+#: include/class/class_acc_ledger.php:3435
 #, php-format
 msgid "Cherche"
 msgstr ""
 
 #: include/ext/importbank/include/import_bank.php:106
+#: include/ext/import_account/include/class_impacc_file.php:61
 msgid "Format inconnu"
 msgstr ""
 
 #: include/ext/importbank/include/template/show_field.php:5
+#: include/ext/importbank/include/template/show_field.php:7
 msgid "Etape 2 / 4: introduire le fichier"
 msgstr ""
 
 #: include/ext/importbank/include/template/show_field.php:11
 #: include/ext/importbank/include/template/show_transfer.php:152
 #: include/ext/importbank/include/template/show_transfer.php:151
+#: include/ext/importbank/include/template/show_field.php:10
+#: include/ext/importbank/include/template/show_field.php:23
 msgid "Nom du format"
 msgstr ""
 
 #: include/ext/importbank/include/template/show_field.php:19
 #: include/ext/importbank/include/template/show_transfer.php:160
 #: include/ext/importbank/include/template/show_transfer.php:159
+#: include/ext/importbank/include/template/show_field.php:31
 msgid "A importer dans le journal de banque"
 msgstr ""
 
 #: include/ext/importbank/include/template/show_field.php:27
 #: include/ext/importbank/include/template/show_transfer.php:168
 #: include/ext/importbank/include/template/show_transfer.php:167
+#: include/ext/importbank/include/template/show_field.php:39
 msgid "Format de date"
 msgstr ""
 
 #: include/ext/importbank/include/template/show_field.php:36
 #: include/ext/importbank/include/template/show_transfer.php:177
 #: include/ext/importbank/include/template/show_transfer.php:176
+#: include/ext/importbank/include/template/show_field.php:48
 msgid "Séparateur de champs"
 msgstr ""
 
 #: include/ext/importbank/include/template/show_field.php:45
 #: include/ext/importbank/include/template/show_transfer.php:186
 #: include/ext/importbank/include/template/show_transfer.php:185
+#: include/ext/importbank/include/template/show_field.php:57
 msgid "Séparateur de millier"
 msgstr ""
 
 #: include/ext/importbank/include/template/show_field.php:54
 #: include/ext/importbank/include/template/show_transfer.php:195
 #: include/ext/importbank/include/template/show_transfer.php:194
+#: include/ext/importbank/include/template/show_field.php:66
 msgid "Séparateur décimal"
 msgstr ""
 
 #: include/ext/importbank/include/template/show_field.php:62
 #: include/ext/importbank/include/template/show_transfer.php:203
 #: include/ext/importbank/include/template/show_transfer.php:202
+#: include/ext/importbank/include/template/show_field.php:74
 msgid "Ligne d'en-tête à ne pas prendre en considération"
 msgstr ""
 
 #: include/ext/importbank/include/template/show_field.php:71
+#: include/ext/importbank/include/template/show_field.php:83
 msgid ""
 "Les lignes ayant ce nombre de colonnes sont valides, laissez à vide si vous "
 "ne savez pas"
 msgstr ""
 
 #: include/ext/importbank/include/template/show_field.php:82
+#: include/ext/importbank/include/template/show_field.php:94
 msgid "Fichier à importer"
 msgstr ""
 
@@ -15085,45 +15161,56 @@ msgstr ""
 #: include/export/export_ledger_csv.php:132
 #: include/export/export_ledger_csv.php:184
 #: include/export/export_ledger_csv.php:239
+#: include/export/export_ledger_csv.php:186
+#: include/export/export_ledger_csv.php:246
 msgid "operation"
 msgstr ""
 
 #: include/export/export_ledger_csv.php:133
 #: include/export/export_ledger_csv.php:186
+#: include/export/export_ledger_csv.php:188
 msgid "N° Pièce"
 msgstr ""
 
 #: include/export/export_ledger_csv.php:188
+#: include/export/export_ledger_csv.php:191
 msgid "commentaire"
 msgstr ""
 
 #: include/export/export_ledger_csv.php:189
 #: include/class/class_acc_reconciliation.php:459
+#: include/export/export_ledger_csv.php:192
 msgid "internal"
 msgstr ""
 
 #: include/export/export_ledger_csv.php:241
+#: include/export/export_ledger_csv.php:248
 msgid "Client/Fourn."
 msgstr ""
 
 #: include/export/export_ledger_csv.php:243
 #: include/class/class_acc_reconciliation.php:483
+#: include/export/export_ledger_csv.php:250
 msgid "interne"
 msgstr ""
 
 #: include/export/export_ledger_csv.php:245
+#: include/export/export_ledger_csv.php:252
 msgid "privé"
 msgstr ""
 
 #: include/export/export_ledger_csv.php:246
+#: include/export/export_ledger_csv.php:253
 msgid "DNA"
 msgstr ""
 
 #: include/export/export_ledger_csv.php:247
+#: include/export/export_ledger_csv.php:254
 msgid "tva non ded."
 msgstr ""
 
 #: include/export/export_ledger_csv.php:259
+#: include/export/export_ledger_csv.php:266
 msgid "opérations liées"
 msgstr ""
 
@@ -15502,11 +15589,11 @@ msgid ""
 "Pour ajouter, effacer ou modifier une p&eacute;riode, il faut choisir global"
 msgstr ""
 
-#: include/ext/listing/index.php:61
+#: include/ext/listing/index.php:61 include/ext/listing/index.php:59
 msgid "Génération listing"
 msgstr ""
 
-#: include/ext/listing/index.php:62
+#: include/ext/listing/index.php:62 include/ext/listing/index.php:60
 msgid "Historique listing "
 msgstr ""
 
@@ -15569,11 +15656,141 @@ msgstr ""
 msgid "Numéro de ligne"
 msgstr ""
 
-#: include/lib/class_sendmail.php:96
+#: include/lib/class_sendmail.php:96 include/lib/class_sendmail.php:97
 #, php-format
 msgid "%s est vide"
 msgstr ""
 
-#: include/lib/class_sendmail.php:152
+#: include/lib/class_sendmail.php:152 include/lib/class_sendmail.php:153
 msgid "Email non envoyé"
+msgstr ""
+
+#: include/ext/import_account/index.php:63
+msgid "Import"
+msgstr ""
+
+#: include/ext/import_account/index.php:63
+msgid "Importation d'opérations "
+msgstr ""
+
+#: include/ext/import_account/index.php:64
+msgid "Exportation d'opérations "
+msgstr ""
+
+#: include/ext/import_account/index.php:65
+msgid "Historique importation"
+msgstr ""
+
+#: include/ext/listing/index.php:38
+msgid "Installez d'abord l'extension Rapport Avancé et accèdez-y"
+msgstr ""
+
+#: include/ext/import_account/include/class_impacc_csv.php:47
+msgid "Format de date incorrect"
+msgstr ""
+
+#: include/ext/import_account/include/class_impacc_csv.php:48
+#: include/ext/import_account/include/class_impacc_csv.php:49
+msgid "Période non trouvée"
+msgstr ""
+
+#: include/ext/import_account/include/class_impacc_csv.php:51
+msgid "Poste comptable ou Fiche non existante"
+msgstr ""
+
+#: include/ext/import_account/include/class_impacc_csv.php:52
+msgid "Code TVA Invalide"
+msgstr ""
+
+#: include/ext/import_account/include/class_impacc_csv.php:53
+msgid "Fiche non disponible pour journal"
+msgstr ""
+
+#: include/ext/import_account/include/class_impacc_csv.php:55
+msgid "Erreur D/C"
+msgstr ""
+
+#: include/ext/import_account/include/class_impacc_csv.php:77
+msgid "Unicode"
+msgstr ""
+
+#: include/ext/import_account/include/class_impacc_csv.php:78
+msgid "Latin"
+msgstr ""
+
+#: include/ext/import_account/include/class_impacc_csv.php:129
+msgid "Séparateur de décimal et milliers doivent être différent"
+msgstr ""
+
+#: include/ext/import_account/include/class_impacc_csv.php:296
+#: include/ext/import_account/include/class_impacc_csv.php:387
+msgid "type journal inconnu"
+msgstr ""
+
+#: include/ext/import_account/include/class_impacc_csv.php:406
+msgid "Echec dans record"
+msgstr ""
+
+#: include/ext/import_account/include/class_impacc_csv.php:422
+msgid "Echec dans result"
+msgstr ""
+
+#: include/ext/import_account/include/class_impacc_csv.php:470
+msgid "Echec dans transfer"
+msgstr ""
+
+#: include/ext/import_account/include/class_impacc_export.php:104
+msgid "Journal invalide"
+msgstr ""
+
+#: include/ext/import_account/include/class_impacc_file.php:96
+msgid "Format invalide"
+msgstr ""
+
+#: include/ext/import_account/include/class_impacc_file.php:175
+#, php-format
+msgid "Importation dans le journal %s"
+msgstr ""
+
+#: include/ext/import_account/include/class_impacc_operation.php:47
+#: include/ext/import_account/include/class_impacc_operation.php:78
+msgid "Non supporté"
+msgstr ""
+
+#: include/ext/import_account/include/class_impacc_tool.php:60
+msgid "journal inconnu"
+msgstr ""
+
+#: include/ext/import_account/include/class_impacc_tva.php:64
+#: include/ext/import_account/include/class_impacc_tva.php:76
+msgid "Duplicate"
+msgstr ""
+
+#: include/ext/import_account/include/class_install_impacc.php:45
+msgid "ERREUR"
+msgstr ""
+
+#: include/ext/import_account/include/imd_operation.inc.php:69
+#, php-format
+msgid "Transfert vers le journal %s"
+msgstr ""
+
+#: include/ext/importbank/include/template/confirm_transfer.php:142
+msgid "Changer format"
+msgstr ""
+
+#: include/ext/importbank/include/template/show_field.php:14
+msgid "Changer"
+msgstr ""
+
+#: include/ext/importbank/include/template/show_list.php:62
+msgid "Contrepartie"
+msgstr ""
+
+#: include/ext/importbank/include/template/show_list.php:63
+msgid "Donner la contrepartie"
+msgstr ""
+
+#: include/ext/importbank/include/template/show_list.php:64
+msgid "Supprimer la contrepartie"
 msgstr ""

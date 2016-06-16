@@ -162,6 +162,10 @@ td.tool a.mtitle:hover {
     margin-bottom: 18px;
     width: 100%;
 }
+@media only screen and (max-width:955px) {
+    margin-bottom: 70px;
+}
+
 #module {
     position:absolute;
     top:0px;
@@ -970,6 +974,16 @@ div.topmenu {
 	font-size:14px;
 	font-size:0.85rem;
         
+}
+@media only screen and (max-width:320px) {
+  div.topmenu {
+    margin-top: 44px;      
+}
+}
+@media only screen and (max-width:800px) {
+    div.topmenu{ 
+        margin-top: 44px;
+    }  
 }
 div.topmenu table {
     border-spacing:1px;

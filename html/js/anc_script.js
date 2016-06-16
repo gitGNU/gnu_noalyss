@@ -158,7 +158,11 @@ function verify_ca(div)
                     total_amount += parseFloat(array_value[i].value);
                 }
                 var amount = Math.abs(parseFloat(g('amount_t' + idx).value));
-                amount = Math.round(amount*100)/100;
+                if (isNaN(amount)) {
+                    amount=0;
+                } else {
+                    amount = Math.round(amount*100)/100;
+                }
                 var diff = amount - total_amount;
 
                 if (Math.round(diff, 2) != 0.0)

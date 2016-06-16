@@ -1,4 +1,5 @@
 <?php
+
 /*
  *   This file is part of NOALYSS.
  *
@@ -15,57 +16,90 @@
  *   You should have received a copy of the GNU General Public License
  *   along with NOALYSS; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-*/
+ */
 
 // Copyright Author Dany De Bontridder danydb@aevalys.eu
 
-/*!\file
- * \brief Html Input
- */
+///!\file
+//\brief Html Input
+
+
+/// Html Input : Input a date format dd.mm.yyyy
+/// The property title should be set to indicate what it is expected
 require_once NOALYSS_INCLUDE.'/lib/class_html_input.php';
+
 class IDate extends HtmlInput
 {
-    /*!\brief show the html  input of the widget*/
-    public function input($p_name=null,$p_value=null)
+
+    var $placeholder;
+    var $title;
+    var $autofocus;
+
+    function __construct($name='', $value='', $p_id="")
+    {
+        parent::__construct($name, $value, $p_id);
+        $this->title="";
+        $this->placeholder="dd.mm.yyyy";
+        $this->extra="";
+        $this->style=' class="input_text" ';
+        $this->autofocus=false;
+    }
+
+    /* !\brief show the html  input of the widget */
+
+    public function input($p_name=null, $p_value=null)
     {
         $this->name=($p_name==null)?$this->name:$p_name;
         $this->value=($p_value==null)?$this->value:$p_value;
-        if ( $this->readOnly==true) return $this->display();
-	if( $this->id=="")
-	  $this->id=self::generate_id($this->name);
-        $r='<input type="text" name="'.$this->name.'" id="'.$this->id.'" '.
-           ' class="input_text" '.
-           'size="10" style="width:6em" '.
-           ' value ="'.$this->value.'" '.
-           '/>'.
-           '<img src="image/x-office-calendar.png" id="'.$this->id.'_trigger"'.
-           ' style="cursor: pointer" '.
-           'onmouseover="this.style.background=\'red\';" onmouseout="this.style.background=\'\'" />';
-        $r.='<script type="text/javascript">'.
-            'Calendar.setup({'.
-            //	'date : "'.$this->value.'",
-            'inputField     :    "'.$this->id.'",     // id of the input field
-            ifFormat       :    "%d.%m.%Y",      // format of the input field
-            button         :    "'.$this->id.'_trigger",  // trigger for the calendar (button ID)
+        if ($this->readOnly==true)
+            return $this->display();
+        if ($this->id=="")             $this->id=self::generate_id($this->name);
+        $t= 'title="'.$this->title.'" ';
+        $autofocus=($this->autofocus)?" autofocus ":"";
+        
+        $r=sprintf('
+            <input type="text" name="%s" id="%s" 
+                 class="input_text" 
+                size="10" style="width:6em"
+                 value ="%s" 
+                 placeholder="%s"
+                 title="%s"
+                 %s
+                 pattern="[0-9]{1,2}.[0-9]{1,2}.20[0-9]{2}"
+                />
+                <img src="image/x-office-calendar.png" id="%s_trigger"
+                 style="cursor: pointer" 
+                onmouseover="this.style.background=\'red\';" onmouseout="this.style.background=\'\'"/>
+                ',$this->name,$this->id,$this->value,$this->placeholder,$this->title,$t,$this->id
+                );
+        
+        $r.=sprintf('<script type="text/javascript">
+                Calendar.setup({'.
+                'inputField     :    "%s",     // id of the input field
+            ifFormat       :    "%%d.%%m.%%Y",      // format of the input field
+            button         :    "%s_trigger",  // trigger for the calendar (button ID)
             align          :    "Bl",           // alignment (defaults to "Bl")
             singleClick    :    true
         });
-            </script>
-            ';
+            </script>'
+                ,$this->id,$this->id);
         return $r;
-
     }
-    /*!\brief print in html the readonly value of the widget*/
+
+    /* !\brief print in html the readonly value of the widget */
+
     public function display()
     {
         $r="<span>  : ".$this->value;
         $r.='<input type="hidden" name="'.$this->name.'"'.
-            'id="'.$this->name.'"'.
-            ' value = "'.$this->value.'"></span>';
+                'id="'.$this->name.'"'.
+                ' value = "'.$this->value.'"></span>';
         return $r;
-
     }
+
     static public function test_me()
     {
+        
     }
+
 }

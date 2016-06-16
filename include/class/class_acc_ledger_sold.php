@@ -226,7 +226,7 @@ class Acc_Ledger_Sold extends Acc_Ledger {
      * * It generates the document if gen_invoice is set and save the middle of payment if any ($e_mp)
      *
      * \param $p_array is usually $_POST or a predefined operation
-     * \return string
+     * \return string : internal number 
      * \note throw an Exception
      */
 

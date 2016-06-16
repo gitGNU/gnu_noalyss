@@ -385,7 +385,7 @@ class Acc_Ledger extends jrn_def_sql
                                      jr_internal,
                                      case j_debit when 't' then j_montant::text else '   ' end as deb_montant,
                                      case j_debit when 'f' then j_montant::text else '   ' end as cred_montant,
-                                     j_debit as debit,j_poste as poste,jr_montant , " .
+                                     j_debit as debit,j_poste as poste,j_qcode,jr_montant , " .
 					"case when j_text='' or j_text is null then pcm_lib else j_text end as description,j_grpt as grp,
                                      jr_comment||' ('||jr_internal||')'  as jr_comment,
 				     jr_pj_number,
@@ -404,7 +404,7 @@ class Acc_Ledger extends jrn_def_sql
                                      jr_internal,
                                      case j_debit when 't' then j_montant::text else '   ' end as deb_montant,
                                      case j_debit when 'f' then j_montant::text else '   ' end as cred_montant,
-                                     j_debit as debit,j_poste as poste," .
+                                     j_debit as debit,j_poste as poste,j_qcode," .
 					"case when j_text='' or j_text is null then pcm_lib else j_text end as description,j_grpt as grp,
                                      jr_comment||' ('||jr_internal||')' as jr_comment,
 				     jr_pj_number,
@@ -472,7 +472,7 @@ class Acc_Ledger extends jrn_def_sql
 					'cred_montant' => ' ',
 					'description' => '<b><i>' . h($line['jr_comment']) . ' [' . $tot_op . '] </i></b>',
 					'poste' => $line['oc'],
-					'qcode' => $line['j_qcode'],
+					'j_qcode' => $line['j_qcode'],
 					'periode' => $line['periode'],
 					'jr_pj_number' => $line ['jr_pj_number']);
 
@@ -486,7 +486,7 @@ class Acc_Ledger extends jrn_def_sql
 					'cred_montant' => $mont_cred,
 					'description' => $line['description'],
 					'poste' => $line['poste'],
-					'qcode' => $line['j_qcode'],
+					'j_qcode' => $line['j_qcode'],
 					'periode' => $line['periode'],
 					'jr_pj_number' => ''
 				);
@@ -503,7 +503,7 @@ class Acc_Ledger extends jrn_def_sql
 					'cred_montant' => $mont_cred,
 					'description' => $line['description'],
 					'poste' => $line['poste'],
-					'qcode' => $line['j_qcode'],
+					'j_qcode' => $line['j_qcode'],
 					'periode' => $line['periode'],
 					'jr_pj_number' => '');
 			}
@@ -3381,17 +3381,15 @@ class Acc_Ledger extends jrn_def_sql
 		);
 		return $r;
 	}
-
-	/**
-	 * Retrieve the third : supplier for purchase, customer for sale, bank for fin,
-	 * @param $p_jrn_type type of the ledger FIN, VEN ACH or ODS
-	 */
-	function get_tiers($p_jrn_type, $jr_id)
-	{
-		if ($p_jrn_type == 'ODS')
-			return ' ';
-		$tiers = '';
-		switch ($p_jrn_type)
+        //---------------------------------------------------------------------
+        /// Return the f_id of the tiers , called by get_tiers
+        //!\param $p_jrn_type type of the ledger FIN, VEN ACH or ODS
+        //!\param $jr_id jrn.jr_id
+        //---------------------------------------------------------------------
+        function get_tiers_id($p_jrn_type, $jr_id)
+        {
+            $tiers=0;
+            switch ($p_jrn_type)
 		{
 			case 'VEN':
 				$tiers = $this->db->get_value('select max(qs_client) from quant_sold join jrnx using (j_id) join jrn on (jr_grpt_id=j_grpt) where jrn.jr_id=$1', array($jr_id));
@@ -3405,7 +3403,21 @@ class Acc_Ledger extends jrn_def_sql
 				break;
 		}
 		if ($this->db->count() == 0)
-			return '';
+			return 0;
+                return $tiers;
+        }
+	/**
+	 * Retrieve the third : supplier for purchase, customer for sale, bank for fin,
+	 * @param $p_jrn_type type of the ledger FIN, VEN ACH or ODS
+	 * @param $jr_id jrn.jr_id
+	 */
+	function get_tiers($p_jrn_type, $jr_id)
+	{
+		if ($p_jrn_type == 'ODS')
+			return ' ';
+		$tiers = $this->get_tiers_id($p_jrn_type, $jr_id);
+                if ( $tiers == 0 )return "";
+		
 		$name = $this->db->get_value('select ad_value from fiche_detail where ad_id=1 and f_id=$1', array($tiers));
 		$first_name = $this->db->get_value('select ad_value from fiche_detail where ad_id=32 and f_id=$1', array($tiers));
 		return $name . ' ' . $first_name;

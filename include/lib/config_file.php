@@ -198,6 +198,10 @@ function display_file_config($p_array,$from_setup=1,$p_os=1)
     print ("\r\n");
     print ( '// define ("NOALYSS_TEMPLATE","");');
     print ("\r\n");
+    print ( '// define ("NOALYSS_INCLUDE","");');
+    print ("\r\n");
+    print ( '// define ("NOALYSS_TEMPLATE","");');
+    print ("\r\n");
     print ( "// Fix an issue with PDF when exporting receipt in PDF in ANCGL"."\r\n");
     print ( '// define ("FIX_BROKEN_PDF","NO");');
     print ("\r\n");
@@ -205,7 +209,7 @@ function display_file_config($p_array,$from_setup=1,$p_os=1)
     print ("// With the unoconv tool");
     print ( "//define ('OFFICE','HOME=/tmp unoconv ');");
     print ("\r\n");
-    printf("//define ('GENERATE_PDF','YES');");
+    print ("//define ('GENERATE_PDF','YES');");
     print ("\r\n");
     print ( "// Uncomment if you don't want "."\r\n");
     print ( "// to be informed when a new release is "."\r\n");
@@ -216,10 +220,17 @@ function display_file_config($p_array,$from_setup=1,$p_os=1)
     print ( '// define ("SYSINFO_DISPLAY",true);'."\r\n");
     print ( '// For developpement'."\r\n");
     print ( '// define ("NOALYSS VERSION",9999);'."\r\n");
+    print (' // If you want to override the parameters you have to define OVERRIDE_PARAM'."\r\n");
+    print ('// and give your own parameters for max_execution_time and memory_limit'."\r\n");
+    print ("// define ('OVERRIDE_PARAM',1);\r\n");
+    print ("// ini_set ('max_execution_time',240);\r\n");
+    print ("// ini_set ('memory_limit','256M');\r\n");
+// 
+
 }
 /*!\brief create the config file
  */
-function config_file_create($p_array,$p_os=1)
+function config_file_create($p_array,$from_setup,$p_os=1)
 {
     extract ($p_array);
     $hFile=  fopen(NOALYSS_INCLUDE.'/config.inc.php','w');

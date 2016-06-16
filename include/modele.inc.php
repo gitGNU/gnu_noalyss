@@ -234,7 +234,7 @@ if (isset($_POST["FMOD_NAME"]))
             }
         }
         // Clean orphan log
-        $cn_mod->orphan_lob_clean();
+        $cn_mod->clean_orphan_lob();
 
 }
 // Show all available templates
