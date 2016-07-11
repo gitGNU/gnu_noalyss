@@ -65,7 +65,7 @@ class IDate extends HtmlInput
                  placeholder="%s"
                  title="%s"
                  %s
-                 pattern="[0-9]{1,2}.[0-9]{1,2}.20[0-9]{2}"
+                 pattern="[0-9]{1,2}.[0-9]{1,2}.[0-9]{4}"
                 />
                 <img src="image/x-office-calendar.png" id="%s_trigger"
                  style="cursor: pointer" 
