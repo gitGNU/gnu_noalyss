@@ -164,7 +164,6 @@ h2 {
 
   margin: 1px;
   padding: 1px;
-  /*! font-style: italic; */
   font-size: 14px;
   font-size: 1.2rem;
 }
@@ -937,7 +936,7 @@ div.content a.button:hover {
   color: #FF0000;
   margin: 3px;
   padding: 3px;
-  margin-top: 2px;
+  margin-top: 1px;
 }
 td.tool {
   background-color: #FFFFFF;
@@ -1000,7 +999,6 @@ div.topmenu td, td.mtitle {
   /* IE6-9 */
 
 }
-
 div.menu2 td, div.menu2 td.mtitle {
   border-width: 4px;
   border-top-color: #606c88;
@@ -1037,11 +1035,11 @@ div.menu2 td.selectedcell a.mtitle, div.content div.menu2 td.selectedcell a.mtit
 
 }
 div.topmenu td.selected, td.selectedcell {
-  color: #FFFFFF !important;;
-border-radius: 0px;
-background: #5D90CD !important;;
-border-top: 4px solid #5D90CD !important;;
-border-bottom: 4px solid #5D90CD !important;;
+  color: #FFFFFF !important;
+  border-radius: 0px;
+  background: #5D90CD !important;
+  border-top: 4px solid #5D90CD !important;
+  border-bottom: 4px solid #5D90CD !important;
   text-align: center;
 }
 #dossier h2 {
@@ -1265,8 +1263,7 @@ a.line:hover, div_content a.line {
   color: red;
 }
 #close_div:hover {
-  background-color:#DCE1EF ;
-  font-weight: bold;
+  background-color: #DCE1EF ;
 }
 #popmeout {
   background-color: #FFFFFF;
@@ -1361,7 +1358,6 @@ h1.title {
   text-transform: uppercase;
 }
 h2.title {
-  /*! color: #FFFFFF; */
   text-align: left;
   padding: 0.24%;
   padding-left: 0.48%;
@@ -1688,7 +1684,6 @@ li.tabs_selected {
   margin-left: 2px;
   padding: 12px 15px 0px 15px;
   vertical-align: top;
-  
   border: 1px #879ed4 solid;
   font-weight: bold;
 }
@@ -1698,7 +1693,6 @@ li.tabs {
   color: inherit;
   margin-left: 2px;
   padding: 5px 5px 0px 5px;
-  
   border: 1px grey solid;
 }
 li.tabs:hover {
