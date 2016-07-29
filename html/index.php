@@ -279,12 +279,10 @@ version  NOALYSS_VERSION - '.$my_domain.'
 '<TABLE><TR><TD>
 <TABLE  BORDER=0 CELLSPACING=0>
 <TR>
-<TD class="cell">Utilisateur</TD>
-<TD><input type="text" class="input_text" value="" id="p_user" name="p_user" autofocus tabindex="1"></TD>
+<TD><input type="text" class="input_text" value="" id="p_user" name="p_user" autofocus tabindex="1" placeholder="User"></TD>
 </TR>
 <TR>
-<TD class="cell"> Mot de passe </TD>
-<TD><INPUT TYPE="PASSWORD"  class="input_text" value=""  NAME="p_pass"  tabindex="2"></TD>
+<TD><INPUT TYPE="PASSWORD"  class="input_text" value=""  NAME="p_pass"  tabindex="2"i placeholder="*******"></TD>
 </TR>';
 
 
