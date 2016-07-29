@@ -34,20 +34,22 @@ global $g_parameter;
 $cn = Dossier::connect();
 //menu = show a list of ledger
 $str_dossier = dossier::get();
-$ac = "ac=" . $_REQUEST['ac'];
+$ac=HtmlInput::default_value_request("ac", "");
 
+$request_jrn=HtmlInput::default_value_request("p_jrn", "");
 // Check privilege
-if (isset($_REQUEST['p_jrn']))
-	if ($g_user->check_jrn($_REQUEST['p_jrn']) != 'W')
-	{
-		NoAccess();
-		exit - 1;
-	}
+if ($request_jrn !="" && 
+    $g_user->check_jrn($request_jrn) != 'W')
+{
+        NoAccess();
+        exit - 1;
+}
 $p_msg="";
+$post_jrn=HtmlInput::default_value_post("p_jrn", "");
 /* if a new invoice is encoded, we display a form for confirmation */
 if (isset($_POST['view_invoice']))
 {
-	$Ledger = new Acc_Ledger_Purchase($cn, $_POST['p_jrn']);
+	$Ledger = new Acc_Ledger_Purchase($cn, $post_jrn);
 	try
 	{
 		$Ledger->verify($_POST);
@@ -75,7 +77,7 @@ if (isset($_POST['view_invoice']))
 		echo dossier::hidden();
 
 		echo $Ledger->confirm($_POST);
-		echo HtmlInput::hidden('ac', $_REQUEST['ac']);
+		echo HtmlInput::hidden('ac', $ac);
                             ?>
 <div id="tab_id" >
     <script>
@@ -117,8 +119,6 @@ show_tab(a_tab,'facturation_div_id');
 <?php
             echo '</div>';
             return;
-
-		return;
 	}
 }
 //------------------------------
@@ -127,7 +127,7 @@ show_tab(a_tab,'facturation_div_id');
 
 if (isset($_POST['record']))
 {
-	$Ledger = new Acc_Ledger_Purchase($cn, $_POST['p_jrn']);
+	$Ledger = new Acc_Ledger_Purchase($cn, $post_jrn);
 	try
 	{
 		$Ledger->verify($_POST);
@@ -143,7 +143,7 @@ if (isset($_POST['record']))
 	{
 		echo '<div class="content">';
 
-		$Ledger = new Acc_Ledger_Purchase($cn, $_POST['p_jrn']);
+		$Ledger = new Acc_Ledger_Purchase($cn, $post_jrn);
 		$internal = $Ledger->insert($_POST);
 
 
@@ -181,12 +181,13 @@ if (isset($_POST['record']))
                         {
                             $Ledger->reverse($p_date);
                             echo '<p>';
-                            echo _('Extourné au ').$p_date;
+                            printf ( _('Extourné au %s'),$p_date);
                             echo '</p>';
                         }
                         catch (Exception $e)
                         {
-                            echo '<p class="notice">'._('Opération non extournée').
+                            echo '<p class="notice">'.
+                                    _('Opération non extournée').
                                 $e->getMessage().
                                 '</p>';
                         }
@@ -202,10 +203,10 @@ if (isset($_POST['record']))
 		return;
 	}
 }
-//  ------------------------------
+//  ------------------------------------------------------------
 /* Display a blank form or a form with predef operation */
 /* or a form for correcting */
-//  ------------------------------
+//  -------------------------------------------------------------
 
 echo '<div class="content">';
 //
@@ -220,12 +221,12 @@ if (!isset($_REQUEST ['p_jrn']))
 	$def_ledger = $Ledger->get_first('ach',2);
 	if ( empty ($def_ledger))
 	{
-		exit('Pas de journal disponible');
+		exit(_('Pas de journal disponible'));
 	}
 	$Ledger->id = $def_ledger['jrn_def_id'];
 }
 else
-	$Ledger->id = $_REQUEST ['p_jrn'];
+	$Ledger->id = $request_jrn;
 
 if (isset ($_REQUEST['p_jrn_predef'])){
 	$Ledger->id=$_REQUEST['p_jrn_predef'];
@@ -238,7 +239,7 @@ $op = new Pre_op_ach($cn);
 $op->set('ledger', $Ledger->id);
 $op->set('ledger_type', "ACH");
 $op->set('direct', 'f');
-$url=http_build_query(array('p_jrn_predef'=>$Ledger->id,'ac'=>$_REQUEST['ac'],'gDossier'=>dossier::id()));
+$url=http_build_query(array('p_jrn_predef'=>$Ledger->id,'ac'=>$ac,'gDossier'=>dossier::id()));
 echo $op->form_get('do.php?'.$url);
 echo '</div>';
 echo '</div>';
@@ -254,11 +255,12 @@ try
     if (isset($_REQUEST['pre_def'])&&!isset($_POST['correct']) && ! isset($correct) )
     {
         // used a predefined operation
-        //
+        $predef=HtmlInput::default_value_request("pre_def", "0");
+        $p_jrn_predef=HtmlInput::default_value_request("p_jrn_predef", "0");
         $op=new Pre_op_ach($cn);
-        $op->set_od_id($_REQUEST['pre_def']);
+        $op->set_od_id($predef);
         $p_post=$op->compute_array();
-        $Ledger->id=$_REQUEST ['p_jrn_predef'];
+        $Ledger->id=$p_jrn_predef;
         $p_post['p_jrn']=$Ledger->id;
         echo $Ledger->input($p_post);
         echo '<div class="content">';
