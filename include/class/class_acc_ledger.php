@@ -2917,8 +2917,8 @@ class Acc_Ledger extends jrn_def_sql
 			$fil_paid = $and . SQL_LIST_UNPAID_INVOICE;
 			$and = " and ";
 		}
-
-		$g_user = new User(new Database());
+                $repo=new Database();
+		$g_user = new User($repo);
 		$g_user->Check();
 		$g_user->check_dossier(dossier::id());
 
