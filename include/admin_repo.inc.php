@@ -167,9 +167,15 @@ img {float: right; border: 0px;}
 hr {width: 600px; background-color: #cccccc; border: 0px; height: 1px; color: #000000;}
             ';
     $a_table=$html->getElementsByTagName("table");
-    for ( $i = 0 ; $i < $a_table->length;$i++) {
-        $a_table->item($i)->attributes->getNamedItem("width")->nodeValue="100%";
-        
+    
+    // For PHP  < 7 , we must change the attribute "width"
+    if ( substr(phpversion(),0,1) != "7" )
+    {
+        for ( $i = 0 ; $i < $a_table->length;$i++) {
+            $node=$a_table->item($i);
+            $node->attributes->getNamedItem("width")->nodeValue="100%";
+
+        }
     }
     $a_title = $html->getElementsByTagName("title");
     for ( $i = 0;$i<$a_title->length;$i++) {
