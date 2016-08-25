@@ -24,7 +24,7 @@ $result=HtmlInput::default_value_request('result',null);
 
 if ($result != null)
 {
-    $result=$grandLivre->display_html();
+    $grandLivre->load();
     if ($grandLivre->has_data != 0 )
     {
         echo '<span style="display:block">';
