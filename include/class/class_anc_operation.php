@@ -904,7 +904,8 @@ class Anc_Operation
         $sql="delete from operation_analytique where j_id=$1";
         $this->db->exec_sql($sql,array($p_jid));
     }
-    /*\brief Display a table with analytic accounting in
+    /*!
+     *\brief Display a table with analytic accounting in
      *       detail of operation
      *@note $this->j_id must be set
      *\param $p_mode 0 = readonly or 1=writable
