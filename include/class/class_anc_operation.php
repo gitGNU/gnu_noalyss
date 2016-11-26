@@ -901,8 +901,8 @@ class Anc_Operation
      */
     function delete_by_jid($p_jid)
     {
-        $sql="delete from operation_analytique where j_id=$p_jid";
-        $this->db->exec_sql($sql);
+        $sql="delete from operation_analytique where j_id=$1";
+        $this->db->exec_sql($sql,array($p_jid));
     }
     /*\brief Display a table with analytic accounting in
      *       detail of operation
