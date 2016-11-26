@@ -413,7 +413,7 @@ class PDF_Operation extends PDF {
     /**
      * @brief export operation into a PDF
      * 
-     * @param String $p_option  containing EXTEND ACC ANC or a combination
+     * @param Array $p_option  containing [acc anc] or a combination
      */
 
     function export_pdf($p_option) {
@@ -431,11 +431,16 @@ class PDF_Operation extends PDF {
         // Write only for Sale or purchase summary (QCode, label,amount,tva...)
         $this->print_operation_quant();
         
-        // if option contains ACC export ACC (accountancy writings
-        $this->print_acc_writing();
-        
+        // if option contains ACC or $this->acc_detail is FIN or ODS
+        if ($this->acc_detail->signature=="ODS" ||
+            $this->acc_detail->signature=="FIN" ||
+            array_search("acc", $p_option) !== false
+                ){
+                    $this->print_acc_writing();
+                }
         // ANC only if exists
-        $this->print_anc_writing();
+        if (array_search("anc", $p_option) !== false )
+            $this->print_anc_writing();
         
         // if option contains EXTEND add document name + comment + action name
         // if options contains ANC export ANC plan table
