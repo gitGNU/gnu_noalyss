@@ -105,8 +105,7 @@ class PDF_Operation extends PDF {
             $tiers_id=$this->acc_detail->det->array[0]['qs_client'];
         }
         $this->pdf->SetFont('DejaVu', 'B', 10);
-        $this->pdf->write_cell(60,8,_("Résumé"),"1");
-        $this->pdf->line_new(8);
+        $this->print_section(_("Résumé"));
         $fiche=new Fiche($this->cn,$tiers_id);
         
         $this->pdf->SetFont('DejaVu', 'B', 6);
@@ -229,14 +228,17 @@ class PDF_Operation extends PDF {
         $this->pdf->line_new(10);
         
     }    
+    private function print_section($p_section) {
+         $this->pdf->SetFont('DejaVu', 'B', 10);
+        $this->pdf->write_cell(60,8,$p_section,"1");
+        $this->pdf->line_new(8);
+    }
     private function print_acc_writing(){
         $obj1=new Acc_Operation($this->cn);
         $obj1->set_id($this->jr_id);
         $obj=$obj1->get();
         $nb=count($obj->det->array);
-        $this->pdf->SetFont('DejaVu', 'B', 10);
-        $this->pdf->write_cell(60,8,_("Ecriture comptable"),"1");
-        $this->pdf->line_new(8);
+        $this->print_section(_("Ecriture comptable"));
         
         bcscale(4);
         $width=array(10,40,40,50,30,10);
@@ -279,7 +281,7 @@ class PDF_Operation extends PDF {
         for ($i = 0; $i<$nb; $i++) {
              $this->pdf->write_cell($width,8,$pa_plan[$i]['pa_name'],1,"C",1);
         }
-        $this->pdf->write_cell($width,8,_('ANC'),1,"C",1);
+        $this->pdf->write_cell($width,8,_('Montant'),1,"C",1);
         $this->pdf->SetFillColor(0,0,0);
         $this->pdf->line_new(8);
     }
@@ -394,12 +396,15 @@ class PDF_Operation extends PDF {
         
         // . For each j_id print all the concerned rows ordered by plan 
         $nb=count($a_jrnxId);
+        $flag_print_section=0;
         for ($index = 0; $index<$nb; $index++) {
             $count_ana=$this->cn->get_value("select count(*)
                 from public.operation_analytique
                 where j_id=$1
                 ",array($a_jrnxId[$index]["j_id"]));
             if ($count_ana == 0 ) continue;
+            if ($flag_print_section==0) $this->print_section (_("Détail"));
+            $flag_print_section=1;
             $this->print_anc_detail($a_jrnxId[$index]["j_id"],$a_plan);
         }
         
@@ -408,7 +413,7 @@ class PDF_Operation extends PDF {
     /**
      * @brief export operation into a PDF
      * 
-     * @param type $p_option String containing EXTEND ACC ANC or a combination
+     * @param String $p_option  containing EXTEND ACC ANC or a combination
      */
 
     function export_pdf($p_option) {
