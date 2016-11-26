@@ -589,12 +589,29 @@ class Database
     {
         $r=$this->exec_sql($p_sql, $p_array);
 
-        if (($Max=pg_NumRows($r))==0)
+        if (pg_NumRows($r)==0)
             return array();
         $array=pg_fetch_all($r);
         return $array;
     }
-
+    /**
+     * Returns only one row from a query
+     * @param string $p_sql
+     * @param array $p_array
+     * @return array , idx = column of the table or null if nothing is found
+     * @throws Exception if too many rows are found code 100
+     */
+    function get_row($p_sql,$p_array=NULL) {
+        $array=$this->get_array($p_sql,$p_array);
+        if (empty($array) ) return null;
+        if (count($array)==1) return $array[0];
+        throw new Exception("Database:get_row retourne trop de lignes",100);
+    }
+    /**
+     * @brief Create a sequence
+     * @param string $p_name Sequence Name
+     * @param int $min starting value
+     */
     function create_sequence($p_name, $min=1)
     {
         if ($min<1)
