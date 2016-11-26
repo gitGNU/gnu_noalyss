@@ -677,7 +677,7 @@ class Acc_Misc extends Acc_Detail
         parent::get();
         $sql="SELECT j_id, j_date, j_montant, j_poste, j_grpt, j_rapt, j_jrn_def,
              j_debit, j_text, j_centralized, j_internal, j_tech_user, j_tech_date,
-             j_tech_per, j_qcode
+             j_tech_per, j_qcode,f_id
              FROM jrnx where j_grpt = $1 order by j_debit desc,j_poste";
         $this->det->array=$this->db->get_array($sql,array($this->det->jr_grpt_id));
     }
