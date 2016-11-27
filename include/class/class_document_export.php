@@ -18,7 +18,7 @@
 */
 
 // Copyright Author Dany De Bontridder danydb@aevalys.eu
-
+require_once NOALYSS_INCLUDE.'/class/class_pdf_operation.php';
 /**
  * @brief Export DOCUMENT from Analytic accountancy, can transform into PDF
  * and add a stamp on each pages
@@ -223,14 +223,14 @@ class Document_Export
             }
             
             // create the pdf with the detail of operation
-            $detail_operation = new PDF_Operation($cn,$jr_id);
+            $detail_operation = new PDF_Operation($cn,$value);
             $detail_operation->export_pdf(array("acc","anc"));
 
             // output 2
             $output2 = $this->store_convert . '/operation_' . $file_pdf;
             
             // concatenate detail operation with the output
-            $stmt = PDFTK . " " . $detail_operation->get_pdf_file()." ".$output. 
+            $stmt = PDFTK . " " . $detail_operation->get_pdf_filename()." ".$output. 
                     ' output ' . $output2;
 
             passthru($stmt, $status);
