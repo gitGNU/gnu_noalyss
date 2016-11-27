@@ -20,7 +20,7 @@
 
 // Copyright Author Dany De Bontridder dany@alchimerys.be(2003-2016)
 
-/* * *
+/**
  * @file
  * Detail Operation ACC + ANC , it will use Acc_Operation and Anc_Operation
  * 
@@ -36,8 +36,8 @@ class PDF_Operation extends PDF {
 
     private $acc_detail; //!< Acc_Operation object
     private $jr_id; //!< jrn.jr_id operation
-//    private $pdf;
-
+    private $pdf;
+    var $cn;
     function __construct($p_cn, $pjr_id) {
         $this->cn = $p_cn;
         $this->jr_id = $pjr_id;
@@ -445,5 +445,19 @@ class PDF_Operation extends PDF {
         // if option contains EXTEND add document name + comment + action name
         // if options contains ANC export ANC plan table
     }
-
+    function get_pdf() {
+        return $this->pdf;
+    }
+    /**
+     * @brief export the PDF to a file and returns the filename
+     * @retun String filename 
+     */
+    function get_pdf_filename() {
+        $file_name=$_ENV['TMP']."/"."acc_op".$this->acc_detail->det->jr_internal.".pdf";
+        $this->pdf->Output($file_name, "F");
+        return $file_name;
+    }
+    function download_pdf() {
+        $this->pdf->Output("acc_op".$this->acc_detail->det->jr_internal.".pdf");
+    }
 }
