@@ -205,11 +205,11 @@ class Document_Export
             }
             // output
             $output = $this->store_convert . '/stamp_' . $file_pdf;
-
+            
             // Concatenate stamp + file
             $stmt = PDFTK . " " . escapeshellarg($this->store_convert . '/' . $file_pdf) . ' stamp ' . $this->store_convert .
                     '/stamp.pdf output ' . $output;
-            
+
             passthru($stmt, $status);
             echo $stmt;
             if ($status <> 0)
@@ -221,6 +221,32 @@ class Document_Export
                 $cnt_feedback++;
                 continue;
             }
+            
+            // create the pdf with the detail of operation
+            $detail_operation = new PDF_Operation($cn,$jr_id);
+            $detail_operation->export_pdf(array("acc","anc"));
+
+            // output 2
+            $output2 = $this->store_convert . '/operation_' . $file_pdf;
+            
+            // concatenate detail operation with the output
+            $stmt = PDFTK . " " . $detail_operation->get_pdf_file()." ".$output. 
+                    ' output ' . $output2;
+
+            passthru($stmt, $status);
+            echo $stmt;
+            if ($status <> 0)
+            {
+
+                $this->feedback[$cnt_feedback]['file'] = $file_pdf;
+                $this->feedback[$cnt_feedback]['message'] = _('Echec Ajout detail ');
+                $this->feedback[$cnt_feedback]['error'] = $status;
+                $cnt_feedback++;
+                continue;
+            }
+            // overwrite old with new PDF
+            rename ($output2,$output);
+            
             // Move the PDF into another temp directory 
             $this->move_file($output, 'stamp_' . $file_pdf);
         }
