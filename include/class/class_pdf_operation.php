@@ -30,7 +30,6 @@ require_once NOALYSS_INCLUDE . '/class/class_acc_operation.php';
 require_once NOALYSS_INCLUDE . '/class/class_acc_ledger.php';
 require_once NOALYSS_INCLUDE . '/class/class_acc_operation.php';
 require_once NOALYSS_INCLUDE . '/class/class_anc_operation.php';
-require_once NOALYSS_INCLUDE . '/database/class_jrn_sql.php';
 
 class PDF_Operation extends PDF {
 
