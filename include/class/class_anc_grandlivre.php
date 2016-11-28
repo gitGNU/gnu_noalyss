@@ -144,7 +144,9 @@ class Anc_GrandLivre extends Anc_Print
             
             $r = "";
             $msg = _("Les extensions CONVERT_GIF_PDF et PDFTK pour convertir en pdf ne sont pas installées ");
-            $r = HtmlInput::button("bt_receipt_anal", _('Export des pièces en PDF'), sprintf('onclick="smoke.alert(\'%s\')"',$msg));
+            $r = HtmlInput::button("bt_receipt_anal", 
+                        _('Export des pièces en PDF'), 
+                    sprintf('onclick="smoke.alert(\'%s\')"',$msg));
         }
         return $r;
     }
