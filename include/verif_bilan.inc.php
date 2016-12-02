@@ -107,7 +107,7 @@ echo '</div>';
             where
             source.j_id < target.j_id 
             and source.j_poste<>target.j_poste 
-            and source.j_qcode = target.j_qcode
+            and source.f_id = target.f_id
             and $sql_year_source and $sql_year_target
            ";
     $sql_poste="select distinct j_poste,pcm_lib from jrnx join tmp_pcmn on (pcm_val=j_poste) where j_qcode =$1 $sql_year";
