@@ -28,42 +28,71 @@ require_once  NOALYSS_INCLUDE.'/class/class_user.php';
 require_once NOALYSS_INCLUDE.'/class/class_acc_bilan.php';
 
 global $g_captcha,$g_failed,$g_succeed;
-
+$t1=microtime(true);
 $cn=Dossier::connect();
 $exercice=$g_user->get_exercice();
 echo '<div class="content">';
-$sql_year=" and j_tech_per in (select p_id from parm_periode where p_exercice='".$g_user->get_exercice()."')";
+$sql_year="  j_tech_per in (select p_id from parm_periode where p_exercice='".$g_user->get_exercice()."')";
 echo '<div class="myfieldset"><h1 class="legend">'._('Vérification des journaux').'</h1>';
 
-$sql="select jrn_def_id,jrn_def_name from jrn_def";
+$sql="
+    with jdebit as (
+	select sum (j_montant) as amount,j_debit , jr_def_id 
+	from jrnx join jrn on (j_grpt=jr_grpt_id)
+	where 
+	$sql_year
+	and
+	j_debit='t'
+	group by jr_def_id,j_debit
+	),
+jcredit as (
+	select sum (j_montant) as amount,j_debit , jr_def_id 
+	from jrnx join jrn on (j_grpt=jr_grpt_id)
+	where 
+	$sql_year
+	and 
+	j_debit='f'
+	group by jr_def_id,j_debit
+	)
+select jrn_def_id,
+	jrn_def_name,
+	jdebit.amount as deb,
+	jcredit.amount as cred
+	from jrn_def 
+join  jdebit on (Jdebit.jr_def_id=jrn_def.jrn_def_id)
+join  jcredit on (jcredit.jr_def_id=jrn_def.jrn_def_id)
+where jcredit.amount<>jdebit.amount
+order by jrn_def_name
+    ";
 $res=$cn->exec_sql($sql);
 $jrn=Database::fetch_all($res);
+
+$nb_jrn= count($jrn);
+if ( $jrn ===false  ) {
+    echo $g_succeed." "._("Aucune anomalie dans les montants des journaux");
+}
 echo '<table class="result">';
 echo tr(th(_('Journal')).th(_('Débit'),' style="display:right"').th(_("Crédit"),' style="display:right"').th(_("Différence"),' style="display:right"').th(''));
+
+$nb_jrn=count($jrn);
+if ( $jrn === false) $nb_jrn=0;
 $ix=0;
-foreach ($jrn as $l)
+for ($i=0;$i<$nb_jrn;$i++)
 {
+    $l=$jrn[$i];
     $id=$l['jrn_def_id'];
     $name=$l['jrn_def_name'];
-    $deb=$cn->get_value("select sum (j_montant) from jrnx where j_debit='t' and j_jrn_def=$id $sql_year ");
-    $cred=$cn->get_value("select sum (j_montant) from jrnx where j_debit='f' and j_jrn_def=$id  $sql_year ");
-
-    if ( $cred == $deb )
-    {
-    $result =$g_succeed;
-}
-else
-{
+    $deb=$l['deb'];
+    $cred=$l['cred'];
     $result = $g_failed;
-}
     $class=($ix%2==0)?'odd':"even";
     print tr(td($name).td(nbm($deb),'class="num"').td(nbm($cred),'class="num"').td(nbm($result),'class="num"').td($result),"class=\"$class\"");
     $ix++;
 
 }
 
-$deb=$cn->get_value("select sum (j_montant) from jrnx where j_debit='t' $sql_year ");
-$cred=$cn->get_value("select sum (j_montant) from jrnx where j_debit='f' $sql_year ");
+$deb=$cn->get_value("select sum (j_montant) from jrnx where j_debit='t' and $sql_year ");
+$cred=$cn->get_value("select sum (j_montant) from jrnx where j_debit='f' and $sql_year ");
 
 if ( $cred == $deb )
 {
@@ -78,9 +107,11 @@ print tr(td(_('Grand livre')).td(nbm($deb),' class="num"').td(nbm($cred),' class
         .td($result),"class=\"$class\"");
 
 echo '</table>';
+$t1_end=microtime(true);
 echo '</div>';
 echo '<hr>';
 echo '<div class="myfieldset"><h1 class="legend">'._('Vérification des comptes').'</h1>';
+$t2=microtime(true);
 $bilan=new Acc_Bilan($cn);
 $periode=new Periode($cn);
 list ($start_periode,$end_periode)=$periode->get_limit($exercice);
@@ -88,7 +119,7 @@ $bilan->from=$start_periode->p_id;
 $bilan->to=$end_periode->p_id;
 $bilan->verify();
 echo '</div>';
-
+$t2_end=microtime(true);
 ?>
 <hr>
 <div class="myfieldset">
@@ -99,6 +130,7 @@ echo '</div>';
         <?php echo _('Fiches ayant changé de poste comptable');?>
     </h2>
     <?php
+    $t3=microtime(true);
     $sql_year_target=" j_tech_per in (select p_id from parm_periode where p_exercice='".$g_user->get_exercice()."')";
 
     $sql_fiche_id="
@@ -115,7 +147,7 @@ having count(*) > 1
     
     $a_fiche_id=$cn->get_array($sql_fiche_id);
     
-    $sql_poste="select distinct j_poste,pcm_lib from jrnx join tmp_pcmn on (pcm_val=j_poste) where f_id =$1 $sql_year";
+    $sql_poste="select distinct j_poste,pcm_lib from jrnx join tmp_pcmn on (pcm_val=j_poste) where f_id =$1 and $sql_year";
     $sql_qcode="select ad_value as qcode from fiche_detail where f_id=$1 and ad_id=".ATTR_DEF_QUICKCODE;
     $res=$cn->prepare('get_poste',$sql_poste);
     $resQcode=$cn->prepare('get_qcode',$sql_qcode);
@@ -153,6 +185,7 @@ having count(*) > 1
         </ul>
     <?php
     endfor;
+    $t3_end=microtime(true);
     ?>
     </ol>
   
@@ -171,7 +204,7 @@ $sql_account_used="
     join vw_fiche_attr as v_attr on (vw.f_id=v_attr.f_id)
     join jrn on (jrnx.j_grpt=jrn.jr_grpt_id) 
     where 
-        jrnx.f_id is null  $sql_year order by 1
+        jrnx.f_id is null and $sql_year order by 1
 ";
        
 $sql_concerned_operation="select vw.f_id,jrnx.j_date,jrnx.j_id,jrn.jr_id,jrnx.j_poste,jr_internal ,jr_comment
@@ -179,7 +212,7 @@ $sql_concerned_operation="select vw.f_id,jrnx.j_date,jrnx.j_id,jrn.jr_id,jrnx.j_
     join jrnx using (j_poste) 
     join jrn on (jrnx.j_grpt=jrn.jr_grpt_id) 
     where 
-    jrnx.f_id is null and vw.f_id= $1 $sql_year";
+    jrnx.f_id is null and vw.f_id= $1 and $sql_year";
 $a_account_used=$cn->get_array($sql_account_used);
 $nb_account_used=count ($a_account_used);
     if ( $nb_account_used == 0 ) 
@@ -221,3 +254,8 @@ $nb_account_used=count ($a_account_used);
         </table>
     <?php endfor;?>
 </div>
+<?php
+
+echo "Verification : ".($t1_end-$t1)." | ";
+echo "Compte : ".($t2_end-$t2)." | ";
+echo "Fiche: ".($t3_end-$t3)." | ";?>
