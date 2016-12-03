@@ -158,7 +158,6 @@ class Acc_Bilan
         $this->warning(_('Compte inverse : passif avec un solde crediteur'),'PASINV','D');
         $this->warning(_('Compte inverse : Charge avec un solde debiteur'),'CHAINV','C');
         $this->warning(_('Compte inverse : produit avec un solde crediteur'),'PROINV','D');
-        $t1=microtime(true);
         echo '<h3'._("Solde").' </h3>';
         /* set the periode filter */
         $sql_periode=sql_filter_per($this->db,$this->from,$this->to,'p_id','j_tech_per');
@@ -235,8 +234,6 @@ class Acc_Bilan
 
         echo tr( td(_("Difference Produit - Charge"),'style="padding-right:20px"').td($diff,'style="text-align:right"'),'style="font-weight:bolder"');
         echo '</table>';
-        $t1_end=microtime(true);
-        printf ("Verif : %s <br>",($t1_end-$t1));
     }
     /*!
      * \brief get data from the $_GET
