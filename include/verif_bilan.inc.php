@@ -28,7 +28,6 @@ require_once  NOALYSS_INCLUDE.'/class/class_user.php';
 require_once NOALYSS_INCLUDE.'/class/class_acc_bilan.php';
 
 global $g_captcha,$g_failed,$g_succeed;
-$t1=microtime(true);
 $cn=Dossier::connect();
 $exercice=$g_user->get_exercice();
 echo '<div class="content">';
@@ -107,11 +106,9 @@ print tr(td(_('Grand livre')).td(nbm($deb),' class="num"').td(nbm($cred),' class
         .td($result),"class=\"$class\"");
 
 echo '</table>';
-$t1_end=microtime(true);
 echo '</div>';
 echo '<hr>';
 echo '<div class="myfieldset"><h1 class="legend">'._('Vérification des comptes').'</h1>';
-$t2=microtime(true);
 $bilan=new Acc_Bilan($cn);
 $periode=new Periode($cn);
 list ($start_periode,$end_periode)=$periode->get_limit($exercice);
@@ -119,7 +116,6 @@ $bilan->from=$start_periode->p_id;
 $bilan->to=$end_periode->p_id;
 $bilan->verify();
 echo '</div>';
-$t2_end=microtime(true);
 ?>
 <hr>
 <div class="myfieldset">
@@ -130,7 +126,6 @@ $t2_end=microtime(true);
         <?php echo _('Fiches ayant changé de poste comptable');?>
     </h2>
     <?php
-    $t3=microtime(true);
     $sql_year_target=" j_tech_per in (select p_id from parm_periode where p_exercice='".$g_user->get_exercice()."')";
 
     $sql_fiche_id="
@@ -185,7 +180,6 @@ having count(*) > 1
         </ul>
     <?php
     endfor;
-    $t3_end=microtime(true);
     ?>
     </ol>
   
@@ -254,8 +248,3 @@ $nb_account_used=count ($a_account_used);
         </table>
     <?php endfor;?>
 </div>
-<?php
-
-echo "Verification : ".($t1_end-$t1)." | ";
-echo "Compte : ".($t2_end-$t2)." | ";
-echo "Fiche: ".($t3_end-$t3)." | ";?>
