@@ -32,7 +32,6 @@ global $g_captcha,$g_failed,$g_succeed;
 $cn=Dossier::connect();
 $exercice=$g_user->get_exercice();
 echo '<div class="content">';
-
 $sql_year=" and j_tech_per in (select p_id from parm_periode where p_exercice='".$g_user->get_exercice()."')";
 echo '<div class="myfieldset"><h1 class="legend">'._('Vérification des journaux').'</h1>';
 
@@ -89,6 +88,7 @@ $bilan->from=$start_periode->p_id;
 $bilan->to=$end_periode->p_id;
 $bilan->verify();
 echo '</div>';
+
 ?>
 <hr>
 <div class="myfieldset">
@@ -99,33 +99,43 @@ echo '</div>';
         <?php echo _('Fiches ayant changé de poste comptable');?>
     </h2>
     <?php
-    $sql_year_target=" target.j_tech_per in (select p_id from parm_periode where p_exercice='".$g_user->get_exercice()."')";
-    $sql_year_source=" source.j_tech_per in (select p_id from parm_periode where p_exercice='".$g_user->get_exercice()."')";
+    $sql_year_target=" j_tech_per in (select p_id from parm_periode where p_exercice='".$g_user->get_exercice()."')";
 
-    $sql_qcode="select distinct source.f_id,source.j_qcode 
-            from jrnx as source ,jrnx as target 
-            where
-            source.j_id < target.j_id 
-            and source.j_poste<>target.j_poste 
-            and source.f_id = target.f_id
-            and $sql_year_source and $sql_year_target
+    $sql_fiche_id="
+        select count(*),f_id from (
+        select distinct 
+                f_id,j_poste 
+        from jrnx 
+        where
+        $sql_year_target
+) as m
+group by f_id
+having count(*) > 1
            ";
-    $sql_poste="select distinct j_poste,pcm_lib from jrnx join tmp_pcmn on (pcm_val=j_poste) where j_qcode =$1 $sql_year";
-    $a_qcode=$cn->get_array($sql_qcode);
+    
+    $a_fiche_id=$cn->get_array($sql_fiche_id);
+    
+    $sql_poste="select distinct j_poste,pcm_lib from jrnx join tmp_pcmn on (pcm_val=j_poste) where f_id =$1 $sql_year";
+    $sql_qcode="select ad_value as qcode from fiche_detail where f_id=$1 and ad_id=".ATTR_DEF_QUICKCODE;
     $res=$cn->prepare('get_poste',$sql_poste);
+    $resQcode=$cn->prepare('get_qcode',$sql_qcode);
+    if ( $res == false || $resQcode == false ) {
+        echo "ERREUR ".__FILE__.":".__LINE__."prepare failed";
+    }
     echo _("Résultat");
-    if (count($a_qcode) == 0) { echo " OK $g_succeed";}  else { echo " "._('Attention ').$g_failed;}
+    if (count($a_fiche_id) == 0) { echo " OK $g_succeed";}  else { echo " "._('Attention ').$g_failed;}
     ?>
     <ol>
     <?php
-    for ($i=0;$i<count($a_qcode);$i++):
-        $poste=$cn->execute('get_poste',array($a_qcode[$i]['j_qcode']));
+    for ($i=0;$i<count($a_fiche_id);$i++):
+        $poste=$cn->execute('get_poste',array($a_fiche_id[$i]['f_id']));
+        $tmp_qcode=$cn->execute('get_qcode',array($a_fiche_id[$i]['f_id']));
+        $qcode=Database::fetch_all($tmp_qcode);
     ?>
         <li><?php 
-                echo HtmlInput::card_detail($a_qcode[$i]["j_qcode"],$a_qcode[$i]["j_qcode"],' style="display:inline"') ;
+                echo HtmlInput::card_detail($qcode[0]['qcode'],$qcode[0]['qcode'],' style="display:inline"') ;
                 echo " ";
-                echo HtmlInput::history_card($a_qcode[$i]["f_id"],_("Hist."),' display:inline'); 
-                        
+                echo HtmlInput::history_card($a_fiche_id[$i]["f_id"],_("Hist."),' display:inline'); 
                 ?>
         
         </li>
