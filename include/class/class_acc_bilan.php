@@ -94,7 +94,10 @@ class Acc_Bilan
      */
     private function warning($p_message,$p_type,$p_deb)
     {
-        $sql="select pcm_val,pcm_lib from tmp_pcmn where pcm_type='$p_type'";
+        $sql="select distinct pcm_val,pcm_lib 
+               from tmp_pcmn join jrnx on (pcm_val=j_poste) where pcm_type='$p_type'";
+        $sql .= "and ".sql_filter_per($this->db,$this->from,$this->to,'p_id','j_tech_per');
+        
         $res=$this->db->exec_sql($sql);
         if ( Database::num_row($res) ==0 )
             return;
@@ -103,12 +106,12 @@ class Acc_Bilan
 
         $ret="";
         $obj=new Acc_Account_Ledger($this->db,0);
+        $sql=sql_filter_per($this->db,$this->from,$this->to,'p_id','j_tech_per');
         for ($i=0;$i<$nRow;$i++)
         {
 
             $line=Database::fetch_array($res,$i);
             /* set the periode filter */
-            $sql=sql_filter_per($this->db,$this->from,$this->to,'p_id','j_tech_per');
             $obj->id=$line['pcm_val'];
 
             $solde=$obj->get_solde_detail($sql);
