@@ -155,38 +155,46 @@ class Acc_Bilan
         $this->warning(_('Compte inverse : passif avec un solde crediteur'),'PASINV','D');
         $this->warning(_('Compte inverse : Charge avec un solde debiteur'),'CHAINV','C');
         $this->warning(_('Compte inverse : produit avec un solde crediteur'),'PROINV','D');
+        $t1=microtime(true);
         echo '<h3'._("Solde").' </h3>';
         /* set the periode filter */
         $sql_periode=sql_filter_per($this->db,$this->from,$this->to,'p_id','j_tech_per');
+        $sqlAccount="select sum(amount_deb) as amount_debit ,
+                            sum(amount_cred) as amount_credit
+                 from (
+                select j_poste,
+                    case when j_debit='t' then j_montant else 0 end as amount_deb,
+                    case when j_debit='f' then j_montant else 0 end as amount_cred
+                    from 
+                    jrnx
+                    where
+                    $sql_periode
+                ) as JP1 join tmp_pcmn on (JP1.j_poste=pcm_val) 
+              where pcm_type=$1 or pcm_type=$2";
+        
+        $this->db->prepare("sqlAccount",$sqlAccount);
+        
+      
+        
         /* debit Actif */
-        $sql="select sum(j_montant) from jrnx join tmp_pcmn on (j_poste=pcm_val)".
-             " where j_debit='t' and (pcm_type='ACT' or pcm_type='ACTINV')";
-        $sql.="and $sql_periode";
-        $debit_actif=$this->db->get_value($sql);
-
+         $res=$this->db->execute("sqlAccount",array('ACT','ACTINV'));
+        $result=Database::fetch_array($res, 0);
+        
+        $debit_actif=($result === false)?0:$result['amount_debit'];
         /* Credit Actif */
-        $sql="select sum(j_montant) from jrnx join tmp_pcmn on (j_poste=pcm_val)".
-             " where j_debit='f' and (pcm_type='ACT' or pcm_type='ACTINV')";
-
-        $sql.="and $sql_periode";
-
-        $credit_actif=$this->db->get_value($sql);
+        $credit_actif=($result === false)?0:$result['amount_credit'];
         $total_actif=abs(bcsub($debit_actif,$credit_actif));
         echo '<table >';
         echo tr(td(_('Total actif')).td($total_actif,'style="text-align:right"'));
 
         /* debit passif */
-        $sql="select sum(j_montant) from jrnx join tmp_pcmn on (j_poste=pcm_val)".
-             " where j_debit='t' and (pcm_type='PAS' or pcm_type='PASINV') ";
-        $sql.="and $sql_periode";
+        $res=$this->db->execute("sqlAccount",array('PAS','PASINV'));
+        $result=Database::fetch_array($res, 0);
+        $debit_passif=($result === false)?0:$result['amount_debit'];
 
-        $debit_passif=$this->db->get_value($sql);
+        /* Credit passif */
+        $credit_passif=($result === false)?0:$result['amount_credit'];
 
-        /* Credit Actif */
-        $sql="select sum(j_montant) from jrnx join tmp_pcmn on (j_poste=pcm_val)".
-             " where j_debit='f' and (pcm_type='PAS' or pcm_type='PASINV') ";
-        $sql.="and $sql_periode";
-        $credit_passif=$this->db->get_value($sql);
         $total_passif=abs(bcsub($debit_passif,$credit_passif));
 
         /* diff actif / passif */
@@ -198,31 +206,25 @@ class Acc_Bilan
         }
 
         /* debit charge */
-        $sql="select sum(j_montant) from jrnx join tmp_pcmn on (j_poste=pcm_val)".
-             " where j_debit='t' and (pcm_type='CHA' or pcm_type='CHAINV')";
-        $sql.="and $sql_periode";
-        $debit_charge=$this->db->get_value($sql);
+        $res=$this->db->execute("sqlAccount",array('CHA','CHAINV'));
+        $result=Database::fetch_array($res, 0);
+        $debit_charge=($result === false)?0:$result['amount_debit'];
 
         /* Credit charge */
-        $sql="select sum(j_montant) from jrnx join tmp_pcmn on (j_poste=pcm_val)".
-             " where j_debit='f' and (pcm_type='CHA' or pcm_type='CHAINV')";
-        $sql.="and $sql_periode";
-        $credit_charge=$this->db->get_value($sql);
+        $credit_charge=($result === false)?0:$result['amount_credit'];
+        
         $total_charge=abs(bcsub($debit_charge,$credit_charge));
         echo tr(td(_('Total charge ')).td($total_charge,'style="text-align:right"'));
 
 
         /* debit prod */
-        $sql="select sum(j_montant) from jrnx join tmp_pcmn on (j_poste=pcm_val)".
-             " where j_debit='t' and (pcm_type='PRO' or pcm_type='PROINV')";
-        $sql.="and $sql_periode";
-        $debit_pro=$this->db->get_value($sql);
+        $res=$this->db->execute("sqlAccount",array('PRO','PROINV'));
+        $result=Database::fetch_array($res, 0);
+        $debit_pro=($result === false)?0:$result['amount_debit'];
 
         /* Credit prod */
-        $sql="select sum(j_montant) from jrnx join tmp_pcmn on (j_poste=pcm_val)".
-             " where j_debit='f' and (pcm_type='PRO' or pcm_type='PROINV')";
-        $sql.="and $sql_periode";
-        $credit_pro=$this->db->get_value($sql);
+        $credit_pro=($result === false)?0:$result['amount_credit'];
+        
         $total_pro=abs(bcsub($debit_pro,$credit_pro));
         echo tr(td(_('Total produit')).td($total_pro,'style="text-align:right"'));
 
@@ -230,6 +232,8 @@ class Acc_Bilan
 
         echo tr( td(_("Difference Produit - Charge"),'style="padding-right:20px"').td($diff,'style="text-align:right"'),'style="font-weight:bolder"');
         echo '</table>';
+        $t1_end=microtime(true);
+        printf ("Verif : %s <br>",($t1_end-$t1));
     }
     /*!
      * \brief get data from the $_GET
