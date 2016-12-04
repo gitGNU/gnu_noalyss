@@ -94,11 +94,24 @@ class Acc_Bilan
      */
     private function warning($p_message,$p_type,$p_deb)
     {
-        $sql="select distinct pcm_val,pcm_lib 
-               from tmp_pcmn where exists (select pcm_val from jrnx where pcm_val=j_poste and 
-               ".sql_filter_per($this->db,$this->from,$this->to,'p_id','j_tech_per')."
-               ) and pcm_type='$p_type'";
-        
+        $sql="select
+                pcm_val,
+                pcm_lib,
+                sum(amount_deb) as amount_debit,
+                sum(amount_cred) as amount_credit
+             from
+                tmp_pcmn
+                join (select
+                        j_poste,
+                        case when j_debit='t' then j_montant  else 0 end as amount_deb,
+                        case when j_debit='f' then j_montant else 0 end as amount_cred
+                        from jrnx
+                        where ".sql_filter_per($this->db,$this->from,$this->to,'p_id','j_tech_per') ."
+                 
+                ) as m on (j_poste=pcm_val)
+        where
+                pcm_type = '$p_type'
+        group by pcm_val,pcm_lib";
         $res=$this->db->exec_sql($sql);
         if ( Database::num_row($res) ==0 )
             return;
@@ -114,9 +127,7 @@ class Acc_Bilan
             $line=Database::fetch_array($res,$i);
             /* set the periode filter */
             $obj->id=$line['pcm_val'];
-
-            $solde=$obj->get_solde_detail($sql);
-            $solde_signed=bcsub($solde['debit'],$solde['credit']);
+            $solde_signed=bcsub($line['amount_debit'],$line['amount_credit']);
 
             if (
                 ($solde_signed < 0 && $p_deb == 'D' ) ||
@@ -124,8 +135,8 @@ class Acc_Bilan
             )
             {
                 $ret.= '<li> '.HtmlInput::history_account($line['pcm_val'],'Anomalie pour le compte '.$line['pcm_val'].' '.h($line['pcm_lib']).
-                       "  D: ".$solde['debit'].
-                       "  C: ".$solde['credit']." diff ".$solde['solde']);
+                       "  D: ".$line['amount_debit'].
+                       "  C: ".$line['amount_credit']." diff ".(abs($solde_signed)));
                 $count++;
             }
 
