@@ -95,8 +95,9 @@ class Acc_Bilan
     private function warning($p_message,$p_type,$p_deb)
     {
         $sql="select distinct pcm_val,pcm_lib 
-               from tmp_pcmn join jrnx on (pcm_val=j_poste) where pcm_type='$p_type'";
-        $sql .= "and ".sql_filter_per($this->db,$this->from,$this->to,'p_id','j_tech_per');
+               from tmp_pcmn where exists (select pcm_val from jrnx where pcm_val=j_poste and 
+               ".sql_filter_per($this->db,$this->from,$this->to,'p_id','j_tech_per')."
+               ) and pcm_type='$p_type'";
         
         $res=$this->db->exec_sql($sql);
         if ( Database::num_row($res) ==0 )
