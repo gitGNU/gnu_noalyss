@@ -211,7 +211,6 @@ class Document_Export
                     '/stamp.pdf output ' . $output;
 
             passthru($stmt, $status);
-            echo $stmt;
             if ($status <> 0)
             {
 
@@ -234,7 +233,6 @@ class Document_Export
                     ' output ' . $output2;
 
             passthru($stmt, $status);
-            echo $stmt;
             if ($status <> 0)
             {
 
