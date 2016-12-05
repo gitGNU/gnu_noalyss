@@ -206,7 +206,9 @@ function display_file_config($p_array,$from_setup=1,$p_os=1)
     print ( '// define ("FIX_BROKEN_PDF","NO");');
     print ("\r\n");
     print ("// Uncomment if you want to convert to PDF");
+    print ("\r\n");
     print ("// With the unoconv tool");
+    print ("\r\n");
     print ( "//define ('OFFICE','HOME=/tmp unoconv ');");
     print ("\r\n");
     print ("//define ('GENERATE_PDF','YES');");
