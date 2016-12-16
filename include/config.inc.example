@@ -48,5 +48,8 @@ define ("dbname","");
 // define ('OVERRIDE_PARAM',1);
 // ini_set ('max_execution_time',240);
 // ini_set ('memory_limit','256M');
-// 
+// For converting file to PDF
+// define ('OFFICE','/usr/bin/unoconv');
+// define ('GENERATE_PDF','YES');
+
   
