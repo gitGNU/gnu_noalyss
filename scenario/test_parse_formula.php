@@ -1,10 +1,12 @@
 <?
+//@description:Impress::check_formula test 
 /*
 # check the Impress::check_formula and the parse_formula
 # This file is a part of NOALYSS under GPL
 # Author D. DE BONTRIDDER danydb@aevalys.eu
 */
-include_once('class_impress.php');
+
+include_once NOALYSS_INCLUDE.'/lib/class_impress.php';
 
 echo '<hr>';
 foreach ( array('1',
