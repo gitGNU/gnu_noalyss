@@ -133,6 +133,7 @@ class HtmlInput
      * @return javascript string with the object
      * @note: there is not check on the key->value, so you could need to escape
      * special char as quote, single-quote...
+     * @deprecated 
      * @code
     $a=new IButton()
     $a->set_attribute('prop','1');
@@ -144,7 +145,7 @@ class HtmlInput
     echo $string => {'prop':'1','prop2':'2','prop3':'3'};
     @endcode
     */
-    public function make_object($p_name=null)
+    public function make_object_deprecated($p_name=null)
     {
         $name=($p_name != null)?$p_name.'=':'';
         if ( count($this->attribute) == 0) return $name."{}";
