@@ -77,7 +77,10 @@ abstract class Noalyss_SQL
         $this->cn=$p_cn;
         $pk=$this->primary_key;
         $this->$pk=$p_id;
-
+	// check that the definition is correct
+	if (count($this->name) != count($this->type) {
+		throw new Exception (__FILE__." $this->table Cannot instantiate");
+	}
         /* Initialize an empty object */
         foreach ($this->name as $key)
         {
@@ -100,7 +103,37 @@ abstract class Noalyss_SQL
         else
             $this->update();
     }
+    /**
+     *@brief get the value thanks the colum name and not the alias (name). 
+     *@see getp
+     */
+    public function get($p_string)
+    {
+        if (array_key_exists($p_string, $this->type)) {
+            $idx=$this->type[$p_string];
+            return $this->$idx;
+        }
+        else
+            throw new Exception(__FILE__.":".__LINE__.$p_string.'Erreur attribut inexistant '.$p_string);
+    }
 
+    /**
+     *@brief set the value thanks the colum name and not the alias (name)
+     *@see setp
+     */
+    public function set($p_string, $p_value)
+    {
+        if (array_key_exists($p_string, $this->type))    {
+            $idx=$this->type[$p_string];
+            $this->$idx=$p_value;
+        }        else
+            throw new Exception(__FILE__.":".__LINE__.$p_string.'Erreur attribut inexistant '.$p_string);
+    }
+
+    /**
+     *@brief set the value thanks the alias name instead of the colum name 
+     *@see get
+     */
     public function getp($p_string)
     {
         if (array_key_exists($p_string, $this->name)) {
@@ -111,6 +144,10 @@ abstract class Noalyss_SQL
             throw new Exception(__FILE__.":".__LINE__.$p_string.'Erreur attribut inexistant '.$p_string);
     }
 
+    /**
+     *@brief set the value thanks the alias name instead of the colum name 
+     *@see set
+     */
     public function setp($p_string, $p_value)
     {
         if (array_key_exists($p_string, $this->name))    {
