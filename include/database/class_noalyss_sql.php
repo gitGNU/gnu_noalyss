@@ -140,7 +140,7 @@ abstract class Noalyss_SQL
                 case "date":
                     if ($this->date_format=="")
                         throw new Exception('Format Date invalide');
-                    $par .=$sep.'to_date($'.$idx.",'".$this->date_format."')";
+                    $par .=$sep.'to_timestamp($'.$idx.",'".$this->date_format."')";
                     break;
                 default:
                     $par .= $sep."$".$idx;
@@ -177,7 +177,7 @@ abstract class Noalyss_SQL
             switch ($this->type[$value])
             {
                 case "date":
-                    $par=$value.'=to_date($'.$idx.",'".$this->date_format."')";
+                    $par=$value.'=to_timestamp($'.$idx.",'".$this->date_format."')";
                     break;
                 default:
                     $par=$value."= $".$idx;
