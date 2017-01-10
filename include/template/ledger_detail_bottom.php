@@ -162,14 +162,17 @@ if ($aRap  != null ) {
     $opRap=new Acc_Operation($cn);
     $opRap->jr_id=$aRap[$e];
     $internal=$opRap->get_internal();
-    $array_jr=$cn->get_array('select jr_date,jr_montant,jr_comment from jrn where jr_id=$1',array($aRap[$e]));
+    $array_jr=$cn->get_array('select jr_date,jr_pj_number,jr_montant,jr_comment from jrn where jr_id=$1',array($aRap[$e]));
     $amount=$array_jr[0]['jr_montant'];
     $str="modifyOperation(".$aRap[$e].",".$gDossier.")";
-    $rmReconciliation=new IButton('rmr');
-    $rmReconciliation->label=SMALLX;
-    $rmReconciliation->class="tinybutton";
-    $rmReconciliation->javascript="return confirm_box(null,'"._("vous confirmez?")."',";
-    $rmReconciliation->javascript.=sprintf('function () { dropLink(\'%s\',\'%s\',\'%s\',\'%s\');deleteRowRec(\'%s\',$(\'row%d\'));})',
+    
+    // If write access , allow to drop Reconciles operations
+    if ( $access=='W') {
+            $rmReconciliation=new IButton('rmr');
+            $rmReconciliation->label=SMALLX;
+            $rmReconciliation->class="tinybutton";
+            $rmReconciliation->javascript="return confirm_box(null,'"._("vous confirmez?")."',";
+            $rmReconciliation->javascript.=sprintf('function () { dropLink(\'%s\',\'%s\',\'%s\',\'%s\');deleteRowRec(\'%s\',$(\'row%d\'));})',
 					  $gDossier,
 					  $div,
 					  $jr_id,
@@ -177,14 +180,17 @@ if ($aRap  != null ) {
 					   $tableid,
                                           $e
 					  );
-    if ( $access=='W')
+
       $remove=$rmReconciliation->input();
+    }
     else
       $remove='';
     
     $comment=strip_tags($array_jr[0]['jr_comment']);
+    $pj_nb=h($array_jr[0]['jr_pj_number']);
     echo tr (td(format_date($array_jr[0]['jr_date'])).
             td('<a class="line" href="javascript:void(0)" onclick="'.$str.'" >'.$internal.'</A>').
+            td($pj_nb).
             td($comment).
             td(nbm($amount)).
             td($remove),' id = "row'.$e.'"');
