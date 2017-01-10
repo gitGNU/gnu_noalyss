@@ -21,6 +21,10 @@ class Manage_Table_SQL
 {
 	private $table ; 
 	private $a_label_displaid;
+    private $a_order; //!< order
+    private $a_prop ; //!< property 
+    const UPDATABLE=1;
+    const VISIBLE=2;
 	function __construct(Noalyss_SQL $p_table)
 	{
 		$this->table=$p_table;
@@ -30,6 +34,7 @@ class Manage_Table_SQL
 		
 			$this->a_label_displaid[$value]=$value;
 			$this->a_order[$order]=$value;
+            $this->a_prop[$value]=self::UPDATABLE|self::VISIBLE;
 			$order++;
 		}
 		
