@@ -78,7 +78,7 @@ abstract class Noalyss_SQL
         $pk=$this->primary_key;
         $this->$pk=$p_id;
 	// check that the definition is correct
-	if (count($this->name) != count($this->type) {
+	if (count($this->name) != count($this->type) ){
 		throw new Exception (__FILE__." $this->table Cannot instantiate");
 	}
         /* Initialize an empty object */
@@ -226,6 +226,16 @@ abstract class Noalyss_SQL
         $array[]=$this->$pk;
         $sql.=" where ".$this->primary_key." = $".$idx;
         $this->cn->exec_sql($sql, $array);
+    }
+     public function set_pk_value($p_value)
+     {
+         $pk=$this->primary_key;
+           $this->$pk=$p_value;
+     }
+    public function get_pk_value()
+    {
+        $pk=$this->primary_key;
+          return $this->$pk;
     }
 
     public function load()
