@@ -607,7 +607,7 @@ function select_card_type(obj)
  *        - filter is the filter but with a  fd_id list, -1 means there  is no filter
  *        - ref : reload the window after adding card
  *        - content : name of the div
- *@example dis_blank_card({gDossier:15,fd_id:12,ref:1});
+ *@note dis_blank_card({gDossier:15,fd_id:12,ref:1});
  *@see ajax_card.php
  */
 function dis_blank_card(obj)

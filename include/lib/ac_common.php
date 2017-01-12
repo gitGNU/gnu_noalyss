@@ -465,7 +465,7 @@ function sql_string($p_string)
 }
 
 /**
-  /* \brief store the string which print
+* \brief store the string which print
  *           the content of p_array in a table
  *           used to display the menu
  * \param  $p_array array like ( 0=>HREF reference, 1=>visible item (name),2=>Help(opt),
@@ -475,7 +475,7 @@ function sql_string($p_string)
  * \param $class_ref CSS for the A tag
  * \param $default selected item
  * \param $p_extra extra code for the table tag (CSS or javascript)
- *
+ */
   /* \return : string */
 
 function ShowItem($p_array, $p_dir='V', $class="mtitle", $class_ref="mtitle", $default="", $p_extra="")
@@ -897,7 +897,7 @@ function show_module($selected)
 }
 /**
  * Find the default module or the first one
- * @global $g_user $g_user
+ * @var $g_user $g_user
  * @return default module (string)
  */
 function find_default_module()
@@ -976,7 +976,7 @@ function find_default_module()
 
 /**
  * show the module
- * @global $g_user
+ * @var $g_user
  * @param $module the $_REQUEST['ac'] exploded into an array
  * @param  $idx the index of the array : the AD code is splitted into an array thanks the slash
  */

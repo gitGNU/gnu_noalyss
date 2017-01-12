@@ -24,7 +24,7 @@
  * @file
  * @brief this wrapper is used to created easily a wrapper to a table
  *
- * @class
+ * @class Noalyss_SQL
  * Match a table into an object, you need to add the code for each table
  * @note : the primary key must be an integer
  *
