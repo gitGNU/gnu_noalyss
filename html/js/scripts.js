@@ -363,8 +363,8 @@ function change_month(obj)
  * the code. In that case, you need to create the object before the Ajax.Request
  *The difference with success box is that
  *@see add_div removeDiv success_box is that the width and height are not changed ajax_misc.php
- *@parameter code is the ID of the object containing the html (div, button...)
- *@parameter value is the html code, with it you fill the ctl element
+ *@param code is the ID of the object containing the html (div, button...)
+ *@param value is the html code, with it you fill the ctl element
  */
 
 function success_misc(req)
@@ -543,7 +543,7 @@ function popup_select_tva(obj)
 }
 /**
  *@brief display the popup with vat and explanations
- *@obsolete
+ *@deprecated this function is not used anymore
  */
 function success_popup_select_tva_obsolete(req)
 {
@@ -1158,8 +1158,8 @@ function save_periode(obj)
  * the code. In that case, you need to create the object before the Ajax.Request
  *The difference with success box is that
  *@see add_div removeDiv success_box is that the width and height are not changed
- *@parameter ctl is the ID of the object containing the html (div, button...)
- *@parameter code is the html code, with it you fill the ctl element
+ *@param ctl is the ID of the object containing the html (div, button...)
+ *@param code is the html code, with it you fill the ctl element
  */
 function fill_box(req)
 {
@@ -1978,7 +1978,7 @@ function detail_category_show(p_div, p_dossier, p_id)
 /**
  * @brief check if the parameter is a valid a valid date or not, returns true if it is valid otherwise
  * false
- * @parameter p_str_date the string of the date (format DD.MM.YYYY)
+ * @param p_str_date the string of the date (format DD.MM.YYYY)
  */
 function check_date(p_str_date)
 {
@@ -2001,7 +2001,7 @@ function check_date(p_str_date)
 }
 /**
  * @brief get the string in the id and check if the date is valid
- * @parameter p_id_date is the id of the element to check
+ * @param p_id_date is the id of the element to check
  * @return true if the date is valid
  * @see check_date
  */

@@ -426,7 +426,7 @@ function fill_fin_data(text,li)
 /**
  *@brief show the ipopup window and display the details of a card,
  * to work some attribute must be set
- *@parameter obj.qcode is the qcode, obj.nohistory if you don't want to  display
+ *@param obj.qcode is the qcode, obj.nohistory if you don't want to  display
  * the history button, obj.ro is the popin is readonly
  *@note you must the gDossier as hidden in the calling page
  *

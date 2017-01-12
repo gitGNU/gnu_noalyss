@@ -39,7 +39,7 @@ class Sendmail
 
     /**
      * set the from
-     * @parameter $p_from has the form name <info@phpcompta.eu>
+     * @param $p_from has the form name <info@phpcompta.eu>
      */
     function set_from($p_from)
     {

@@ -23,8 +23,8 @@
 /**
  * @file
  * @brief  display a submenu contained in a array
- * @parameter $a_module contains rows from profile_menu
- * @parameter $p_module_id is the module / menu id main menu
+ * @param $a_module contains rows from profile_menu
+ * @param $p_module_id is the module / menu id main menu
  * @see Profile_Menu::display_module_menu
  */
 ?>

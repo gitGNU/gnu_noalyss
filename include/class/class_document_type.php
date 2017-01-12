@@ -58,7 +58,7 @@ class Document_type
 
 	/**
 	 * @brief get a list
-	 * @parameter $p_cn database connection
+	 * @param $p_cn database connection
 	 * @return array of data from document_type
 	 */
 	static function get_list($p_cn)

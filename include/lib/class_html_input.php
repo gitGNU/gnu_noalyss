@@ -908,9 +908,8 @@ class HtmlInput
             echo '</span>';
         }
         /**
-         * Returns HTML code for displaying a icon with a link to a receipt document from
+         * @brief Returns HTML code for displaying a icon with a link to a receipt document from
          * the ledger 
-         * @global $cn database connx
          * @param $p_jr_id jrn.jr_id
          * @param $p_name name in the link , if the name is empty then we show the icon
          * @return nothing or HTML Code for a link to the document
