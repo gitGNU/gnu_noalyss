@@ -607,7 +607,7 @@ function success_set_tva_label(req)
  *@brief set loading for waiting
  *@param name of ipopup
  *@see showIPopup
- *@obsolete
+ *@deprecated
  */
 function set_wait_obsolete(name)
 {
