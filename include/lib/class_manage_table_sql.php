@@ -1,110 +1,46 @@
-<script>
-/**
- *@brief Javascript object to manage ajax calls to 
- * save , input or delete data row. The callback must
-respond with a XML file , the tag status for the result
-and data the HTML code to display
- *@param p_table_name the data table on which we're working
-in javascript , to create an object to manipulate the table
-version.
-@code
-// Version will manage the table "version"
-var version=new ManageTable("version");
-
-// the file ajax_my.php will be called
-version.set_callback("ajax_my.php");
-
-// Add supplemental parameter to this file
-version.param_add ({"plugin_code":"OIC"};
-
-
-
-@endcode
- */
-var ManageTable=function(p_table_name)
-{
-	this.callback="ajax.php";
-	this.param={"table":p_table_name};
-	/**
-	 *@brief set the name of the callback file to 
-	* call by default it is ajax.php
-	 */
-	this.set_callback=function(p_new_callback) {
-		this.callback=p_new_callback;
-	};
-	/**
-	 *@brief By default send the json param variable
-	 * you can add a json object to it in order to 
-	 * send it to the callback function
-	 */
-	this.param_add= function(p_obj) {
-		var result={};
-	    	for ( var key in this.param) {
-		      result[key]=this.param[key];
-    		}
-	   	for ( var key in p_obj) {
-	      		result[key]=p_obj[key];
-	    	}
-	   	this.param=result;
-		return this.param;
-	};
-	/**
-	 *@brief call the ajax with the action save
-	 */
-	this.save=function(form_id) {
-		var form=$F(form_id);
-		this.param_add(form);
-
-	};
-	/**
-	 *@brief call the ajax with action delete
-	 *@param id (pk) of the data row
-	 */
-	this.delete=function (p_id) {
-		this.param['p_id']=p_id;
-		this.param['action']='delete';
-	};
-	/**
-	 *@brief display a dialog box with the information
- 	 * of the data row
-	 *@param id (pk) of the data row
-	 */
-    	this.input=function (p_table,p_id) {
-		this.param['p_id']=p_id;
-		this.param['action']='input';
-		// display the form to enter data
-		new Ajax.Request(this.callback,{
-			parameters : this.param, 
-			method:"get",
-			onSuccess:function (req) {
-				var a=new Element("div");
-				a.id="div_"+p_table+"_"+p_id;
-				a.update(req.responseText);
-			}
-		}
-    	};
-    
-
-}
-</script>
-
 <?php
+/*
+ *   This file is part of NOALYSS.
+ *
+ *   NOALYSS is free software; you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation; either version 2 of the License, or
+ *   (at your option) any later version.
+ *
+ *   NOALYSS is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details.
+ *
+ *   You should have received a copy of the GNU General Public License
+ *   along with NOALYSS; if not, write to the Free Software
+ *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ */
+// Copyright Author Dany De Bontridder danydb@aevalys.eu
+//@file
+//@brief Definition Manage_Table_SQL
+
 /**
- *@brief
+ *@brief Purpose is to propose a librairy to display a table content
+ * and allow to update and delete row , handle also the ajax call 
+ * thanks the script managetable.js
+ *@see ManageTable
  */
 class Manage_Table_SQL 
 {
-	private $table ; 
-	private $a_label_displaid;
-        private $a_order; //!< order
-        private $a_prop ; //!< property 
+	private $table ; //!< Object Noalyss_SQL
+	private $a_label_displaid; //!< Label of the col. of the datarow
+    private $a_order; //!< order of the col
+    private $a_prop ; //!< property for each col.
 	private $object_name; //!< Object_name is used for the javascript
 	private $row_delete; //!< Flag to indicate if rows can be deleted
 	private $row_update; //!< Flag to indicate if rows can be updated
-        const UPDATABLE=1;
-        const VISIBLE=2;
+    const UPDATABLE=1;
+    const VISIBLE=2;
 	/**
-	 *@brief
+	 *@brief Constructor : set the label to the column name,
+     * the order of the column , set the properties and the
+     * permission for updating or deleting row
 	 */
 	function __construct(Noalyss_SQL $p_table)
 	{
@@ -146,8 +82,8 @@ class Manage_Table_SQL
 	}
 	/**
 	 *@brief set a column of the data row updatable or not
-	 *@param $p_key data column
-	 *@param $p_vallue Boolean False or True
+	 *@param string $p_key data column
+	 *@param bool $p_value Boolean False or True
 	 */
 	function set_property_updatable($p_key,$p_value)
 	{
@@ -202,8 +138,8 @@ class Manage_Table_SQL
 	}
 	/**
 	 *@brief set a column of the data row visible  or not
-	 *@param $p_key data column
-	 *@param $p_vallue Boolean False or True
+	 *@param string $p_key data column
+	 *@param bool $p_value Boolean False or True
 	 */
 	function set_property_visible($p_key,$p_value)
 	{
@@ -229,7 +165,8 @@ class Manage_Table_SQL
 	}
 	/**
 	 *@brief set the name to display for a column
-	 *@param $p_key data column
+	 *@param string $p_key data column
+     *@param string $p_display Label to display
 	 *
 	 */
 	function set_col_label($p_key,$p_display)
@@ -255,7 +192,8 @@ class Manage_Table_SQL
 	 * With a_order[0,1,2,3]=[x,y,z,a]
   	 * if we move the column x (idx=0) to 2	
 	 * we must obtain [y,z,x,a]
-	 *@param $p_key data column
+	 *@param string $p_key data column
+     *@param integer $p_idx new location
 	*/
 	function move($p_key,$p_idx)
 	{
@@ -300,6 +238,7 @@ class Manage_Table_SQL
 	{
 		$ret=$this->table->seek();
 		$nb=Database::num_count($ret);
+        printf ('<table id="tb%s">',$this->object_name);
 		for ($i=0;$i< $nb ; $i++ )
 		{
 			if ( $i == 0 ) {
@@ -370,15 +309,18 @@ class Manage_Table_SQL
 	        }	
         	echo "<td>";
 		if ( $this->can_update_row() ) {
-			$js=printf ("ManageTable.input('%s');",
-			       $p_row[$this->table->primary_key]
+			$js=printf ("ManageTable.input('%s','%s');",
+                         $p_row[$this->table->primary_key],
+                         $this->object_name
 				);
 		}
         	echo "</td>";
         	echo "<td>";
 		if ( $this->can_delete_row() ) {
-			$js=printf ("ManageTable.delete('%s');",
-				     $p_row[$this->table->primary_key]
+			$js=printf ("ManageTable.delete('%s','%s');",
+                                     $p_row[$this->table->primary_key],
+                                     $this->object_name
+
 					);
 
 		}
