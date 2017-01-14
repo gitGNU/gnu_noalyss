@@ -146,6 +146,7 @@ var ManageTable = function (p_table_name)
         waiting_box();
         var form = $F(form_id);
         this.param_add(form);
+        var here=this; 
         new Ajax.Request(this.callback, {
             parameters: this.param,
             method: "post",
