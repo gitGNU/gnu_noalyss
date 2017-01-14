@@ -101,7 +101,7 @@ class Manage_Table_SQL
         elseif ($p_value==True)
             $this->a_prop[$p_key]=$this->a_prop[$p_key]|self::UPDATABLE;
         else
-            throw new Exception ("set_property_updatable [ $p_value ] incorrect";
+            throw new Exception ("set_property_updatable [ $p_value ] incorrect");
     }
 
     /**
@@ -149,7 +149,7 @@ class Manage_Table_SQL
      */
     function get_property_updatable($p_key)
     {
-        if ( $this->a_prop[$p_key] & self:UPDATABLE == 1) return true;
+        if ( $this->a_prop[$p_key] & self::UPDATABLE == 1) return true;
         return false;
     }
 
@@ -167,7 +167,7 @@ class Manage_Table_SQL
         elseif ($p_value==True)
             $this->a_prop[$p_key]=$this->a_prop[$p_key]|self::VISIBLE;
         else
-            throw new Exception ("set_property_updatable [ $p_value ] incorrect";
+            throw new Exception ("set_property_updatable [ $p_value ] incorrect");
     }
 
     /**
@@ -176,7 +176,7 @@ class Manage_Table_SQL
      */
     function get_property_visible($p_key)
     {
-        if ( $this->a_prop[$p_key] & self:VISIBLE == 1) return true;
+        if ( $this->a_prop[$p_key] & self::VISIBLE == 1) return true;
         return false;
     }
 
