@@ -1,4 +1,5 @@
 <?php
+
 /*
  *   This file is part of NOALYSS.
  *
@@ -33,34 +34,36 @@ require_once NOALYSS_INCLUDE.'/database/class_noalyss_sql.php';
  */
 class Menu_Ref_SQL extends Noalyss_SQL
 {
-    protected  $table="public.menu_ref";
-    protected  $primary_key="me_code";
-    protected $name = array(
-                    "me_code" => "me_code"
-                    , "me_menu" => "me_menu"
-                    , "me_file" => "me_file"
-                    , "me_url" => "me_url"
-                    , "me_description" => "me_description"
-                    , "me_parameter" => "me_parameter"
-                    , "me_javascript" => "me_javascript"
-                    , "me_type" => "me_type"
-                    , 'me_description_etendue'=>'me_description_etendue'
-            );
-    protected $type=array(
-                    "me_code" => "text"
-                    , "me_menu" => "text"
-                    , "me_file" => "text"
-                    , "me_url" => "text"
-                    , "me_description" => "text"
-                    , "me_parameter" => "text"
-                    , "me_javascript" => "text"
-                    , "me_type" => "text"
-                    ,"me_description_etendue"=>"text"
-            );
-    function __construct(Database &$p_cn,$p_id=-1)
+
+    function __construct(Database &$p_cn, $p_id=-1)
     {
-        parent::__construct($p_cn,$p_id);
+        $this->table="public.menu_ref";
+        $this->primary_key="me_code";
+        $this->name=array(
+            "me_code"=>"me_code"
+            , "me_menu"=>"me_menu"
+            , "me_file"=>"me_file"
+            , "me_url"=>"me_url"
+            , "me_description"=>"me_description"
+            , "me_parameter"=>"me_parameter"
+            , "me_javascript"=>"me_javascript"
+            , "me_type"=>"me_type"
+            , 'me_description_etendue'=>'me_description_etendue'
+        );
+        $this->type=array(
+            "me_code"=>"text"
+            , "me_menu"=>"text"
+            , "me_file"=>"text"
+            , "me_url"=>"text"
+            , "me_description"=>"text"
+            , "me_parameter"=>"text"
+            , "me_javascript"=>"text"
+            , "me_type"=>"text"
+            , "me_description_etendue"=>"text"
+        );
+        parent::__construct($p_cn, $p_id);
     }
 
 }
+
 ?>

@@ -65,9 +65,37 @@
  
  */
 /**
+ @brief receive answer from ajax and fill up the 
+ private object "answer"
+ @param req Ajax answer
+ */
+var parseXML = function (req) {
+    console.log(" start parsing");
+    console.log(req.responseText);
+    try {
+        var xml = req.responseXML;
+        var status = getElementsByTagName("status");
+        var ctl = xml.getElementsByTagName("ctl");
+        var html = xml.getElementsByTagName("html");
+        if (status.length == 0 || ctl.length == 0 || html.length == 0)
+        {
+            throw "Invalid answer " + req.responseText;
+
+        }
+        answer['status'] = getNodeText(status[0]);
+        answer['ctl'] = getNodeText(ctl[0]);
+        answer['html'] = getNodeText(html[0]);
+        return answer;
+    } catch (e) {
+        console.log("erreur parsing");
+        throw e;
+    }
+};
+/**
  * @class ManageTable
  * @param string p_table_name name of the table and schema
  */
+
 
 var ManageTable = function (p_table_name)
 {
@@ -107,26 +135,7 @@ var ManageTable = function (p_table_name)
         this.param = result;
         return this.param;
     };
-    /**
-     @brief receive answer from ajax and fill up the 
-     private object "answer"
-     @param req Ajax answer
-     */
-    this.parseXML = function (req) {
-        var xml = req.responseXML;
-        var status = getElementsByTagName("status");
-        var ctl = xml.getElementsByTagName("ctl");
-        var html = xml.getElementsByTagName("html");
-        if (status.length == 0 || ctl.length == 0 || html.length == 0)
-        {
-            throw "Invalid answer " + req.responseText;
 
-        }
-        answer['status'] = getNodeText(status[0]);
-        answer['ctl'] = getNodeText(ctl[0]);
-        answer['html'] = getNodeText(html[0]);
-        return answer;
-    };
     /**
      *@brief call the ajax with the action save 
      *@details update or append
@@ -197,21 +206,28 @@ var ManageTable = function (p_table_name)
         this.param['action'] = 'input';
         this.param['ctl_row'] = p_ctl_row;
         var control = this.control;
-        var parsexml=this.parseXML;
         // display the form to enter data
         new Ajax.Request(this.callback, {
             parameters: this.param,
             method: "get",
             onSuccess: function (req) {
                 remove_waiting_box();
-                var x=parsexml(req);
-                console.log("x");
-                console.log(x);
-                var obj = {id:control, "cssclass": "inner_box", "html": loading()};
-                add_div(obj);
-                var pos = calcy(250);
-                 $(obj.id).setStyle({position:"absolute",top: pos + 'px',width:"auto","margin-left":"10%"});
-                $(obj.id).update(req.responseText);
+                try {
+                    console.log("parse xml");
+                    var x = parseXML(req);
+                    console.log("x");
+                    console.log(x);
+                    console.log("create div");
+                    var obj = {id: control, "cssclass": "inner_box", "html": loading()};
+                    add_div(obj);
+                    var pos = calcy(250);
+                    $(obj.id).setStyle({position: "absolute", top: pos + 'px', width: "auto", "margin-left": "10%"});
+                    console.log("set dgb content")
+                    $(obj.id).update(req.responseText);
+                } catch (e) {
+                    console.log(e.getMessage());
+                    smoke.alert("ERREUR " + e.getMessage());
+                }
 
             }
         });

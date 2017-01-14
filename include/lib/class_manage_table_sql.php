@@ -18,8 +18,8 @@
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 // Copyright Author Dany De Bontridder danydb@aevalys.eu
-//@file
-//@brief Definition Manage_Table_SQL
+///@file
+///@brief Definition Manage_Table_SQL
 
 /**
  * @brief Purpose is to propose a librairy to display a table content
@@ -37,7 +37,7 @@ class Manage_Table_SQL
     private $object_name; //!< Object_name is used for the javascript
     private $row_delete; //!< Flag to indicate if rows can be deleted
     private $row_update; //!< Flag to indicate if rows can be updated
-
+    private $json_parameter; //!< Default parameter to add (gDossier...)
     const UPDATABLE=1;
     const VISIBLE=2;
 
@@ -61,8 +61,30 @@ class Manage_Table_SQL
         $this->object_name=uniqid("tbl");
         $this->row_delete=TRUE;
         $this->row_update=TRUE;
+        $this->callback="ajax.php";
+        $this->json=json_encode(array("gDossier"=>Dossier::id(),
+            "op"=>"managetable"));
     }
-
+    
+    /**
+     * Get the object name
+     * @details : return the object name , it is useful it
+     * the javascript will return coded without the create_js_script function
+     * @see create_js_script
+     */
+    function get_js_variable () {
+        return $this->object_name;
+    }
+    /**
+     * Set the parameter of the object (gDossier, ac, plugin_code...)
+     * @detail By default , only gDossier will be set . The default value
+     * is given in the constructor
+     * @param string with json format $p_json 
+     * 
+     */
+    function param_set($p_json) {
+        $this->json=$p_json;
+    }
     /**
      * @brief set the callback function that is passed to javascript
      * @param $p_file  : callback file by default ajax.php
@@ -77,11 +99,12 @@ class Manage_Table_SQL
      * row. It is the default script . 
      */
     function create_js_script()
-    {
+    {   
         echo "
 		<script>
-		var {$this->object_name}=new ManageTable(\"{$this->table->tablename}\");
+		var {$this->object_name}=new ManageTable(\"{$this->table->table}\");
 		{$this->object_name}.set_callback(\"{$this->callback}\");
+		{$this->object_name}.param_add({$this->json});
 		</script>
 
 	";
@@ -97,7 +120,7 @@ class Manage_Table_SQL
         if (!$this->a_prop[$p_key])
             throw new Exception(__FILE__.":".__LINE__."$p_key invalid index");
         if ($p_value==False)
-            $this->a_prop[$p_key]=$this->a_prop[$p_key]-self::UPDATABLE;
+            $this->a_prop[$p_key]=$this->a_prop[$p_key] - self::UPDATABLE;
         elseif ($p_value==True)
             $this->a_prop[$p_key]=$this->a_prop[$p_key]|self::UPDATABLE;
         else
@@ -149,7 +172,8 @@ class Manage_Table_SQL
      */
     function get_property_updatable($p_key)
     {
-        if ( $this->a_prop[$p_key] & self::UPDATABLE == 1) return true;
+         $val= $this->a_prop[$p_key] & self::UPDATABLE ;
+        if ( $val == self::UPDATABLE) return true;
         return false;
     }
 
@@ -163,7 +187,7 @@ class Manage_Table_SQL
         if (!$this->a_prop[$p_key])
             throw new Exception(__FILE__.":".__LINE__."$p_key invalid index");
         if ($p_value==False)
-            $this->a_prop[$p_key]=$this->a_prop[$p_key]-self::VISIBLE;
+            $this->a_prop[$p_key]=$this->a_prop[$p_key] -self::VISIBLE;
         elseif ($p_value==True)
             $this->a_prop[$p_key]=$this->a_prop[$p_key]|self::VISIBLE;
         else
@@ -176,7 +200,8 @@ class Manage_Table_SQL
      */
     function get_property_visible($p_key)
     {
-        if ( $this->a_prop[$p_key] & self::VISIBLE == 1) return true;
+        $val = $this->a_prop[$p_key] & self::VISIBLE ;
+        if ( $val === self::VISIBLE) return true;
         return false;
     }
 
@@ -262,8 +287,8 @@ class Manage_Table_SQL
     function display_table()
     {
         $ret=$this->table->seek();
-        $nb=Database::num_count($ret);
-        printf('<table id="tb%s">', $this->object_name);
+        $nb=Database::num_row($ret);
+        printf('<table class="result" id="tb%s">', $this->object_name);
         for ($i=0; $i<$nb; $i++)
         {
             if ($i==0)
@@ -288,7 +313,8 @@ class Manage_Table_SQL
         {
 
             $key=$this->a_order[$i];
-            if ($this->get_property_visible($key))
+            
+            if ($this->get_property_visible($key)==true)
                 echo th($this->a_label_displaid[$key]);
         }
         echo "</tr>";
@@ -331,24 +357,26 @@ class Manage_Table_SQL
         $nb_order=count($this->a_order);
         for ($i=0; $i<$nb_order; $i++)
         {
-            $v=$this->a_order($i);
+            $v=$this->a_order[$i];
             if ($this->get_property_visible($v))
                 echo td($p_row[$v]);
         }
         echo "<td>";
         if ($this->can_update_row())
         {
-            $js=printf("ManageTable.input('%s','%s');",
-                    $p_row[$this->table->primary_key], $this->object_name
+            $js=sprintf("onclick=\"%s.input('%s','%s');\"",
+                    $this->object_name,$p_row[$this->table->primary_key],$this->object_name
             );
+            echo HtmlInput::anchor(_("Modifier"), "", $js);
         }
         echo "</td>";
         echo "<td>";
         if ($this->can_delete_row())
         {
-            $js=printf("ManageTable.delete('%s','%s');",
-                    $p_row[$this->table->primary_key], $this->object_name
+            $js=sprintf("onclick=\"%s.delete('%s','%s');\"",
+                    $this->object_name,$p_row[$this->table->primary_key], $this->object_name
             );
+            echo HtmlInput::anchor(_("Effacer"), "", $js);
         }
         echo "</td>";
         echo '</tr>';
