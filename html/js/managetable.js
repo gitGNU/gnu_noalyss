@@ -182,12 +182,12 @@ var ManageTable = function (p_table_name)
     this.delete = function (p_id, p_ctl_row) {
         this.param['p_id'] = p_id;
         this.param['action'] = 'delete';
-
+        var here=this;
         new Ajax.Request(this.callback, {
             parameters: this.parm,
             method: "get",
             onSuccess: function (req) {
-                this.parseXML(req);
+                here.parseXML(req);
                 if (answer['status'] == 'OK') {
                     $(answer['ctl']).hide();
                 }
