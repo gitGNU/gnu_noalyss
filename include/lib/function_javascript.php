@@ -2780,6 +2780,7 @@ function load_all_script()
     echo js_include('anc_script.js');
     echo js_include('sorttable.js');
     echo js_include('nicEdit.js');
+    echo js_include('managetable.js');
 
 
 }
