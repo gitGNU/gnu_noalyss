@@ -65,33 +65,6 @@
  
  */
 /**
- @brief receive answer from ajax and fill up the 
- private object "answer"
- @param req Ajax answer
- */
-var parseXML = function (req) {
-    console.log(" start parsing");
-    console.log(req.responseText);
-    try {
-        var xml = req.responseXML;
-        var status = getElementsByTagName("status");
-        var ctl = xml.getElementsByTagName("ctl");
-        var html = xml.getElementsByTagName("html");
-        if (status.length == 0 || ctl.length == 0 || html.length == 0)
-        {
-            throw "Invalid answer " + req.responseText;
-
-        }
-        answer['status'] = getNodeText(status[0]);
-        answer['ctl'] = getNodeText(ctl[0]);
-        answer['html'] = getNodeText(html[0]);
-        return answer;
-    } catch (e) {
-        console.log("erreur parsing");
-        throw e;
-    }
-};
-/**
  * @class ManageTable
  * @param string p_table_name name of the table and schema
  */
@@ -135,6 +108,33 @@ var ManageTable = function (p_table_name)
         this.param = result;
         return this.param;
     };
+    /**
+     @brief receive answer from ajax and fill up the 
+     private object "answer"
+     @param req Ajax answer
+     */
+    this.parseXML = function (req) {
+        console.log(" start parsing");
+        console.log(req.responseText);
+        try {
+            var xml = req.responseXML;
+            var status = getElementsByTagName("status");
+            var ctl = xml.getElementsByTagName("ctl");
+            var html = xml.getElementsByTagName("html");
+            if (status.length == 0 || ctl.length == 0 || html.length == 0)
+            {
+                throw "Invalid answer " + req.responseText;
+
+            }
+            answer['status'] = getNodeText(status[0]);
+            answer['ctl'] = getNodeText(ctl[0]);
+            answer['html'] = getNodeText(html[0]);
+            return answer;
+        } catch (e) {
+            console.log("erreur parsing");
+            throw e;
+        }
+    };
 
     /**
      *@brief call the ajax with the action save 
@@ -154,7 +154,7 @@ var ManageTable = function (p_table_name)
                 /// or add , the name of the row in the table has the
                 /// if p_ctl_row does not exist it means it is a new
                 /// row , otherwise an update
-                this.parseXML(req);
+                here.parseXML(req);
                 if (answer ['status'] == 'OK') {
                     if ($(answer['ctl'])) {
                         $(answer['ctl']).update(answer['html']);
@@ -206,6 +206,7 @@ var ManageTable = function (p_table_name)
         this.param['action'] = 'input';
         this.param['ctl_row'] = p_ctl_row;
         var control = this.control;
+        var here = this;
         // display the form to enter data
         new Ajax.Request(this.callback, {
             parameters: this.param,
@@ -214,7 +215,7 @@ var ManageTable = function (p_table_name)
                 remove_waiting_box();
                 try {
                     console.log("parse xml");
-                    var x = parseXML(req);
+                    var x = here.parseXML(req);
                     console.log("x");
                     console.log(x);
                     console.log("create div");
