@@ -155,7 +155,7 @@ var ManageTable = function (p_table_name)
                 /// or add , the name of the row in the table has the
                 /// if p_ctl_row does not exist it means it is a new
                 /// row , otherwise an update
-                here.parseXML(req);
+                var answer=here.parseXML(req);
                 if (answer ['status'] == 'OK') {
                     if ($(answer['ctl'])) {
                         $(answer['ctl']).update(answer['html']);
@@ -163,7 +163,7 @@ var ManageTable = function (p_table_name)
                         var new_row = new Element("tr");
                         new_row.id = answer['ctl'];
                         new_row.innerHTML = answer['html'];
-                        $("tb" + this.control).appendChild(new_row);
+                        $("tb" + req.control).appendChild(new_row);
                     }
                 } else {
                     console.error("Error in save");
@@ -189,8 +189,8 @@ var ManageTable = function (p_table_name)
             method: "get",
             onSuccess: function (req) {
                 here.parseXML(req);
-                if (answer['status'] == 'OK') {
-                    $(answer['ctl']).hide();
+                if (here.answer['status'] == 'OK') {
+                    $(here.answer['ctl']).hide();
                 }
             }
 
