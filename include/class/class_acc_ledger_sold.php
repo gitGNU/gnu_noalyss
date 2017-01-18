@@ -1312,7 +1312,7 @@ EOF;
     }
     /**
      * Retrieve data from the view v_detail_sale
-     * @global  $g_user connected user
+     * @remark  $g_user connected user
      * @param $p_from jrn.jr_tech_per from 
      * @param type $p_end jrn.jr_tech_per to
      * @return type

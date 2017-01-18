@@ -106,7 +106,7 @@ class Follow_Up
     }
     /**
      * Create a filter based on the current user, 
-     * @global type $g_user Connected user
+     * @remark type $g_user Connected user
      * @param type $cn Database connection
      * @param type $p_mode Mode is R (for Read) or W (for write)
      * @return string SQL where clause to include in the SQL 
@@ -1710,7 +1710,7 @@ class Follow_Up
 
     /**
      *  Add another concerned (tiers, supplier...)
-     * @global type $g_user
+     * @remark type $g_user
      * @param type $p_fiche_id
      */
     function insert_linked_card($p_fiche_id)
@@ -1731,7 +1731,7 @@ class Follow_Up
 
     /**
      * Remove  another concerned (tiers, supplier...)
-     * @global type $g_user
+     * @remark type $g_user
      * @param type $p_fiche_id
      */
     function remove_linked_card($p_fiche_id)

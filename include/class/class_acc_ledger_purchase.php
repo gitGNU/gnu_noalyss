@@ -1733,7 +1733,7 @@ EOF;
     }
     /**
      * Retrieve data from the view v_detail_purchase
-     * @global  $g_user connected user
+     * @note  $g_user connected user
      * @param $p_from jrn.jr_tech_per from 
      * @param $p_end jrn.jr_tech_per to
      * @return handle to database result

@@ -37,7 +37,7 @@ class Stock_Goods extends Stock_Goods_Sql
  *  sg_codeX
  *  sg_type0
  *
- * @global $cn database connx
+ * @remark $cn database connx
  * @param $p_array
  * if an array if receive the keys are
  *  p_date
@@ -214,7 +214,7 @@ class Stock_Goods extends Stock_Goods_Sql
     }
     /**
      * Return an array, used by Stock_Goods::input 
-     * @global type $cn
+     * @remark type $cn
      * @param type $p_array
      * @throws Exception
      */

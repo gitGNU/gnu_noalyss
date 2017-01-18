@@ -358,7 +358,7 @@ class Acc_Ledger extends jrn_def_sql
 		return $ret['jrn_def_name'];
 	}
 
-	/** \function  get_row
+	/** 
 	 * @brief  Get The data
 	 *
 	 *
@@ -1268,7 +1268,7 @@ class Acc_Ledger extends jrn_def_sql
 		return Database::fetch_array($Res, 0);
 	}
 
-	/** \function GetDefLine
+	/**
 	 * @brief Get the number of lines of a journal
 	 * @param$p_cred deb or cred
 	 *
@@ -2171,8 +2171,8 @@ class Acc_Ledger extends jrn_def_sql
 
 	/**
 	 * @brief retrieve the next number for this type of ledger
-	 * @paramp_cn connx
-	 * @paramp_type ledger type
+	 * @param  p_cn connx
+	 * @param  p_type ledger type
 	 *
 	 * \return the number
 	 *
@@ -2188,8 +2188,8 @@ class Acc_Ledger extends jrn_def_sql
 
 	/**
 	 * @brief get the first ledger
-	 * @paramthe type
-	 * \return the j_id
+	 * @param  type
+	 * @return the j_id
 	 */
 
 	public function get_first($p_type, $p_access = 3)
@@ -2201,7 +2201,7 @@ class Acc_Ledger extends jrn_def_sql
 
 	/**
 	 * @brief Update the paiment  in the list of operation
-	 * @param$p_array is normally $_GET
+	 * @param  $p_array is normally $_GET
 	 */
 
 	function update_paid($p_array)
@@ -2311,8 +2311,7 @@ class Acc_Ledger extends jrn_def_sql
 	/**
 	 * @brief retrieve all the card for this type of ledger, make them
 	 * into a string separated by comma
-	 * @paramnone
-	 * \return all the card or null is nothing is found
+	 * @return all the card or null is nothing is found
 	 */
 
 	function get_all_fiche_def()
@@ -2421,7 +2420,7 @@ class Acc_Ledger extends jrn_def_sql
 	/**
 	 * @brief retrieve the jr_id thanks the internal code, do not change
 	 * anything to the current object
-	 * @paramthe internal code
+	 * @param  internal code
 	 * \return the jr_id or 0 if not found
 	 */
 
@@ -2437,8 +2436,8 @@ class Acc_Ledger extends jrn_def_sql
 	/**
 	 * @brief create the invoice and saved it as attachment to the
 	 * operation,
-	 * @param$internal is the internal code
-	 * @param$p_array is normally the $_POST
+	 * @param  $internal is the internal code
+	 * @param  $p_array is normally the $_POST
 	 * \return a string
 	 */
 
@@ -2465,7 +2464,7 @@ class Acc_Ledger extends jrn_def_sql
 
 	/**
 	 * @brief check if the payment method is valid
-	 * @param$e_mp is the value and $e_mp_qcode is the quickcode
+	 * @param  $e_mp is the value and $e_mp_qcode is the quickcode
 	 * \return nothing throw an Exception
 	 */
 
@@ -2512,12 +2511,12 @@ class Acc_Ledger extends jrn_def_sql
 
 	/**
 	 * @brief return a HTML string with the form for the search
-	 * @param $p_type if the type of ledger possible values=ALL,VEN,ACH,ODS,FIN
-	 * @param $all_type_ledger
+	 * @param  $p_type if the type of ledger possible values=ALL,VEN,ACH,ODS,FIN
+	 * @param  $all_type_ledger
 	 *       values :
 	 *         - 1 means all the ledger of this type
 	 *         - 0 No have the "Tous les journaux" availables
-	 * @param $div is the div (for reconciliation)
+	 * @param  $div is the div (for reconciliation)
 	 * @return a HTML String without the tag FORM or DIV
 	 *
 	 * @see build_search_sql
@@ -2651,9 +2650,9 @@ class Acc_Ledger extends jrn_def_sql
 	/**
 	 * @brief this function will create a sql stmt to use to create the list for
 	 * the ledger,
-	 * @param$p_array is usually the $_GET,
-	 * @param$p_order the order of the row
-	 * @param$p_where is the sql condition if not null then the $p_array will not be used
+	 * @param  $p_array is usually the $_GET,
+	 * @param  $p_order the order of the row
+	 * @param  $p_where is the sql condition if not null then the $p_array will not be used
 	 * \note the p_action will be used to filter the ledger but gl means ALL
 	 * struct array $p_array
 	  \verbatim
@@ -3799,7 +3798,7 @@ class Acc_Ledger extends jrn_def_sql
 
 	/**
 	 * delete a ledger IF is not already used
-	 * @exeption : cannot delete
+	 * @exception : cannot delete
 	 */
 	function delete_ledger()
 	{

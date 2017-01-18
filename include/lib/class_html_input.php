@@ -788,7 +788,8 @@ class HtmlInput
       /**
        *Create an ISelect object containing the available repository for reading
        * or writing
-       * @global $g_user
+       * @remark $g_user global.
+       *
        * @param $p_cn db object
        * @param $p_name name of the select
        * @param $p_mode is 'R' for reading, 'W' for writinh

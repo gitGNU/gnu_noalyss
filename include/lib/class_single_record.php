@@ -36,7 +36,7 @@ class Single_Record
     /**
      * Constructor $p_name will be set to $this->name, it is also the name
      * of the tag hidden in a form
-     * @global $cn Db connxion
+     * @remark $cn Db connexion
      * @param $p_name
      */
     function __construct($p_name)
@@ -56,7 +56,7 @@ class Single_Record
     }
     /**
      * @brief Try to insert into the table Single_Record
-     * @global $cn Database connx
+     * @remark global $cn Database connexion
      * @throws Exception if the value $p_id is not unique
      */
     function save($p_array=null)
@@ -74,7 +74,7 @@ class Single_Record
     }
     /**
      * Count how many time we have this->id into the table tool_uos
-     * @global $cn Database connx
+     * @remark global $cn Database connexion
      * @param $p_array is the array where to find the key name, usually it is
      * $_POST. The default value is $_POST
      * @return integer : 0 or 1

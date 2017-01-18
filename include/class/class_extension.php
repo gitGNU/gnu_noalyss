@@ -102,7 +102,7 @@ class Extension extends Menu_Ref_sql
     /**
      * insert into the table profile_menu for the given profile id and depending
      * of the module $p_module
-     * @global type $cn
+     * @remark type $cn
      * @param type $p_id profile.p_id
      * @param type $p_module menu_ref.me_code
      * @throws Exception 10 : profile absent , 20 module absent , 30 No parent menu
