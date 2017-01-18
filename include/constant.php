@@ -161,7 +161,7 @@ define ("LAST",1);
 define ("FIRST",0);
 define ("ERROR",12);
 
-//!\enum ACTION  defines document_type for action
+//!<ACTION  defines document_type for action
 define('ACTION','1,5,6,7,8');
 
 //valeurs standardd
