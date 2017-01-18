@@ -3976,6 +3976,33 @@ class Acc_Ledger extends jrn_def_sql
             $button = HtmlInput::button_anchor(_("Nouvelle opération"), 'do.php?'.$url);
             return '<p>'.$button.'</p>';
         }
-
+        /**
+         *@brief Show a button to create an operation identical to the recorded
+         * one. It is a form POST since it is a limit with get
+         */
+        public function copy_information()
+        {
+            echo '<FORM METHOD="POST">';
+            echo HtmlInput::post_to_hidden(
+                array("gDossier","ac","p_jrn","e_client","nb_item")
+            );
+            echo HtmlInput::hidden("correct","copy");
+            // e_march
+            $nb=HtmlInput::default_value_post("nb_item",0);
+            for ( $i=0;$i<$nb;$i++)
+            {
+                echo HtmlInput::post_to_hidden(
+                    array(
+                        "e_march".$i,
+                        "e_march".$i."_price",
+                        "e_march".$i."_quant",
+                        "e_march".$i."_label",
+                        "e_march".$i."_tva_amount"
+                    ));
+            }
+            echo HtmlInput::submit("copy_operation",_("Même opération"));
+                    
+            echo '</FORM>';
+        }
 }
 ?>

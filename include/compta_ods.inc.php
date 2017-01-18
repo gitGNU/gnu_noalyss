@@ -130,13 +130,13 @@ elseif (isset($_POST['save']))
                 }
                 
                 echo $ledger->button_new_operation();
-
+                echo $Ledger->copy_operation();
 	}
 	catch (Exception $e)
 	{
 		require NOALYSS_INCLUDE.'/operation_ods_new.inc.php';
 		alert($e->getMessage());
-                $p_msg=$e->getMessage();
+        $p_msg=$e->getMessage();
 	}
         echo '</div>';
 	return;
