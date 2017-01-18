@@ -199,7 +199,7 @@ if (isset($_POST['record']))
                     }
                 }
                 echo $Ledger->button_new_operation();
-                echo $Ledger->copy_operation();
+                echo $Ledger->button_copy_operation();
 		echo '</div>';
 		return;
 	}

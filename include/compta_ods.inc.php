@@ -130,7 +130,7 @@ elseif (isset($_POST['save']))
                 }
                 
                 echo $ledger->button_new_operation();
-                echo $Ledger->copy_operation();
+                echo $Ledger->button_copy_operation();
 	}
 	catch (Exception $e)
 	{

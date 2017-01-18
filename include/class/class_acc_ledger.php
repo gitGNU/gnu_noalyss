@@ -3980,7 +3980,7 @@ class Acc_Ledger extends jrn_def_sql
          *@brief Show a button to create an operation identical to the recorded
          * one. It is a form POST since it is a limit with get
          */
-        public function copy_information()
+        public function button_copy_operation()
         {
             echo '<FORM METHOD="POST">';
             echo HtmlInput::post_to_hidden(

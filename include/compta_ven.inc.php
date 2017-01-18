@@ -216,7 +216,7 @@ show_tab(a_tab,'facturation_div_id');
             }
 
             echo $Ledger->button_new_operation();
-            echo $Ledger->copy_operation();
+            echo $Ledger->button_copy_operation();
             echo '</div>';
             return;
         }
