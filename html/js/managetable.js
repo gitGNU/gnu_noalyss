@@ -118,20 +118,28 @@ var ManageTable = function (p_table_name)
         console.log(req.responseText);
         try {
             var xml = req.responseXML;
-            var status = getElementsByTagName("status");
+            var status = xml.getElementsByTagName("status");
             var ctl = xml.getElementsByTagName("ctl");
             var html = xml.getElementsByTagName("html");
+            var ctl_row = xml.getElementsByTagName("ctl_row");
             if (status.length == 0 || ctl.length == 0 || html.length == 0)
             {
                 throw "Invalid answer " + req.responseText;
 
             }
+            var answer=[];
             answer['status'] = getNodeText(status[0]);
+            console.log(answer);
             answer['ctl'] = getNodeText(ctl[0]);
+            console.log(answer);
+            answer['ctl_row'] = getNodeText(ctl_row[0]);
+            console.log(answer);
             answer['html'] = getNodeText(html[0]);
+            console.log(answer);
             return answer;
         } catch (e) {
             console.log("erreur parsing");
+            console.log(e.message);
             throw e;
         }
     };
@@ -144,68 +152,94 @@ var ManageTable = function (p_table_name)
      */
     this.save = function (form_id) {
         waiting_box();
-        var form = $F(form_id);
-        this.param_add(form);
-        var here=this; 
+        try {
+            this.param['action'] = 'save';
+            console.log(form_id);
+            var form = $(form_id).serialize(true);
+            console.log(form);
+            this.param_add(form);
+            var here=this; 
+          } catch (e) {
+            alert(e.message);
+            console.log(e.message);
+            return false;
+          }
         new Ajax.Request(this.callback, {
             parameters: this.param,
             method: "post",
             onSuccess: function (req) {
+                try {
                 /// Display the result of the update
                 /// or add , the name of the row in the table has the
                 /// if p_ctl_row does not exist it means it is a new
                 /// row , otherwise an update
                 var answer=here.parseXML(req);
+                console.log(answer);
                 if (answer ['status'] == 'OK') {
-                    if ($(answer['ctl'])) {
-                        $(answer['ctl']).update(answer['html']);
+                    if ($(answer['ctl_row'])) {
+                        $(answer['ctl_row']).update(answer['html']);
                     } else {
                         var new_row = new Element("tr");
-                        new_row.id = answer['ctl'];
+                        new_row.id = answer['ctl_row'];
                         new_row.innerHTML = answer['html'];
-                        $("tb" + req.control).appendChild(new_row);
+                        $("tb"+answer['ctl']).appendChild(new_row);
                     }
                 } else {
                     console.error("Error in save");
                     throw "error in save";
                 }
-
-
+                remove_waiting_box();
+                $("dtr").hide();
+                } catch (e) {
+                    alert(e.message);
+                    console.log(e.message);
+                    return false;
+                }
             }
 
 
-        })
+        });
+        return false;
     };
     /**
      *@brief call the ajax with action delete
      *@param id (pk) of the data row
      */
-    this.delete = function (p_id, p_ctl_row) {
+    this.delete = function (p_id, p_ctl) {
         this.param['p_id'] = p_id;
         this.param['action'] = 'delete';
+        this.param['ctl'] = p_ctl;
         var here=this;
-        new Ajax.Request(this.callback, {
-            parameters: this.parm,
-            method: "get",
-            onSuccess: function (req) {
-                here.parseXML(req);
-                if (here.answer['status'] == 'OK') {
-                    $(here.answer['ctl']).hide();
-                }
+        smoke.confirm("Confirmez ?",
+        function (e)
+        {
+            if (e ) {
+                new Ajax.Request(here.callback, {
+                parameters: here.param,
+                method: "get",
+                onSuccess: function (req) {
+                    var answer = here.parseXML(req);
+                    if (answer['status'] == 'OK') {
+                        var x=answer['ctl_row'];
+                        $(x).hide();
+                        }
+                    }
+                }); 
             }
-
-        });
+        })   ;
+    
     };
     /**
      *@brief display a dialog box with the information
      * of the data row
      *@param id (pk) of the data row
+     *@param ctl name of the object 
      */
-    this.input = function (p_id, p_ctl_row) {
+    this.input = function (p_id, p_ctl) {
         waiting_box();
         this.param['p_id'] = p_id;
         this.param['action'] = 'input';
-        this.param['ctl_row'] = p_ctl_row;
+        this.param['ctl'] = p_ctl;
         var control = this.control;
         var here = this;
         // display the form to enter data
@@ -225,10 +259,10 @@ var ManageTable = function (p_table_name)
                     var pos = calcy(250);
                     $(obj.id).setStyle({position: "absolute", top: pos + 'px', width: "auto", "margin-left": "10%"});
                     console.log("set dgb content")
-                    $(obj.id).update(req.responseText);
+                    $(obj.id).update(x['html']);
                 } catch (e) {
-                    console.log(e.getMessage());
-                    smoke.alert("ERREUR " + e.getMessage());
+                    console.log(e.message);
+                    smoke.alert("ERREUR " + e.message);
                 }
 
             }

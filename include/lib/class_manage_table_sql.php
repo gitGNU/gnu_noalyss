@@ -25,7 +25,33 @@
  * @brief Purpose is to propose a librairy to display a table content
  * and allow to update and delete row , handle also the ajax call 
  * thanks the script managetable.js
- * @see ManageTable
+
+ * 
+ * Code for ajax , here we see the ajax_input for creating a dg box 
+  @code
+  $objet->set_pk($p_id);
+  $objet->set_object_name($objet_name);
+
+  // Set the ajax to call
+  $objet->set_callback("ajax.php");
+
+  // Build the json object for JS
+  $plugin_code=HtmlInput::default_value_request("plugin_code","");
+  $ac=HtmlInput::default_value_request("ac","");
+  $sa=HtmlInput::default_value_request("sa","");
+  $aJson=array("gDossier"=>Dossier::id(),
+  "ac"=>$ac,
+  "plugin_code"=>$plugin_code,
+  "sa"=>$sa,
+  "sb"=>$sb
+  );
+  $json=json_encode($aJson);
+  $objet->param_set($json);
+
+  // Display the box
+  $xml=$objet->ajax_input();
+  @endcode
+ * @see ManageTable.js
  */
 class Manage_Table_SQL
 {
@@ -34,10 +60,14 @@ class Manage_Table_SQL
     private $a_label_displaid; //!< Label of the col. of the datarow
     private $a_order; //!< order of the col
     private $a_prop; //!< property for each col.
+    private $a_type; //!< Type of the column : date , select ... Only in input
+    private $a_select; //!< Possible value if a_type is a SELECT
     private $object_name; //!< Object_name is used for the javascript
     private $row_delete; //!< Flag to indicate if rows can be deleted
     private $row_update; //!< Flag to indicate if rows can be updated
+    private $row_append; //!< Flag to indicate if rows can be added
     private $json_parameter; //!< Default parameter to add (gDossier...)
+
     const UPDATABLE=1;
     const VISIBLE=2;
 
@@ -56,25 +86,63 @@ class Manage_Table_SQL
             $this->a_label_displaid[$value]=$value;
             $this->a_order[$order]=$value;
             $this->a_prop[$value]=self::UPDATABLE|self::VISIBLE;
+            $this->a_type[$value]=$this->table->type[$value];
+            $this->a_select[$value]=null;
             $order++;
         }
         $this->object_name=uniqid("tbl");
         $this->row_delete=TRUE;
         $this->row_update=TRUE;
+        $this->row_append=TRUE;
         $this->callback="ajax.php";
         $this->json=json_encode(array("gDossier"=>Dossier::id(),
             "op"=>"managetable"));
     }
-    
+
+    /**
+     * @brief set the type of a column , it will change in the input db box , the
+     * select must supply an array of possible values [val=> , label=>] with
+     * the variable $this->key_name->a_value
+     * @param $p_key col name
+     * @param $p_type is SELECT NUMERIC TEXT or DATE 
+     * @param $p_array if type is  SELECT an array is expected
+     */
+    function set_col_type($p_key, $p_value, $p_array=NULL)
+    {
+        if (!isset($this->a_type[$p_key]))
+            throw new Exception("invalid key $p_key");
+
+        if (!in_array($p_value,
+                        array("text", "numeric", "date", "select", "timestamp")))
+            throw new Exception("invalid type $p_value");
+
+        $this->a_type[$p_key]=$p_value;
+        $this->a_select[$p_key]=$p_array;
+    }
+    /**
+     * @brief return the type of a column 
+     * @param $p_key col name
+     * @see set_col_type
+     */
+    function get_col_type($p_key)
+    {
+        if (!isset($this->a_type[$p_key]))
+            throw new Exception("invalid key");
+
+        return $this->a_type[$p_key];
+    }
+
     /**
      * Get the object name
      * @details : return the object name , it is useful it
      * the javascript will return coded without the create_js_script function
      * @see create_js_script
      */
-    function get_js_variable () {
+    function get_js_variable()
+    {
         return $this->object_name;
     }
+
     /**
      * Set the parameter of the object (gDossier, ac, plugin_code...)
      * @detail By default , only gDossier will be set . The default value
@@ -82,9 +150,11 @@ class Manage_Table_SQL
      * @param string with json format $p_json 
      * 
      */
-    function param_set($p_json) {
-        $this->json=$p_json;
+    function param_set($p_json)
+    {
+        $this->json_parameter=$p_json;
     }
+
     /**
      * @brief set the callback function that is passed to javascript
      * @param $p_file  : callback file by default ajax.php
@@ -95,19 +165,28 @@ class Manage_Table_SQL
     }
 
     /**
-     * @brief we must create first the javascript if we want to update or delete 
-     * row. It is the default script . 
+     * @brief we must create first the javascript if we want to update, insert 
+     * or delete  rows. It is the default script . 
      */
     function create_js_script()
-    {   
+    {
         echo "
 		<script>
 		var {$this->object_name}=new ManageTable(\"{$this->table->table}\");
 		{$this->object_name}.set_callback(\"{$this->callback}\");
-		{$this->object_name}.param_add({$this->json});
+		{$this->object_name}.param_add({$this->json_parameter});
 		</script>
 
 	";
+    }
+
+    /**
+     * Set the object_name 
+     * @param string $p_object_name name of the JS var, used in ajax response
+     */
+    function set_object_name($p_object_name)
+    {
+        $this->object_name=$p_object_name;
     }
 
     /**
@@ -120,11 +199,11 @@ class Manage_Table_SQL
         if (!$this->a_prop[$p_key])
             throw new Exception(__FILE__.":".__LINE__."$p_key invalid index");
         if ($p_value==False)
-            $this->a_prop[$p_key]=$this->a_prop[$p_key] - self::UPDATABLE;
+            $this->a_prop[$p_key]=$this->a_prop[$p_key]-self::UPDATABLE;
         elseif ($p_value==True)
             $this->a_prop[$p_key]=$this->a_prop[$p_key]|self::UPDATABLE;
         else
-            throw new Exception ("set_property_updatable [ $p_value ] incorrect");
+            throw new Exception("set_property_updatable [ $p_value ] incorrect");
     }
 
     /**
@@ -134,6 +213,37 @@ class Manage_Table_SQL
     {
 
         return $this->row_update;
+    }
+
+    /**
+     * @brief return false if the append of the row is forbidden
+     */
+    function can_append_row()
+    {
+
+        return $this->row_append;
+    }
+
+    /**
+     * @brief Enable or disable the deletion of rows
+     * @param $p_value Boolean : true enable the row to be deleted
+     */
+    function set_delete_row($p_value)
+    {
+        if ($p_value!==True&&$p_value!==False)
+            throw new Exception("Valeur invalide set_delete_row [$p_value]");
+        $this->row_delete=$p_value;
+    }
+
+    /**
+     * @brief Enable or disable the appending of rows
+     * @param $p_value Boolean : true enable the row to be appended
+     */
+    function set_append_row($p_value)
+    {
+        if ($p_value!==True&&$p_value!==False)
+            throw new Exception("Valeur invalide set_append_row [$p_value]");
+        $this->row_append=$p_value;
     }
 
     /**
@@ -156,24 +266,14 @@ class Manage_Table_SQL
     }
 
     /**
-     * @brief Enable or disable the deleting of rows
-     * @param $p_value Boolean : true enable the row to be deleted
-     */
-    function set_delete_row($p_value)
-    {
-        if ($p_value!==True&&$p_value!==False)
-            throw new Exception("Valeur invalide set_delete_row [$p_value]");
-        $this->row_delete=$p_value;
-    }
-
-    /**
      * @brief return True if the column is updatable otherwise false
      * @param $p_key data column
      */
     function get_property_updatable($p_key)
     {
-         $val= $this->a_prop[$p_key] & self::UPDATABLE ;
-        if ( $val == self::UPDATABLE) return true;
+        $val=$this->a_prop[$p_key]&self::UPDATABLE;
+        if ($val==self::UPDATABLE)
+            return true;
         return false;
     }
 
@@ -187,11 +287,11 @@ class Manage_Table_SQL
         if (!$this->a_prop[$p_key])
             throw new Exception(__FILE__.":".__LINE__."$p_key invalid index");
         if ($p_value==False)
-            $this->a_prop[$p_key]=$this->a_prop[$p_key] -self::VISIBLE;
+            $this->a_prop[$p_key]=$this->a_prop[$p_key]-self::VISIBLE;
         elseif ($p_value==True)
             $this->a_prop[$p_key]=$this->a_prop[$p_key]|self::VISIBLE;
         else
-            throw new Exception ("set_property_updatable [ $p_value ] incorrect");
+            throw new Exception("set_property_updatable [ $p_value ] incorrect");
     }
 
     /**
@@ -200,8 +300,9 @@ class Manage_Table_SQL
      */
     function get_property_visible($p_key)
     {
-        $val = $this->a_prop[$p_key] & self::VISIBLE ;
-        if ( $val === self::VISIBLE) return true;
+        $val=$this->a_prop[$p_key]&self::VISIBLE;
+        if ($val===self::VISIBLE)
+            return true;
         return false;
     }
 
@@ -286,8 +387,25 @@ class Manage_Table_SQL
      */
     function display_table()
     {
-        $ret=$this->table->seek();
+        $ret=$this->table->seek("order by ".$this->table->primary_key);
         $nb=Database::num_row($ret);
+        if ($this->can_append_row()==TRUE)
+        {
+            echo HtmlInput::button_action(_("Ajout"),
+                    sprintf("%s.input('-1','%s')", $this->object_name,
+                            $this->object_name));
+        }
+        $nb_order=count($this->a_order);
+        $virg=""; $result="";
+        for ($e=0; $e<$nb_order; $e++)
+        {
+            if ($this->get_property_visible($this->a_order[$e])==TRUE)
+            {
+                $result.=$virg."$e";
+                $virg=",";
+            }
+        }
+        echo HtmlInput::filter_table("tb".$this->object_name, $result, 1);
         printf('<table class="result" id="tb%s">', $this->object_name);
         for ($i=0; $i<$nb; $i++)
         {
@@ -297,6 +415,13 @@ class Manage_Table_SQL
             }
             $row=Database::fetch_array($ret, $i);
             $this->display_row($row);
+        }
+        echo "</table>";
+        if ($this->can_append_row()==TRUE)
+        {
+            echo HtmlInput::button_action(_("Ajout"),
+                    sprintf("%s.input('-1','%s')", $this->object_name,
+                            $this->object_name));
         }
     }
 
@@ -313,7 +438,7 @@ class Manage_Table_SQL
         {
 
             $key=$this->a_order[$i];
-            
+
             if ($this->get_property_visible($key)==true)
                 echo th($this->a_label_displaid[$key]);
         }
@@ -326,6 +451,7 @@ class Manage_Table_SQL
     function set_pk($p_id)
     {
         $this->table->set_pk_value($p_id);
+        $this->table->load();
     }
 
     /**
@@ -338,7 +464,7 @@ class Manage_Table_SQL
         {
             $v=HtmlInput::default_value_request($this->a_order[$i], "");
             $key=$this->a_order[$i];
-            $this->table->$key=$v;
+            $this->table->$key=strip_tags($v);
         }
     }
 
@@ -364,8 +490,8 @@ class Manage_Table_SQL
         echo "<td>";
         if ($this->can_update_row())
         {
-            $js=sprintf("onclick=\"%s.input('%s','%s');\"",
-                    $this->object_name,$p_row[$this->table->primary_key],$this->object_name
+            $js=sprintf("onclick=\"%s.input('%s','%s');\"", $this->object_name,
+                    $p_row[$this->table->primary_key], $this->object_name
             );
             echo HtmlInput::anchor(_("Modifier"), "", $js);
         }
@@ -373,8 +499,8 @@ class Manage_Table_SQL
         echo "<td>";
         if ($this->can_delete_row())
         {
-            $js=sprintf("onclick=\"%s.delete('%s','%s');\"",
-                    $this->object_name,$p_row[$this->table->primary_key], $this->object_name
+            $js=sprintf("onclick=\"%s.delete('%s','%s');\"", $this->object_name,
+                    $p_row[$this->table->primary_key], $this->object_name
             );
             echo HtmlInput::anchor(_("Effacer"), "", $js);
         }
@@ -390,21 +516,172 @@ class Manage_Table_SQL
     {
         $nb_order=count($this->a_order);
         echo "<table>";
-        echo "<tr>";
         for ($i=0; $i<$nb_order; $i++)
         {
+            echo "<tr>";
             $key=$this->a_order[$i];
             $label=$this->a_label_displaid[$key];
             $value=$this->table->get($key);
 
-            // Label
-            echo "<td> {$label} </td>";
-            printf('<input type="text" label="%s" value="%s" name="%s" id="%s">',
-                    $label, $value, $key, $key
-            );
+            if ($this->get_property_visible($key)===TRUE)
+            {
+                // Label
+                echo "<td> {$label} </td>";
+
+                if ($this->get_property_updatable($key)==TRUE)
+                {
+                    echo "<td>";
+                    if ($this->a_type[$key]=="select")
+                    {
+                        $select = new ISelect($key);
+                        $select->value=$this->a_select[$key];
+                        $select->selected=$value;
+                        echo $select->input();
+                    }
+                    else
+                    {
+                        $text=new IText($key);
+                        $text->value=$value;
+                        $min_size=(strlen($value)<30)?30:strlen($value)+5;
+                        $text->size=$min_size;
+                        echo $text->input();
+                    /*    printf('<input class="input_text" type="text" label="%s" value="%s" name="%s" id="%s">',
+                                $label, $value, $key, $key
+                        );*/
+                    }
+                    echo "</td>";
+                }
+                else
+                {
+                    printf('<td>%s %s</td>', h($value),
+                            HtmlInput::hidden($key, $value)
+                    );
+                }
+            }
+            echo "</tr>";
         }
-        echo "</tr>";
         echo "</table>";
+    }
+
+    /**
+     * @brief Save the record from Request into the DB and returns an XML
+     * to update the Html Element
+     * @return \DOMDocument
+     */
+    function ajax_save()
+    {
+
+        $status="NOK";
+        $xml=new DOMDocument('1.0', "UTF-8");
+        try
+        {
+            // fill up object with $_REQUEST
+            $this->from_request();
+            // save the object
+            $this->save();
+            // compose the answer
+            $status="OK";
+            $s1=$xml->createElement("status", $status);
+            $ctl=$this->object_name."_".$this->table->get_pk_value();
+            $s2=$xml->createElement("ctl_row", $ctl);
+            $s4=$xml->createElement("ctl", $this->object_name);
+            ob_start();
+            $this->table->load();
+            $array=$this->table->to_array();
+            $this->display_row($array);
+            $html=ob_get_contents();
+            ob_end_clean();
+            $s3=$xml->createElement("html", html_entity_decode($html));
+
+            $root=$xml->createElement("data");
+            $root->appendChild($s1);
+            $root->appendChild($s2);
+            $root->appendChild($s3);
+            $root->appendChild($s4);
+        }
+        catch (Exception $ex)
+        {
+            $s1=$xml->createElement("status", "NOK");
+            $s2=$xml->createElement("ctl_row",
+                    $this->object_name+"_"+$this->table->get_pk_value());
+            $s4=$xml->createElement("ctl", $this->object_name);
+            $s3=$xml->createElement("html", $ex->getTraceAsString());
+            $root=$xml->createElement("data");
+            $root->appendChild($s1);
+            $root->appendChild($s2);
+            $root->appendChild($s3);
+            $root->appendChild($s4);
+        }
+        $xml->appendChild($root);
+        return $xml;
+    }
+
+    /**
+     * @brief send an xml with input of the object, create an xml answer.
+     * XML Tag 
+     *   - status  : OK , NOK 
+     *   - ctl     : Dom id to update 
+     *   - content : Html answer
+     * @return DomDocument
+     */
+    function ajax_input()
+    {
+        $xml=new DOMDocument("1.0", "UTF-8");
+        $xml->createElement("status", "OK");
+        try
+        {
+            $status="OK";
+            ob_start();
+            echo HtmlInput::title_box("Donnée", "dtr");
+            printf('<form id="frm%s_%s" method="POST" onsubmit="%s.save(\'frm%s_%s\');return false;">',
+                    $this->object_name, $this->table->get_pk_value(),
+                    $this->object_name, $this->object_name,
+                    $this->table->get_pk_value());
+            $this->input();
+            // JSON param to hidden
+            echo HtmlInput::json_to_hidden($this->json_parameter);
+            echo HtmlInput::hidden("p_id", $this->table->get_pk_value());
+            // button Submit and cancel
+            $close=sprintf("\$('%s').remove()", "dtr");
+            echo '<ul class="aligned-block">',
+            '<li>',
+            HtmlInput::submit('update', _("OK")),
+            '</li>',
+            '<li>',
+            HtmlInput::button_action(_("Cancel"), $close,"","smallbutton"),
+            '</li>',
+            '</ul>';
+            echo "</form>";
+
+            $html=ob_get_contents();
+            ob_end_clean();
+
+            $s1=$xml->createElement("status", $status);
+            $ctl=$this->object_name."_".$this->table->get_pk_value();
+            $s2=$xml->createElement("ctl_row", $ctl);
+            $s4=$xml->createElement("ctl", $this->object_name);
+            $s3=$xml->createElement("html", html_entity_decode($html));
+            $root=$xml->createElement("data");
+            $root->appendChild($s1);
+            $root->appendChild($s2);
+            $root->appendChild($s3);
+            $root->appendChild($s4);
+        }
+        catch (Exception $ex)
+        {
+            $s1=$xml->createElement("status", "NOK");
+            $s2=$xml->createElement("ctl", $this->object_name);
+            $s2=$xml->createElement("ctl_row",
+                    $this->object_name+"_"+$this->table->get_pk_value());
+            $s3=$xml->createElement("html", $ex->getTraceAsString());
+            $root=$xml->createElement("data");
+            $root->appendChild($s1);
+            $root->appendChild($s2);
+            $root->appendChild($s3);
+            $root->appendChild($s4);
+        }
+        $xml->appendChild($root);
+        return $xml;
     }
 
     /**
@@ -417,13 +694,62 @@ class Manage_Table_SQL
     }
 
     /**
+     * Delete a record and return an XML answer for ajax
+     * @return \DOMDocument
+     */
+    function ajax_delete()
+    {
+        $status="NOK";
+        $xml=new DOMDocument('1.0', "UTF-8");
+        try
+        {
+            $this->table->delete();
+            $status="OK";
+            $s1=$xml->createElement("status", $status);
+            $ctl=$this->object_name."_".$this->table->get_pk_value();
+            $s2=$xml->createElement("ctl_row", $ctl);
+            $s3=$xml->createElement("html", _("Effacé"));
+            $s4=$xml->createElement("ctl", $this->object_name);
+
+            $root=$xml->createElement("data");
+            $root->appendChild($s1);
+            $root->appendChild($s2);
+            $root->appendChild($s3);
+            $root->appendChild($s4);
+        }
+        catch (Exception $ex)
+        {
+            $s1=$xml->createElement("status", "NOK");
+            $s2=$xml->createElement("ctl",
+                    $this->object_name."_".$this->table->get_pk_value());
+            $s3=$xml->createElement("html", $ex->getTraceAsString());
+            $s4=$xml->createElement("ctl", $this->object_name);
+
+            $root=$xml->createElement("data");
+            $root->appendChild($s1);
+            $root->appendChild($s2);
+            $root->appendChild($s3);
+            $root->appendChild($s4);
+        }
+        $xml->appendChild($root);
+        return $xml;
+    }
+
+    /**
      * @brief save the Noalyss_SQL Object
      * The noalyss_SQL is not empty
      * @see from_request
      */
     function save()
     {
-        $this->table->save();
+        if ($this->table->exist()==0)
+        {
+            $this->table->insert();
+        }
+        else
+        {
+            $this->table->update();
+        }
     }
 
     /**

@@ -110,7 +110,7 @@ abstract class Noalyss_SQL
     public function get($p_string)
     {
         if (array_key_exists($p_string, $this->type)) {
-            return $this->$idx;
+            return $this->$p_string;
         }
         else
             throw new Exception(__FILE__.":".__LINE__.$p_string.'Erreur attribut inexistant '.$p_string);
@@ -309,6 +309,20 @@ abstract class Noalyss_SQL
         }
         return $this;
     }
+    /**
+     * Turn an object (row) into an array
+     * @return array
+     */
+    public function to_array()
+    {
+        $array=array();
+        foreach ($this->name as $key=> $value)
+        {
+            
+            $array[$key]=$this->$key;
+        }
+        return $array;
+    }
 
     /**
      * @brief retrieve array of object thanks a condition
@@ -371,6 +385,15 @@ abstract class Noalyss_SQL
     }
     public function count($p_where="",$p_array=null) {
         $count=$this->cn->get_value("select count(*) from $this->table".$p_where,$p_array);
+        return $count;
+    }
+    /**
+     * Count the number of record with the id ,
+     * @return integer  0 doesn't exist , 1 exists
+     */
+    public function exist() {
+        $pk=$this->primary_key;
+        $count=$this->cn->get_value("select count(*) from ".$this->table." where ".$this->primary_key."=$1",array($this->$pk));
         return $count;
     }
 }

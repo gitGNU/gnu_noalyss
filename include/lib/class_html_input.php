@@ -553,6 +553,18 @@ class HtmlInput
       return $r;
     }
     /**
+     * @brief transform a json to hidden 
+     * @param json $p_json
+     */
+    static function json_to_hidden($p_json)
+    {
+        $aJson=json_decode($p_json);
+        foreach($aJson as $key=>$value) 
+        {
+            echo HtmlInput::hidden($key, $value);
+        }
+    }
+    /**
      *transform $_GET   data  to hidden
      *@param $array is an of indices
      *@see HtmlInput::request_to_hidden
