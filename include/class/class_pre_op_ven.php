@@ -30,10 +30,11 @@ require_once  NOALYSS_INCLUDE.'/class/class_pre_operation.php';
 class Pre_op_ven extends Pre_operation_detail
 {
     var $op;
+    //< Pre_operation
     function __construct($cn,$p_id=0)
     {
         parent::__construct($cn,$p_id);
-        $this->operation->od_direct='f';
+        $this->operation->od_direct='f'; //< Pre_operation
     }
 
     function get_post()
@@ -137,7 +138,13 @@ class Pre_op_ven extends Pre_operation_detail
                 }
             }
         }
-        $array['nb_item']=$count;
+        // Find the ledger
+        $ledger=new Acc_Ledger($this->db,$this->operation->jrn_def_id);
+        // Find the max line of the ledger
+        $max_row=$ledger->GetDefLine();
+        
+        // compute nb_item
+        $array['nb_item']=($max_row > $count)?$max_row:$count;
         return $array;
     }
     /*!\brief load the data from the database and return an array
