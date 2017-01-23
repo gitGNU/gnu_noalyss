@@ -3996,6 +3996,7 @@ class Acc_Ledger extends jrn_def_sql
                         "e_march".$i."_price",
                         "e_march".$i."_quant",
                         "e_march".$i."_label",
+                        "e_march".$i."_tva_id",
                         "e_march".$i."_tva_amount"
                     ));
             }
