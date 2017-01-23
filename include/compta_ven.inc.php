@@ -214,9 +214,14 @@ show_tab(a_tab,'facturation_div_id');
                     echo '<p class="notice">'._('Date invalide, opération non extournée').'</p>';
                 }
             }
-
+            echo '<ul class="aligned-block">';
+            echo "<li>";
             echo $Ledger->button_new_operation();
+            echo "</li>";
+            echo "<li>";
             echo $Ledger->button_copy_operation();
+            echo "</li>"; 
+            echo "</ul>";
             echo '</div>';
             return;
         }

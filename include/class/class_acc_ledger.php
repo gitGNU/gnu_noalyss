@@ -3972,7 +3972,7 @@ class Acc_Ledger extends jrn_def_sql
         function button_new_operation()
         {
             $url=http_build_query(array('ac'=>$_REQUEST['ac'],'gDossier'=>$_REQUEST['gDossier'],'p_jrn'=>$_REQUEST['p_jrn']));
-            $button = HtmlInput::button_anchor(_("Nouvelle opération"), 'do.php?'.$url);
+            $button = HtmlInput::button_anchor(_("Nouvelle opération"), 'do.php?'.$url,"","","smallbutton");
             return '<p>'.$button.'</p>';
         }
         /**
@@ -3983,7 +3983,7 @@ class Acc_Ledger extends jrn_def_sql
         {
             echo '<FORM METHOD="POST">';
             echo HtmlInput::post_to_hidden(
-                array("gDossier","ac","p_jrn","e_client","nb_item")
+                array("gDossier","ac","p_jrn","e_client","nb_item","desc","e_comm")
             );
             echo HtmlInput::hidden("correct","copy");
             // e_march
@@ -3997,7 +3997,12 @@ class Acc_Ledger extends jrn_def_sql
                         "e_march".$i."_quant",
                         "e_march".$i."_label",
                         "e_march".$i."_tva_id",
-                        "e_march".$i."_tva_amount"
+                        "e_march".$i."_tva_amount",
+                        "poste".$i,
+                        "ld".$i,
+                        "amount".$i,
+                        "ck".$i
+                        
                     ));
             }
             echo HtmlInput::submit("copy_operation",_("Même opération"));

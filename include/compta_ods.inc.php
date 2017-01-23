@@ -19,7 +19,8 @@
 
 // Copyright Author Dany De Bontridder danydb@aevalys.eu
 
-/**\file
+/**
+ * \file
  *
  *
  * \brief to write directly into the ledgers,the stock and the tables
@@ -128,15 +129,20 @@ elseif (isset($_POST['save']))
                         echo '<p class="notice">'._('Date invalide, opération non extournée').'</p>';
                     }
                 }
-                
+                echo '<ul class="aligned-block">';
+                echo "<li>";
                 echo $ledger->button_new_operation();
-                echo $Ledger->button_copy_operation();
+                echo "</li>";
+                echo "<li>";
+                echo $ledger->button_copy_operation();
+                echo "</li>"; 
+                echo "</ul>";
 	}
 	catch (Exception $e)
 	{
 		require NOALYSS_INCLUDE.'/operation_ods_new.inc.php';
 		alert($e->getMessage());
-        $p_msg=$e->getMessage();
+                $p_msg=$e->getMessage();
 	}
         echo '</div>';
 	return;
