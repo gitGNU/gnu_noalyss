@@ -591,7 +591,10 @@ class Manage_Table_SQL
             $this->display_row($array);
             $html=ob_get_contents();
             ob_end_clean();
-            $s3=$xml->createElement("html", html_entity_decode($html));
+            $s3=$xml->createElement("html" );
+            $t1=$xml->createTextNode($html);
+            $s3->appendChild($t1);
+
 
             $root=$xml->createElement("data");
             $root->appendChild($s1);
@@ -603,7 +606,7 @@ class Manage_Table_SQL
         {
             $s1=$xml->createElement("status", "NOK");
             $s2=$xml->createElement("ctl_row",
-                    $this->object_name+"_"+$this->table->get_pk_value());
+            $this->object_name+"_"+$this->table->get_pk_value());
             $s4=$xml->createElement("ctl", $this->object_name);
             $s3=$xml->createElement("html", $ex->getTraceAsString());
             $root=$xml->createElement("data");
@@ -632,6 +635,7 @@ class Manage_Table_SQL
         {
             $status="OK";
             ob_start();
+		
             echo HtmlInput::title_box("Donnée", "dtr");
             printf('<form id="frm%s_%s" method="POST" onsubmit="%s.save(\'frm%s_%s\');return false;">',
                     $this->object_name, $this->table->get_pk_value(),
@@ -660,7 +664,10 @@ class Manage_Table_SQL
             $ctl=$this->object_name."_".$this->table->get_pk_value();
             $s2=$xml->createElement("ctl_row", $ctl);
             $s4=$xml->createElement("ctl", $this->object_name);
-            $s3=$xml->createElement("html", html_entity_decode($html));
+            $s3=$xml->createElement("html" );
+            $t1=$xml->createTextNode($html);
+            $s3->appendChild($t1);
+
             $root=$xml->createElement("data");
             $root->appendChild($s1);
             $root->appendChild($s2);

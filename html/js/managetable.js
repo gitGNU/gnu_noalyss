@@ -114,8 +114,6 @@ var ManageTable = function (p_table_name)
      @param req Ajax answer
      */
     this.parseXML = function (req) {
-        console.log(" start parsing");
-        console.log(req.responseText);
         try {
             var xml = req.responseXML;
             var status = xml.getElementsByTagName("status");
@@ -129,17 +127,11 @@ var ManageTable = function (p_table_name)
             }
             var answer=[];
             answer['status'] = getNodeText(status[0]);
-            console.log(answer);
             answer['ctl'] = getNodeText(ctl[0]);
-            console.log(answer);
             answer['ctl_row'] = getNodeText(ctl_row[0]);
-            console.log(answer);
             answer['html'] = getNodeText(html[0]);
-            console.log(answer);
             return answer;
         } catch (e) {
-            console.log("erreur parsing");
-            console.log(e.message);
             throw e;
         }
     };
@@ -154,14 +146,11 @@ var ManageTable = function (p_table_name)
         waiting_box();
         try {
             this.param['action'] = 'save';
-            console.log(form_id);
             var form = $(form_id).serialize(true);
-            console.log(form);
             this.param_add(form);
             var here=this; 
           } catch (e) {
             alert(e.message);
-            console.log(e.message);
             return false;
           }
         new Ajax.Request(this.callback, {
@@ -174,7 +163,6 @@ var ManageTable = function (p_table_name)
                 /// if p_ctl_row does not exist it means it is a new
                 /// row , otherwise an update
                 var answer=here.parseXML(req);
-                console.log(answer);
                 if (answer ['status'] == 'OK') {
                     if ($(answer['ctl_row'])) {
                         $(answer['ctl_row']).update(answer['html']);
@@ -184,15 +172,16 @@ var ManageTable = function (p_table_name)
                         new_row.innerHTML = answer['html'];
                         $("tb"+answer['ctl']).appendChild(new_row);
                     }
+                    new Effect.Highlight(answer['ctl_row'] ,{ startcolor: '#ffff99',endcolor: '#ffffff' });
+                    
                 } else {
-                    console.error("Error in save");
+                    smoke.alert("Changement impossible");
                     throw "error in save";
                 }
                 remove_waiting_box();
                 $("dtr").hide();
                 } catch (e) {
                     alert(e.message);
-                    console.log(e.message);
                     return false;
                 }
             }
@@ -222,6 +211,8 @@ var ManageTable = function (p_table_name)
                     if (answer['status'] == 'OK') {
                         var x=answer['ctl_row'];
                         $(x).hide();
+                        }else {
+                             smoke.alert("Effacement impossible");
                         }
                     }
                 }); 
@@ -249,19 +240,13 @@ var ManageTable = function (p_table_name)
             onSuccess: function (req) {
                 remove_waiting_box();
                 try {
-                    console.log("parse xml");
                     var x = here.parseXML(req);
-                    console.log("x");
-                    console.log(x);
-                    console.log("create div");
                     var obj = {id: control, "cssclass": "inner_box", "html": loading()};
                     add_div(obj);
                     var pos = calcy(250);
-                    $(obj.id).setStyle({position: "absolute", top: pos + 'px', width: "auto", "margin-left": "10%"});
-                    console.log("set dgb content")
+                    $(obj.id).setStyle({position: "absolute", top: pos + 'px', width: "auto", "margin-left": "20%"});
                     $(obj.id).update(x['html']);
                 } catch (e) {
-                    console.log(e.message);
                     smoke.alert("ERREUR " + e.message);
                 }
 

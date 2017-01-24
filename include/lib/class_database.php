@@ -142,6 +142,11 @@ class Database
     {
         pg_set_client_encoding($this->db, $p_charset);
     }
+    function get_encoding()
+    {
+        return pg_client_encoding($this->db);
+    }
+
 
     /**
      * \brief send a sql string to the database
