@@ -423,6 +423,7 @@ class Manage_Table_SQL
                     sprintf("%s.input('-1','%s')", $this->object_name,
                             $this->object_name));
         }
+        printf ('<script> alternate_row("tb%s");</script>', $this->object_name);
     }
 
     /**
@@ -441,6 +442,12 @@ class Manage_Table_SQL
 
             if ($this->get_property_visible($key)==true)
                 echo th($this->a_label_displaid[$key]);
+        }
+        if ($this->can_update_row()) {
+            echo td(_('Modifier'));
+        }
+        if ($this->can_delete_row()) {
+            echo td(_('Effacer'));
         }
         echo "</tr>";
     }

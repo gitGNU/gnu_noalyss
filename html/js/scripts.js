@@ -2937,3 +2937,34 @@ window.onload=function ()
     init_scroll();
     sorttable.init
 }
+/**
+ * @brief Colorize the rows of the table 
+ * @param string p_table id of the table
+ */
+function alternate_row(p_table)
+{
+    var len = $(p_table).tBodies[0].rows.length;
+    var i = 0;
+    var localClass = "";
+    for (i = 1; i < len; i++) {
+        localClass = (i % 2 == 0) ? "even" : "odd";
+        if (localClass == "even" && $(p_table).tBodies[0].rows[i].hasClassName("odd")) 
+        {
+            $(p_table).tBodies[0].rows[i].removeClassName("odd");
+        }
+        if (localClass == "even" && !$(p_table).tBodies[0].rows[i].hasClassName("even"))
+        {
+            $(p_table).tBodies[0].rows[i].addClassName("even");
+        }
+
+        if (localClass == "odd" && $(p_table).tBodies[0].rows[i].hasClassName("even")) 
+        {
+            $(p_table).tBodies[0].rows[i].removeClassName("even");
+        }
+        if (localClass == "odd" && !$(p_table).tBodies[0].rows[i].hasClassName("odd"))
+        {
+            $(p_table).tBodies[0].rows[i].addClassName("odd");
+        }
+    }
+
+}
