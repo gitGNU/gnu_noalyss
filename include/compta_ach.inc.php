@@ -198,9 +198,15 @@ if (isset($_POST['record']))
                         echo '<p class="notice">'._('Date invalide, opération non extournée').'</p>';
                     }
                 }
+                echo '<ul class="aligned-block">';
+                echo "<li>";
                 echo $Ledger->button_new_operation();
+                echo "</li>";
+                echo "<li>";
                 echo $Ledger->button_copy_operation();
-		echo '</div>';
+                echo "</li>";
+                echo "</ul>";
+                echo '</div>';
 		return;
 	}
 }
