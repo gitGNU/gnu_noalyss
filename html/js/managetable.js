@@ -172,7 +172,7 @@ var ManageTable = function (p_table_name)
                         new_row.innerHTML = answer['html'];
                         $("tb"+answer['ctl']).appendChild(new_row);
                     }
-                    new Effect.Highlight(answer['ctl_row'] ,{ startcolor: '#ffff99',endcolor: '#ffffff' });
+                    new Effect.Highlight(answer['ctl_row'] ,{ startcolor: '#ABCBF7',endcolor: '#ffffff' });
                     
                 } else {
                     smoke.alert("Changement impossible");
