@@ -490,19 +490,19 @@ class Manage_Table_SQL
         echo "<td>";
         if ($this->can_update_row())
         {
-            $js=sprintf("onclick=\"%s.input('%s','%s');\"", $this->object_name,
+            $js=sprintf("%s.input('%s','%s');", $this->object_name,
                     $p_row[$this->table->primary_key], $this->object_name
             );
-            echo HtmlInput::anchor(_("Modifier"), "", $js);
+            echo HtmlInput::image_click("edit.png",$js,_("Modifier"));
         }
         echo "</td>";
         echo "<td>";
         if ($this->can_delete_row())
         {
-            $js=sprintf("onclick=\"%s.delete('%s','%s');\"", $this->object_name,
+            $js=sprintf("%s.delete('%s','%s');", $this->object_name,
                     $p_row[$this->table->primary_key], $this->object_name
             );
-            echo HtmlInput::anchor(_("Effacer"), "", $js);
+            echo HtmlInput::image_click("delete.gif", $js,_("effacer"));
         }
         echo "</td>";
         echo '</tr>';
