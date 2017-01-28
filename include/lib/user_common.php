@@ -245,4 +245,18 @@ function check_parameter($p_array,$p_needed)
             }
         }
 }
+/**
+ * sanitize the filename remove character which could be a problem, 
+ * @param string $p_filename the filename to clean
+ * @return  string Filename without bad char.
+ */
+function clean_filename($p_filename)
+{
+    $filename=$p_filename;
+    foreach (array('/','*','<','>',';',',','\\',':','(',')',' ','[',']') as $i) {
+            $filename= str_replace($i, "-",$filename);
+    }
+    return $filename;
+
+}
 ?>

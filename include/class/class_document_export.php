@@ -128,18 +128,19 @@ class Document_Export
             if ($file[0]['jr_pj'] == '')
                 continue;
 
-            $cn->lo_export($file[0]['jr_pj'], $this->store_convert . '/' . $file[0]['jr_pj_name']);
+            $filename=clean_filename($file[0]['jr_pj_name']);
+            $cn->lo_export($file[0]['jr_pj'], $this->store_convert . '/' . $filename);
 
             // Convert this file into PDF 
             if ($file[0]['jr_pj_type'] != 'application/pdf')
             {
                 $status = 0;
-                $arg=" ".escapeshellarg($this->store_convert.DIRECTORY_SEPARATOR.$file[0]['jr_pj_name']);
+                $arg=" ".escapeshellarg($this->store_convert.DIRECTORY_SEPARATOR.$filename);
                 echo "arg = [".$arg."]";
                 passthru(OFFICE . " " . $arg , $status);
                 if ($status <> 0)
                 {
-                    $this->feedback[$cnt_feedback]['file'] = $file[0]['jr_pj_name'];
+                    $this->feedback[$cnt_feedback]['file'] = $filename;
                     $this->feedback[$cnt_feedback]['message'] = ' cannot convert to PDF';
                     $this->feedback[$cnt_feedback]['error'] = $status;
                     $cnt_feedback++;
@@ -169,8 +170,8 @@ class Document_Export
 
             // 
             // remove extension
-            $ext = strrpos($file[0]['jr_pj_name'], ".");
-            $file_pdf = substr($file[0]['jr_pj_name'], 0, $ext);
+            $ext = strrpos($filename, ".");
+            $file_pdf = substr($filename, 0, $ext);
             $file_pdf .=".pdf";
             
             //-----------------------------------
@@ -248,14 +249,16 @@ class Document_Export
             // Move the PDF into another temp directory 
             $this->move_file($output, 'stamp_' . $file_pdf);
         }
+        
+        // concatenate all pdf into one
         $this->concatenate_pdf();
+        
         ob_clean();
         $this->send_pdf();
 
         // remove files from "conversion folder"
         $this->clean_folder();
         
-        // concatenate all pdf into one
     }
    /**
     * @brief check that the files are installed
