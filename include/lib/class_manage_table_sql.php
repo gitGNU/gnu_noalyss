@@ -423,6 +423,7 @@ class Manage_Table_SQL
                     sprintf("%s.input('-1','%s')", $this->object_name,
                             $this->object_name));
         }
+        printf ('<script> alternate_row("tb%s");</script>', $this->object_name);
     }
 
     /**
@@ -441,6 +442,12 @@ class Manage_Table_SQL
 
             if ($this->get_property_visible($key)==true)
                 echo th($this->a_label_displaid[$key]);
+        }
+        if ($this->can_update_row()) {
+            echo td(_('Modifier'));
+        }
+        if ($this->can_delete_row()) {
+            echo td(_('Effacer'));
         }
         echo "</tr>";
     }
@@ -490,19 +497,19 @@ class Manage_Table_SQL
         echo "<td>";
         if ($this->can_update_row())
         {
-            $js=sprintf("onclick=\"%s.input('%s','%s');\"", $this->object_name,
+            $js=sprintf("%s.input('%s','%s');", $this->object_name,
                     $p_row[$this->table->primary_key], $this->object_name
             );
-            echo HtmlInput::anchor(_("Modifier"), "", $js);
+            echo HtmlInput::image_click("edit.png",$js,_("Modifier"));
         }
         echo "</td>";
         echo "<td>";
         if ($this->can_delete_row())
         {
-            $js=sprintf("onclick=\"%s.delete('%s','%s');\"", $this->object_name,
+            $js=sprintf("%s.delete('%s','%s');", $this->object_name,
                     $p_row[$this->table->primary_key], $this->object_name
             );
-            echo HtmlInput::anchor(_("Effacer"), "", $js);
+            echo HtmlInput::image_click("delete.gif", $js,_("effacer"));
         }
         echo "</td>";
         echo '</tr>';
