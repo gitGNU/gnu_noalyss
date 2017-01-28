@@ -63,25 +63,32 @@ class Document
         $this->db->exec_sql($sql);
 
     }
-	function compute_filename($pj,$filename)
-	{
-		foreach (array('/','*','<','>',';',',','\\','.',':') as $i) {
-			$pj= str_replace($i, "-",$pj);
-		}
-		// save the suffix
-		$pos_prefix=strrpos($filename,".");
-		if ($pos_prefix == 0) $pos_prefix=strlen($filename);
-		$filename_no=substr($filename,0,$pos_prefix);
-		$filename_suff=substr($filename,$pos_prefix,strlen($filename));
-		$new_filename=  strtolower($filename_no."-".$pj.$filename_suff);
-		return $new_filename;
-	}
+    /**
+     * Insert the receipt number into the filename , each generated file
+     * will have the name of the template (model) + receipt number)
+     * @param type $pj the receipt number
+     * @param type $filename the name of the file
+     * @return string
+     */
+    function compute_filename($pj,$filename)
+    {
+            foreach (array('/','*','<','>',';',',','\\','.',':','(',')',' ','[',']') as $i) {
+                    $pj= str_replace($i, "-",$pj);
+            }
+            // save the suffix
+            $pos_prefix=strrpos($filename,".");
+            if ($pos_prefix == 0) $pos_prefix=strlen($filename);
+            $filename_no=substr($filename,0,$pos_prefix);
+            $filename_suff=substr($filename,$pos_prefix,strlen($filename));
+            $new_filename=  strtolower($filename_no."-".$pj.$filename_suff);
+            return $new_filename;
+    }
     /*!
      * \brief Generate the document, Call $this-\>Replace to replace
      *        tag by value
      *@param p_array contains the data normally it is the $_POST
-     *@param contains the new filename
-     * \return an array : the url where the generated doc can be found, the name
+     *@param $p_filename contains the new filename
+     * \return an string : the url where the generated doc can be found, the name
      * of the file and his mimetype
      */
     function Generate($p_array,$p_filename="")
