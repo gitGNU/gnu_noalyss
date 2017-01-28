@@ -2941,7 +2941,7 @@ window.onload=function ()
  * @brief Colorize the rows of the table 
  * @param string p_table id of the table
  */
-function alternate_row(p_table)
+function alternate_row_color(p_table)
 {
     var len = $(p_table).tBodies[0].rows.length;
     var i = 0;

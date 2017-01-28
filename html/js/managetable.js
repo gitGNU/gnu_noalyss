@@ -178,7 +178,7 @@ var ManageTable = function (p_table_name)
                     smoke.alert("Changement impossible");
                     throw "error in save";
                 }
-                alternate_row("tb"+answer['ctl']);
+                alternate_row_color("tb"+answer['ctl']);
                 remove_waiting_box();
                 $("dtr").hide();
                 } catch (e) {
@@ -212,7 +212,7 @@ var ManageTable = function (p_table_name)
                     if (answer['status'] == 'OK') {
                         var x=answer['ctl_row'];
                         $(x).hide();
-                        alternate_row("tb"+answer['ctl']);
+                        alternate_row_color("tb"+answer['ctl']);
                         }else {
                              smoke.alert("Effacement impossible");
                         }

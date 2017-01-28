@@ -423,7 +423,7 @@ class Manage_Table_SQL
                     sprintf("%s.input('-1','%s')", $this->object_name,
                             $this->object_name));
         }
-        printf ('<script> alternate_row("tb%s");</script>', $this->object_name);
+        printf ('<script> alternate_row_color("tb%s");</script>', $this->object_name);
     }
 
     /**
