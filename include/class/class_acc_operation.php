@@ -88,7 +88,7 @@ class Acc_Operation
 
     function insert_jrnx()
     {
-      if ( $this->poste == "") { return false; throw new  Exception (__FILE__.':'.__LINE__.' Poste comptable vide');}
+      if ( $this->poste == "") { throw new  Exception (__FILE__.':'.__LINE__.' Poste comptable vide');return false; }
         /* for negative amount the operation is reversed */
         if ( $this->amount < 0 )
         {
