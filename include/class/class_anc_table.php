@@ -319,7 +319,8 @@ class Anc_Table extends Anc_Acc_Link
       {
 	$this->load_poste();
 
-	$csv->add("Poste");
+	$csv->add(_("Poste"));
+	$csv->add(_("Description"));
 	foreach ($this->aheader as $h)
 	  {
 	    $csv->add($h['po_name']);
