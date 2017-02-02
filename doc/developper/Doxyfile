@@ -102,14 +102,15 @@ ABBREVIATE_BRIEF       = "The $name class" \
 # Doxygen will generate a detailed section even if there is only a brief
 # description.
 
-ALWAYS_DETAILED_SEC    = NO
+ALWAYS_DETAILED_SEC    = yes
 
 # If the INLINE_INHERITED_MEMB tag is set to YES, doxygen will show all
 # inherited members of a class in the documentation of that class as if those
 # members were ordinary class members. Constructors, destructors and assignment
 # operators of the base classes will not be shown.
 
-INLINE_INHERITED_MEMB  = NO
+INLINE_INHERITED_MEMB  = YES
+
 
 # If the FULL_PATH_NAMES tag is set to YES then Doxygen will prepend the full
 # path before files name in the file list and in the header files. If set
@@ -203,7 +204,7 @@ OPTIMIZE_OUTPUT_FOR_C  = YES
 # Java. For instance, namespaces will be presented as packages, qualified
 # scopes will look different, etc.
 
-OPTIMIZE_OUTPUT_JAVA   = NO
+OPTIMIZE_OUTPUT_JAVA   = YES
 
 # Set the OPTIMIZE_FOR_FORTRAN tag to YES if your project consists of Fortran
 # sources only. Doxygen will then generate output that is more tailored for
@@ -382,7 +383,7 @@ INTERNAL_DOCS          = NO
 # in case and if your file system supports case sensitive file names. Windows
 # and Mac users are advised to set this option to NO.
 
-CASE_SENSE_NAMES       = YES
+CASE_SENSE_NAMES       = NO
 
 # If the HIDE_SCOPE_NAMES tag is set to NO (the default) then Doxygen
 # will show members with their full class and namespace scopes in the
@@ -1048,7 +1049,7 @@ GENERATE_TREEVIEW      = NO
 # By enabling USE_INLINE_TREES, doxygen will generate the Groups, Directories,
 # and Class Hierarchy pages using a tree view instead of an ordered list.
 
-USE_INLINE_TREES       = NO
+USE_INLINE_TREES       = YES
 
 # If the treeview is enabled (see GENERATE_TREEVIEW) then this tag can be
 # used to set the initial width (in pixels) of the frame in which the tree
@@ -1456,7 +1457,7 @@ HIDE_UNDOC_RELATIONS   = NO
 # toolkit from AT&T and Lucent Bell Labs. The other options in this section
 # have no effect if this option is set to NO (the default)
 
-HAVE_DOT               = NO
+HAVE_DOT               = YES
 
 # By default doxygen will write a font called FreeSans.ttf to the output
 # directory and reference it in all dot files that doxygen generates. This
@@ -1616,3 +1617,5 @@ GENERATE_LEGEND        = YES
 # the various graphs.
 
 DOT_CLEANUP            = YES
+UML_LIMIT_NUM_FIELDS   = 20
+
