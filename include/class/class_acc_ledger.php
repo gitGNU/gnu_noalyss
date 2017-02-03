@@ -4005,7 +4005,7 @@ class Acc_Ledger extends jrn_def_sql
                         
                     ));
             }
-            echo HtmlInput::submit("copy_operation",_("Même opération"));
+            echo HtmlInput::submit("copy_operation",_("Opération identique"));
                     
             echo '</FORM>';
         }
