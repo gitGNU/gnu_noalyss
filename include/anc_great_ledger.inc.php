@@ -31,7 +31,8 @@ if ($result != null)
           echo _('Tout sélectionner')." ".ICheckBox::toggle_checkbox('export_pdf_bt1','export_anc_receipt_pdf');
         echo '</span>';
         echo $grandLivre->show_button();
-        echo '<form method="GET" id="export_anc_receipt_pdf" action="export.php" style="display:inline">';
+        printf ('<form method="GET" id="export_anc_receipt_pdf" action="export.php" style="display:inline" onsubmit="smoke.signal(\'%s\', function(e){}, {duration: 3000,classname: \'custom-class\'});return true;">',
+                _("Le traitement est en cours ,  merci de patienter sans recharger la page"));
 
         echo $grandLivre->button_export_pdf();
         echo $grandLivre->display_html();
