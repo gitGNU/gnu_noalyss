@@ -98,13 +98,19 @@ class Document_Export
      */
     function clean_folder()
     {
-        return;
         $files=  scandir($this->store_convert);
-        $nb_file=count($file);
+        $nb_file=count($files);
         for ($i=0;$i < $nb_file;$i++) {
-            if (is_file($files[$i])) unlink($file[$i]);
+            if (is_file($this->store_convert."/".$files[$i])) unlink($this->store_convert."/".$files[$i]);
         }
         rmdir($this->store_convert);
+        $files=  scandir($this->store_pdf);
+        $nb_file=count($files);
+        for ($i=0;$i < $nb_file;$i++) {
+            if (is_file($this->store_pdf."/".$files[$i])) unlink($this->store_pdf."/".$files[$i]);
+        }
+        rmdir($this->store_pdf);
+        
     }
 
     /**
@@ -243,6 +249,9 @@ class Document_Export
                 $cnt_feedback++;
                 continue;
             }
+            // remove doc with detail
+            $detail_operation->unlink();
+            
             // overwrite old with new PDF
             rename ($output2,$output);
             
