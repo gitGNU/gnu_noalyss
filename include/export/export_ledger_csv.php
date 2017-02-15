@@ -211,7 +211,7 @@ if  ($get_option == 1)
 	     // Get the jrn type
 	     if ( $line['jrn_def_type'] == 'FIN' ) {
 	       $positive = $cn->get_value("select qf_amount from quant_fin  ".
-					  " where jr_id=".$line['jr_id']);
+					  " where jr_id=$1",array($line['jr_id']));
 
 	       $export->add($positive,"number");
                $export->add("");

@@ -547,7 +547,7 @@ class Periode
 	  for ($i=1;$i < 12;$i++)
 	    {
 	      $date_start=sprintf('01.%02d.%d',$i,$p_exercice);
-	      $date_end=$this->cn->get_value("select to_char(to_date('$date_start','DD.MM.YYYY')+interval '1 month'-interval '1 day','DD.MM.YYYY')");
+	      $date_end=$this->cn->get_value("select to_char(to_date($1,'DD.MM.YYYY')+interval '1 month'-interval '1 day','DD.MM.YYYY')",array($date_start));
 	      if ( $this->insert($date_start,$date_end,$p_exercice) != 0)
 		{
 		  throw new Exception('Erreur insertion période');
@@ -559,8 +559,10 @@ class Periode
 	    }
 	  if ( $nb_periode==13)
 	    {
-	      if ($this->insert('01.12.'.$p_exercice,'30.12.'.$p_exercice,$p_exercice) != 0 ) 	      throw new Exception('Erreur insertion période');
-	      if ($this->insert('31.12.'.$p_exercice,'31.12.'.$p_exercice,$p_exercice) != 0 ) 	      throw new Exception('Erreur insertion période');
+	      if ($this->insert('01.12.'.$p_exercice,'30.12.'.$p_exercice,$p_exercice) != 0 ) 	   
+                      throw new Exception('Erreur insertion période');
+	      if ($this->insert('31.12.'.$p_exercice,'31.12.'.$p_exercice,$p_exercice) != 0 ) 	     
+                      throw new Exception('Erreur insertion période');
 	    }
 
 

@@ -1682,8 +1682,8 @@ class Fiche
     function get_categorie()
     {
         if ( $this->id == 0 ) throw  new Exception('class_fiche : f_id = 0 ');
-        $sql='select fd_id from fiche where f_id='.$this->id;
-        $R=$this->cn->get_value($sql);
+        $sql='select fd_id from fiche where f_id=$1';
+        $R=$this->cn->get_value($sql, array($this->id));
         if ( $R == "" )
             $this->fd_id=0;
         else
