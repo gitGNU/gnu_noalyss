@@ -756,7 +756,7 @@ class Acc_Ledger extends jrn_def_sql
 					$operation = new Acc_Operation($this->db);
 					$operation->jr_id = $element;
 					$l_amount = $this->db->get_value("select jr_montant from jrn " .
-							" where jr_id=$element");
+							" where jr_id=$1",array($element));
 					$r.= "<A class=\"detail\" HREF=\"javascript:modifyOperation('" . $element . "'," . $gDossier . ")\" > " . $operation->get_internal() . "[" . nbm($l_amount) . "]</A>";
 				}//for
 			}// if ( $a != null ) {
@@ -987,7 +987,7 @@ class Acc_Ledger extends jrn_def_sql
 					$operation = new Acc_Operation($this->db);
 					$operation->jr_id = $element;
 					$l_amount = $this->db->get_value("select jr_montant from jrn " .
-							" where jr_id=$element");
+							" where jr_id=$1",array($element));
 					$r.= "<A class=\"detail\" HREF=\"javascript:modifyOperation('" . $element . "'," . $gDossier . ")\" > " . $operation->get_internal() . "[" . nbm($l_amount) . "]</A>";
 				}//for
 			}// if ( $a != null ) {

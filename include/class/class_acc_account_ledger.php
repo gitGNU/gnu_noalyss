@@ -552,7 +552,7 @@ class Acc_Account_Ledger
      */
     function belong_ledger($p_jrn)
     {
-        $filter=$this->db->get_value("select jrn_def_class_cred from jrn_def where jrn_def_id=$p_jrn");
+        $filter=$this->db->get_value("select jrn_def_class_cred from jrn_def where jrn_def_id=$1", array($p_jrn));
         if ( trim ($filter) == '')
             return 0;
 
@@ -560,27 +560,31 @@ class Acc_Account_Ledger
         $sql="select count(*) as poste from tmp_pcmn where ";
         // Creation query
         $or="";
-        $SqlFilter="";
+       $SqlFilter="";
+        $SqlArray = array();
+        $SqlArrayN = 1;
         foreach ( $valid_cred as $item_cred)
         {
             if ( strlen (trim($item_cred)))
             {
                 if ( strstr($item_cred,"*") == true )
                 {
-                    $item_cred=strtr($item_cred,"*","%");
-                    $SqlItem="$or pcm_val::text like '".sql_string($item_cred)."'";
+                    $SqlItem=$or . 'pcm_val::text like $' . $SqlArrayN++;
+                    array_push($SqlArray, strtr($item_cred,"*","%"));
                     $or="  or ";
                 }
                 else
                 {
-                    $SqlItem="$or pcm_val::text = '".sql_string($item_cred)."' ";
+                    $SqlItem=$or . 'pcm_val::text = $' . $SqlArrayN++;
+                    array_push($SqlArray, $item_cred);
                     $or="  or ";
                 }
                 $SqlFilter=$SqlFilter.$SqlItem;
             }
         }//foreach
-        $sql.=$SqlFilter." and pcm_val::text='".sql_string($this->id)."'";
-        $max=$this->db->get_value($sql);
+        $sql.=$SqlFilter . ' and pcm_val::text=$' . $SqlArrayN++;
+        array_push($SqlArray, $this->id);
+        $max=$this->db->get_value($sql, $SqlArray);
         if ($max > 0 )
             return 0;
         else

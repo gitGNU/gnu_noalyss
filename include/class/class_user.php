@@ -943,8 +943,7 @@ class User
 	 * \brief   Show all the available folder  for the users
 	 *          at the login page. For the special case 'E'
 	 *          go directly to extension and bypasse the dashboard
-	 * \param $p_user user
-	 * \param $p_admin 1 if admin
+	 * \param $p_filtre user
 	 *
 	 * \return table in HTML
 	 *
@@ -1011,8 +1010,7 @@ class User
 	 * \brief   Get all the available folders
 	 *          for the users, checked with the security
 	 *
-	 * \param  $p_user user login
-	 * \param  $p_admin 1 if admin
+	 * \param  $p_filter
 	 * \return array containing
 	 *       - ac_dossier.dos_id
 	 *       - ac_dossier.dos_name

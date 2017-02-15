@@ -561,10 +561,13 @@ function echo_warning($p_string)
 
 function getPeriodeName($p_cn, $p_id, $pos='p_start')
 {
-    if ($pos != 'p_start' and
-	    $pos != 'p_end')
-	echo_error('lib/ac_common.php' . "-" . __LINE__ . '  UNDEFINED PERIODE');
-    $ret = $p_cn->get_value("select to_char($pos,'Mon YYYY') as t from parm_periode where p_id=$p_id");
+    if ($pos != 'p_start' &&  $pos != 'p_end')
+    {
+        echo_error('lib/ac_common.php' . "-" . __LINE__ . '  UNDEFINED PERIODE');
+        throw new Exception(_("paramètre invalide"));
+    }
+    $ret = $p_cn->get_value("select to_char($pos,'Mon YYYY') as t from parm_periode where p_id=$1", 
+           array( $p_id));
     return $ret;
 }
 
@@ -582,7 +585,7 @@ function getPeriodeName($p_cn, $p_id, $pos='p_start')
 function getPeriodeFromMonth($p_cn, $p_date)
 {
     $R = $p_cn->get_value("select p_id from parm_periode where
-                        to_char(p_start,'DD.MM.YYYY') = '01.$p_date'");
+                        to_char(p_start,'DD.MM.YYYY') = $1", array('01.'.$p_date));
     if ($R == "")
 	return -1;
     return $R;
@@ -620,6 +623,9 @@ function sql_filter_per($p_cn, $p_from, $p_to, $p_form='p_id', $p_field='jr_tech
 	echo_error(__FILE__, __LINE__, 'Mauvais parametres ');
 	exit(-1);
     }
+    $p_from=  sql_string($p_from);
+    $p_to=  sql_string($p_to);
+    $p_field=  sql_string($p_field);
     if ($p_form == 'p_id')
     {
 	// retrieve the date
@@ -1223,9 +1229,9 @@ function get_array_column($p_array,$key)
  */
 function factory_Ledger(Database &$p_cn, $ledger_id)
 {
-    include_once 'class/class_acc_ledger_sold.php';
-    include_once 'class/class_acc_ledger_purchase.php';
-    include_once 'class/class_acc_ledger_fin.php';
+    include_once NOALYSS_INCLUDE.'/class/class_acc_ledger_sold.php';
+    include_once NOALYSS_INCLUDE.'/class/class_acc_ledger_purchase.php';
+    include_once NOALYSS_INCLUDE.'/class/class_acc_ledger_fin.php';
     
     $ledger=new Acc_Ledger($p_cn, $ledger_id);
     $type=$ledger->get_type();
