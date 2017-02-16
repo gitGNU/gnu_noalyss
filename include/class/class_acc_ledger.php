@@ -4002,6 +4002,7 @@ class Acc_Ledger extends jrn_def_sql
                         "e_march".$i."_label",
                         "e_march".$i."_tva_id",
                         "e_march".$i."_tva_amount",
+                        "e_quant".$i,
                         "poste".$i,
                         "ld".$i,
                         "amount".$i,
