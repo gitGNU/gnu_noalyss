@@ -28,7 +28,7 @@ global $cn;
 //**********************************************
 if (isset($_POST['change_profile']))
 {
-    extract($_POST);
+    extract($_POST, EXTR_SKIP);
     try
     {
         for ($e=0; $e<count($right); $e++)
@@ -67,7 +67,7 @@ if (isset($_POST['change_profile']))
 //**********************************************
 if (isset($_POST['change_stock']))
 {
-    extract($_POST);
+    extract($_POST, EXTR_SKIP);
     try
     {
         for ($e=0; $e<count($right); $e++)
@@ -108,7 +108,7 @@ if (isset($_POST['change_stock']))
 if (isset($_POST['save_name']))
 {
 
-    extract($_POST);
+    extract($_POST, EXTR_SKIP);
     try
     {
         if (strlen(trim($p_name))==0)
@@ -187,7 +187,7 @@ if (isset($_POST['clone']))
 //************************************
 if (isset($_POST['delete_profil']))
 {
-    extract($_POST);
+    extract($_POST, EXTR_SKIP);
     try
     {
         $cn->start();

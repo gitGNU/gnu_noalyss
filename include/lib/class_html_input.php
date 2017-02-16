@@ -901,7 +901,7 @@ class HtmlInput
          */
         static function button_choice_ledger($p_array)
         {
-            extract ($p_array);
+            extract ($p_array, EXTR_SKIP);
             $bledger_param = json_encode(array(
                 'dossier' => $_REQUEST['gDossier'],
                 'type' => $type,

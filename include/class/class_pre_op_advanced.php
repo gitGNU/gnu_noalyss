@@ -39,7 +39,7 @@ class Pre_Op_Advanced extends Pre_operation_detail
     {
         parent::get_post();
 
-        extract($_POST);
+        extract($_POST, EXTR_SKIP);
 
         for ($i=0;$i<$this->operation->nb_item;$i++)
         {
@@ -162,7 +162,7 @@ class Pre_Op_Advanced extends Pre_operation_detail
         $legder->nb=$legder->get_min_row();
 
         if ($p_array != null)
-                extract($p_array);
+                extract($p_array, EXTR_SKIP);
         $add_js = "";
        
         $ret = "";

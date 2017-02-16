@@ -37,7 +37,7 @@ $gDossier=dossier::id();
 $cn=Dossier::connect();
 
 $export=new Noalyss_Csv(_('grandlivre'));
-extract($_GET);
+extract($_GET, EXTR_SKIP);
 $export->send_header();
 if ( isset($poste_id) && strlen(trim($poste_id)) != 0 && isNumber($poste_id) )
 {

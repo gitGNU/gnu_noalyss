@@ -835,13 +835,13 @@ class Document
              *  - [DATE_LIMIT]
              */
         case 'DATE_LIMIT_CALC':
-            extract ($p_array);
+            extract ($p_array, EXTR_SKIP);
             $id='e_ech' ;
             if ( !isset (${$id}) ) return "";
             $r=format_date(${$id},'DD.MM.YYYY','YYYY-MM-DD');
             break;
       case 'DATE_LIMIT':
-            extract ($p_array);
+            extract ($p_array, EXTR_SKIP);
             $id='e_ech' ;
             if ( !isset (${$id}) ) return "";
             $r=${$id};
@@ -852,7 +852,7 @@ class Document
             break;
 
         case 'VEN_ART_NAME':
-            extract ($p_array);
+            extract ($p_array, EXTR_SKIP);
             $id='e_march'.$this->counter;
             // check if the march exists
             if ( ! isset (${$id})) return "";
@@ -866,7 +866,7 @@ class Document
             else $r = "";
             break;
        case 'VEN_ART_LABEL':
-            extract ($p_array);
+            extract ($p_array, EXTR_SKIP);
             $id='e_march'.$this->counter."_label";
             // check if the march exists
 
@@ -892,7 +892,7 @@ class Document
                     $r=${'e_march'.$this->counter.'_label'};
             break;
         case 'VEN_ART_STOCK_CODE':
-            extract ($p_array);
+            extract ($p_array, EXTR_SKIP);
                     $id = 'e_march' . $this->counter;
                     // check if the march exists
                     if (!isset(${$id}))
@@ -910,7 +910,7 @@ class Document
                     }
             break;
         case 'VEN_ART_PRICE':
-            extract ($p_array);
+            extract ($p_array, EXTR_SKIP);
             $id='e_march'.$this->counter.'_price' ;
             if ( !isset (${$id}) ) return "";
 			if (${$id} == 0 ) return "";
@@ -919,7 +919,7 @@ class Document
 
         case 'TVA_RATE':
         case 'VEN_ART_TVA_RATE':
-            extract ($p_array);
+            extract ($p_array, EXTR_SKIP);
             $id='e_march'.$this->counter.'_tva_id';
             if ( !isset (${$id}) ) return "";
             if ( ${$id} == -1 || ${$id}=='' ) return "";
@@ -933,7 +933,7 @@ class Document
 
         case 'TVA_CODE':
         case 'VEN_ART_TVA_CODE':
-            extract ($p_array);
+            extract ($p_array, EXTR_SKIP);
             $id='e_march'.$this->counter.'_tva_id';
             if ( !isset (${$id}) ) return "";
             if ( ${$id} == -1 ) return "";
@@ -948,7 +948,7 @@ class Document
             break;
 
         case 'TVA_LABEL':
-            extract ($p_array);
+            extract ($p_array, EXTR_SKIP);
             $id='e_march'.$this->counter.'_tva_id';
             if ( !isset (${$id}) ) return "";
             $march_id='e_march'.$this->counter.'_price' ;
@@ -963,7 +963,7 @@ class Document
             /* total VAT for one sold */
         case 'TVA_AMOUNT':
         case 'VEN_TVA':
-            extract ($p_array);
+            extract ($p_array, EXTR_SKIP);
             $qt='e_quant'.$this->counter;
             $price='e_march'.$this->counter.'_price' ;
             $tva='e_march'.$this->counter.'_tva_id';
@@ -980,7 +980,7 @@ class Document
             /* TVA automatically computed */
         case 'VEN_ART_TVA':
         
-            extract ($p_array);
+            extract ($p_array, EXTR_SKIP);
             $qt='e_quant'.$this->counter;
             $price='e_march'.$this->counter.'_price' ;
             $tva='e_march'.$this->counter.'_tva_id';
@@ -997,7 +997,7 @@ class Document
             break;
 
         case 'VEN_ART_TVAC':
-            extract ($p_array);
+            extract ($p_array, EXTR_SKIP);
             $qt='e_quant'.$this->counter;
             $price='e_march'.$this->counter.'_price' ;
             $tva='e_march'.$this->counter.'_tva_id';
@@ -1021,7 +1021,7 @@ class Document
             break;
 
         case 'VEN_ART_QUANT':
-            extract ($p_array);
+            extract ($p_array, EXTR_SKIP);
             $id='e_quant'.$this->counter;
             if ( !isset (${$id}) ) return "";
             // check that something is sold
@@ -1034,7 +1034,7 @@ class Document
             break;
 
         case 'VEN_HTVA':
-            extract ($p_array);
+            extract ($p_array, EXTR_SKIP);
             $id='e_march'.$this->counter.'_price' ;
             $quant='e_quant'.$this->counter;
             if ( !isset (${$id}) ) return "";
@@ -1050,7 +1050,7 @@ class Document
             break;
 
         case 'VEN_TVAC':
-            extract ($p_array);
+            extract ($p_array, EXTR_SKIP);
             $id='e_march'.$this->counter.'_tva_amount' ;
             $price='e_march'.$this->counter.'_price' ;
             $quant='e_quant'.$this->counter;
@@ -1070,7 +1070,7 @@ class Document
             break;
 
         case 'TOTAL_VEN_HTVA':
-            extract($p_array);
+            extract($p_array, EXTR_SKIP);
 			bcscale(4);
             $sum=0.0;
             for ($i=0;$i<$nb_item;$i++)
@@ -1092,7 +1092,7 @@ class Document
             $r=round($sum,2);
             break;
         case 'TOTAL_VEN_TVAC':
-            extract($p_array);
+            extract($p_array, EXTR_SKIP);
             $sum=0.0;
 			bcscale(4);
             for ($i=0;$i<$nb_item;$i++)
@@ -1114,7 +1114,7 @@ class Document
 
             break;
         case 'TOTAL_TVA':
-            extract($p_array);
+            extract($p_array, EXTR_SKIP);
             $sum=0.0;
             for ($i=0;$i<$nb_item;$i++)
             {

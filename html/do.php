@@ -70,7 +70,7 @@ if ( ! $cn->exist_table('version')) {
  */
 if ( isset ($_POST['set_preference'])) {
     //// Save value
-    extract($_POST);
+    extract($_POST, EXTR_SKIP );
 
     if (strlen(trim($pass_1)) != 0 && strlen(trim($pass_2)) != 0)
     {

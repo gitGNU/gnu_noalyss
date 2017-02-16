@@ -53,7 +53,7 @@ class Stock_Goods extends Stock_Goods_Sql
 
 		if ($p_array != null)
 		{
-			extract($p_array);
+			extract($p_array, EXTR_SKIP);
 		}
 		else
 		{
@@ -179,7 +179,7 @@ class Stock_Goods extends Stock_Goods_Sql
         static function insert_goods(&$p_cn,$p_array)
         {
             global $g_user;
-			extract ($p_array);
+			extract ($p_array, EXTR_SKIP);
             if ($g_user->can_write_repo($repo) == false)
                 return false;
 

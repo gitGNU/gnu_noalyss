@@ -657,7 +657,7 @@ $order
      */
     function save_order($p_array)
     {
-        extract($p_array);
+        extract($p_array, EXTR_SKIP);
         $this->GetAttribut();
         foreach ($this->attribut as $row)
         {

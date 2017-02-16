@@ -1846,7 +1846,7 @@ class Fiche
     function build_sql($array)
     {
         if (!empty($array))
-            extract($array);
+            extract($array, EXTR_SKIP);
         $and='';
         $filter_fd_id='true';
         $filter_query='';

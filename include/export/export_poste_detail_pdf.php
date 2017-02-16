@@ -36,7 +36,7 @@ $gDossier=dossier::id();
 
 /* Security */
 $cn=Dossier::connect();
-extract($_GET);
+extract($_GET, EXTR_SKIP);
 
 if ( isset ( $poste_fille) )
 { //choisit de voir tous les postes

@@ -42,7 +42,7 @@ $g_user->check_dossier($gDossier);
 
 $sql="select pcm_val from tmp_pcmn ";
 
-extract($_GET);
+extract($_GET, EXTR_SKIP);
 $cond_poste="";
 if ($from_poste != '')
   {

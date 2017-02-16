@@ -75,7 +75,7 @@ class  Acc_Report_Row
      */
     public function from_array($p_array)
     {
-        extract ($p_array);
+        extract ($p_array, EXTR_SKIP);
         $ret=array();
         $ix=0;
         $found=0;

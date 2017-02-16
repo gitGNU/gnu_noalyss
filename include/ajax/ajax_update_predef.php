@@ -34,7 +34,7 @@ require_once NOALYSS_INCLUDE.'/class/class_dossier.php';
 require_once NOALYSS_INCLUDE.'/class/class_pre_operation.php';
 
 // Check if the needed field does exist
-extract ($_GET);
+extract ($_GET, EXTR_SKIP);
 foreach (array('l','t','d','gDossier') as $a)
 {
     if ( ! isset (${$a}) )

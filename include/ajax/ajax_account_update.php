@@ -49,7 +49,7 @@ for ($i=0; $i<count($var); $i++)
         throw new Exception($name." is not set");
 }
 $ctl='ok';
-extract($_GET);
+extract($_GET,, EXTR_SKIP);
 //----------------------------------------------------------------------
 // Modification
 //----------------------------------------------------------------------

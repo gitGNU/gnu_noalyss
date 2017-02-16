@@ -536,7 +536,7 @@ class Anc_Operation
     function display_form_plan($p_array,$p_null,$p_mode,$p_seq,$p_amount,$p_id='',$p_add_button=true)
     {
         if ( $p_array != null)
-            extract ($p_array);
+            extract ($p_array, EXTR_SKIP);
         $result="";
         $plan=new Anc_Plan($this->db);
         $a_plan=$plan->get_list(" order by pa_id ");
@@ -660,7 +660,7 @@ class Anc_Operation
     function save_form_plan_vat_nd($p_array,$p_item,$p_j_id,$p_nd)
     {
         bcscale(4);
-        extract($p_array);
+        extract($p_array, EXTR_SKIP);
 	if (! isset ($hplan) ) return;
         
         if ( ! isset(${'amount_t'.$p_item}) )
@@ -746,7 +746,7 @@ class Anc_Operation
      */
     function save_form_plan($p_array,$p_item,$p_j_id)
     {
-        extract($p_array);
+        extract($p_array, EXTR_SKIP);
 	if (! isset ($hplan) ) return;
         /* variable for in array
            pa_id array of existing pa_id
@@ -799,7 +799,7 @@ class Anc_Operation
     */
     function save_update_form($p_array)
     {
-        extract($p_array);
+        extract($p_array, EXTR_SKIP);
         if ( ! isset($opanc)) return;
         for ($i = 0; $i < count($opanc); $i++)
         {

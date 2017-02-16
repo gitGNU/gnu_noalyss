@@ -72,7 +72,7 @@ function config_file_form($p_array=null)
         $cadmin='admin';
 
     }
-    else extract ($p_array);
+    else extract ($p_array, EXTR_SKIP);
 
     $ictmp=new IText('ctmp',$ctmp);
     $ictmp->size=25;
@@ -115,7 +115,7 @@ function config_file_form($p_array=null)
  */
 function display_file_config($p_array,$from_setup=1,$p_os=1) 
 {
-    extract($p_array);
+    extract($p_array, EXTR_SKIP);
     print ('<?php ');
     print ("\r\n");
     print ( 'date_default_timezone_set (\'Europe/Brussels\');');
@@ -234,7 +234,7 @@ function display_file_config($p_array,$from_setup=1,$p_os=1)
  */
 function config_file_create($p_array,$from_setup,$p_os=1)
 {
-    extract ($p_array);
+    extract ($p_array, EXTR_SKIP);
     $hFile=  fopen(NOALYSS_INCLUDE.'/config.inc.php','w');
     ob_start();
     display_file_config($p_array,$from_setup,$p_os);

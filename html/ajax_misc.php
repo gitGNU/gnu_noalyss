@@ -59,7 +59,7 @@ foreach ($var as $v)
 }
 if ($cont != 0)
 	exit();
-extract($_REQUEST);
+extract($_REQUEST, EXTR_SKIP );
 if ( isset($div)) ajax_disconnected($div);
 global $g_user, $cn, $g_parameter;
 //

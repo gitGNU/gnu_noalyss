@@ -32,7 +32,7 @@ $gDossier=dossier::id();
 // confirm mod
 if ( isset( $_POST['confirm_mod'] ) )
 {
-    extract($_POST);
+    extract($_POST, EXTR_SKIP);
     $update=new Acc_Parm_Code($cn,$p_code);
     $update->p_comment=$p_comment;
     $update->p_value=$p_value;

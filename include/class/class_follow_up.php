@@ -1294,7 +1294,7 @@ class Follow_Up
         if ($p_array==null)
             $p_array=$_GET;
 
-        extract($p_array);
+        extract($p_array, EXTR_SKIP);
         $query="";
         if (count($searchtag)==0)
             return "";
@@ -1317,7 +1317,7 @@ class Follow_Up
         if ($p_array==null)
             $p_array=$_GET;
 
-        extract($p_array);
+        extract($p_array, EXTR_SKIP);
         $action_query="";
 
 
@@ -1463,7 +1463,7 @@ class Follow_Up
      */
     function export_csv($p_array)
     {
-        extract($p_array);
+        extract($p_array, EXTR_SKIP);
 
 
         $p_search=self::create_query($this->db, $p_array);

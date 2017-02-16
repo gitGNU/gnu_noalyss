@@ -41,7 +41,7 @@ $both_side=(isset($_REQUEST['both']))?1:0;
 if (isset($_POST['confirm_mod'])
 	|| isset($_POST['confirm_add']))
 {
-    extract($_POST);
+    extract($_POST, EXTR_SKIP);
     // remove space
     $tva_poste = str_replace(" ", "", $tva_poste);
     $err = 0; // Error code

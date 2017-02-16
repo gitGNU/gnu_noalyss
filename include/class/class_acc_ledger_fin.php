@@ -64,7 +64,7 @@ class Acc_Ledger_Fin extends Acc_Ledger
                 check_parameter($p_array,'p_jrn');
 
                 
-		extract($p_array);
+		extract($p_array, EXTR_SKIP);
 		/* check for a double reload */
 		if (isset($mt) && $this->db->count_sql('select jr_mt from jrn where jr_mt=$1', array($mt)) != 0)
 			throw new Exception(_('Double Encodage'), 5);
@@ -242,7 +242,7 @@ class Acc_Ledger_Fin extends Acc_Ledger
 	{
 		global $g_parameter, $g_user;
 		if ($p_array != null)
-			extract($p_array);
+			extract($p_array, EXTR_SKIP);
 
 		$pview_only = false;
 
@@ -460,7 +460,7 @@ class Acc_Ledger_Fin extends Acc_Ledger
 		global $g_parameter,$g_user;
 		$r = "";
 		bcscale(2);
-		extract($p_array);
+		extract($p_array, EXTR_SKIP);
 		$pPeriode = new Periode($this->db);
 		if ($this->check_periode() == true)
 		{
@@ -689,7 +689,7 @@ class Acc_Ledger_Fin extends Acc_Ledger
 		bcscale(2);
 		$internal_code = "";
 		$oid = 0;
-		extract($p_array);
+		extract($p_array, EXTR_SKIP);
 		$ret = '';
 		// Debit = banque
 		$bank_id = $this->get_bank();

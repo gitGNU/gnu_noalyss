@@ -29,7 +29,7 @@ require_once NOALYSS_INCLUDE.'/class/class_own.php';
 if (isset($_POST['record_company']))
 {
 	$m = new Own($cn);
-	extract($_POST);
+	extract($_POST, EXTR_SKIP);
 	$m->MY_NAME = $p_name;
 	$m->MY_TVA = $p_tva;
 	$m->MY_STREET = $p_street;

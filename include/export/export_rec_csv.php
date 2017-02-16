@@ -23,7 +23,7 @@ foreach (array('choice','p_end','p_start') as $arg)
         die ("argument [".$arg."] is missing");
     }
 }
-extract($_GET);
+extract($_GET, EXTR_SKIP);
 $r_jrn=(isset($r_jrn))?$r_jrn:'';
 // -------------------------
 // Create object and export

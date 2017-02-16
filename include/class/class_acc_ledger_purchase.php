@@ -69,7 +69,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
          */
         check_parameter($p_array,'p_jrn,e_date,e_client');
 
-        extract ($p_array);
+        extract ($p_array, EXTR_SKIP);
         /* check if we can write into this ledger */
         if ( $g_user->check_jrn($p_jrn) != 'W' )
             throw new Exception (_('Accès interdit'),20);
@@ -484,7 +484,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
     public function insert($p_array=null)
     {
         global $g_parameter;
-        extract ($p_array);
+        extract ($p_array, EXTR_SKIP);
         $this->verify($p_array) ;
 
         $group=$this->db->get_next_seq("s_oa_group"); /* for analytic */
@@ -961,7 +961,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
     public function input($p_array=null,$p_readonly=0)
     {
         global $g_parameter,$g_user;
-        if ( $p_array != null ) extract($p_array);
+        if ( $p_array != null ) extract($p_array, EXTR_SKIP);
 
         $flag_tva=$g_parameter->MY_TVA_USE;
         /* Add button */

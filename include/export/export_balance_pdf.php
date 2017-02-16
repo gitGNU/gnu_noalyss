@@ -45,7 +45,7 @@ $g_user->Check();
 
 $bal=new Acc_Balance($cn);
 
-extract ($_GET);
+extract ($_GET, EXTR_SKIP);
 $bal->jrn=null;
 switch( $_GET['p_filter'])
 {

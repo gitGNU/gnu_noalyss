@@ -37,7 +37,7 @@ $gDossier=dossier::id();
 
 $cn=Dossier::connect();
 
-extract($_GET);
+extract($_GET, EXTR_SKIP);
 $ret="";
 $Form=new Acc_Report($cn,$form_id);
 $Libelle=sprintf("%s ",$Form->get_name());

@@ -68,7 +68,7 @@ class Acc_Ledger_Sold extends Acc_Ledger {
         if (is_array($p_array ) == false || empty($p_array))
                     throw new Exception ("Array empty");
         
-        extract($p_array);
+        extract($p_array, EXTR_SKIP);
         
         /*
          * Check needed value
@@ -232,7 +232,7 @@ class Acc_Ledger_Sold extends Acc_Ledger {
 
     public function insert($p_array = null) {
         global $g_parameter;
-        extract($p_array);
+        extract($p_array, EXTR_SKIP);
         $this->verify($p_array);
 
         $group = $this->db->get_next_seq("s_oa_group"); /* for analytic */
@@ -607,7 +607,7 @@ class Acc_Ledger_Sold extends Acc_Ledger {
 
     function confirm($p_array, $p_summary = false) {
         global $g_parameter;
-        extract($p_array);
+        extract($p_array, EXTR_SKIP);
 
         // don't need to verify for a summary
         if (!$p_summary)
@@ -1003,7 +1003,7 @@ EOF;
     function input($p_array = null, $p_readonly = 0) {
         global $g_parameter, $g_user;
         if ($p_array != null)
-            extract($p_array);
+            extract($p_array, EXTR_SKIP);
 
         $flag_tva = $g_parameter->MY_TVA_USE;
         /* Add button */

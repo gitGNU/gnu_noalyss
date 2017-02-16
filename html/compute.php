@@ -38,7 +38,7 @@ require_once  NOALYSS_INCLUDE.'/class/class_acc_tva.php';
 require_once  NOALYSS_INCLUDE.'/class/class_user.php';
 
 // Check if the needed field does exist
-extract ($_GET);
+extract ($_GET, EXTR_SKIP );
 foreach (array('t','c','p','q','n','gDossier') as $a)
 {
     if ( ! isset (${$a}) )

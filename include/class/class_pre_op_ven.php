@@ -166,7 +166,7 @@ class Pre_op_ven extends Pre_operation_detail
     function display($p_array)
     {
         global $g_parameter,$g_user;
-        if ( $p_array != null ) extract($p_array);
+        if ( $p_array != null ) extract($p_array, EXTR_SKIP);
         require_once NOALYSS_INCLUDE.'/class/class_acc_ledger_sold.php';
         $ledger=new Acc_Ledger_Sold($this->db,$this->jrn_def_id);
 

@@ -38,7 +38,7 @@ if ($choose=='Valider') $choose='yes';
 
 if ( isset ($_POST["add_per"] ))
 {
-    extract($_POST);
+    extract($_POST, EXTR_SKIP);
     $obj=new Periode($cn);
     if ( $obj->insert($p_date_start,$p_date_end,$p_exercice) == 1 )
     {

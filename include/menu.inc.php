@@ -38,7 +38,7 @@ echo '<div class="content">';
  */
 if ( isset($_POST['save_plugin']))
 {
-	extract($_POST);
+	extract($_POST, EXTR_SKIP);
 	$plugin=new Extension($cn);
 	$plugin->me_code=$me_code;
 	$plugin->me_menu=$me_menu;
@@ -52,7 +52,7 @@ if ( isset($_POST['save_plugin']))
  */
 if (isset($_POST['mod_plugin']))
 {
-	extract ($_POST);
+	extract ($_POST, EXTR_SKIP);
 	$plugin=new Extension($cn);
 	$plugin->me_code=strtoupper($me_code);
 	$plugin->me_menu=$me_menu;
@@ -73,7 +73,7 @@ if (isset($_POST['mod_plugin']))
  */
 if ( isset($_POST['create_menu'])|| isset($_POST['modify_menu']))
 {
-	extract($_POST);
+	extract($_POST, EXTR_SKIP);
 	$menu_ref=new Menu_Ref($cn);
 	$menu_ref->me_code=strtoupper($me_code);
 	$menu_ref->me_menu=$me_menu;

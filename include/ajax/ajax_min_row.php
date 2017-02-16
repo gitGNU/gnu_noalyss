@@ -28,7 +28,7 @@
 if ( ! defined ('ALLOWED') ) die('Appel direct ne sont pas permis');
 require_once NOALYSS_INCLUDE.'/class/class_user.php';
 require_once NOALYSS_INCLUDE.'/class/class_dossier.php';
-extract($_GET);
+extract($_GET, EXTR_SKIP);
 /* check the parameters */
 foreach ( array('j','ctl') as $a )
 {

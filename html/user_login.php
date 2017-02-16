@@ -104,17 +104,23 @@ $priv=($User->admin==1)?_("Administrateur"):_("Utilisateur");
 load_all_script();
 if ( isset ($_POST['set_preference'])) {
     //// Save value
-    extract($_POST);
-
+    $pass_1=HtmlInput::default_value_post("pass_1", "");
+    $pass_2=HtmlInput::default_value_post("pass_2", "");
+    $style_user=HtmlInput::default_value_post("style_user", "");
+    $lang=HtmlInput::default_value_post("lang", "");
     if (strlen(trim($pass_1)) != 0 && strlen(trim($pass_2)) != 0)
     {
 	$User->save_password($pass_1,$pass_2);
         
     }
-    $User->save_global_preference('THEME', $style_user);
-    $User->save_global_preference('LANG', $lang);
-    $_SESSION['g_theme']=$style_user;
-    $_SESSION['g_lang']=$lang;
+    if (trim($style_user) != "") {
+        $User->save_global_preference('THEME',$style_user);
+        $_SESSION['g_theme']=$style_user;   
+    }
+    if (trim($lang) != "") {
+        $User->save_global_preference('LANG', $lang);
+        $_SESSION['g_lang']=$lang;
+    }
     $User->load();
     $User->save_email($p_email);
 }

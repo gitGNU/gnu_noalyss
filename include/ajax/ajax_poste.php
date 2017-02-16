@@ -41,7 +41,7 @@ require_once NOALYSS_INCLUDE.'/lib/function_javascript.php';
 require_once NOALYSS_INCLUDE.'/class/class_acc_account_ledger.php';
 mb_internal_encoding("UTF-8");
 
-extract($_REQUEST);
+extract($_REQUEST, EXTR_SKIP);
 
 if  ($g_user->check_dossier(dossier::id()) == 'X') exit();
 

@@ -163,9 +163,9 @@ class Pre_op_ach extends Pre_operation_detail
    {
         require_once NOALYSS_INCLUDE.'/class/class_acc_ledger_purchase.php';
        global $g_parameter,$g_user;
-       extract($p_array);
+       extract($p_array, EXTR_SKIP);
        $ledger=new Acc_Ledger_Purchase($this->db,$this->jrn_def_id);
-        if ( $p_array != null ) extract($p_array);
+        if ( $p_array != null ) extract($p_array, EXTR_SKIP);
 
         $flag_tva=$g_parameter->MY_TVA_USE;
         /* Add button */

@@ -76,7 +76,7 @@ foreach ($var as $v)
         $cont=1;
     }
 }
-extract($_REQUEST );
+extract($_REQUEST, EXTR_SKIP );
 
 if ( $cont != 0 ) exit();
 
@@ -148,7 +148,7 @@ case 'dc':
 
 	    if ($can_modify==1)
 	      {
-		$html.='<form id="form_'.$ctl.'"method="get" onsubmit="update_card(this);return false;">';
+		$html.='<form id="form_'.$ctl.'" method="get" onsubmit="update_card(this);return false;">';
 		$html.=dossier::hidden();
 		$html.=HtmlInput::hidden('f_id',$f->id);
 		$html.=HtmlInput::hidden('ctl',$ctl);

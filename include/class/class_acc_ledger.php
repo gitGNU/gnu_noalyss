@@ -79,6 +79,10 @@ class Acc_Ledger extends jrn_def_sql
 
 	function get_last_pj()
 	{
+            if (isNumber($this->id) == 0) {
+                throw new Exception(_("Paramètre invalide"));
+                return;
+            }
 		if ($this->db->exist_sequence("s_jrn_pj" . $this->id))
 		{
 			$ret = $this->db->get_array("select last_value,is_called from s_jrn_pj" . $this->id);
@@ -1418,7 +1422,7 @@ class Acc_Ledger extends jrn_def_sql
 		if (empty($p_array))
 			return 'Aucun r&eacute;sultat';
 		$anc = null;
-		extract($p_array);
+		extract($p_array, EXTR_SKIP);
 		$lPeriode = new Periode($this->db);
 		if ($this->check_periode() == true)
 		{
@@ -1587,7 +1591,7 @@ class Acc_Ledger extends jrn_def_sql
 			return $this->confirm($p_array);
 
 		if ($p_array != null)
-			extract($p_array);
+			extract($p_array, EXTR_SKIP);
 		$add_js = "";
 		if ($g_parameter->MY_PJ_SUGGEST == 'Y')
 		{
@@ -1844,7 +1848,7 @@ class Acc_Ledger extends jrn_def_sql
          */
         check_parameter($p_array,'p_jrn,e_date');
         
-		extract($p_array);
+		extract($p_array, EXTR_SKIP);
 		global $g_user;
 		$tot_cred = 0;
 		$tot_deb = 0;
@@ -2000,7 +2004,7 @@ class Acc_Ledger extends jrn_def_sql
 		if ($p_array == null)
 			throw new Exception('save cannot use a empty array');
 		global $g_parameter;
-		extract($p_array);
+		extract($p_array, EXTR_SKIP);
 		try
 		{
 			$msg = $this->verify($p_array);
@@ -2443,7 +2447,7 @@ class Acc_Ledger extends jrn_def_sql
 
 	function create_document($internal, $p_array)
 	{
-		extract($p_array);
+		extract($p_array, EXTR_SKIP);
 		$doc = new Document($this->db);
 		$doc->f_id = $e_client;
 		$doc->md_id = $gen_doc;
@@ -2738,7 +2742,7 @@ class Acc_Ledger extends jrn_def_sql
              join parm_periode on p_id=jr_tech_per";
 
 		if (!empty($p_array))
-			extract($p_array);
+			extract($p_array, EXTR_SKIP);
 
                 if (isset($op) ) 
                     $r_jrn = (isset(${$op."r_jrn"})) ? ${$op."r_jrn"} : -1;
@@ -3555,7 +3559,7 @@ class Acc_Ledger extends jrn_def_sql
 	 */
 	function verify_ledger($array)
 	{
-		extract($array);
+		extract($array, EXTR_SKIP);
 		try
 		{
 			if (isNumber($p_jrn) == 0)
@@ -3593,7 +3597,7 @@ class Acc_Ledger extends jrn_def_sql
 		if ($array == null)
 			throw new Exception('save cannot use a empty array');
 
-		extract($array);
+		extract($array, EXTR_SKIP);
 		$this->jrn_def_id = $p_jrn;
 		$this->jrn_def_name = $p_jrn_name;
 		$this->jrn_def_ech_lib = $p_ech_lib;
@@ -3755,7 +3759,7 @@ class Acc_Ledger extends jrn_def_sql
 	function save_new($array)
 	{
 		$this->load();
-		extract($array);
+		extract($array, EXTR_SKIP);
 		$this->jrn_def_id = -1;
 		$this->jrn_def_name = $p_jrn_name;
 		$this->jrn_def_ech_lib = $p_ech_lib;

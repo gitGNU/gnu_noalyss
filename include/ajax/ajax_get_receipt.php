@@ -36,7 +36,7 @@ require_once NOALYSS_INCLUDE.'/class/class_acc_ledger.php';
 require_once NOALYSS_INCLUDE.'/class/class_user.php';
 
 // Check if the needed field does exist
-extract ($_GET);
+extract ($_GET, EXTR_SKIP);
 foreach (array('l','gDossier') as $a)
 {
     if ( ! isset (${$a}) )
