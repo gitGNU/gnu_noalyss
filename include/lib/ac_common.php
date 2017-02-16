@@ -566,6 +566,11 @@ function getPeriodeName($p_cn, $p_id, $pos='p_start')
         echo_error('lib/ac_common.php' . "-" . __LINE__ . '  UNDEFINED PERIODE');
         throw new Exception(_("paramètre invalide"));
     }
+    if ( isNumber($p_id) == 0 )
+	{
+	throw new Exception("Paramètre invalide");
+	return;
+	}
     $ret = $p_cn->get_value("select to_char($pos,'Mon YYYY') as t from parm_periode where p_id=$1", 
            array( $p_id));
     return $ret;
