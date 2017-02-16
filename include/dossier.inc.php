@@ -390,14 +390,14 @@ if ( $sa == 'remove' && isNumber($dossier_id) == 1 && $dossier_id != -1 )
     /**
      * Check if db exists
      */
-    $str_name=domaine.'dossier'.$dossier_id;
+    $str_name=sql_string(domaine.'dossier'.$dossier_id);
     
     $database_exist=$cn->exist_database($str_name);
     
     // if db exists for postgres then drop it
     if ( $database_exist  == 1)
     {
-        $sql="drop database ".domaine."dossier".sql_string($_REQUEST['d']);
+        $sql="drop database ".$str_name;
         ob_start();
         if ( $cn->exec_sql($sql)==false)
         {
