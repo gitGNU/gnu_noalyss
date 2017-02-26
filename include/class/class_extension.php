@@ -104,12 +104,13 @@ class Extension extends Menu_Ref_sql
      * of the module $p_module
      * @remark type $cn
      * @param type $p_id profile.p_id
-     * @param type $p_module menu_ref.me_code
      * @throws Exception 10 : profile absent , 20 module absent , 30 No parent menu
      */
-    function insert_profile_menu($p_id=1,$p_module='EXT')
+    function insert_profile_menu($p_id=1)
     {
         global $cn;
+        // Module for the plugin
+        $p_module=$this->depend;
         //profile exists ?
         $profile=new Profile_sql($cn,$p_id);
         if ( $profile->p_id != $p_id) {
@@ -121,25 +122,32 @@ class Extension extends Menu_Ref_sql
                 throw new Exception(_('Module inexistant'),20);
         }
         // Dependency
-        $dep_id=$cn->get_value('select pm_id from profile_menu 
+        $dep_id=$cn->get_array('select pm_id from profile_menu 
                 where
                 p_id=$1
                 and me_code = $2 ',array($p_id,$p_module));
         // throw an exception if there is no dependency
-        if ($dep_id=="") {
+        if (empty($dep_id)) {
                 throw new Exception(_('Pas de menu ').$p_module,30);
         }
+        $nb_dep=count($dep_id);
         
-        $profil_menu=new Profile_Menu($cn);
-        $profil_menu->me_code=$this->me_code;
-        $profil_menu->me_code_dep=$p_module;
-        $profil_menu->p_type_display='S';
-        $profil_menu->p_id=$p_id;
-        $profil_menu->pm_id_dep=$dep_id;
-        
-        $cnt=$profil_menu->count(' where p_id=$1 and me_code = $2',array($p_id,$this->me_code));
-        if ( $cnt==0) {
-            $profil_menu->insert();
+        // insert at the right location
+        for ($i=0;$i<$nb_dep;$i++)
+        {
+            $profil_menu=new Profile_Menu($cn);
+            $profil_menu->me_code=$this->me_code;
+            $profil_menu->me_code_dep=$p_module;
+            $profil_menu->p_type_display='S';
+            $profil_menu->p_id=$p_id;
+            $profil_menu->pm_id_dep=$dep_id[$i]['pm_id'];
+            $profil_menu->pm_default=0;
+            $profil_menu->p_order=9000;
+
+            $cnt=$profil_menu->count(' where p_id=$1 and me_code = $2',array($p_id,$this->me_code));
+            if ( $cnt==0) {
+                $profil_menu->insert();
+            }
         }
 
         
@@ -262,6 +270,7 @@ class Extension extends Menu_Ref_sql
                     if ( !isset ($xml->plugin[$i]->author)) throw new Exception(_('Manque auteur'),0);
                     if ( !isset ($xml->plugin[$i]->root)) throw new Exception(_('Manque répertoire racine'),1);
                     if ( !isset ($xml->plugin[$i]->file)) throw new Exception(_('Manque fichier à inclure'),1);
+                    if ( !isset ($xml->plugin[$i]->depend)) $xml->plugin[$i]->depend="EXT";
                 }
             } catch (Exception $ex) {
                 throw $ex;
@@ -301,6 +310,7 @@ class Extension extends Menu_Ref_sql
                 $extension->me_type='PL';
                 $extension->me_menu=trim($xml->plugin[$i]->name);
                 $extension->me_parameter='plugin_code='.trim($xml->plugin[$i]->code);
+                $extension->depend=(isset($xml->plugin[$i]->depend))?trim($xml->plugin[$i]->depend):"";
                 $a_extension[]=clone $extension;
             }
             return $a_extension;

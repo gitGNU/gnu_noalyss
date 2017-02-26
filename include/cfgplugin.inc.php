@@ -78,7 +78,7 @@ if ( isset ($_POST['save_plugin'])){
                 }
                 try
                 {
-                    $a_plugin[$i]->insert_profile_menu($profile,'EXT');
+                    $a_plugin[$i]->insert_profile_menu($profile);
                 }
                 catch (Exception $exc)
                 {
@@ -134,7 +134,12 @@ if ( isset ($_POST['save_plugin'])){
                 <?php echo h($a_plugin[$e]->me_menu); ?>
             </td>
             <td>
-                <?php echo h($a_plugin[$e]->me_description); ?>
+                <?php echo h($a_plugin[$e]->me_description);?>
+                <span style="display:block">
+                <?php 
+                    printf(_("Installé par défaut dans %s"),$a_plugin[$e]->depend);
+                ?>
+                </span>
             </td>
             <td>
                 <?php echo h($a_plugin[$e]->me_file); ?>
