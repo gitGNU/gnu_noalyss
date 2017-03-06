@@ -709,7 +709,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
             $acc_operation=new Acc_Operation($this->db);
             $acc_operation->date=$e_date;
             $acc_operation->poste=$poste;
-            $acc_operation->amount=$cust_amount-$tot_tva_reversed;
+            $acc_operation->amount=bcsub($cust_amount,$tot_tva_reversed);
             $acc_operation->grpt=$seq;
             $acc_operation->jrn=$p_jrn;
             $acc_operation->type='c';
@@ -748,8 +748,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
                     if ( $oTva->get_parameter("both_side")==1)
                     {
                         $poste_vat=$oTva->get_side('c');
-                        $cust_amount=bcadd($tot_amount,$tot_tva);
-                        $cust_amount=bcsub($tot_amount,$tot_tva_reversed);
+                        
                         $acc_operation=new Acc_Operation($this->db);
                         $acc_operation->date=$e_date;
                         $acc_operation->poste=$poste_vat;
@@ -847,7 +846,8 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
                 {
                     $poste_val=$sposte;
                 }
-
+                // remove the VAT autoliquidation
+                $cust_amount=bcsub($cust_amount, $tot_tva_reversed);
                 $famount=bcsub($cust_amount,$acompte);
                 $acc_pay->poste=$poste_val;
                 $acc_pay->qcode=$fqcode;
