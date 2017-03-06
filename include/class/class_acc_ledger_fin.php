@@ -756,7 +756,7 @@ class Acc_Ledger_Fin extends Acc_Ledger
 				if ($chdate == 2 && $get_solde )
 				{
 					$get_solde=false;
-					if ($this->check_periode() == true)
+					if ($this->check_periode() == true && isset($p_array['periode']))
 					{
 						$pPeriode->p_id = $periode;
 					}
@@ -765,7 +765,8 @@ class Acc_Ledger_Fin extends Acc_Ledger
 						$pPeriode->find_periode($e_date);
 					}
 					$exercice = $pPeriode->get_exercice();
-					$filter_year = "  j_tech_per in (select p_id from parm_periode where  p_exercice='" . $exercice . "')";
+					$filter_year = "  j_tech_per in (select p_id from parm_periode where  p_exercice='" . 
+                                                sql_string($exercice ). "')";
 					$solde = $acc_account->get_solde($filter_year);
 					$new_solde = $solde;
 				}

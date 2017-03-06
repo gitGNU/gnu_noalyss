@@ -1868,14 +1868,16 @@ class Acc_Ledger extends jrn_def_sql
 			throw new Exception('Date invalide', 2);
 		}
 		$periode = new Periode($this->db);
-		/* find the periode  if we have enabled the check_periode */
-		if ($this->check_periode() == false)
+		/* find the periode  if we have enabled the check_periode 
+                 * or if period is not set
+                 */
+		if ($this->check_periode() == false || ! isset ($p_array['period']) )
 		{
 			$periode->find_periode($e_date);
 		}
 		else
 		{
-			$periode->p_id = $period;
+			$periode->p_id = $p_array['period'];
 			list ($min, $max) = $periode->get_date_limit();
 			if (cmpDate($e_date, $min) < 0 ||
 					cmpDate($e_date, $max) > 0)
@@ -2023,7 +2025,7 @@ class Acc_Ledger extends jrn_def_sql
 			$tot_cred = 0;
 			$oPeriode = new Periode($this->db);
 			$check_periode = $this->check_periode();
-			if ($check_periode == false)
+			if ($check_periode == false || ! isset ($p_array['period']))
 			{
 				$oPeriode->find_periode($e_date);
 			}

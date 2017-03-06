@@ -89,7 +89,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
             throw new Exception(_('Date invalide'), 2);
         }
         $oPeriode=new Periode($this->db);
-        if ( $this->check_periode() == false)
+        if ( $this->check_periode() == false || ! isset($p_array['period']))
         {
             $tperiode=$oPeriode->find_periode($e_date);
         }
@@ -511,7 +511,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
         $oPeriode=new Periode($this->db);
         $check_periode=$this->check_periode();
 
-        if ( $check_periode == true )
+        if ( $check_periode == true && isset($p_array['period']) )
             $tperiode=$period;
         else
             $tperiode=$oPeriode->find_periode($e_date);

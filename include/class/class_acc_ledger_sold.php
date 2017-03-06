@@ -93,7 +93,7 @@ class Acc_Ledger_Sold extends Acc_Ledger {
         }
 
         $oPeriode = new Periode($this->db);
-        if ($this->check_periode() == true) {
+        if ($this->check_periode() == true && isset($p_array['period'])) {
             $tperiode = $period;
             /* check that the datum is in the choosen periode */
             $oPeriode->p_id = $period;
@@ -244,7 +244,7 @@ class Acc_Ledger_Sold extends Acc_Ledger {
         $oPeriode = new Periode($this->db);
         $check_periode = $this->check_periode();
 
-        if ($check_periode == true)
+        if ($check_periode == true && isset($p_array['period']))
             $tperiode = $period;
         else
             $tperiode = $oPeriode->find_periode($e_date);
