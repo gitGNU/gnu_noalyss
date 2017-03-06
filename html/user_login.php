@@ -108,6 +108,7 @@ if ( isset ($_POST['set_preference'])) {
     $pass_2=HtmlInput::default_value_post("pass_2", "");
     $style_user=HtmlInput::default_value_post("style_user", "");
     $lang=HtmlInput::default_value_post("lang", "");
+    $p_email=HtmlInput::default_value_post("email", "");
     if (strlen(trim($pass_1)) != 0 && strlen(trim($pass_2)) != 0)
     {
 	$User->save_password($pass_1,$pass_2);
