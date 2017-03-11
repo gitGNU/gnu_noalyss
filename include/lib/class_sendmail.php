@@ -36,6 +36,7 @@ class Sendmail
     private $message;
     private $from;
     private $content;
+    private $header;
 
     /**
      * set the from
@@ -104,6 +105,8 @@ class Sendmail
     function compose()
     {
         $this->verify();
+	$this->header="";
+	$this->content="";
 
         // a random hash will be necessary to send mixed content
         $separator = md5(time());
@@ -112,18 +115,18 @@ class Sendmail
         $eol = PHP_EOL;
 
         // main header (multipart mandatory)
-        $headers = "From: " . $this->from . $eol;
-        $headers .= "MIME-Version: 1.0" . $eol;
-        $headers .= "Content-Type: multipart/mixed; boundary=\"" . $separator . "\"" . $eol . $eol;
-        $headers .= "Content-Transfer-Encoding: 7bit" . $eol;
-        $headers .= "This is a MIME encoded message." . $eol . $eol;
-        $headers .= $eol . $eol;
+        $this->header = "From: " . $this->from . $eol;
+        $this->header .= "MIME-Version: 1.0" . $eol;
+        $this->header .= "Content-Type: multipart/mixed; boundary=\"" . $separator . "\""  ;
+        //$headers .= "Content-Transfer-Encoding: 7bit" . $eol;
+        //$headers .= "This is a MIME encoded message." . $eol ;
+        //$headers .= $eol . $eol;
 
         // message
-        $headers .= "--" . $separator . $eol;
-        $headers .= "Content-Type: text/plain; charset=\"utf-8\"" . $eol;
-        $headers .= "Content-Transfer-Encoding: 7bit" . $eol . $eol;
-        $headers .= $this->message . $eol . $eol;
+        $this->content .= "--" . $separator . $eol;
+        $this->content .= "Content-Type: text/plain; charset=\"utf-8\"" . $eol;
+        $this->content .= "Content-Transfer-Encoding: 7bit" . $eol.$eol ;
+        $this->content .= $this->message . $eol ;
 
         // attachment
         for ($i = 0; $i < count($this->afile); $i++)
@@ -134,15 +137,14 @@ class Sendmail
             $content = fread($handle, $file_size);
             fclose($handle);
             $content = chunk_split(base64_encode($content));
-            $headers .= "--" . $separator . $eol;
-            $headers .= "Content-Type: " . $file->type . "; name=\"" . $file->filename . "\"" . $eol;
-            $headers .= "Content-Disposition: attachment; filename=\"" . $file->filename . "\"" . $eol;
-            $headers .= "Content-Transfer-Encoding: base64" . $eol;
-            $headers.=$eol;
-            $headers .= $content . $eol . $eol;
+            $this->content .= "--" . $separator . $eol;
+            $this->content .= "Content-Type: " . $file->type . "; name=\"" . $file->filename . "\"" . $eol;
+            $this->content .= "Content-Disposition: attachment; filename=\"" . $file->filename . "\"" . $eol;
+            $this->content .= "Content-Transfer-Encoding: base64" . $eol;
+            $this->content.=$eol;
+            $this->content .= $content . $eol ;
         }
-        $headers .= "--" . $separator . "--";
-        $this->content = $headers;
+        $this->content .= "--" . $separator . "--";
     }
     /**
      * Send the message 
@@ -151,8 +153,8 @@ class Sendmail
     function send()
     {
         if ( $this->can_send() == false )            throw new Exception(_('Email non envoyé'),EMAIL_LIMIT);
-        //SEND Mail
-        if (!mail($this->mailto, $this->subject, "", $this->content))
+
+	if (!mail($this->mailto, $this->subject, $this->content,$this->header))
         {
             throw new Exception('send failed');
         }
