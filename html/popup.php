@@ -30,6 +30,17 @@ require_once NOALYSS_INCLUDE.'/class/class_periode.php';
 html_page_start($_SESSION['g_theme']);
 echo '<div style="float:left;">';
 global $g_user;
+/*
+ * Check if the user is still connected
+ */
+if ( $g_user == null || ! isset ($_SESSION['g_user'] ) )
+{
+    echo "<h2>"._('Vous  êtes déconnecté')."</h2>";
+    $backurl=$_SERVER['REQUEST_URI'];
+    $url="index.php?".http_build_query(array('reconnect'=>1,'backurl'=>urlencode($backurl)));
+    redirect($url);
+    exit();
+}
 $g_user->Check();
 $g_user->check_dossier(Dossier::id());
 
