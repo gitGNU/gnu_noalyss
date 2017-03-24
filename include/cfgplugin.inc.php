@@ -82,6 +82,7 @@ if ( isset ($_POST['save_plugin'])){
                 }
                 catch (Exception $exc)
                 {
+                    record_log($exc->getTraceAsString());
                     $profile_name=$cn->get_value('select profile.p_name from profile where p_id=$1'
                             ,array($profile));
                     echo '<p class="notice">';

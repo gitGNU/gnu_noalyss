@@ -255,7 +255,7 @@ if (isset($_REQUEST['ac']))
         }
         else {
             alert($e->getMessage());
-            error_log($e->getTraceAsString());
+            record_log($e->getTraceAsString());
         }
     }
 }
@@ -285,7 +285,7 @@ else
     catch (Exception $exc)
     {
         echo $exc->getMessage();
-        error_log($exc->getTraceAsString());
+        record_log($exc->getTraceAsString());
     }
     
 }

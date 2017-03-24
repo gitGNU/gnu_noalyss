@@ -56,6 +56,7 @@ if ( isset($_POST['save']))
     }
     catch (Exception $e)
     {
+        record_log($e->getTraceAsString());
       alert($e->getMessage());
         $cn->rollback();
     }

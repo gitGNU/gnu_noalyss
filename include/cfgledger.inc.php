@@ -54,6 +54,7 @@ if (  $action_frm == 'update')
                 $show_menu=1;
 	} catch (Exception $e)
 	{
+            record_log($e->getTraceAsString());
 		alert($e->getMessage());
 	}
 }
@@ -77,6 +78,7 @@ if ($action_frm == 'delete' )
 	}
 	catch (Exception $e)
 	{
+            record_log($e->getTraceAsString());
 		alert ($e->getMessage());
 	}
 
@@ -97,6 +99,7 @@ if (isset($_POST['add']))
 	}
 	catch (Exception $e)
 	{
+            record_log($e->getTraceAsString());
 		alert($e->getMessage());
 	}
 }
@@ -130,6 +133,7 @@ switch ($sa)
 		}
 		catch (Exception $e)
 		{
+                    record_log($e->getTraceAsString());
 			alert($e->getMessage());
 		}
 		break;

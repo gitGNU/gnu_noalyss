@@ -103,6 +103,7 @@ class Document_type
 		}
 		catch (Exception $e)
 		{
+                    record_log($e->getTraceAsString());
 			alert(j(_("Impossible d'ajouter [$p_value] ") . $e->getMessage()));
 		}
 	}
@@ -119,6 +120,7 @@ class Document_type
 		}
 		catch (Exception $e)
 		{
+                    record_log($e->getTraceAsString());
 			alert(" Erreur " . $e->getMessage());
 		}
 	}
@@ -131,6 +133,7 @@ class Document_type
 		}
 		catch (Exception $e)
 		{
+                    record_log($e->getTraceAsString());
 			alert("Erreur " . $e->getMessage());
 		}
 	}

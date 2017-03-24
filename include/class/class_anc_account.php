@@ -119,6 +119,7 @@ class Anc_Account
         }
         catch (Exception $e)
         {
+            record_log($e->getTraceAsString());
             if ( DEBUG ) print_r($e);
             echo "<p class=\"notice\">Doublon : l'enregistrement n'est pas sauve</p>";
         }
@@ -150,6 +151,7 @@ class Anc_Account
         }
         catch (Exception $e)
         {
+            record_log($e->getTraceAsString());
             echo "<p class=\"notice\">Doublon : l'enregistrement n'est pas sauve</p>";
         }
 

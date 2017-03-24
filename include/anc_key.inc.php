@@ -57,6 +57,7 @@ switch ($op)
             }
             catch (Exception $e)
             {
+                record_log($e->getTraceAsString());
                 echo span($e->getMessage(),' class="notice"');
             }
         }

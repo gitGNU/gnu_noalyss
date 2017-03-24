@@ -327,8 +327,9 @@ class Dossier
         }
         catch (Exception $e)
         {
+            
             echo_warning($e->getMessage());
-            error_log($e->getTraceAsString());
+            record_log($e->getTraceAsString());
             $cn->rollback();
         }
     }

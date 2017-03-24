@@ -103,6 +103,7 @@ class Pre_op_ach extends Pre_operation_detail
         }
         catch (Exception $e)
         {
+            record_log($e->getTraceAsString());
             echo ($e->getMessage());
             $this->db->rollback();
         }

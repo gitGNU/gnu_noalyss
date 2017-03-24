@@ -77,6 +77,7 @@ if ($action=="update" &&$acc_delete==0)
         $message=_("Valeurs invalides, pas de changement")." \n ".
                 $e->getMessage();
         $ctl='nok';
+        record_log($e->getTraceAsString());
     }
     if (strlen($p_val)!=0&&strlen($p_lib)!=0&&strlen($old_line)!=0)
     {
@@ -108,6 +109,7 @@ if ($action=="update" &&$acc_delete==0)
             {
                 $message=$e->getMessage();
                 $ctl='nok';
+                record_log($e->getTraceAsString());
             }
         }
     }

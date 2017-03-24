@@ -156,6 +156,7 @@ case 'rmop':
             }
             catch (Exception $e)
             {
+                record_log($e->getTraceAsString());
                 $e->getMessage();
                 $cn->rollback();
             }
@@ -201,6 +202,7 @@ case 'de':
     }
     catch (Exception $e)
     {
+        record_log($e->getTraceAsString());
         echo HtmlInput::anchor_close($div);
         echo '<h2 class="error">'._("Désolé il y a une erreur").'</h2>';
     }
@@ -504,6 +506,7 @@ case 'save':
     }
     catch (Exception $e)
     {
+        record_log($e->getTraceAsString());
       if ( DEBUG )   echo $e->getMessage();
       alert(_( "Changement impossible: on ne peut pas changer la date dans une période fermée"));
     }
@@ -556,6 +559,7 @@ case 'reverseop':
         }
         catch (Exception $e)
         {
+            record_log($e->getTraceAsString());
             $e->getMessage();
             $cn->rollback();
         }

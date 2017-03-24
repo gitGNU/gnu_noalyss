@@ -125,7 +125,7 @@ class Follow_Up
         {
             $sql=" ( ag_dest in (select p_granted from user_sec_action_profile where p_id=$profile and ua_right='W' ) )";
         } else  {
-            error_log(_('Securité'));
+            record_log(_('Securité'));
             throw new Exception(_('Securité'));
         }
         return $sql;

@@ -492,7 +492,7 @@ class Anc_Operation
         }
         catch (Exception $e)
         {
-            var_dump($e);
+            record_log($e->getTraceAsString());
         }
     }
     /*!\brief display the form for PA

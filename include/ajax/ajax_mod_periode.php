@@ -90,6 +90,7 @@ switch ($op)
             }
             catch (Exception $e)
             {
+                record_log($e->getTraceAsString());
                 $html = alert($e->getTrace(), true);
             }
         }

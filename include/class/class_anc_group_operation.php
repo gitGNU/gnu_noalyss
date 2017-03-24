@@ -74,6 +74,7 @@ class Anc_Group_Operation
         }
         catch (Exception $e)
         {
+            record_log($e->getTraceAsString());
             echo $e->getTrace();
             $this->db->rollback();
             throw new Exception($e);
@@ -239,6 +240,7 @@ class Anc_Group_Operation
         }
         catch (Exception $ex)
         {
+            record_log($e->getTraceAsString());
             echo '<span class="error">'.
             'Erreur dans l\'enregistrement '.
             __FILE__.':'.__LINE__.' '.

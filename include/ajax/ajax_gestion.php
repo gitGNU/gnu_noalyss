@@ -83,6 +83,7 @@ if ($op=='action_save')
     }
     catch (Exception $ex)
     {
+        record_log($ex->getTraceAsString());
         header('Content-type: text/xml; charset=UTF-8');
         $dom=new DOMDocument('1.0', 'UTF-8');
         $xml_content=$dom->createElement('content', $ex->getMessage());
@@ -115,6 +116,7 @@ if ($op=='action_save')
         $gestion->save_short();
     } catch (Exception $ex)
     {
+        record_log($ex->getTraceAsString());
         $content=$ex->getMessage();
         $status='NOK';
     }

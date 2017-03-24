@@ -63,6 +63,7 @@ class Acc_Ledger_Info
         }
         catch (Exception $e)
         {
+            record_log($e->getTraceAsString());
             echo "Echec sauvegarde info additionnelles";
             throw $e;
         }
@@ -85,6 +86,7 @@ class Acc_Ledger_Info
         }
         catch (Exception $e)
         {
+            record_log($e->getTraceAsString());
             $this->cn->rollback();
             echo "Echec sauvegarde info additionnelles";
             throw $e;

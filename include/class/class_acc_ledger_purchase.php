@@ -914,11 +914,12 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
         }//end try
         catch (Exception $e)
         {
+            record_log($e->getTraceAsString());
             echo '<span class="error">'.
             'Erreur dans l\'enregistrement '.
             __FILE__.':'.__LINE__.' '.
             $e->getMessage().$e->getMessage();
-            error_log($e->getMessage());
+            record_log($e->getMessage());
             $this->db->rollback();
             throw  new Exception($e);
         }
@@ -1024,6 +1025,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger
             }
             catch (Exception $e)
             {
+                record_log($e->getTraceAsString());
                 if ($e->getCode() == 1 )
                 {
                     throw new Exception( _("Aucune période ouverte"));

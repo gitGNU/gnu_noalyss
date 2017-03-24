@@ -901,6 +901,7 @@ class Acc_Ledger_Fin extends Acc_Ledger
                                                                     $oppaid->set_id($rRapt);
                                                                     $oppaid->set_paid();
                                                                 } catch (Exception $ex) {
+                                                                    record_log($ex->getTraceAsString());
                                                                     echo _('Attention , erreur Acc_Ledger_Fin::insert  , coche paiement');
                                                                 }
 							}
@@ -921,6 +922,7 @@ class Acc_Ledger_Fin extends Acc_Ledger
                                                         $oppaid->set_paid();
                                                     }
                                                 } catch (Exception $ex) {
+                                                    record_log($ex->getTraceAsString());
                                                     echo _('Attention , erreur Acc_Ledger_Fin::insert  , coche paiement');
                                                 }
 					}
@@ -986,6 +988,7 @@ class Acc_Ledger_Fin extends Acc_Ledger
 			__FILE__ . ':' . __LINE__ . ' ' .
 			$e->getMessage();
 			$this->db->rollback();
+                        record_log($e->getTraceAsString());
 			throw new Exception($r);
 		}
 		$this->db->commit();

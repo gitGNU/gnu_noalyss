@@ -58,7 +58,7 @@ if (isset($_POST['change_profile']))
     catch (Exception $exc)
     {
         echo $exc->getMessage();
-        error_log( $exc->getTraceAsString());
+        record_log( $exc->getTraceAsString());
         throw $exc;
     }
 }
@@ -97,7 +97,7 @@ if (isset($_POST['change_stock']))
     catch (Exception $exc)
     {
         echo $exc->getMessage();
-        error_log($exc->getTraceAsString());
+        record_log($exc->getTraceAsString());
         throw $exc;
     }
 }

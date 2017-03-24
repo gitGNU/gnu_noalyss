@@ -278,6 +278,7 @@ class Acc_Bilan
         }
         catch(Exception $Ex)
         {
+            record_log($e->getTraceAsString());
             echo $Ex->getMessage();
             throw $Ex;
         }

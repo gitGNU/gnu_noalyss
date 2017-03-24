@@ -424,6 +424,7 @@ class Periode
         }
         catch (Exception $e)
         {
+            record_log($e->getTraceAsString());
             $this->cn->rollback();
             return 1;
         }
@@ -570,6 +571,7 @@ class Periode
 	}
       catch (Exception $e)
 	{
+          record_log($e->getTraceAsString());
 	  $this->cn->rollback();
 	}
     }

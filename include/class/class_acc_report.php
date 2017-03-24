@@ -216,6 +216,7 @@ class Acc_Report
         }
         catch (Exception $e)
         {
+            record_log($e->getTraceAsString());
             $this->db->rollback();
             echo $e->getMessage();
         }
@@ -257,6 +258,7 @@ class Acc_Report
         }
         catch (Exception $e)
         {
+            record_log($e->getTraceAsString());
             $this->db->rollback();
             echo $e->getMessage();
         }

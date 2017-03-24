@@ -46,7 +46,7 @@ class Noalyss_Csv
     private  function correct_name()
     {
         if (trim(strlen($this->filename))==0) {
-            error_log('CSV->correct_name filename is empty');
+            record_log('CSV->correct_name filename is empty');
             throw new Exception('CSV-CORRECT_NAME');
         }
         $this->filename.="-".date("ymd-Hi");

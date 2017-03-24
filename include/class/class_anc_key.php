@@ -265,8 +265,9 @@ class Anc_Key
         }
         catch (Exception $e)
         {
+            
             if ( DEBUG ) { echo $e->getTraceAsString(); } else { echo _('erreur').$e->getMessage();}
-            error_log($e->getTraceAsString());
+            record_log($e->getTraceAsString());
             $cn->rollback();
         }
     }
