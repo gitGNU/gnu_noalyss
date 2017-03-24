@@ -761,7 +761,7 @@ function smaller_date($p_date)
  * @brief format the date, when taken from the database the format
  * is MM-DD-YYYY
  * @param $p_date format
- * @param
+ * DOMEntity@param
  * @return date in the format DD.MM.YYYY
  */
 function format_date($p_date, $p_from_format = 'YYYY-MM-DD',$p_to_format='DD.MM.YYYY')
@@ -1273,5 +1273,16 @@ function is_msie()
     else
         $is_msie=0;
     return $is_msie;
+}
+/**
+ * Record an error message into the log file of the server.
+ * Record also the GET and POST data
+ * @param string $p_message
+ */
+function record_log($p_message)
+{
+    error_log("noalyss".$p_message,0);
+    error_log("noalyss GET [".var_export($_GET, true)."]",0);
+    error_log( "noalyss POST [".var_export($_POST, true)."]",0);
 }
 ?>
