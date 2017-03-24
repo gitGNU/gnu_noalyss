@@ -194,7 +194,7 @@ class IPoste extends HtmlInput
 	 */
 	public function dbl_click_history()
 	{
-		$r=' ondblclick="get_history_account(\''.$this->name.'\',\''.dossier::id().'\')"';
+		$r=' ondblclick="get_history_account(\''.$this->id.'\',\''.dossier::id().'\')"';
 		$this->javascript=$r;
 	}
     static public function test_me()

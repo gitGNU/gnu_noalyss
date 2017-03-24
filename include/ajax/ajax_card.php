@@ -114,6 +114,7 @@ case 'rmfa':
     catch (Exception $e)
     {
         $cn->rollback();
+        record_log($e->getTraceAsString());
         echo $e->getMessage();
     }
     $html=ob_get_contents();
@@ -136,7 +137,7 @@ case 'dc':
 	    $can_modify=0;
 	  }
 	if ( $can_modify==1)
-	  $card=$f->Display(false);
+	  $card=$f->Display(false,$ctl);
 	else
 	  $card=$f->Display(true);
 	if ( $card == 'FNT' )

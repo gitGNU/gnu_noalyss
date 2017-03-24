@@ -539,11 +539,12 @@ class Fiche
      * \brief  Display object instance, getAttribute
      *        sort the attribute and add missing ones
      * \param $p_readonly true= if can not modify, otherwise false
-     *
+     *\param string $p_in if called from an ajax it is the id of the html 
+     * elt containing
      *
      * \return string to display or FNT string for fiche non trouvé
      */
-    function Display($p_readonly)
+    function Display($p_readonly,$p_in="")
     {
         $this->GetAttribut();
         $attr=$this->attribut;
@@ -579,8 +580,9 @@ class Fiche
                 if ($r->ad_id==ATTR_DEF_ACCOUNT)
                 {
                     $w=new IPoste("av_text".$r->ad_id);
+                    $w->id=$p_in."av_text".$r->ad_id;
                     $w->set_attribute('ipopup', 'ipop_account');
-                    $w->set_attribute('account', "av_text".$r->ad_id);
+                    $w->set_attribute('account', $w->id);
                     $w->dbl_click_history();
                     //  account created automatically
                     $w->table=0;
@@ -854,6 +856,7 @@ class Fiche
         }
         catch (Exception $e)
         {
+            record_log($e->getTraceAsString());
             $this->cn->rollback();
             throw ($e);
             return;
@@ -994,8 +997,8 @@ class Fiche
             echo '<span class="error">'.
             $e->getMessage().
             '</span>';
-            error_log($e->getMessage());
-            error_log($e->getTraceAsString());
+            record_log($e->getMessage());
+            record_log($e->getTraceAsString());
             $this->cn->rollback();
             return;
         }
