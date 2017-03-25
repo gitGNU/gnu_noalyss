@@ -181,7 +181,7 @@ echo '</p>';
 echo '</div>';
 ?>
 <div>
-    <?php echo _("Résumé")?>
+    <?php echo _("Récapitulatif par classe")?>
     <?php 
         $summary=new ICheckBox("summary");
         $summary->value=1;

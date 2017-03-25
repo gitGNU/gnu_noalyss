@@ -1600,7 +1600,7 @@ class Fiche
             <TR >
             <TH>'._('Quick Code').HtmlInput::infobulle(17).'</TH>'.
             '<th>'._('Poste comptable').'</th>'.
-            '<th  class="sorttable_sorted_reverse">'._('Nom').'<span id="sorttable_sortrevind">&nbsp;&blacktriangle;</span>'.'</th>
+            '<th  class="sorttable_sorted">'._('Nom').'<span id="sorttable_sortfwdind"><img src="image/up.gif"></span>'.'</th>
             <th>'._('Adresse').'</th>
             <th style="text-align:right">'._('Total débit').'</th>
             <th style="text-align:right">'._('Total crédit').'</th>

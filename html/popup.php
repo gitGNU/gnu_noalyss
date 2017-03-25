@@ -27,13 +27,10 @@ require_once NOALYSS_INCLUDE.'/class/class_user.php';
 require_once NOALYSS_INCLUDE.'/class/class_periode.php';
 
 
-html_page_start($_SESSION['g_theme']);
-echo '<div style="float:left;">';
-global $g_user;
 /*
  * Check if the user is still connected
  */
-if ( $g_user == null || ! isset ($_SESSION['g_user'] ) )
+if (  ! isset ($_SESSION['g_user'] ) )
 {
     echo "<h2>"._('Vous  êtes déconnecté')."</h2>";
     $backurl=$_SERVER['REQUEST_URI'];
@@ -41,15 +38,21 @@ if ( $g_user == null || ! isset ($_SESSION['g_user'] ) )
     redirect($url);
     exit();
 }
+
+
+html_page_start($_SESSION['g_theme']);
+echo '<div style="float:left;">';
+
+global $g_user;
+$cn=Dossier::connect();
+$g_user=new User($cn);
 $g_user->Check();
 $g_user->check_dossier(Dossier::id());
 
 if ( basename($_GET['op']) == 'history' )
   {
     $href=dossier::get();
-    $cn=Dossier::connect();
     /* current year  */
-    $g_user=new User($cn);
     $exercice=$g_user->get_exercice();
 
     /* get date limit */

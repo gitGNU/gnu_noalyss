@@ -102,6 +102,12 @@ session_start();
  */
 if ( ! isset($_GET['lang'])){
 ?>
+<p>
+    Choisissez votre langue ,pour MacOS utilisez "Not Used"
+</p>
+<p>
+    Select your language, for MacOS user please use "Not Used"
+</p>
 <form method="GET">
     Language : <select name="lang">
         <OPTION value="fr_FR.utf8">Français</option>
