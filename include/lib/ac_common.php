@@ -834,6 +834,7 @@ function ajax_disconnected($div)
                 _('Cliquez ici pour vous reconnecter dans une autre page').
                 '</a>';
         $html.=$reload->input();
+        $html.=HtmlInput::button_close($div);
         $html.='</p>';
 	$html = escape_xml($html);
 	header('Content-type: text/xml; charset=UTF-8');
