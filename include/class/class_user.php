@@ -168,10 +168,10 @@ class User
 		$sql = "select ac_users.use_login,ac_users.use_active, ac_users.use_pass,
              use_admin,use_first_name,use_name
              from ac_users
-             where ac_users.use_id='$this->id'
+             where ac_users.use_id=$1 
              and ac_users.use_active=1
-             and ac_users.use_pass='$pass5'";
-		$ret = $cn->exec_sql($sql);
+             and ac_users.use_pass=$2";
+		$ret = $cn->exec_sql($sql,array($this->id,$pass5));
 		$res = Database::num_row($ret);
 		if ($res > 0)
 		{
