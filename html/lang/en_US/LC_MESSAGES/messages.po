@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: NOALYSS 672\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-25 13:32+0100\n"
-"PO-Revision-Date: 2017-03-25 13:34+0100\n"
+"POT-Creation-Date: 2017-03-25 17:13+0100\n"
+"PO-Revision-Date: 2017-03-25 17:13+0100\n"
 "Last-Translator: dany\n"
 "Language-Team: French <noalyss-generale@nongnu.org>\n"
 "Language: en_US\n"
@@ -10880,6 +10880,10 @@ msgstr "New"
 #: include/database.item.php:7
 msgid "Nouvel achat ou dépense"
 msgstr "New purchase"
+
+#: include/card_attr.inc.php:155
+msgid "Nouvel attribut"
+msgstr "new attribute"
 
 #: include/database.item.php:55 include/database.item.php:58
 #: include/database.item.php:65 include/database.item.php:63

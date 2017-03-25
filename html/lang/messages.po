@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-25 13:32+0100\n"
+"POT-Creation-Date: 2017-03-25 17:13+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16492,4 +16492,8 @@ msgstr ""
 #: include/ext/import_card/include/template/test_file.php:28
 #, php-format
 msgid "Erreur ouverture fichier %s "
+msgstr ""
+
+#: include/card_attr.inc.php:155
+msgid "Nouvel attribut"
 msgstr ""

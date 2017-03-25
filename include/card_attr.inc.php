@@ -152,7 +152,7 @@ $size->readOnly=false;
 $extra->readOnly=false;
 $desc->value='';
 $select_type->selected=-1;
-$r=td(HtmlInput::hidden('ad_id[]','0'));
+$r=td(_("Nouvel attribut").HtmlInput::hidden('ad_id[]','0'),'class="highlight"');
 $r.=td($desc->input());
 $r.=td($select_type->input());
 $r.=td($size->input());
