@@ -63,7 +63,7 @@ class Acc_Balance
         global $g_user;
         // filter on requested periode
         $per_sql=sql_filter_per($this->db,$p_from_periode,$p_to_periode,'p_id','j_tech_per');
-
+        bcscale(2);
 
         $and="";
         $jrn="";
@@ -206,26 +206,29 @@ class Acc_Balance
             $a['sum_cred']=round($r['sum_cred'],2);
             $a['solde_deb']=round(( $a['sum_deb']  >=  $a['sum_cred'] )? $a['sum_deb']- $a['sum_cred']:0,2);
             $a['solde_cred']=round(( $a['sum_deb'] <=  $a['sum_cred'] )?$a['sum_cred']-$a['sum_deb']:0,2);
+            
+            
+            
             if ($p_previous_exc==1)
             {
                 $a['sum_deb_previous']=round($r['sum_deb_previous'],2);
                 $a['sum_cred_previous']=round($r['sum_cred_previous'],2);
                 $a['solde_deb_previous']=round(( $a['sum_deb_previous']  >=  $a['sum_cred_previous'] )? $a['sum_deb_previous']- $a['sum_cred_previous']:0,2);
                 $a['solde_cred_previous']=round(( $a['sum_deb_previous'] <=  $a['sum_cred_previous'] )?$a['sum_cred_previous']-$a['sum_deb_previous']:0,2);
-                $tot_cred_previous+=  $a['sum_cred_previous'];
-                $tot_deb_previous+= $a['sum_deb_previous'];
-                $tot_deb_saldo_previous+= $a['solde_deb_previous'];
-                $tot_cred_saldo_previous+= $a['solde_cred_previous'];
+                $tot_cred_previous = bcadd ($tot_cred_previous, $a['sum_cred_previous']);
+                $tot_deb_previous  = bcadd( $tot_deb_previous,$a['sum_deb_previous']);
+                $tot_deb_saldo_previous  = bcadd ($tot_deb_saldo_previous ,$a['solde_deb_previous']);
+                $tot_cred_saldo_previous = bcadd ($tot_cred_saldo_previous,$a['solde_cred_previous']);
             }
 	    if ($p_previous_exc==0 && $this->unsold==true && $a['solde_cred']==0 && $a['solde_deb']==0) continue;
 	    if ($p_previous_exc==1 && $this->unsold==true && $a['solde_cred']==0 && $a['solde_deb']==0 && $a['solde_cred_previous']==0 && $a['solde_deb_previous']==0) continue;
             $array[$i]=$a;
-            $tot_cred+=  $a['sum_cred'];
-            $tot_deb+= $a['sum_deb'];
-            $tot_deb_saldo+= $a['solde_deb'];
-            $tot_cred_saldo+= $a['solde_cred'];
-
-
+            $tot_cred=  bcadd ($tot_cred,$a['sum_cred']);
+            $tot_deb= bcadd($tot_deb, $a['sum_deb']);
+            $tot_deb_saldo= bcadd($tot_deb_saldo, $a['solde_deb']);
+            $tot_cred_saldo= bcadd($tot_cred_saldo,$a['solde_cred']);
+            
+            
         }//for i
         // Add the saldo
         $i+=1;
@@ -274,6 +277,132 @@ class Acc_Balance
             }
         }
 
+    }
+    /**
+     * @brief create an empty array for computing the summary
+     */
+    function summary_init()
+    {
+        $array=[];
+        $array["1_5"]=["deb"=>0,"cred"=>0];
+        $array["6"]=["deb"=>0,"cred"=>0];
+        $array["7"]=["deb"=>0,"cred"=>0];
+        return $array;
+    }
+    /**
+     * Add the current amount (d /c) to the right item in the array,  in order
+     * to compute a summary (1 to 5 , 6 charge and 7 profit ), 
+     * the return value is an array
+     * @see Acc_Balance::summary_init()
+     * @param array $p_array array with the result
+     * @param string $p_accounting accounting
+     * @param numeric $p_deb
+     * @param numeric  $p_cred
+     * @return array 
+     */
+    function summary_add($p_array,$p_accounting,$p_deb,$p_cred)
+    {
+        if (trim($p_accounting)=="")            return $p_array;
+        // Summary
+        $first_digit=trim($p_accounting);
+        $first_digit_trim=$first_digit[0];
+        if ( $first_digit_trim >0 && $first_digit_trim < 6) {
+            $p_array["1_5"]["deb"]=bcadd( $p_array["1_5"]["deb"],$p_deb);
+            $p_array["1_5"]["cred"]=bcadd( $p_array["1_5"]["cred"],$p_cred);
+        } 
+        elseif ($first_digit_trim == "6") {
+            $p_array["6"]["deb"]=bcadd( $p_array["6"]["deb"],$p_deb);
+            $p_array["6"]["cred"]=bcadd( $p_array["6"]["cred"],$p_cred);
+        }
+        elseif ($first_digit_trim=="7") {
+            $p_array["7"]["deb"]=bcadd( $p_array["7"]["deb"],$p_deb);
+            $p_array["7"]["cred"]=bcadd( $p_array["7"]["cred"],$p_cred);
+                
+        }
+        return $p_array;
+    }
+    /**
+     *  Display the summary of result in HTML
+     * @see Acc_Balance::summary_init()
+     * @param array $p_array
+     */
+    function summary_display($p_array)
+    {
+        echo "<table>";
+        echo "<tr>";
+        echo td(_("Class 1-5"));
+        $diff=bcsub($p_array["1_5"]["deb"],$p_array["1_5"]["cred"]);
+        echo td(nbm(abs($diff),2));
+        $side=($diff < 0)?"C":"D";
+        $side=($diff == 0)?"=":$side;
+        echo td($side);
+        echo "</tr>";
+        echo "<tr>";
+        echo td(_("Class 6"));
+        $diff6=bcsub($p_array["6"]["deb"],$p_array["6"]["cred"]);
+        echo td(nbm(abs($diff6),2),' class="num"');
+        $side=($diff6 < 0)?"C":"D";
+        $side=($diff6 == 0)?"=":$side;
+        echo td($side);
+        echo "</tr>";
+        echo "<tr>";
+        echo td(_("Class 7"));
+        $diff7=bcsub($p_array["7"]["deb"],$p_array["7"]["cred"]);
+        echo td(nbm(abs($diff7),2),' class="num"');
+        $side=($diff7 < 0)?"C":"D";
+        $side=($diff7 == 0)?"=":$side;
+        echo td($side);
+        echo "</tr>";
+        echo "<tr>";
+        echo td(_("Solde 6/7"));
+        $diff=bcadd($diff6,$diff7);
+        echo td(nbm(abs($diff),2),' class="num"');
+        $side=($diff < 0)?"C":"D";
+        $side=($diff == 0)?"=":$side;
+        echo td($side);
+        echo "</tr>";
+        echo "</table>";
+    }
+    /**
+     * Display the summary of result in PDF
+     * @param array $p_array
+     * @param PDF $p_pdf
+     * @see Acc_Balance::summary_init()
+     */
+    function summary_display_pdf($p_array,$p_pdf)
+    {
+        $p_pdf->write_cell(30,6,_("Class 1-5"));
+        $diff=bcsub($p_array["1_5"]["deb"],$p_array["1_5"]["cred"]);
+        $p_pdf->write_cell(50,6,
+                            nbm(abs($diff),2),0,0,'R');
+        $side=($diff < 0)?"C":"D";
+        $side=($diff == 0)?"=":$side;
+        $p_pdf->write_cell(10,6,$side);
+        $p_pdf->line_new();
+
+        $p_pdf->write_cell(30,6,_("Class 6"));
+        $diff6=bcsub($p_array["6"]["deb"],$p_array["6"]["cred"]);
+        $p_pdf->write_cell(50,6,nbm(abs($diff6),2),0,0,'R');
+        $side=($diff6 < 0)?"C":"D";
+        $side=($diff6 == 0)?"=":$side;
+        $p_pdf->write_cell(10,6,$side);
+        $p_pdf->line_new();
+        
+        $p_pdf->write_cell(30,6,_("Class 7"));
+        $diff7=bcsub($p_array["7"]["deb"],$p_array["7"]["cred"]);
+        $p_pdf->write_cell(50,6,nbm(abs($diff7),2),0,0,'R');
+        $side=($diff7 < 0)?"C":"D";
+        $side=($diff7 == 0)?"=":$side;
+        $p_pdf->write_cell(10,6,$side);
+        $p_pdf->line_new();
+       
+        $p_pdf->write_cell(30,6,_("Solde 6/7"));
+        $diff=bcadd($diff6,$diff7);
+        $p_pdf->write_cell(50,6,nbm(abs($diff),2),0,0,'R');
+        $side=($diff < 0)?"C":"D";
+        $side=($diff == 0)?"=":$side;
+        $p_pdf->write_cell(10,6,$side);
+        $p_pdf->line_new();
     }
     static function test_me ()
     {

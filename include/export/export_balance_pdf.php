@@ -45,6 +45,11 @@ $g_user->Check();
 
 $bal=new Acc_Balance($cn);
 
+// Compute for the summary
+$summary_tab=$bal->summary_init();
+$summary_prev_tab=$bal->summary_init();
+$is_summary=HtmlInput::default_value_get("summary", 0);
+  
 extract ($_GET, EXTR_SKIP);
 $bal->jrn=null;
 switch( $_GET['p_filter'])
@@ -208,6 +213,9 @@ if (! empty($array))
 
 	$pdf->LongLine(30,6,$value['poste'],0,'L',$fill);
 	$pdf->LongLine(60,6,$value['label'],0,'L',$fill);
+        $summary_tab=$bal->summary_add($summary_tab,$value['poste'],
+                 $value['sum_deb'],
+                 $value['sum_cred']);
         if ($previous == 1 ) {
             $pdf->write_cell(22,6,nbm($value['sum_deb_previous']),0,0,'R',$fill);
             $pdf->write_cell(22,6,nbm($value['sum_cred_previous']),0,0,'R',$fill);
@@ -217,6 +225,10 @@ if (! empty($array))
             $tp_cred_previous=bcadd($tp_cred_previous,$value['sum_cred_previous']);
             $tp_sold_previous=bcadd($tp_sold_previous,$value['solde_deb_previous']);
             $tp_solc_previous=bcadd($tp_solc_previous,$value['solde_cred_previous']);
+            $summary_prev_tab=$bal->summary_add($summary_prev_tab,
+                                                $value['poste'],
+                                                $value['sum_deb_previous'],
+                                                $value['sum_cred_previous']);
         }
 	$pdf->write_cell(25,6,nbm($value['sum_deb']),0,0,'R',$fill);
 	$pdf->write_cell(25,6,nbm($value['sum_cred']),0,0,'R',$fill);
@@ -275,6 +287,22 @@ if (! empty($array))
     $pdf->write_cell(25,6,nbm($tp_solc),'T',0,'R',0);
     $pdf->line_new();
   } /** empty */
+ // display the summary
+ if ($is_summary==1) {
+    if ($previous==1) {
+        $pdf->SetFont('DejaVuCond', 'B', 8);
+        $pdf->write_cell(50, 8, _("Résumé Exercice précédent"));
+        $pdf->line_new();
+        $pdf->SetFont('DejaVuCond', '', 7);
+        $bal->summary_display_pdf($summary_prev_tab, $pdf);
+        $pdf->line_new();
+    }
+    $pdf->SetFont('DejaVuCond', 'B', 8);
+    $pdf->write_cell(50, 8, _("Résumé Exercice courant"));
+    $pdf->line_new();
+    $pdf->SetFont('DejaVuCond', '', 7);
+    $bal->summary_display_pdf($summary_tab, $pdf);
+}
 
 $fDate=date('dmy-Hi');
 $pdf->Output('balance-'.$fDate.'.pdf','D');

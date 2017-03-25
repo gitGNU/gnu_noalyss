@@ -153,7 +153,7 @@ $from_poste->set_attribute('ipopup','ipop_account');
 $from_poste->set_attribute('label','from_poste_label');
 $from_poste->set_attribute('account','from_poste');
 
-$from_poste->value=(isset($_GET['from_poste']))?$_GET['from_poste']:"";
+$from_poste->value=HtmlInput::default_value_get('from_poste',''); 
 $from_span=new ISpan("from_poste_label","");
 
 $to_poste=new IPoste();
@@ -162,7 +162,7 @@ $to_poste->set_attribute('ipopup','ipop_account');
 $to_poste->set_attribute('label','to_poste_label');
 $to_poste->set_attribute('account','to_poste');
 
-$to_poste->value=(isset($_GET['to_poste']))?$_GET['to_poste']:"";
+$to_poste->value=HtmlInput::default_value_get('to_poste',''); 
 $to_span=new ISpan("to_poste_label","");
 
 echo "<div>";
@@ -179,6 +179,18 @@ echo '<p>';
 echo _("Avec la balance de l'année précédente")." ".$previous_exc->input();
 echo '</p>';
 echo '</div>';
+?>
+<div>
+    <?php echo _("Résumé")?>
+    <?php 
+        $summary=new ICheckBox("summary");
+        $summary->value=1;
+        $is_summary=HtmlInput::default_value_get("summary", 0);
+        $summary->set_check($is_summary);
+        echo $summary->input();
+    ?>
+</div>
+<?php
 echo '</div>';
 echo HtmlInput::submit("view",_("Visualisation"));
 echo '</form>';
@@ -200,7 +212,7 @@ if ( isset ($_GET['view']  ) )
     HtmlInput::submit('bt_pdf',"Export PDF").
     HtmlInput::hidden("ac",$_REQUEST['ac']).
     HtmlInput::hidden("act","PDF:balance").
-
+            HtmlInput::hidden("summary", $is_summary).
     HtmlInput::hidden("from_periode",$_GET['from_periode']).
     HtmlInput::hidden("to_periode",$_GET['to_periode']);
     echo HtmlInput::hidden('p_filter',$_GET['p_filter']);
@@ -324,6 +336,10 @@ if ( isset($_GET['view'] ) )
 
     bcscale(2);
     $nb_row = count($row);
+    
+    // Compute for the summary
+    $summary_tab=$bal->summary_init();
+    $summary_prev_tab=$bal->summary_init();
     foreach ($row as $r)
     {
         $i++;
@@ -384,6 +400,9 @@ if ( isset($_GET['view'] ) )
         if ( $r['poste'] == "") {
             $tr="highlight";
         }
+
+        $summary_tab=$bal->summary_add($summary_tab,$r['poste'],$r['sum_deb'],$r['sum_cred']);
+        
         echo '<TR class="'.$tr.'">';
         echo td($view_history);
         echo td(h($r['label']));
@@ -392,7 +411,16 @@ if ( isset($_GET['view'] ) )
             echo td(nbm($r['sum_cred_previous']),' class="previous_year" ');
             echo td(nbm($r['solde_deb_previous']),' class="previous_year"');
             echo td(nbm($r['solde_cred_previous']),'class="previous_year" ');
-            if ( isset($_GET['lvl1']) || isset($_GET['lvl2']) || isset($_GET['lvl3']))             echo '<td></td>';
+            if (    isset($_GET['lvl1']) || 
+                    isset($_GET['lvl2']) ||
+                    isset($_GET['lvl3']))            
+                echo '<td></td>';
+            
+             $summary_prev_tab=$bal->summary_add($summary_prev_tab,
+                                                $r['poste'],
+                                                $r['sum_deb_previous'],
+                                                $r['sum_cred_previous']);
+
         }
         echo td(nbm($r['sum_deb']),'style="text-align:right;"');
 	echo td(nbm($r['sum_cred']),'style="text-align:right;"');
@@ -400,10 +428,26 @@ if ( isset($_GET['view'] ) )
 	echo td(nbm($r['solde_cred']),'style="text-align:right;"');
         if ( isset($_GET['lvl1']) || isset($_GET['lvl2']) || isset($_GET['lvl3']))             echo '<td></td>';
         echo '</TR>';
-
+        
     }
     echo '</table>';
-
+    // display the summary
+    if ($is_summary==1) {
+        if ( $previous == 1) {
+            echo '<div style="float:left;margin-right:50px">';
+            echo '<h2>';
+            echo _("Résumé Exercice précédent");
+            echo '</h2>';
+            $bal->summary_display($summary_prev_tab);
+            echo "</div>";
+        }
+        echo '<div style="float:left">';
+        echo '<h2>';
+        echo _("Résumé Exercice courant");
+        echo '</h2>';
+        $bal->summary_display($summary_tab);
+        echo "</div>";
+    }
 }// end submit
 echo "</div>";
 ?>
