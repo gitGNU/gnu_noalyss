@@ -44,6 +44,7 @@ html_page_start($_SESSION['g_theme']);
 echo '<div style="float:left;">';
 
 global $g_user;
+$cn=Dossier::connect();
 $g_user=new User($cn);
 $g_user->Check();
 $g_user->check_dossier(Dossier::id());
@@ -51,7 +52,6 @@ $g_user->check_dossier(Dossier::id());
 if ( basename($_GET['op']) == 'history' )
   {
     $href=dossier::get();
-    $cn=Dossier::connect();
     /* current year  */
     $exercice=$g_user->get_exercice();
 
