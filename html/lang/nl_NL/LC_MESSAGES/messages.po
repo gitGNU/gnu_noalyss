@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: NOALYSS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-25 01:51+0100\n"
+"POT-Creation-Date: 2017-03-25 22:45+0100\n"
 "PO-Revision-Date: 2015-08-28 17:38+0200\n"
 "Last-Translator: Dany De Bontridder <danydb@noalyss.eu>\n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
@@ -12289,6 +12289,11 @@ msgstr "Bewijs"
 #, fuzzy
 msgid "Pièce inexistante"
 msgstr "Map niet bestaat"
+
+#: include/compta_fin_rec.inc.php:338
+#, fuzzy
+msgid "Pièce justificative"
+msgstr "Nummer"
 
 #: include/template/detail-action.php:393
 #: include/template/detail-action.php:392

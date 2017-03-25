@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-25 01:51+0100\n"
+"POT-Creation-Date: 2017-03-25 22:45+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16251,4 +16251,8 @@ msgstr ""
 #: include/class/class_pdf_operation.php:421
 #: include/class/class_pdf_operation.php:422
 msgid "Détail opération"
+msgstr ""
+
+#: include/compta_fin_rec.inc.php:338
+msgid "Pièce justificative"
 msgstr ""

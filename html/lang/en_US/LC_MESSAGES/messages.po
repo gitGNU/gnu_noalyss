@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: NOALYSS 672\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-25 01:51+0100\n"
-"PO-Revision-Date: 2017-03-25 02:02+0100\n"
+"POT-Creation-Date: 2017-03-25 22:45+0100\n"
+"PO-Revision-Date: 2017-03-25 22:46+0100\n"
 "Last-Translator: Dany De Bontridder <danydb@noalyss.eu>\n"
 "Language-Team: French <noalyss-generale@nongnu.org >\n"
 "Language: en_US\n"
@@ -11887,6 +11887,10 @@ msgstr "Receipt"
 msgid "Pièce inexistante"
 msgstr "Spare part not found"
 
+#: include/compta_fin_rec.inc.php:338
+msgid "Pièce justificative"
+msgstr "Receipt number"
+
 #: include/template/detail-action.php:393
 #: include/template/detail-action.php:392
 #: include/template/detail-action.php:408
@@ -15116,7 +15120,7 @@ msgstr "You must tell if it is a template or a folder"
 
 #: include/ext/modop/modop_save.php:248 include/ext/modop/modop_save.php:252
 msgid "Vous n'avez pas donné de banque"
-msgstr "Any bank you did not give"
+msgstr "you did not give any bank account"
 
 #: include/class_acc_ledger_sold.php:75 include/class_acc_ledger_sold.php:86
 #: include/class/class_acc_ledger_sold.php:86
