@@ -1652,18 +1652,22 @@ li.tabs_selected {
     margin-left: 5px;
     padding: 20px 15px 0px 15px;
     border:1px red solid;
+    float: left;
 }
 
 li.tabs,li.tabs:hover{
     display:inline;
-    margin-left: 5px;
+    margin-left: 2px;
     border-top-right-radius: 10px;
     padding: 15px 15px 0px 15px;
     border:1px red solid;
     color:rgb(165, 42, 42);
+    float: left;
+    background-color: #FFF1ED;
+    margin-top: 8px;
 }
 li.tabs {
-    background-color: inherit;
+    /*! background-color: inherit; */
 
 }
 li.tabs:hover {

@@ -998,6 +998,9 @@ div.topmenu td, td.mtitle {
   filter: progid:dximagetransform.microsoft.gradient(startColorstr='#606c88', endColorstr='#3f4c6b', GradientType=0);
   /* IE6-9 */
 
+  border-right-width: 1px;
+  border-right-style: solid;
+  border-right-color: white;
 }
 div.menu2 td, div.menu2 td.mtitle {
   border-width: 4px;
@@ -1694,6 +1697,9 @@ li.tabs {
   margin-left: 2px;
   padding: 5px 5px 0px 5px;
   border: 1px grey solid;
+  float: left;
+  background-color: #f8f8ff;
+  margin-top: 8px;
 }
 li.tabs:hover {
   display: inline;
@@ -1721,6 +1727,7 @@ ul.tabs a:hover {
     padding: 8px 10px 10px 10px;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
+    float: left;
   }
   li.tabs, li.tabs:hover {
     padding: 10px 10px 0px 10px;

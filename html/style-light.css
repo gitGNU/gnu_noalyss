@@ -1665,6 +1665,9 @@ li.tabs_selected {
     border-top-right-radius: 0px;
     border:1px #879ed4 solid;
     font-weight: bold;
+    float:left;
+    padding:5px;
+    
     
 }
 li.tabs {
@@ -1675,7 +1678,10 @@ li.tabs {
     border-top-left-radius: 0px;
     border-top-right-radius: 0px;
     border:1px #879ed4 solid;
+    float:left;
+    margin-top:2px;
 
+    padding: 5px;
 }
 li.tabs:hover {
     display:inline;

@@ -54,8 +54,8 @@ $g_start=HtmlInput::default_value_get('p_start',1);
 <DIV CLASS="myfieldset" style="width:auto">
 <?php
 $Ret=$cn->exec_sql("select pcm_val,pcm_lib,pcm_val_parent,pcm_type,array_to_string(array_agg(j_qcode) , ',') as acode
-	from tmp_pcmn left join vw_poste_qcode on (j_poste=pcm_val) where substr(pcm_val::text,1,1)='".$g_start."'".
-		"  group by pcm_val,pcm_lib,pcm_val_parent, pcm_type  order by pcm_val::text");
+	from tmp_pcmn left join vw_poste_qcode on (j_poste=pcm_val) where substr(pcm_val::text,1,1)=$1 
+		  group by pcm_val,pcm_lib,pcm_val_parent, pcm_type  order by pcm_val::text",array($g_start));
 $MaxRow=Database::num_row($Ret);
 
 ?>

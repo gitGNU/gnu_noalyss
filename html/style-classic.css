@@ -1709,23 +1709,28 @@ li.tabs_selected {
     border-top-right-radius: 10px;
     border:1px #879ed4 solid;
     font-weight: bold;
+     float:left;
+    padding:5px;
     
 }
 li.tabs {
     display:inline;
     background-color: inherit;
     color:inherit;margin-left: 0px;
-    padding: 0px;
+    padding: 5px;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
     border:1px #879ed4 solid;
+    float:left;
+    background: whitesmoke;
+    margin-top:2px;
 
 }
 li.tabs:hover {
     display:inline;
     background-color: lightblue;
     color:wheat;margin-left: 2px;
-    padding: 0px;
+    padding: 5px;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
     border:1px #879ed4 solid;

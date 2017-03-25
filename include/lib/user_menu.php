@@ -181,6 +181,7 @@ function menu_acc_plan($p_start=1)
     <li class="<?php echo $class[$idx];$idx++; ?>"><A HREF="<?php echo $base.'&p_start=8'.$str_dossier; ?>">8 <?php echo _('Hors Comptabilité')?></A></li>
     <li class="<?php echo $class[$idx];$idx++; ?>"><A HREF="<?php echo $base.'&p_start=9'.$str_dossier; ?>">9 <?php echo _('Hors Comptabilité')?></A></li>
     </ul>
+<div style="clear: both"></div>
 <?php
 }
 ?>
