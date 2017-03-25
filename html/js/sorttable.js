@@ -190,11 +190,24 @@ sorttable = {
                     for (var j = 0; j < row_array.length; j++) {
                         tb.appendChild(row_array[j][1]);
                     }
-
                     delete row_array;
+                    // Highlight odd and even rows properly
+                    sorttable.highlight_body(this);
                 });
             }
         }
+    },
+    highlight_body:function(p_heading) {
+         var p_table=p_heading.parentNode.parentNode.parentNode;
+         var nb_row=p_table.rows;
+         var e=0;
+         for (e=1;e<nb_row.length;e++) {
+             if (e % 2 == 0 ) {
+                 if ( nb_row[e].className=="odd"  ) nb_row[e].className="even";
+             } else {
+                 if ( nb_row[e].className=="even" ) nb_row[e].className="odd";
+             }
+         }
     },
     guessType: function (table, column) {
         // guess the type of a column based on its first non-blank row
@@ -273,7 +286,7 @@ sorttable = {
     },
     reverse: function (tbody) {
         // reverse the rows in a tbody
-        newrows = [];
+        var newrows = [];
         for (var i = 0; i < tbody.rows.length; i++) {
             newrows[newrows.length] = tbody.rows[i];
         }

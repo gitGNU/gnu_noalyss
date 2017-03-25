@@ -37,7 +37,7 @@ require_once  NOALYSS_INCLUDE.'/class/class_acc_parm_code.php';
     echo dossier::hidden();
     echo _('Cherche').' : '.HtmlInput::filter_table("fin_saldo_tb", '0,1,2,3', '1');
     echo '<table class="sortable"  style="margin-left:10%;width:80%" class="result" id="fin_saldo_tb">';
-    echo tr(th('Quick Code',' class=" sorttable_sorted_reverse"',HtmlInput::infobulle(17).'<span id="sorttable_sortrevind">&nbsp;&blacktriangle;</span>')
+    echo tr(th('Quick Code',' class=" sorttable_sorted"',HtmlInput::infobulle(17).'<span id="sorttable_sortfwdind"><img src="image/up.gif"></span>')
             .th('Compte en banque',' style="text-align:left"')
             .th('Journal',' style="text-align:center"')
             .th('Description',' style="text-align:center"')
