@@ -335,7 +335,8 @@ echo '</tr>';
 echo '</table>';
 
 $receipt=new IFile('file_receipt');
-echo $receipt->input();
+echo _("Pièce justificative"),"&nbsp;" ,
+    $receipt->input();
 echo '<p class="text-align:center">';
 echo HtmlInput::submit('save', 'Mettre à jour le n° de relevé bancaire');
 echo '</p>';
