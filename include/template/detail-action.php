@@ -167,6 +167,8 @@ $uniq=HtmlInput::generate_id("tab");
         <li id="related_operation_tab<?php echo $uniq?>" class="tabs"><?php echo _('Opérations concernées')?></li>
         <li id="dependant_action_tab<?php echo $uniq?>" class="tabs"><?php echo _('Dépendant')?></li>
     </ul>
+    
+    <div style="clear:both"></div>
 	<div id="related_operation_div<?php echo $uniq?>" style="display:none" class="print">
 
 		<ol>
