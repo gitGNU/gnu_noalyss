@@ -1638,7 +1638,6 @@ ul.aligned-block li {
 ul.tabs {
     padding-top: 15px;
     display:block;
-    border-bottom: 1px solid red;
     padding-left: 2px
 }
 ul.tabs  a  {
