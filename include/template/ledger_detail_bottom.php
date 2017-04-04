@@ -51,6 +51,7 @@ if ( $div != "popup") :
     </li>
     <?php    endforeach; ?>
 </ul>
+<div style="clear:both"></div>
 <?php
 else :
     foreach ($a_tab as $idx=>$a_value):
