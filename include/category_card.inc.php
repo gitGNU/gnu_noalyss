@@ -85,7 +85,7 @@ for ($i=0;$i<count($menu);$i++) {
 echo '</ul>';
 echo '</div>';
 echo '<div>';
-
+echo '<div style="clear:both"></div>';
 echo '<div class="myfieldset">';
 //---------------------------------------------------------------------------
 // Show Detail of a card and category
