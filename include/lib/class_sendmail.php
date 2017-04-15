@@ -144,6 +144,8 @@ class Sendmail
             $this->content.=$eol;
             $this->content .= $content . $eol ;
         }
+        if ( count ($this->afile) == 0 ) $this->content.=$eol;
+
         $this->content .= "--" . $separator . "--";
     }
     /**
