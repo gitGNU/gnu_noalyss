@@ -360,8 +360,9 @@ class Acc_Bilan
         unlink($dirname);
         mkdir ($dirname);
         chdir($dirname);
-
-        $file_base=dirname($_SERVER['SCRIPT_FILENAME']).DIRECTORY_SEPARATOR.$this->b_file_template;
+            
+        // Les documents sont dans noalyss/html/document/...
+        $file_base=NOALYSS_HOME.DIRECTORY_SEPARATOR.$this->b_file_template;
         $work_file=basename($file_base);
         if ( copy ($file_base,$work_file) == false )
         {
@@ -640,14 +641,14 @@ class Acc_Bilan
             ob_start();
             // save the file in a temp folder
             // create a temp directory in /tmp to unpack file and to parse it
-            $dirname=tempnam($_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR.'tmp','bilan_');
+            $dirname=tempnam($_ENV['TMP'].DIRECTORY_SEPARATOR.'tmp','bilan_');
 
 
             unlink($dirname);
             mkdir ($dirname);
             chdir($dirname);
             // create a temp directory in /tmp to unpack file and to parse it
-            $file_base=dirname($_SERVER['SCRIPT_FILENAME']).DIRECTORY_SEPARATOR.$this->b_file_template;
+            $file_base=NOALYSS_HOME.DIRECTORY_SEPARATOR.$this->b_file_template;
             $work_file=basename($file_base);
             if ( copy ($file_base,$work_file) == false )
             {
